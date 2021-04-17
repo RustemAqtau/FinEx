@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D74" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="MonthlyBudget" representedClassName="MonthlyBudget" syncable="YES" codeGenerationType="class">
+        <attribute name="balance" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="month" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="previousMonthBalance" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="year" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="monthlyBudget" inverseEntity="Transaction"/>
+    </entity>
+    <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="month" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="note" optional="YES" attributeType="String"/>
+        <attribute name="year" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="monthlyBudget" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MonthlyBudget" inverseName="transactions" inverseEntity="MonthlyBudget"/>
+        <relationship name="type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionType" inverseName="transaction" inverseEntity="TransactionType"/>
+    </entity>
+    <entity name="TransactionType" representedClassName="TransactionType" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="colorName" optional="YES" attributeType="String"/>
+        <attribute name="imageName" optional="YES" attributeType="String"/>
+        <attribute name="isHidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="subCategory" optional="YES" attributeType="String"/>
+        <relationship name="transaction" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="type" inverseEntity="Transaction"/>
+    </entity>
+    <entity name="UserSettings" representedClassName="UserSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="isSetPassCode" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isSignedWithAppleId" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="settingsId" optional="YES" attributeType="Integer 16" usesScalarValueType="YES"/>
+    </entity>
+    <elements>
+        <element name="MonthlyBudget" positionX="34.9375" positionY="230.9140625" width="128" height="118"/>
+        <element name="Transaction" positionX="-326.2109375" positionY="335.40234375" width="128" height="149"/>
+        <element name="TransactionType" positionX="-324.921875" positionY="91.82421875" width="128" height="134"/>
+        <element name="UserSettings" positionX="-63" positionY="-9" width="128" height="74"/>
+    </elements>
+</model>

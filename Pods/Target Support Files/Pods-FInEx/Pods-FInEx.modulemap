@@ -1,0 +1,6 @@
+framework module Pods_FInEx {
+  umbrella header "Pods-FInEx-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,6 @@
+framework module Pods_FInExTests {
+  umbrella header "Pods-FInExTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

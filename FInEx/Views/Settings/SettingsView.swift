@@ -42,7 +42,7 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .stroke(Color.white)
                                 VStack(spacing: 0) {
-                                    Image(systemName: "lock.shield")
+                                    Image(systemName: "arrow.clockwise.icloud.fill")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
                                         .foregroundColor(Color("ExpensesColor"))
                                     VStack(alignment: .center, spacing: 4) {
@@ -58,28 +58,32 @@ struct SettingsView: View {
                                }
                             }
                             }.opacity(userSettingsVM.settings.isSignedWithAppleId ? 0 : 1)
-                           ZStack {
-                                RoundedRectangle(cornerRadius: 25.0)
-                                    .fill(Color.white)
-                                    .shadow(radius: 6)
-                                RoundedRectangle(cornerRadius: 25.0)
-                                    .stroke(Color.white)
-                                VStack(spacing: 0) {
-                                    Image(systemName: "lock.shield")
-                                        .font(Font.system(size: 40, weight: .light, design: .default))
-                                        .foregroundColor(Color("ExpensesColor"))
-                                    VStack(alignment: .center, spacing: 4) {
-                                        Text("REGISTER")
-                                        Text("Secure your data in the cloud and use multiple devices")
-                                            .font(Font.system(size: 15, weight: .light, design: .rounded))
+                            NavigationLink(
+                                destination: PasscodeView()) {
+                                ZStack {
+                                     RoundedRectangle(cornerRadius: 25.0)
+                                         .fill(Color.white)
+                                         .shadow(radius: 6)
+                                     RoundedRectangle(cornerRadius: 25.0)
+                                         .stroke(Color.white)
+                                     VStack(spacing: 0) {
+                                         Image(systemName: "lock.shield")
+                                             .font(Font.system(size: 40, weight: .light, design: .default))
+                                             .foregroundColor(Color("ExpensesColor"))
+                                         VStack(alignment: .center, spacing: 4) {
+                                             Text("PASSCODE")
+                                             Text("Protect your data with a passcode.")
+                                                 .font(Font.system(size: 15, weight: .light, design: .rounded))
+                                         }
+                                         
+                                         .foregroundColor(Color("TextDarkGray"))
+                                         .lineLimit(3)
+                                         .frame(maxWidth: .infinity, alignment: .center)
+                                         .padding()
                                     }
-                                    
-                                    .foregroundColor(Color("TextDarkGray"))
-                                    .lineLimit(3)
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                                    .padding()
-                               }
+                                 }
                             }
+                           
                         }
                         .padding()
                         .offset(y: offsetY)

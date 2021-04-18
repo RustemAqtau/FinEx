@@ -85,7 +85,7 @@ struct AddTransactionView: View {
                         HStack(spacing: 15) {
                             Image(systemName: self.selectedtypeImageName)
                                 .foregroundColor(.white)
-                                .modifier(CircleModifier(color: Color(self.selectedTypeCircleColor), strokeLineWidth: 3.0))
+                                .modifier(CircleModifierSimpleColor(color: Color(self.selectedTypeCircleColor), strokeLineWidth: 3.0))
                                 .font(Font.system(size: 24, weight: .regular, design: .default))
                                 .frame(width: 50, height: 50, alignment: .center)
                                 .onTapGesture {

@@ -16,7 +16,7 @@ struct ExpensesView: View {
     @State var expensesTotalAmountBySubCategory: [String : Decimal] = [:]
     var body: some View {
         let formatter = setDecimalFormatter()
-        //  if let currentBudget = budgetVM.budgetList.last {
+          if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack {
                 ForEach(self.subCategories, id: \.self) { subCategory in
@@ -43,7 +43,7 @@ struct ExpensesView: View {
                                 Group {
                                     Image(systemName: expense.type!.presentingImageName)
                                         .foregroundColor(.white)
-                                        .modifier(CircleModifier(color: Color(expense.type!.presentingColorName), strokeLineWidth: 3.0))
+                                        .modifier(CircleModifierSimpleColor(color: Color(expense.type!.presentingColorName), strokeLineWidth: 3.0))
                                         .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
                                         .font(Font.system(size: 24, weight: .regular, design: .default))
                                     VStack(alignment: .leading) {
@@ -90,8 +90,24 @@ struct ExpensesView: View {
                 expensesTotalAmountBySubCategory[subCategory] = totalAmount
             }
             
-            //}
+            
         }
+        .onChange(of: currentBudget.expensesList.count, perform: { value in
+            self.subCategories.removeAll()
+            self.expensesTotalAmountBySubCategory.removeAll()
+            for key in expensesBySubCategory.keys.sorted() {
+                
+                self.subCategories.append(key)
+            }
+            for subCategory in self.subCategories {
+                var totalAmount: Decimal = 0
+                for transaction in expensesBySubCategory[subCategory]! {
+                    totalAmount  += transaction.amount! as Decimal
+                }
+                expensesTotalAmountBySubCategory[subCategory] = totalAmount
+            }
+        })
+          }
     }
     func deleteTransaction(subCategory: String, at indexSet: IndexSet) {
         for index in indexSet {

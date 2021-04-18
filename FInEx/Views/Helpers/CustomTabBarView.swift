@@ -21,7 +21,7 @@ struct CustomTabBarView: View {
             Button(action: {}, label: {
             Text("+")
             })
-            .modifier(CircleModifier(color: self.plusButtonColor, strokeLineWidth: 3.0))
+            .modifier(CircleModifierSimpleColor(color: self.plusButtonColor, strokeLineWidth: 3.0))
             .opacity(1)
             .frame(width: geo.size.width / 5, height: geo.size.height / 8, alignment: .center)
             .position(x: geo.size.width / 2, y: geo.size.height / 2.3)

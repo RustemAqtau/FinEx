@@ -19,7 +19,6 @@ struct AddCategorySubTypeView: View {
     @State private var showIcons: Bool = true
     @State private var selectedSubCategory: String = ""
     private let appearanceColorSet = ["CustomRed", "CustomPink", "CustomPurple", "CustomGreen", "CustomBlue", "CustomYellow"]
-   // private let subCategories = ["Entertainment", "Health", "Insurance", "Travel", "Bills"]
     
     var body: some View {
         NavigationView {
@@ -89,7 +88,7 @@ struct AddCategorySubTypeView: View {
                             .font(Font.system(size: 12, weight: .light, design: .default))
                         Image(systemName: self.appearanceImageName)
                             .foregroundColor(.white)
-                            .modifier(CircleModifier(color: Color(self.appearanceCircleColor), strokeLineWidth: 3.0))
+                            .modifier(CircleModifierSimpleColor(color: Color(self.appearanceCircleColor), strokeLineWidth: 3.0))
                             .font(Font.system(size: 24, weight: .regular, design: .default))
                             .frame(width: geo.size.width / 8, height: geo.size.width / 8, alignment: .center)
                             .onTapGesture {
@@ -99,7 +98,7 @@ struct AddCategorySubTypeView: View {
                         HStack(spacing: 15) {
                             ForEach(0..<self.appearanceColorSet.count) { index in
                                 Text("")
-                                    .modifier(CircleModifier(color: Color(self.appearanceColorSet[index]), strokeLineWidth: 3.0))
+                                    .modifier(CircleModifierSimpleColor(color: Color(self.appearanceColorSet[index]), strokeLineWidth: 3.0))
                                     .frame(width: geo.size.width / 10, height: geo.size.width / 10, alignment: .center)
                                     .onTapGesture {
                                         self.appearanceCircleColor = self.appearanceColorSet[index]
@@ -182,6 +181,6 @@ enum SubCategories: String, CaseIterable {
 
     //var id: String { self.rawValue }
 }
-//["Entertainment", "Health", "Insurance", "Travel", "Bills"]
+
 
 

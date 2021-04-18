@@ -16,7 +16,11 @@ struct BudgetView: View {
     @State var offsetY: CGFloat = 0.0
     @State var incomeSelected = false
     @State var savingsSelected = false
-    @Binding var plusButtonColor: Color
+    @Binding var plusButtonColor: LinearGradient
+    @Binding var plusButtonIsServing: String
+    @State var expensesBySubCategory: [String: [Transaction]] = [:]
+    @State var incomeByDate: [String: [Transaction]] = [:]
+    @State var savingsByType: [String: [TransactionType : Decimal]] = [:]
     var body: some View {
         let formatter = setDecimalFormatter()
         if let currentBudget = budgetVM.budgetList.last {
@@ -34,7 +38,7 @@ struct BudgetView: View {
                                 .font(.footnote)
                                 .opacity(0.8)
                         }
-                        .modifier(CircleModifier(color: Color("NewBalanceColor"), strokeLineWidth: self.incomeSelected ? 4.5 : 3.0))
+                        .modifier(CircleModifier(color: GradientColors.Income, strokeLineWidth: self.incomeSelected ? 4.5 : 3.0))
                         .frame(width: self.incomeSelected ? geo.size.width / 2.5 :  geo.size.width / 4.2, height: 110, alignment: .center)
                         .padding()
                         .onTapGesture {
@@ -43,7 +47,8 @@ struct BudgetView: View {
                                     self.savingsSelected.toggle()
                                 }
                                 self.incomeSelected = true
-                                self.plusButtonColor = Color("NewBalanceColor")
+                                self.plusButtonColor = GradientColors.Income
+                                self.plusButtonIsServing = Categories.Income
                             }
                         }
                         
@@ -55,7 +60,7 @@ struct BudgetView: View {
                                 .font(.footnote)
                                 .opacity(0.8)
                         }
-                        .modifier(CircleModifier(color: Color("ExpensesColor"), strokeLineWidth: (self.savingsSelected || self.incomeSelected) ? 3.0 : 4.5))
+                        .modifier(CircleModifier(color: GradientColors.Expense, strokeLineWidth: (self.savingsSelected || self.incomeSelected) ? 3.0 : 4.5))
                         .frame(width: (self.savingsSelected || self.incomeSelected) ? geo.size.width / 4.2 :  geo.size.width / 2.5, height: 110, alignment: .center)
                         .padding()
                         .onTapGesture {
@@ -66,7 +71,8 @@ struct BudgetView: View {
                                 if self.savingsSelected {
                                     self.savingsSelected.toggle()
                                 }
-                                self.plusButtonColor = Color("ExpensesColor")
+                                self.plusButtonColor = GradientColors.Expense
+                                self.plusButtonIsServing = Categories.Expense
                             }
                         }
                         Divider()
@@ -77,7 +83,7 @@ struct BudgetView: View {
                                 .font(.footnote)
                                 .opacity(0.8)
                         }
-                        .modifier(CircleModifier(color: Color("SavingsColor"), strokeLineWidth: self.savingsSelected ? 4.5 : 3.0))
+                        .modifier(CircleModifier(color: GradientColors.Saving, strokeLineWidth: self.savingsSelected ? 4.5 : 3.0))
                         .frame(width: self.savingsSelected ? geo.size.width / 2.5 :  geo.size.width / 4.2, height: 110, alignment: .center)
                         .padding()
                         .onTapGesture {
@@ -86,7 +92,8 @@ struct BudgetView: View {
                                     self.incomeSelected.toggle()
                                 }
                                 self.savingsSelected = true
-                                self.plusButtonColor = Color("SavingsColor")
+                                self.plusButtonColor = GradientColors.Saving
+                                self.plusButtonIsServing = Categories.Saving
                             }
                         }
                 }
@@ -113,21 +120,28 @@ struct BudgetView: View {
             .background(Color.white)
             
             if self.incomeSelected {
-                IncomeView(geo: geo, incomeByDate: .constant(currentMonthBudget.incomeByDate))
+                IncomeView(geo: geo, incomeByDate: self.$incomeByDate)
                     .environmentObject(self.budgetVM)
             } else if self.savingsSelected {
-                SavingsView(geo: geo, savingsBySubCategory: .constant(currentMonthBudget.savingsBySubCategory))
+                SavingsView(geo: geo, savingsByType: self.$savingsByType)
                     .environmentObject(self.budgetVM)
             } else {
-                ExpensesView(geo: geo, expensesBySubCategory: .constant(currentMonthBudget.expensesBySubCategory))
+                ExpensesView(geo: geo, expensesBySubCategory: self.$expensesBySubCategory)
                     .environmentObject(self.budgetVM)
             }
         }
         .background(Color.white)
         .onAppear {
             self.presentingTransactions = currentMonthBudget.expensesList
-           print(budgetVM.budgetList.last!.month)
+            self.expensesBySubCategory = currentBudget.expensesBySubCategory
+            self.incomeByDate = currentBudget.incomeByDate
+            self.savingsByType = currentBudget.savingsByType
         }
+        .onChange(of: currentBudget.transactions?.count, perform: { value in
+            self.expensesBySubCategory = currentBudget.expensesBySubCategory
+            self.incomeByDate = currentBudget.incomeByDate
+            self.savingsByType = currentBudget.savingsByType
+        })
         }
     }
     func startAnimate() {
@@ -151,12 +165,12 @@ struct BudgetView_Previews: PreviewProvider {
         Group {
             GeometryReader {
                 geo in
-                BudgetView(currentMonthBudget: .constant(MonthlyBudget()) , geo: geo, plusButtonColor: .constant(Color.red))
+                BudgetView(currentMonthBudget: .constant(MonthlyBudget()) , geo: geo, plusButtonColor: .constant(GradientColors.Expense), plusButtonIsServing: .constant(""))
             }
             
             GeometryReader {
                 geo in
-                BudgetView(currentMonthBudget: .constant(MonthlyBudget()), geo: geo, plusButtonColor: .constant(Color.red))
+                BudgetView(currentMonthBudget: .constant(MonthlyBudget()), geo: geo, plusButtonColor: .constant(GradientColors.Expense), plusButtonIsServing: .constant(""))
             }
             .preferredColorScheme(.dark)
         }

@@ -15,6 +15,7 @@ struct IncomeView: View {
     @State var incomeTotalAmountByDate: [String : Decimal] = [:]
     var body: some View {
         let formatter = setDecimalFormatter()
+        if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack {
                 ForEach(self.dates, id: \.self) { date in
@@ -38,7 +39,7 @@ struct IncomeView: View {
                                 Group {
                                     Image(systemName: income.type!.presentingImageName)
                                         .foregroundColor(.white)
-                                        .modifier(CircleModifier(color: Color(income.type!.presentingColorName), strokeLineWidth: 3.0))
+                                        .modifier(CircleModifierSimpleColor(color: Color(income.type!.presentingColorName), strokeLineWidth: 3.0))
                                         .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
                                         .font(Font.system(size: 24, weight: .regular, design: .default))
                                     VStack(alignment: .leading) {
@@ -74,7 +75,7 @@ struct IncomeView: View {
             
         }
         .onAppear {
-            for key in incomeByDate.keys.sorted() {
+            for key in incomeByDate.keys.sorted(by: >) {
                 self.dates.append(key)
             }
             for date in self.dates {
@@ -84,6 +85,21 @@ struct IncomeView: View {
                 }
                 incomeTotalAmountByDate[date] = totalAmount
             }
+        }
+        .onChange(of: currentBudget.incomeList.count, perform: { value in
+            self.dates.removeAll()
+            self.incomeTotalAmountByDate.removeAll()
+            for key in incomeByDate.keys.sorted(by: >) {
+                self.dates.append(key)
+            }
+            for date in self.dates {
+                var totalAmount: Decimal = 0
+                for transaction in incomeByDate[date]! {
+                    totalAmount += transaction.amount! as Decimal
+                }
+                incomeTotalAmountByDate[date] = totalAmount
+            }
+        })
         }
     }
 }

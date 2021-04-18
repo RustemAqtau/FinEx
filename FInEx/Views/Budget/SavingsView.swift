@@ -11,11 +11,13 @@ struct SavingsView: View {
     @EnvironmentObject var budgetVM: BudgetVM
     let geo: GeometryProxy
     @Environment(\.userSettingsVM) var userSettingsVM
-    @Binding var savingsBySubCategory: [String : [Transaction]]
+    //@Binding var savingsBySubCategory: [String : [Transaction]]
+    @Binding var savingsByType: [String: [TransactionType : Decimal]]
     @State var subCategories: [String] = []
-    @State var savingsTotalAmountByCategory: [String : Decimal] = [:]
+    @State var typesInSubCategory: [String : [TransactionType]] = [:]
     var body: some View {
         let formatter = setDecimalFormatter()
+        if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack {
                 ForEach(self.subCategories, id: \.self) { subCategory in
@@ -25,7 +27,6 @@ struct SavingsView: View {
                                 Text(subCategory)
                             }
                             Spacer()
-                            Text("$" + formatter.string(from: NSDecimalNumber(decimal: savingsTotalAmountByCategory[subCategory] ?? 0))!)
                         }
                         .foregroundColor(.gray)
                         .frame(width: geo.size.width / 1.2 )
@@ -34,26 +35,23 @@ struct SavingsView: View {
                         
                         Divider()
                         
-                        ForEach(savingsBySubCategory[subCategory]!, id: \.date) { saving in
+                        ForEach(typesInSubCategory[subCategory]!, id: \.self) { type in
                             HStack {
                                 Group {
-                                    Image(systemName: saving.type!.presentingImageName)
+                                    Image(systemName: type.presentingImageName)
                                         .foregroundColor(.white)
-                                        .modifier(CircleModifier(color: Color(saving.type!.presentingColorName), strokeLineWidth: 3.0))
+                                        .modifier(CircleModifierSimpleColor(color: Color(type.presentingColorName), strokeLineWidth: 3.0))
                                         .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
                                         .font(Font.system(size: 24, weight: .regular, design: .default))
                                     VStack(alignment: .leading) {
-                                        Text(saving.type!.presentingName)
+                                        Text(type.presentingName)
                                             .shadow(radius: -10 )
-                                        Text(setDate(date: saving.date!))
-                                            .font(Font.system(size: 15, weight: .light, design: .default))
-                                            .foregroundColor(.gray)
                                             
                                     }
                                 }
                                 
                                 Spacer()
-                                Text("$" + formatter.string(from: saving.amountDecimal)!)
+                                Text("$" + formatter.string(from: NSDecimalNumber(decimal: savingsByType[subCategory]![type] ?? 0) )!)
                             }
                             .frame(width: geo.size.width / 1.15 )
                             .scaledToFit()
@@ -75,17 +73,27 @@ struct SavingsView: View {
             
         }
         .onAppear {
-            for key in savingsBySubCategory.keys.sorted() {
+            for key in savingsByType.keys.sorted() {
                 self.subCategories.append(key)
-            }
-            for subCategory in self.subCategories {
-                var totalAmount: Decimal = 0
-                for transaction in savingsBySubCategory[subCategory]! {
-                    totalAmount += transaction.amount! as Decimal
+                var arr: [TransactionType] = []
+                for type in savingsByType[key]!.keys {
+                    arr.append(type)
                 }
-                savingsTotalAmountByCategory[subCategory] = totalAmount
+                self.typesInSubCategory[key] = arr
             }
-            
+       }
+        .onChange(of: currentBudget.savingsList.count, perform: { value in
+            self.subCategories.removeAll()
+            self.typesInSubCategory.removeAll()
+            for key in savingsByType.keys.sorted() {
+                self.subCategories.append(key)
+                var arr: [TransactionType] = []
+                for type in savingsByType[key]!.keys {
+                    arr.append(type)
+                }
+                self.typesInSubCategory[key] = arr
+            }
+        })
         }
     }
 
@@ -94,7 +102,7 @@ struct SavingsView: View {
 struct SavingsView_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { geo in
-            SavingsView(geo: geo, savingsBySubCategory: .constant([:]))
+            SavingsView(geo: geo, savingsByType: .constant([:]))
         }
         
     }

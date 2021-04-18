@@ -5,7 +5,18 @@
 //  Created by Zhansaya Ayazbayeva on 2021-04-14.
 //
 
-import Foundation
+import SwiftUI
+
+enum GradientColors {
+    typealias RawValue = LinearGradient
+    
+    static let Expense = LinearGradient(gradient: Gradient(colors: [Color("ExpensesColor"), Color("ExpensesColor2")]), startPoint: .bottomTrailing, endPoint: .topLeading)
+    static let Income = LinearGradient(gradient: Gradient(colors: [Color("BalanceColor"), Color("NewBalanceColor")]), startPoint: .bottomTrailing, endPoint: .topLeading)
+    static let Saving = LinearGradient(gradient: Gradient(colors: [Color("IncomeColor"), Color("SavingsColor")]), startPoint: .bottomTrailing, endPoint: .topLeading)
+    
+    static let Home = LinearGradient(gradient: Gradient(colors: [Color("HomeButtonGradient1"), Color("HomeButtonGradient2")]), startPoint: .bottomTrailing, endPoint: .topLeading)
+    
+}
 
 enum Categories: CaseIterable {
     static let Income = "Income"
@@ -14,6 +25,7 @@ enum Categories: CaseIterable {
 }
 
 enum ExpenseSubCategories: String, CaseIterable {
+    case Housing = "Housing"
     case Entertainment = "Entertainment"
     case FoodAndDrinks = "Food & Drinks"
     case Bills = "Bills"
@@ -22,7 +34,7 @@ enum ExpenseSubCategories: String, CaseIterable {
     case Subscriptions = "Subscriptions"
     case Insurance = "Insurance"
     case Travel = "Travel"
-    
+    case Shopping = "Shopping"
 }
 
 enum SvaingSubCategories: String, CaseIterable {

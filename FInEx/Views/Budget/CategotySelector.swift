@@ -28,7 +28,8 @@ struct CategotySelector: View {
                 ScrollView {
                     ForEach(self.subCategories, id: \.self) { subCategory in
                         VStack(alignment: .center, spacing: 15) {
-                           
+                           let rowCounter = types[subCategory]!.count / 3
+                            let modula = types[subCategory]!.count % 3
                             HStack {
                                 Text(subCategory)
                                     .font(Font.system(size: 22, weight: .light, design: .default))
@@ -38,10 +39,10 @@ struct CategotySelector: View {
                             Grid(self.types[subCategory]!, viewForItem: { transactionType in
                                 VStack {
                                     Image(systemName: transactionType.presentingImageName)
-                                        .modifier(CircleModifier(color: Color(transactionType.presentingColorName), strokeLineWidth: 3.0))
+                                        .modifier(CircleModifierSimpleColor(color: Color(transactionType.presentingColorName), strokeLineWidth: 3.0))
                                         .font(Font.system(size: 24, weight: .regular, design: .default))
                                     Text(transactionType.presentingName)
-                                        .font(Font.system(size: 14, weight: .light, design: .default))
+                                        .font(Font.system(size: 12, weight: .light, design: .default))
                                 }
                                 .frame(width: 85, height: 85, alignment: .center)
                                 .onTapGesture {
@@ -53,7 +54,7 @@ struct CategotySelector: View {
                                 }
                             }
                             )
-                            .frame(width: geo.size.width * 0.90, height: 100 * CGFloat((types[subCategory]!.count % 3 == 0 ? (types[subCategory]!.count / 3) : (types[subCategory]!.count / 3) + 1)), alignment: .center)
+                            .frame(width: geo.size.width * 0.90, height: CGFloat(100 * (modula == 0 ? rowCounter : rowCounter + 1)), alignment: .center)
                         }
                         .frame(width: geo.size.width * 0.90, alignment: .center)
                         
@@ -74,7 +75,7 @@ struct CategotySelector: View {
         .ignoresSafeArea(.all, edges: [.bottom, .top])
         .foregroundColor(.white)
         .onAppear {
-            self.subCategories = userSettingsVM.subCategories[self.categoty]!
+            self.subCategories = userSettingsVM.subCategories[self.categoty]!.sorted()
             print("subCategories: \(subCategories)")
             self.types = userSettingsVM.transactiontypesByCategoty[categoty]!
             print("types: \(types)")

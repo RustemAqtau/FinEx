@@ -46,7 +46,33 @@ extension MonthlyBudget {
                 dic.removeValue(forKey: elem.key)
             }
         }
+        
         return dic
+    }
+    
+    var savingsByType: [String : [TransactionType : Decimal]] {
+        var dicRes: [String: [TransactionType : Decimal]] = [:]
+        let dic = savingsBySubCategory
+        
+        
+        
+        for key in dic.keys.sorted() {
+            var dic2: [TransactionType: Decimal] = [:]
+            let types = dic[key]!.map({ saving in saving.type })
+            for type in types {
+                var total: Decimal = 0
+                for saving in dic[key]! {
+                    if saving.type == type {
+                        total += saving.amount! as Decimal
+                    }
+                }
+                dic2[type!] = total
+            }
+            dicRes[key] = dic2
+        }
+        
+        return dicRes
+        
     }
     
     var incomeByDate: [String: [Transaction]] {
@@ -65,14 +91,18 @@ extension MonthlyBudget {
     }
     
     var expensesBySubCategory: [String : [Transaction]] {
-        var dic: [String: [Transaction]] = [ExpenseSubCategories.Bills.rawValue : [],
-                   ExpenseSubCategories.Entertainment.rawValue : [],
-                   ExpenseSubCategories.FoodAndDrinks.rawValue : [],
-                   ExpenseSubCategories.Health.rawValue : [],
-                   ExpenseSubCategories.Insurance.rawValue : [],
-                   ExpenseSubCategories.Subscriptions.rawValue : [],
-                   ExpenseSubCategories.Transportation.rawValue : [],
-                   ExpenseSubCategories.Travel.rawValue : []
+        var dic: [String: [Transaction]] = [
+                    
+                    ExpenseSubCategories.Entertainment.rawValue : [],
+            ExpenseSubCategories.Housing.rawValue : [],
+            ExpenseSubCategories.Bills.rawValue : [],
+                    ExpenseSubCategories.FoodAndDrinks.rawValue : [],
+                    ExpenseSubCategories.Shopping.rawValue : [],
+                    ExpenseSubCategories.Health.rawValue : [],
+                    ExpenseSubCategories.Insurance.rawValue : [],
+                    ExpenseSubCategories.Subscriptions.rawValue : [],
+                    ExpenseSubCategories.Transportation.rawValue : [],
+                    ExpenseSubCategories.Travel.rawValue : []
         ]
         
         for key in dic.keys {

@@ -66,7 +66,7 @@ struct EditCategories: View {
                                                 Group {
                                                     Image(systemName: types[index].presentingImageName)
                                                         .foregroundColor(.white)
-                                                        .modifier(CircleModifier(color: Color(types[index].presentingColorName), strokeLineWidth: 3.0))
+                                                        .modifier(CircleModifierSimpleColor(color: Color(types[index].presentingColorName), strokeLineWidth: 3.0))
                                                         .frame(width: geo.size.width / 12, height: geo.size.width / 10, alignment: .center)
                                                         .padding()
                                                     Text(types[index].presentingName)
@@ -107,7 +107,7 @@ struct EditCategories: View {
                                                 }
                                                 Image(systemName: types[index].presentingImageName)
                                                     .foregroundColor(.white)
-                                                    .modifier(CircleModifier(color: Color(types[index].presentingColorName), strokeLineWidth: 3.0))
+                                                    .modifier(CircleModifierSimpleColor(color: Color(types[index].presentingColorName), strokeLineWidth: 3.0))
                                                     .frame(width: geo.size.width / 12, height: geo.size.width / 10, alignment: .center)
                                                     .padding()
                                                 Text(types[index].presentingName)

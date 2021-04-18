@@ -15,7 +15,8 @@ struct ContentView: View {
     @State var offsetY: CGFloat = 0.0
     @State var incomeSelected = false
     @State var savingsSelected = false
-    @State var plusButtonColor = Color("ExpensesColor")
+    @State var plusButtonColor = GradientColors.Expense
+    @State var plusButtonIsServing = Categories.Expense
     @State var isBudgetView = true
     @State var isAnalyticsView = false
     @State var isSettingsView = false
@@ -34,7 +35,10 @@ struct ContentView: View {
                             
                     } else {
                         if let currentBudget = budgetVM.budgetList.last {
-                            BudgetView(currentMonthBudget: .constant(currentBudget) , geo: geo, plusButtonColor: self.$plusButtonColor)
+                            BudgetView(currentMonthBudget: .constant(currentBudget) ,
+                                       geo: geo,
+                                       plusButtonColor: self.$plusButtonColor,
+                                       plusButtonIsServing: self.$plusButtonIsServing)
                                 .environmentObject(budgetVM)
                                 
                         }
@@ -52,10 +56,12 @@ struct ContentView: View {
                         Button(action: {
                             if self.isAnalyticsView {
                                 self.isAnalyticsView = false
-                                self.plusButtonColor = Color("ExpensesColor")
+                                self.plusButtonColor = GradientColors.Expense
+                                self.plusButtonIsServing = Categories.Expense
                             } else if self.isSettingsView {
                                 self.isSettingsView = false
-                                self.plusButtonColor = Color("ExpensesColor")
+                                self.plusButtonColor = GradientColors.Expense
+                                self.plusButtonIsServing = Categories.Expense
                             } else {
                                 self.showAddExpense = true
                             }
@@ -77,7 +83,7 @@ struct ContentView: View {
                                         self.isSettingsView.toggle()
                                     }
                                     self.isAnalyticsView = true
-                                self.plusButtonColor = Color.yellow
+                                self.plusButtonColor = GradientColors.Home
                                 
                             }, label: {
                                 Image(systemName: "circle.grid.cross")
@@ -87,7 +93,7 @@ struct ContentView: View {
                                     self.isAnalyticsView.toggle()
                                 }
                                 self.isSettingsView = true
-                                self.plusButtonColor = Color.yellow
+                                self.plusButtonColor = GradientColors.Home
                             }, label: {
                                 Image(systemName: "wrench")
                             })
@@ -141,12 +147,12 @@ struct ContentView: View {
     
     private func getAddingCategory() -> String {
         var addingCategory: String = ""
-        switch self.plusButtonColor {
-        case Color("ExpensesColor"):
+        switch self.plusButtonIsServing {
+        case Categories.Expense:
             addingCategory = Categories.Expense
-        case Color("NewBalanceColor"):
+        case Categories.Income:
             addingCategory = Categories.Income
-        case Color("SavingsColor"):
+        case Categories.Saving:
             addingCategory = Categories.Saving
         default:
             addingCategory = Categories.Expense

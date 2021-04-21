@@ -7,25 +7,25 @@
 
 import Combine
 import CoreData
+import SwiftUI
 
-class UserSettingsVM: ObservableObject {
+class UserSettingsManager: ObservableObject {
     
     @Published var settings = UserSettings()
     @Published var transactionTypes: [TransactionType] = []
     @Published var transactiontypesByCategoty: [String : [String : [TransactionType]]] = [
         Categories.Income: [Categories.Income:[]],
         Categories.Expense : [
-                            
-                            ExpenseSubCategories.Bills.rawValue:[],
-                            ExpenseSubCategories.Housing.rawValue : [],
-                              ExpenseSubCategories.Entertainment.rawValue : [],
-                              ExpenseSubCategories.FoodAndDrinks.rawValue : [],
-                            ExpenseSubCategories.Shopping.rawValue : [],
-                              ExpenseSubCategories.Health.rawValue : [],
-                              ExpenseSubCategories.Insurance.rawValue : [],
-                              ExpenseSubCategories.Subscriptions.rawValue : [],
-                              ExpenseSubCategories.Transportation.rawValue : [],
-                              ExpenseSubCategories.Travel.rawValue : []],
+            ExpenseSubCategories.Bills.rawValue:[],
+            ExpenseSubCategories.Housing.rawValue : [],
+            ExpenseSubCategories.Entertainment.rawValue : [],
+            ExpenseSubCategories.FoodAndDrinks.rawValue : [],
+            ExpenseSubCategories.Shopping.rawValue : [],
+            ExpenseSubCategories.Health.rawValue : [],
+            ExpenseSubCategories.Insurance.rawValue : [],
+            ExpenseSubCategories.Subscriptions.rawValue : [],
+            ExpenseSubCategories.Transportation.rawValue : [],
+            ExpenseSubCategories.Travel.rawValue : []],
         Categories.Saving : [SvaingSubCategories.LongTerm.rawValue : [],
                              SvaingSubCategories.ShortTerm.rawValue : []]]
     let categories = [Categories.Income, Categories.Expense, Categories.Saving]
@@ -44,7 +44,56 @@ class UserSettingsVM: ObservableObject {
         return arr
     }
     
+    @Published var recurringTransactions: [RecurringTransaction] = []
+    @Published var recurringTransactionsByCategory: [String: [RecurringTransaction]] = [:]
+     let cetegoriesArray = [Categories.Income, Categories.Expense, Categories.Saving]
+    // MARK: - RecurringTransactions
+    
+    func addNewRecurringTransaction(info: RecurringTransactionInfo, context: NSManagedObjectContext) {
+        RecurringTransaction.update(from: info, context: context)
+    }
+    
+    
+    func getRecurringTransactionsByCategory(context: NSManagedObjectContext) {
+        for category in cetegoriesArray {
+            let transactions = fetchRecurringTransaction(for: category, context: context)
+            recurringTransactionsByCategory[category] = transactions
+        }
+    }
+    
+    private func fetchRecurringTransaction(for category: String, context: NSManagedObjectContext) -> [RecurringTransaction]? {
+        var recurringTransactions: [RecurringTransaction] = []
+        let predicate = NSPredicate(format: "category = %@", argumentArray: [category])
+        let request = RecurringTransaction.fetchRequest(predicate: predicate)
+        do {
+            let result = try context.fetch(request)
+            recurringTransactions = result
+        } catch {
+            print("Error fetching context: \(error)")
+        }
+        return recurringTransactions
+    }
+    
+    
+    func getRecurringTransactions(context: NSManagedObjectContext) {
+        recurringTransactions = fetchRecurringTransactions(context: context)
+    }
+    
+    private func fetchRecurringTransactions(context: NSManagedObjectContext) -> [RecurringTransaction] {
+        var recurringTransactions: [RecurringTransaction] = []
+        let predicate = NSPredicate(format: "amount != nil")
+        let request = RecurringTransaction.fetchRequest(predicate: predicate)
+        do {
+            let result = try context.fetch(request)
+            recurringTransactions = result
+        } catch {
+            print("Error fetching context: \(error)")
+        }
+        return recurringTransactions
+    }
+    
     // MARK: - UserSettings
+    
     func fetchUserSettins(context: NSManagedObjectContext) -> [UserSettings] {
         var userSettings:[UserSettings] = []
         let predicate = NSPredicate(format: "settingsId > 0")
@@ -72,6 +121,7 @@ class UserSettingsVM: ObservableObject {
         let fetchedSettings = fetchUserSettins(context: context)
         settings = fetchedSettings[0]
     }
+    
     
     // MARK: - TransactionTypes
     
@@ -194,3 +244,6 @@ class UserSettingsVM: ObservableObject {
 }
 
 
+struct UserSettingsVMKey: EnvironmentKey {
+    static var defaultValue: UserSettingsManager = UserSettingsManager()
+}

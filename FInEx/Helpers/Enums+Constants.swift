@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+enum Periodicity: String, CaseIterable {
+    
+    typealias RawValue = String
+    
+    case TwoWeeks = "Every two weeks"
+    case Month = "Every month"
+    case Quarter = "Every third month"
+    case Year = "Every year"
+    
+}
+
 enum GradientColors {
     typealias RawValue = LinearGradient
     
@@ -23,6 +34,8 @@ enum Categories: CaseIterable {
     static let Expense = "Expense"
     static let Saving = "Saving"
 }
+
+
 
 enum ExpenseSubCategories: String, CaseIterable {
     case Housing = "Housing"

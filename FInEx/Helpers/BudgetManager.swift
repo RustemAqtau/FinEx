@@ -8,10 +8,12 @@
 import CoreData
 import Combine
 
-class BudgetVM: ObservableObject {
+class BudgetManager: ObservableObject {
     @Published var budgetList: [MonthlyBudget] = []
     
-    
+    func addRecurringTransaction(info: RecurringTransaction, monthlyBudget: MonthlyBudget, context: NSManagedObjectContext) {
+        Transaction.update(from: info, monthlyBudget: monthlyBudget, context: context)
+    }
     
     func addNewTransaction(info: TransactionInfo, monthlyBudget: MonthlyBudget, context: NSManagedObjectContext) {
         Transaction.update(from: info, monthlyBudget: monthlyBudget, context: context)

@@ -18,7 +18,7 @@ struct SaveButtonView: View {
                 .foregroundColor(Color("TextDarkGray"))
                 .font(Font.system(size: 26, weight: .regular, design: .default))
         }
-        .frame(width: geo.size.width / 1.5, height: 50, alignment: .center)
+        .frame(width: geo.size.width * 0.80, height: 55, alignment: .center)
     }
 }
 

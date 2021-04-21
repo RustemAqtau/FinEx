@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct UserSettingsVMKey: EnvironmentKey {
-    static var defaultValue: UserSettingsVM = UserSettingsVM()
+    static var defaultValue: UserSettingsManager = UserSettingsManager()
 }
 
 extension EnvironmentValues {
-    var userSettingsVM: UserSettingsVM {
+    var userSettingsVM: UserSettingsManager {
         get { self[UserSettingsVMKey.self] }
         set { self[UserSettingsVMKey.self] = newValue }
     }

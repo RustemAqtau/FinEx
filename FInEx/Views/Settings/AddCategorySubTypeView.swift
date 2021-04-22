@@ -9,7 +9,7 @@ import SwiftUI
 import Introspect
 
 struct AddCategorySubTypeView: View {
-    @EnvironmentObject var userSettingsVM: UserSettingsVM
+    @EnvironmentObject var userSettingsVM: UserSettingsManager
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     @Binding var category: String

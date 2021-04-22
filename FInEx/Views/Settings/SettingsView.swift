@@ -116,7 +116,10 @@ struct SettingsView: View {
                                 }
                                 }
                             
-                            
+                            NavigationLink(
+                                destination: RecurringTransactionsView()
+                                    .environmentObject(userSettingsVM)
+                            ) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .fill(Color.white)
@@ -124,12 +127,12 @@ struct SettingsView: View {
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .stroke(Color.white)
                                 VStack(spacing: 0) {
-                                    Image(systemName: "lock.shield")
+                                    Image(systemName: "arrow.triangle.2.circlepath")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
                                         .foregroundColor(Color("ExpensesColor"))
                                     VStack(alignment: .center, spacing: 4) {
-                                        Text("REGISTER")
-                                        Text("Secure your data in the cloud and use multiple devices")
+                                        Text("RECURRING")
+                                        Text("Manage your regular transactions")
                                             .font(Font.system(size: 15, weight: .light, design: .rounded))
                                     }
                                     
@@ -139,6 +142,7 @@ struct SettingsView: View {
                                     .padding()
                                }
                             }
+                        }
                         }
                         .padding()
                         .offset(y: offsetY)

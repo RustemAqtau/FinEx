@@ -46,6 +46,7 @@ class UserSettingsManager: ObservableObject {
     
     @Published var recurringTransactions: [RecurringTransaction] = []
     @Published var recurringTransactionsByCategory: [String: [RecurringTransaction]] = [:]
+    @Published var recurringTransactionsByCategoryForBudget: [String: [RecurringTransaction]] = [:]
      let cetegoriesArray = [Categories.Income, Categories.Expense, Categories.Saving]
     // MARK: - RecurringTransactions
     
@@ -53,12 +54,31 @@ class UserSettingsManager: ObservableObject {
         RecurringTransaction.update(from: info, context: context)
     }
     
+    func getRecurringTransactionsByCategory(monthlyBudget: MonthlyBudget, context: NSManagedObjectContext) {
+        for category in cetegoriesArray {
+            let transactions = fetchRecurringTransaction(for: category, monthlyBudget: monthlyBudget, context: context)
+            recurringTransactionsByCategoryForBudget[category] = transactions
+        }
+    }
     
     func getRecurringTransactionsByCategory(context: NSManagedObjectContext) {
         for category in cetegoriesArray {
             let transactions = fetchRecurringTransaction(for: category, context: context)
             recurringTransactionsByCategory[category] = transactions
         }
+    }
+    
+    private func fetchRecurringTransaction(for category: String, monthlyBudget: MonthlyBudget,  context: NSManagedObjectContext) -> [RecurringTransaction]? {
+        var recurringTransactions: [RecurringTransaction] = []
+        let predicate = NSPredicate(format: "category = %@ AND (nextAddingYear = %@ AND nextAddingMonth = %@)", argumentArray: [category, monthlyBudget.year, monthlyBudget.month])
+        let request = RecurringTransaction.fetchRequest(predicate: predicate)
+        do {
+            let result = try context.fetch(request)
+            recurringTransactions = result
+        } catch {
+            print("Error fetching context: \(error)")
+        }
+        return recurringTransactions
     }
     
     private func fetchRecurringTransaction(for category: String, context: NSManagedObjectContext) -> [RecurringTransaction]? {
@@ -138,7 +158,6 @@ class UserSettingsManager: ObservableObject {
     
     func getTransactiontypes(context: NSManagedObjectContext) {
         transactionTypes = fetchTransactionTypes(context: context)
-        
         for key in transactiontypesByCategoty.keys {
             for subKey in transactiontypesByCategoty[key]!.keys {
                 transactiontypesByCategoty[key]?[subKey]?.removeAll()
@@ -157,7 +176,6 @@ class UserSettingsManager: ObservableObject {
                     }
                 }
             }
-            
         }
         print("transactiontypesByCategoty: \(transactiontypesByCategoty)")
     }

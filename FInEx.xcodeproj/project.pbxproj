@@ -11,14 +11,14 @@
 		5804AD9B2620B29C00E2FF1E /* RegisterWithAppleID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804AD9A2620B29C00E2FF1E /* RegisterWithAppleID.swift */; };
 		5804ADAB262180C700E2FF1E /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADAA262180C700E2FF1E /* UserSettings.swift */; };
 		5804ADB3262181CB00E2FF1E /* UserSettingsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADB2262181CB00E2FF1E /* UserSettingsInfo.swift */; };
-		5804ADBC2622885D00E2FF1E /* UserSettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADBB2622885D00E2FF1E /* UserSettingsVM.swift */; };
+		5804ADBC2622885D00E2FF1E /* UserSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADBB2622885D00E2FF1E /* UserSettingsManager.swift */; };
 		5804ADC42622EC1000E2FF1E /* TransactionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADC32622EC1000E2FF1E /* TransactionType.swift */; };
 		5804ADC92622ECA400E2FF1E /* TransactionTypeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADC82622ECA400E2FF1E /* TransactionTypeInfo.swift */; };
 		5804ADDF2624CB4400E2FF1E /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADDE2624CB4400E2FF1E /* Transaction.swift */; };
 		5804ADE42624CBDF00E2FF1E /* TransactionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADE32624CBDF00E2FF1E /* TransactionInfo.swift */; };
 		5804ADE92624D9F900E2FF1E /* MonthlyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADE82624D9F900E2FF1E /* MonthlyBudget.swift */; };
 		5804ADEE2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADED2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift */; };
-		5804ADF32624FFE700E2FF1E /* BudgetVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADF22624FFE700E2FF1E /* BudgetVM.swift */; };
+		5804ADF32624FFE700E2FF1E /* BudgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADF22624FFE700E2FF1E /* BudgetManager.swift */; };
 		58487F7D261E7B6A00088341 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F7C261E7B6A00088341 /* SettingsView.swift */; };
 		58487F85261E7EDA00088341 /* BudgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F84261E7EDA00088341 /* BudgetView.swift */; };
 		58487F8A261E90AD00088341 /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F89261E90AD00088341 /* CustomTabBarView.swift */; };
@@ -26,7 +26,7 @@
 		58487F94261F83D200088341 /* EditCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F93261F83D200088341 /* EditCategories.swift */; };
 		58487F9C261FAB2600088341 /* AddCategorySubTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F9B261FAB2600088341 /* AddCategorySubTypeView.swift */; };
 		5873EDD82627A850008A4DE7 /* ExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDD72627A850008A4DE7 /* ExpensesView.swift */; };
-		5873EDDD2627C0DA008A4DE7 /* Formatters+Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDDC2627C0DA008A4DE7 /* Formatters+Enums.swift */; };
+		5873EDDD2627C0DA008A4DE7 /* Enums+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDDC2627C0DA008A4DE7 /* Enums+Constants.swift */; };
 		5873EDE22627C1B8008A4DE7 /* IncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDE12627C1B8008A4DE7 /* IncomeView.swift */; };
 		5873EDE72627E57C008A4DE7 /* SavingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDE62627E57C008A4DE7 /* SavingsView.swift */; };
 		5873EDEC26280182008A4DE7 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDEB26280182008A4DE7 /* AddTransactionView.swift */; };
@@ -37,6 +37,13 @@
 		5873EE13262AB518008A4DE7 /* SaveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE12262AB518008A4DE7 /* SaveButtonView.swift */; };
 		5873EE23262BFFDC008A4DE7 /* PasscodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE22262BFFDC008A4DE7 /* PasscodeView.swift */; };
 		5873EE28262C0488008A4DE7 /* SetPasscodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE27262C0488008A4DE7 /* SetPasscodeView.swift */; };
+		5873EE38262CA911008A4DE7 /* RecurringTransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE37262CA911008A4DE7 /* RecurringTransactionsView.swift */; };
+		5873EE3D262CA9A2008A4DE7 /* RecurringTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE3C262CA9A2008A4DE7 /* RecurringTransaction.swift */; };
+		5873EE42262CADDA008A4DE7 /* RecurringTransactionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE41262CADDA008A4DE7 /* RecurringTransactionInfo.swift */; };
+		5873EE47262CD46D008A4DE7 /* SetRecurringTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE46262CD46D008A4DE7 /* SetRecurringTransactionView.swift */; };
+		5873EE5B262F4DE6008A4DE7 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE5A262F4DE6008A4DE7 /* Formatters.swift */; };
+		5873EE78262F9BEA008A4DE7 /* AddRecurringTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE77262F9BEA008A4DE7 /* AddRecurringTransactionView.swift */; };
+		5873EE7D262FB1A0008A4DE7 /* CSVShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE7C262FB1A0008A4DE7 /* CSVShareManager.swift */; };
 		58E2BF5D261D8E3900477D44 /* FInExApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2BF5C261D8E3900477D44 /* FInExApp.swift */; };
 		58E2BF5F261D8E3900477D44 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2BF5E261D8E3900477D44 /* ContentView.swift */; };
 		58E2BF61261D8E3A00477D44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58E2BF60261D8E3A00477D44 /* Assets.xcassets */; };
@@ -46,6 +53,7 @@
 		58E2BF74261D8E3A00477D44 /* FInExTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2BF73261D8E3A00477D44 /* FInExTests.swift */; };
 		58E2BF7F261D8E3A00477D44 /* FInExUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2BF7E261D8E3A00477D44 /* FInExUITests.swift */; };
 		58E2BF99261E221100477D44 /* CircleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2BF98261E221100477D44 /* CircleModifier.swift */; };
+		58F35D472630D6480008A00C /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F35D462630D6480008A00C /* PieChart.swift */; };
 		6F64154BABF9877B8E0726A1 /* Pods_FInEx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54EB4804001E5F0E003C868A /* Pods_FInEx.framework */; };
 		B3A9994DBEEE071AA573664C /* Pods_FInEx_FInExUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77E84EAFB9B21994146B980 /* Pods_FInEx_FInExUITests.framework */; };
 		ED9346F69B4424677DFC09F7 /* Pods_FInExTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 856185DAE9BAD2723A74F1A8 /* Pods_FInExTests.framework */; };
@@ -78,14 +86,14 @@
 		5804AD9F2620C16D00E2FF1E /* FInEx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FInEx.entitlements; sourceTree = "<group>"; };
 		5804ADAA262180C700E2FF1E /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		5804ADB2262181CB00E2FF1E /* UserSettingsInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsInfo.swift; sourceTree = "<group>"; };
-		5804ADBB2622885D00E2FF1E /* UserSettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsVM.swift; sourceTree = "<group>"; };
+		5804ADBB2622885D00E2FF1E /* UserSettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsManager.swift; sourceTree = "<group>"; };
 		5804ADC32622EC1000E2FF1E /* TransactionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionType.swift; sourceTree = "<group>"; };
 		5804ADC82622ECA400E2FF1E /* TransactionTypeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTypeInfo.swift; sourceTree = "<group>"; };
 		5804ADDE2624CB4400E2FF1E /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		5804ADE32624CBDF00E2FF1E /* TransactionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionInfo.swift; sourceTree = "<group>"; };
 		5804ADE82624D9F900E2FF1E /* MonthlyBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyBudget.swift; sourceTree = "<group>"; };
 		5804ADED2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyBudgetInfo.swift; sourceTree = "<group>"; };
-		5804ADF22624FFE700E2FF1E /* BudgetVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetVM.swift; sourceTree = "<group>"; };
+		5804ADF22624FFE700E2FF1E /* BudgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetManager.swift; sourceTree = "<group>"; };
 		58487F7C261E7B6A00088341 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		58487F84261E7EDA00088341 /* BudgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetView.swift; sourceTree = "<group>"; };
 		58487F89261E90AD00088341 /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
@@ -93,7 +101,7 @@
 		58487F93261F83D200088341 /* EditCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategories.swift; sourceTree = "<group>"; };
 		58487F9B261FAB2600088341 /* AddCategorySubTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategorySubTypeView.swift; sourceTree = "<group>"; };
 		5873EDD72627A850008A4DE7 /* ExpensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesView.swift; sourceTree = "<group>"; };
-		5873EDDC2627C0DA008A4DE7 /* Formatters+Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Formatters+Enums.swift"; sourceTree = "<group>"; };
+		5873EDDC2627C0DA008A4DE7 /* Enums+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enums+Constants.swift"; sourceTree = "<group>"; };
 		5873EDE12627C1B8008A4DE7 /* IncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeView.swift; sourceTree = "<group>"; };
 		5873EDE62627E57C008A4DE7 /* SavingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavingsView.swift; sourceTree = "<group>"; };
 		5873EDEB26280182008A4DE7 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
@@ -104,6 +112,13 @@
 		5873EE12262AB518008A4DE7 /* SaveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButtonView.swift; sourceTree = "<group>"; };
 		5873EE22262BFFDC008A4DE7 /* PasscodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeView.swift; sourceTree = "<group>"; };
 		5873EE27262C0488008A4DE7 /* SetPasscodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPasscodeView.swift; sourceTree = "<group>"; };
+		5873EE37262CA911008A4DE7 /* RecurringTransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringTransactionsView.swift; sourceTree = "<group>"; };
+		5873EE3C262CA9A2008A4DE7 /* RecurringTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringTransaction.swift; sourceTree = "<group>"; };
+		5873EE41262CADDA008A4DE7 /* RecurringTransactionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringTransactionInfo.swift; sourceTree = "<group>"; };
+		5873EE46262CD46D008A4DE7 /* SetRecurringTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetRecurringTransactionView.swift; sourceTree = "<group>"; };
+		5873EE5A262F4DE6008A4DE7 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
+		5873EE77262F9BEA008A4DE7 /* AddRecurringTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecurringTransactionView.swift; sourceTree = "<group>"; };
+		5873EE7C262FB1A0008A4DE7 /* CSVShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVShareManager.swift; sourceTree = "<group>"; };
 		58E2BF59261D8E3900477D44 /* FInEx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FInEx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58E2BF5C261D8E3900477D44 /* FInExApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FInExApp.swift; sourceTree = "<group>"; };
 		58E2BF5E261D8E3900477D44 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -119,6 +134,7 @@
 		58E2BF7E261D8E3A00477D44 /* FInExUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FInExUITests.swift; sourceTree = "<group>"; };
 		58E2BF80261D8E3A00477D44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58E2BF98261E221100477D44 /* CircleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleModifier.swift; sourceTree = "<group>"; };
+		58F35D462630D6480008A00C /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
 		856185DAE9BAD2723A74F1A8 /* Pods_FInExTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FInExTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A16CE7243703A581EE65DA5F /* Pods-FInExTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FInExTests.release.xcconfig"; path = "Target Support Files/Pods-FInExTests/Pods-FInExTests.release.xcconfig"; sourceTree = "<group>"; };
 		D77E84EAFB9B21994146B980 /* Pods_FInEx_FInExUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FInEx_FInExUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,18 +181,22 @@
 				5804ADE32624CBDF00E2FF1E /* TransactionInfo.swift */,
 				5804ADE82624D9F900E2FF1E /* MonthlyBudget.swift */,
 				5804ADED2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift */,
+				5873EE3C262CA9A2008A4DE7 /* RecurringTransaction.swift */,
+				5873EE41262CADDA008A4DE7 /* RecurringTransactionInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		5804ADB72622831300E2FF1E /* ViewModels */ = {
+		5804ADB72622831300E2FF1E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				5804ADBB2622885D00E2FF1E /* UserSettingsVM.swift */,
-				5804ADF22624FFE700E2FF1E /* BudgetVM.swift */,
+				5804ADBB2622885D00E2FF1E /* UserSettingsManager.swift */,
+				5804ADF22624FFE700E2FF1E /* BudgetManager.swift */,
+				5873EDDC2627C0DA008A4DE7 /* Enums+Constants.swift */,
 				5873EE022629119D008A4DE7 /* Extensions+.swift */,
+				5873EE5A262F4DE6008A4DE7 /* Formatters.swift */,
 			);
-			path = ViewModels;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		5873EDD02627A778008A4DE7 /* Settings */ = {
@@ -188,6 +208,8 @@
 				58487F93261F83D200088341 /* EditCategories.swift */,
 				58487F7C261E7B6A00088341 /* SettingsView.swift */,
 				5873EE27262C0488008A4DE7 /* SetPasscodeView.swift */,
+				5873EE37262CA911008A4DE7 /* RecurringTransactionsView.swift */,
+				5873EE46262CD46D008A4DE7 /* SetRecurringTransactionView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -196,6 +218,8 @@
 			isa = PBXGroup;
 			children = (
 				58487F8E261EC0F800088341 /* AnalyticsView.swift */,
+				5873EE7C262FB1A0008A4DE7 /* CSVShareManager.swift */,
+				58F35D462630D6480008A00C /* PieChart.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -209,22 +233,22 @@
 				5873EDE62627E57C008A4DE7 /* SavingsView.swift */,
 				5873EDEB26280182008A4DE7 /* AddTransactionView.swift */,
 				5873EDFD26290CAC008A4DE7 /* CategotySelector.swift */,
+				5873EE77262F9BEA008A4DE7 /* AddRecurringTransactionView.swift */,
 			);
 			path = Budget;
 			sourceTree = "<group>";
 		};
-		5873EDD32627A7DE008A4DE7 /* Helpers */ = {
+		5873EDD32627A7DE008A4DE7 /* SharedViews */ = {
 			isa = PBXGroup;
 			children = (
 				58487F89261E90AD00088341 /* CustomTabBarView.swift */,
 				58E2BF98261E221100477D44 /* CircleModifier.swift */,
 				5804AD942620032900E2FF1E /* IconsView.swift */,
-				5873EDDC2627C0DA008A4DE7 /* Formatters+Enums.swift */,
 				5873EDF32628FE4F008A4DE7 /* Grid.swift */,
 				5873EDF82628FE6D008A4DE7 /* GridLayout.swift */,
 				5873EE12262AB518008A4DE7 /* SaveButtonView.swift */,
 			);
-			path = Helpers;
+			path = SharedViews;
 			sourceTree = "<group>";
 		};
 		58E2BF50261D8E3900477D44 = {
@@ -252,7 +276,7 @@
 		58E2BF5B261D8E3900477D44 /* FInEx */ = {
 			isa = PBXGroup;
 			children = (
-				5804ADB72622831300E2FF1E /* ViewModels */,
+				5804ADB72622831300E2FF1E /* Helpers */,
 				5804ADA9262180B000E2FF1E /* Models */,
 				5804AD9F2620C16D00E2FF1E /* FInEx.entitlements */,
 				58E2BF8F261E1F4300477D44 /* Views */,
@@ -295,7 +319,7 @@
 		58E2BF8F261E1F4300477D44 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5873EDD32627A7DE008A4DE7 /* Helpers */,
+				5873EDD32627A7DE008A4DE7 /* SharedViews */,
 				5873EDD22627A7C3008A4DE7 /* Budget */,
 				5873EDD12627A7B3008A4DE7 /* Analytics */,
 				5873EDD02627A778008A4DE7 /* Settings */,
@@ -345,6 +369,8 @@
 			dependencies = (
 			);
 			name = FInEx;
+			packageProductDependencies = (
+			);
 			productName = FInEx;
 			productReference = 58E2BF59261D8E3900477D44 /* FInEx.app */;
 			productType = "com.apple.product-type.application";
@@ -419,6 +445,8 @@
 				Base,
 			);
 			mainGroup = 58E2BF50261D8E3900477D44;
+			packageReferences = (
+			);
 			productRefGroup = 58E2BF5A261D8E3900477D44 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -569,23 +597,31 @@
 				5873EE28262C0488008A4DE7 /* SetPasscodeView.swift in Sources */,
 				5873EDF42628FE4F008A4DE7 /* Grid.swift in Sources */,
 				5804AD9B2620B29C00E2FF1E /* RegisterWithAppleID.swift in Sources */,
-				5804ADBC2622885D00E2FF1E /* UserSettingsVM.swift in Sources */,
+				5804ADBC2622885D00E2FF1E /* UserSettingsManager.swift in Sources */,
+				5873EE47262CD46D008A4DE7 /* SetRecurringTransactionView.swift in Sources */,
 				5804ADE92624D9F900E2FF1E /* MonthlyBudget.swift in Sources */,
 				58E2BF69261D8E3A00477D44 /* FInEx.xcdatamodeld in Sources */,
 				5873EE032629119D008A4DE7 /* Extensions+.swift in Sources */,
 				5804ADB3262181CB00E2FF1E /* UserSettingsInfo.swift in Sources */,
 				58E2BF66261D8E3A00477D44 /* Persistence.swift in Sources */,
+				5873EE38262CA911008A4DE7 /* RecurringTransactionsView.swift in Sources */,
 				58E2BF5F261D8E3900477D44 /* ContentView.swift in Sources */,
 				58487F8A261E90AD00088341 /* CustomTabBarView.swift in Sources */,
 				5804ADC42622EC1000E2FF1E /* TransactionType.swift in Sources */,
 				58487F7D261E7B6A00088341 /* SettingsView.swift in Sources */,
+				58F35D472630D6480008A00C /* PieChart.swift in Sources */,
 				58487F85261E7EDA00088341 /* BudgetView.swift in Sources */,
+				5873EE5B262F4DE6008A4DE7 /* Formatters.swift in Sources */,
 				5804ADEE2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift in Sources */,
 				5873EDFE26290CAC008A4DE7 /* CategotySelector.swift in Sources */,
 				5804ADDF2624CB4400E2FF1E /* Transaction.swift in Sources */,
-				5804ADF32624FFE700E2FF1E /* BudgetVM.swift in Sources */,
+				5804ADF32624FFE700E2FF1E /* BudgetManager.swift in Sources */,
 				58487F94261F83D200088341 /* EditCategories.swift in Sources */,
-				5873EDDD2627C0DA008A4DE7 /* Formatters+Enums.swift in Sources */,
+				5873EE78262F9BEA008A4DE7 /* AddRecurringTransactionView.swift in Sources */,
+				5873EE42262CADDA008A4DE7 /* RecurringTransactionInfo.swift in Sources */,
+				5873EE3D262CA9A2008A4DE7 /* RecurringTransaction.swift in Sources */,
+				5873EDDD2627C0DA008A4DE7 /* Enums+Constants.swift in Sources */,
+				5873EE7D262FB1A0008A4DE7 /* CSVShareManager.swift in Sources */,
 				5804ADC92622ECA400E2FF1E /* TransactionTypeInfo.swift in Sources */,
 				58E2BF99261E221100477D44 /* CircleModifier.swift in Sources */,
 				5873EDE72627E57C008A4DE7 /* SavingsView.swift in Sources */,

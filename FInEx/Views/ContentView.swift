@@ -11,7 +11,7 @@ import CoreData
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.userSettingsVM) var userSettingsVM
-    @ObservedObject var budgetVM = BudgetVM()
+    @ObservedObject var budgetVM = BudgetManager()
     @State var offsetY: CGFloat = 0.0
     @State var incomeSelected = false
     @State var savingsSelected = false
@@ -31,7 +31,10 @@ struct ContentView: View {
                             .environment(\.userSettingsVM, userSettingsVM)
                             
                     } else if isAnalyticsView {
-                        AnalyticsView()
+                        if let currentBudget = budgetVM.budgetList.last {
+                        AnalyticsView(currentMonthBudget: .constant(currentBudget))
+                                        .environmentObject(budgetVM)
+                        }
                             
                     } else {
                         if let currentBudget = budgetVM.budgetList.last {
@@ -40,9 +43,7 @@ struct ContentView: View {
                                        plusButtonColor: self.$plusButtonColor,
                                        plusButtonIsServing: self.$plusButtonIsServing)
                                 .environmentObject(budgetVM)
-                                
                         }
-                        
                     }
                 }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
@@ -78,8 +79,7 @@ struct ContentView: View {
                         HStack(alignment: .top , spacing: geo.size.width / 2) {
                             
                             Button(action: {
-                                
-                                    if self.isSettingsView {
+                                if self.isSettingsView {
                                         self.isSettingsView.toggle()
                                     }
                                     self.isAnalyticsView = true

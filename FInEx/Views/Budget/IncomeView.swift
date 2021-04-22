@@ -8,16 +8,26 @@
 import SwiftUI
 
 struct IncomeView: View {
-    @EnvironmentObject var budgetVM: BudgetVM
+    @EnvironmentObject var budgetVM: BudgetManager
+    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.userSettingsVM) var userSettingsVM
     let geo: GeometryProxy
     @Binding var incomeByDate: [String : [Transaction]]
     @State var dates: [String] = []
     @State var incomeTotalAmountByDate: [String : Decimal] = [:]
+    @State var recurringTransactions: [RecurringTransaction] = []
+    @Binding var addedRecurringTransaction: Bool
+    
     var body: some View {
         let formatter = setDecimalFormatter()
         if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack {
+                if !self.recurringTransactions.isEmpty {
+                    AddRecurringTransactionView(geo: geo, currentBudget: currentBudget, recurringTransactions: self.recurringTransactions, addedRecurringTransaction: self.$addedRecurringTransaction)
+                        .environmentObject(budgetVM)
+                }
+                
                 ForEach(self.dates, id: \.self) { date in
                     VStack(alignment: .leading) {
                         HStack {
@@ -42,6 +52,8 @@ struct IncomeView: View {
                                         .modifier(CircleModifierSimpleColor(color: Color(income.type!.presentingColorName), strokeLineWidth: 3.0))
                                         .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
                                         .font(Font.system(size: 24, weight: .regular, design: .default))
+                                        .animation(.linear(duration: 0.5))
+                                        .transition(AnyTransition.opacity)
                                     VStack(alignment: .leading) {
                                         Text(income.type!.presentingName)
                                             .shadow(radius: -10 )
@@ -50,10 +62,14 @@ struct IncomeView: View {
                                             .foregroundColor(.gray)
                                             
                                     }
+                                    .animation(.linear(duration: 0.5))
+                                    .transition(AnyTransition.opacity)
                                 }
                                 
                                 Spacer()
                                 Text("$" + formatter.string(from: income.amountDecimal)!)
+                                    .animation(.linear(duration: 0.5))
+                                    .transition(AnyTransition.opacity)
                             }
                             .frame(width: geo.size.width / 1.15 )
                             .scaledToFit()
@@ -61,7 +77,7 @@ struct IncomeView: View {
                             Divider()
                         }
                     }
-                    .padding()
+                    .padding(.horizontal)
                 }
                 .background(Color.white)
                 
@@ -85,6 +101,9 @@ struct IncomeView: View {
                 }
                 incomeTotalAmountByDate[date] = totalAmount
             }
+            
+            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentBudget, context: viewContext)
+            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
         }
         .onChange(of: currentBudget.incomeList.count, perform: { value in
             self.dates.removeAll()
@@ -99,6 +118,9 @@ struct IncomeView: View {
                 }
                 incomeTotalAmountByDate[date] = totalAmount
             }
+            
+            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentBudget, context: viewContext)
+            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
         })
         }
     }
@@ -107,7 +129,7 @@ struct IncomeView: View {
 struct IncomeView_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { geo in
-            IncomeView(geo: geo, incomeByDate: .constant([:]) )
+            IncomeView(geo: geo, incomeByDate: .constant([:]), addedRecurringTransaction: .constant(false) )
         }
         
     }

@@ -52,6 +52,29 @@ extension Transaction {
         }
     }
     
+    static func update(from recurringTransaction: RecurringTransaction, monthlyBudget: MonthlyBudget, context: NSManagedObjectContext) {
+       
+        let transaction = Transaction(context: context)
+        transaction.monthlyBudget = monthlyBudget
+        transaction.amount = recurringTransaction.amount
+        transaction.category = recurringTransaction.category
+        transaction.recurring = recurringTransaction
+        transaction.note = recurringTransaction.note
+        transaction.year = monthlyBudget.year
+        transaction.month = monthlyBudget.month
+        transaction.type = recurringTransaction.type
+        transaction.date = recurringTransaction.nextAddingDate
+        
+        if context.hasChanges {
+            do {
+                try context.save()
+                print("Context saved")
+            } catch {
+                print("Could not save context")
+            }
+        }
+    }
+    
     static func update(from existingTransaction: Transaction, monthlyBudget: MonthlyBudget, context: NSManagedObjectContext) {
        
         let transaction = Transaction(context: context)
@@ -93,7 +116,6 @@ extension Transaction {
                 print("Could not save context")
             }
         }
-        
     }
     
     static func fetchRequest(predicate: NSPredicate) -> NSFetchRequest<Transaction> {
@@ -104,17 +126,4 @@ extension Transaction {
     }
 }
 
-func getMonthFrom(date: Date) -> Int? {
-    
-    let calendar = Calendar.current
-    let components = calendar.dateComponents([.month], from: date)
-    let month = components.month
-    return month
-}
 
-func getYearFrom(date: Date) -> Int? {
-    let calendar = Calendar.current
-    let components = calendar.dateComponents([.year], from: date)
-    let year = components.year
-    return year
-}

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddTransactionView: View {
-    @EnvironmentObject var budgetVM: BudgetVM
+    @EnvironmentObject var budgetVM: BudgetManager
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.userSettingsVM) var userSettingsVM
@@ -78,7 +78,6 @@ struct AddTransactionView: View {
                         
                     }
                     .frame(width: geo.size.width / 2, height: 60, alignment: .center)
-                    Text(String(describing: self.amountString))
                     
                     Divider()
                     VStack(spacing: 20) {
@@ -171,7 +170,13 @@ struct AddTransactionView: View {
                              selectedTypeCircleColor: self.$selectedTypeCircleColor,
                              selectedTypeName: self.$selectedTypeName)
         })
-        
+        .navigationBarItems(leading: Button(action: {
+            presentationMode.wrappedValue.dismiss()
+            
+        }) {
+            Image(systemName: "xmark")
+                .font(Font.system(size: 20, weight: .regular, design: .default))
+        })
     }
     func saveTransaction() {
         let locale = Locale.current

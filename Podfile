@@ -6,6 +6,7 @@ target 'FInEx' do
   use_frameworks!
 pod 'KeychainAccess'
 pod 'Introspect'
+pod 'Charts'
   # Pods for FInEx
 
   target 'FInExTests' do

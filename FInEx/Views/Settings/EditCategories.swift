@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditCategories: View {
-    @EnvironmentObject var userSettingsVM: UserSettingsVM
+    @EnvironmentObject var userSettingsVM: UserSettingsManager
     @Environment(\.managedObjectContext) private var viewContext
     @State var isAddingCategory: Bool = false
     @State var isExpense: Bool = true

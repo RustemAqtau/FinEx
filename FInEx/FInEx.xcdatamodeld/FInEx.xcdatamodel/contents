@@ -5,7 +5,19 @@
         <attribute name="month" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="previousMonthBalance" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="year" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="monthlyBudget" inverseEntity="Transaction"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Transaction" inverseName="monthlyBudget" inverseEntity="Transaction"/>
+    </entity>
+    <entity name="RecurringTransaction" representedClassName="RecurringTransaction" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="nextAddingDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="nextAddingMonth" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="nextAddingYear" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="note" optional="YES" attributeType="String"/>
+        <attribute name="periodicity" optional="YES" attributeType="String"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="transaction" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="recurring" inverseEntity="Transaction"/>
+        <relationship name="type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionType" inverseName="recurringTransaction" inverseEntity="TransactionType"/>
     </entity>
     <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
         <attribute name="amount" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
@@ -15,6 +27,7 @@
         <attribute name="note" optional="YES" attributeType="String"/>
         <attribute name="year" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="monthlyBudget" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MonthlyBudget" inverseName="transactions" inverseEntity="MonthlyBudget"/>
+        <relationship name="recurring" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecurringTransaction" inverseName="transaction" inverseEntity="RecurringTransaction"/>
         <relationship name="type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TransactionType" inverseName="transaction" inverseEntity="TransactionType"/>
     </entity>
     <entity name="TransactionType" representedClassName="TransactionType" syncable="YES" codeGenerationType="class">
@@ -24,6 +37,7 @@
         <attribute name="isHidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="subCategory" optional="YES" attributeType="String"/>
+        <relationship name="recurringTransaction" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecurringTransaction" inverseName="type" inverseEntity="RecurringTransaction"/>
         <relationship name="transaction" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="type" inverseEntity="Transaction"/>
     </entity>
     <entity name="UserSettings" representedClassName="UserSettings" syncable="YES" codeGenerationType="class">
@@ -32,9 +46,10 @@
         <attribute name="settingsId" optional="YES" attributeType="Integer 16" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="MonthlyBudget" positionX="34.9375" positionY="230.9140625" width="128" height="118"/>
-        <element name="Transaction" positionX="-326.2109375" positionY="335.40234375" width="128" height="149"/>
-        <element name="TransactionType" positionX="-324.921875" positionY="91.82421875" width="128" height="134"/>
+        <element name="MonthlyBudget" positionX="-70.0703125" positionY="375.8984375" width="128" height="104"/>
+        <element name="Transaction" positionX="-326.2109375" positionY="335.40234375" width="128" height="178"/>
+        <element name="TransactionType" positionX="-611.30859375" positionY="79.1640625" width="128" height="163"/>
         <element name="UserSettings" positionX="-63" positionY="-9" width="128" height="74"/>
+        <element name="RecurringTransaction" positionX="-115.17578125" positionY="109.953125" width="128" height="193"/>
     </elements>
 </model>

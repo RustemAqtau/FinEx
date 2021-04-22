@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BudgetView: View {
-    @EnvironmentObject var budgetVM: BudgetVM
+    @EnvironmentObject var budgetVM: BudgetManager
     @Environment(\.managedObjectContext) private var viewContext
     @Binding var currentMonthBudget: MonthlyBudget
     @State var presentingTransactions: [Transaction] = []
@@ -21,6 +21,8 @@ struct BudgetView: View {
     @State var expensesBySubCategory: [String: [Transaction]] = [:]
     @State var incomeByDate: [String: [Transaction]] = [:]
     @State var savingsByType: [String: [TransactionType : Decimal]] = [:]
+    @State var addedRecurringTransaction: Bool = false
+    
     var body: some View {
         let formatter = setDecimalFormatter()
         if let currentBudget = budgetVM.budgetList.last {
@@ -33,6 +35,7 @@ struct BudgetView: View {
                     
                         VStack {
                             Text(formatter.string(from: currentBudget.totalIncome)!)
+                                .multilineTextAlignment(.center)
                                 .font(Font.system(size: self.incomeSelected ? 20 : 16, weight: .light, design: .default))
                             Text("INCOME")
                                 .font(.footnote)
@@ -49,6 +52,7 @@ struct BudgetView: View {
                                 self.incomeSelected = true
                                 self.plusButtonColor = GradientColors.Income
                                 self.plusButtonIsServing = Categories.Income
+                                
                             }
                         }
                         
@@ -103,6 +107,7 @@ struct BudgetView: View {
                 .onAppear {
                     startAnimate()
                 }
+                
             }
             .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
             .background(LinearGradient(gradient: Gradient(colors: [Color("TopGradient"), Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
@@ -120,13 +125,13 @@ struct BudgetView: View {
             .background(Color.white)
             
             if self.incomeSelected {
-                IncomeView(geo: geo, incomeByDate: self.$incomeByDate)
+                IncomeView(geo: geo, incomeByDate: self.$incomeByDate, addedRecurringTransaction: self.$addedRecurringTransaction)
                     .environmentObject(self.budgetVM)
             } else if self.savingsSelected {
-                SavingsView(geo: geo, savingsByType: self.$savingsByType)
+                SavingsView(geo: geo, savingsByType: self.$savingsByType, addedRecurringTransaction: self.$addedRecurringTransaction)
                     .environmentObject(self.budgetVM)
             } else {
-                ExpensesView(geo: geo, expensesBySubCategory: self.$expensesBySubCategory)
+                ExpensesView(geo: geo, expensesBySubCategory: self.$expensesBySubCategory, addedRecurringTransaction: self.$addedRecurringTransaction)
                     .environmentObject(self.budgetVM)
             }
         }
@@ -142,6 +147,12 @@ struct BudgetView: View {
             self.incomeByDate = currentBudget.incomeByDate
             self.savingsByType = currentBudget.savingsByType
         })
+        .onChange(of: self.addedRecurringTransaction, perform: { value in
+            self.expensesBySubCategory = currentBudget.expensesBySubCategory
+            self.incomeByDate = currentBudget.incomeByDate
+            self.savingsByType = currentBudget.savingsByType
+        })
+        
         }
     }
     func startAnimate() {

@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-struct UserSettingsVMKey: EnvironmentKey {
-    static var defaultValue: UserSettingsManager = UserSettingsManager()
-}
-
 extension EnvironmentValues {
     var userSettingsVM: UserSettingsManager {
         get { self[UserSettingsVMKey.self] }

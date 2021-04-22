@@ -1,20 +1,26 @@
 PODS:
+  - Charts (3.6.0):
+    - Charts/Core (= 3.6.0)
+  - Charts/Core (3.6.0)
   - Introspect (0.1.3)
   - KeychainAccess (4.2.1)
 
 DEPENDENCIES:
+  - Charts
   - Introspect
   - KeychainAccess
 
 SPEC REPOS:
   trunk:
+    - Charts
     - Introspect
     - KeychainAccess
 
 SPEC CHECKSUMS:
+  Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   Introspect: 2be020f30f084ada52bb4387fff83fa52c5c400e
   KeychainAccess: 9b07f665298d13c3a85881bd3171f6f49b8151c1
 
-PODFILE CHECKSUM: 4538b008b1a27880e00902da6b8be9cf0ce8f8ae
+PODFILE CHECKSUM: 97b1d5e545176ac8cc65f8aa50c2e778ceda9581
 
 COCOAPODS: 1.10.1

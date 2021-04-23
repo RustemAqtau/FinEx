@@ -40,7 +40,7 @@ struct RecurringTransactionsView: View {
                                 })
 
                             }
-                            .foregroundColor(Color("TextDarkGray"))
+                            .foregroundColor(CustomColors.TextDarkGray)
                             .font(Font.system(size: 18, weight: .light, design: .default))
                             .frame(width: geo.size.width / 1.15 )
                             .scaledToFit()

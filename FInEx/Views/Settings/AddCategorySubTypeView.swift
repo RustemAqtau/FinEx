@@ -114,14 +114,14 @@ struct AddCategorySubTypeView: View {
                             save()
                             
                         }) {
-                            SaveButtonView(geo: geo)
+                            SaveButtonView(geo: geo, withTrash: false)
                         }
                     }
                     .frame(width: geo.size.width, height: 150, alignment: .bottom)
                     .opacity(self.showIcons ? 0 : 1)
                     
                 }
-                .foregroundColor(Color("TextDarkGray"))
+                .foregroundColor(CustomColors.TextDarkGray)
                 
                 .overlay(
                     IconsView(appearanceImageName: self.$appearanceImageName, geo: geo)

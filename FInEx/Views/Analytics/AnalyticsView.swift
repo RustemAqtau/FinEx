@@ -47,7 +47,7 @@ struct AnalyticsView: View {
                     
                 }
                 .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
-                .background(LinearGradient(gradient: Gradient(colors: [Color("TopGradient"), Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
+                .background(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
                 .foregroundColor(.white)
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
@@ -73,7 +73,7 @@ struct AnalyticsView: View {
                     Text(self.pieSliceDescription.uppercased())
                         .animation(.spring(response: 1, dampingFraction: 1, blendDuration: 1))
                         .font(Fonts.light12)
-                        .foregroundColor(Color(#colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)))
+                        .foregroundColor(CustomColors.ExpensesColor)
                         .frame(width: geo.size.width * 0.90, alignment: .leading)
                         .onAppear {
                             self.pieSliceDescription = ""

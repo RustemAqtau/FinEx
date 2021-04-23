@@ -49,9 +49,12 @@ extension MonthlyBudget {
     }
     
     var incomeList: [Transaction] {
-        if let income = getTransactions(for: Categories.Income, context: self.managedObjectContext!) {
-            return income
+        if let context = self.managedObjectContext {
+            if let income = getTransactions(for: Categories.Income, context: context) {
+                return income
+            }
         }
+        
         return []
     }
     
@@ -72,36 +75,49 @@ extension MonthlyBudget {
         return result
     }
     
+    var incomeTotalAmountByType: [String : Decimal] {
+        var result: [String : Decimal] = [:]
+        for key in incomeByType.keys {
+            var totalAmount: Decimal = 0
+            for transaction in incomeByType[key]! {
+                totalAmount += transaction.amount! as Decimal
+            }
+            result[key] = totalAmount
+        }
+        return result
+    }
+    
     // MARK: - Expenses
+    
+    
     var expensesBySubCategory: [String : [Transaction]] {
-        var dic: [String: [Transaction]] = [
-                    
-            ExpenseSubCategories.Entertainment.rawValue : [],
-            ExpenseSubCategories.Housing.rawValue : [],
-            ExpenseSubCategories.Bills.rawValue : [],
-            ExpenseSubCategories.FoodAndDrinks.rawValue : [],
-            ExpenseSubCategories.Shopping.rawValue : [],
-            ExpenseSubCategories.Health.rawValue : [],
-            ExpenseSubCategories.Insurance.rawValue : [],
-            ExpenseSubCategories.Subscriptions.rawValue : [],
-            ExpenseSubCategories.Transportation.rawValue : [],
-            ExpenseSubCategories.Travel.rawValue : []
-        ]
-        
-        for key in dic.keys {
+        print("expensesList: \(expensesList.count)")
+        let subCats = expensesList.map({ transaction in transaction.type?.subCategory })
+        print("subCats\(subCats)")
+        var result: [String : [Transaction]] = [:]
+        for subCat in subCats {
+            var arr: [Transaction] = []
             for expense in expensesList {
-                if expense.type?.subCategory == key {
-                    dic[key]?.append(expense)
+                if expense.type?.subCategory == subCat {
+                    arr.append(expense)
                 }
             }
+            result[subCat!] = arr
         }
-        
-        for elem in dic {
-            if elem.value.isEmpty {
-                dic.removeValue(forKey: elem.key)
+
+        return result
+    }
+    
+    var expensesTotalAmountBySubCategory: [String : Decimal] {
+        var result: [String : Decimal] = [:]
+        for key in expensesBySubCategory.keys {
+            var totalAmount: Decimal = 0
+            for transaction in expensesBySubCategory[key]! {
+                totalAmount += transaction.amount! as Decimal
             }
+            result[key] = totalAmount
         }
-        return dic
+        return result
     }
     
     var totalExpenses: NSDecimalNumber {
@@ -115,9 +131,13 @@ extension MonthlyBudget {
     }
     
     var expensesList: [Transaction] {
-        if let expenses = getTransactions(for: Categories.Expense ,context: self.managedObjectContext!) {
-            return expenses
+        if let context = self.managedObjectContext {
+            if let expenses = getTransactions(for: Categories.Expense ,context: context) {
+                return expenses
+            }
         }
+        
+        
         return []
     }
     
@@ -197,9 +217,12 @@ extension MonthlyBudget {
     }
     
     var savingsList: [Transaction] {
-        if let savings = getTransactions(for: Categories.Saving, context: self.managedObjectContext!) {
-            return savings
+        if let context = self.managedObjectContext {
+            if let savings = getTransactions(for: Categories.Saving, context: context) {
+                return savings
+            }
         }
+        
         return []
     }
     
@@ -237,17 +260,21 @@ extension MonthlyBudget {
     }
     
     static func update(for date: Date, context: NSManagedObjectContext) {
-        let monthlyBudget = MonthlyBudget(context: context)
+        
         let month = getMonthFrom(date: date) ?? 0
         let year = getYearFrom(date: date) ?? 0
-        monthlyBudget.month = Int32(month)
-        monthlyBudget.year = Int32(year)
-        do {
-            try context.save()
-            print("Context saved")
-        } catch {
-            print("Could not save context")
+        for number in 1...month {
+            let monthlyBudget = MonthlyBudget(context: context)
+            monthlyBudget.month = Int32(number)
+            monthlyBudget.year = Int32(year)
+            do {
+                try context.save()
+                print("Context saved")
+            } catch {
+                print("Could not save context")
+            }
         }
+        
     }
     
     static func fetchRequest(predicate: NSPredicate) -> NSFetchRequest<MonthlyBudget> {

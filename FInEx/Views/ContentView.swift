@@ -21,8 +21,18 @@ struct ContentView: View {
     @State var isAnalyticsView = false
     @State var isSettingsView = false
     @State var showAddExpense: Bool = false
+    @State var currentMonthBudget: MonthlyBudget = MonthlyBudget()
+    //@State var newTransaction
+    
+    let coloredNavAppearance = UINavigationBarAppearance()
+    let coloredBarButtonAppearance = UIBarButtonItemAppearance ()
+    init() {
+        setNavBarAppearance()
+        
+    }
     
     var body: some View {
+        
         VStack {
             GeometryReader() { geo in
                 Group {
@@ -37,8 +47,8 @@ struct ContentView: View {
                         }
                             
                     } else {
-                        if let currentBudget = budgetVM.budgetList.last {
-                            BudgetView(currentMonthBudget: .constant(currentBudget) ,
+                        if !budgetVM.budgetList.isEmpty {
+                            BudgetView(currentMonthBudget: self.$currentMonthBudget ,
                                        geo: geo,
                                        plusButtonColor: self.$plusButtonColor,
                                        plusButtonIsServing: self.$plusButtonIsServing)
@@ -51,7 +61,7 @@ struct ContentView: View {
 
                     ZStack {
                         Rectangle()
-                            .fill(LinearGradient(gradient: Gradient(colors: [Color("TopGradient"), Color.white]), startPoint: .bottomLeading, endPoint: .topLeading))
+                            .fill(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading))
                             .frame(width: geo.size.width, height: 120, alignment: .center)
                         
                         Button(action: {
@@ -132,6 +142,8 @@ struct ContentView: View {
                     self.budgetVM.getBudgetList(context: viewContext)
                 }
             }
+            print("budgetList.count: \(self.budgetVM.budgetList.count)")
+            self.currentMonthBudget = budgetVM.budgetList.last!
         }
         .sheet(isPresented: self.$showAddExpense, content: {
             if let currentMonthBudget = budgetVM.budgetList.last {
@@ -142,8 +154,10 @@ struct ContentView: View {
             }
             
         })
+       
         
     }
+    
     
     private func getAddingCategory() -> String {
         var addingCategory: String = ""
@@ -165,7 +179,24 @@ struct ContentView: View {
             self.offsetY = 20.0
         }
     }
-    
+    func setNavBarAppearance() {
+        coloredNavAppearance.configureWithOpaqueBackground()
+        coloredNavAppearance.backgroundColor = UIColor(.clear)
+        coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.gray, .strokeColor: UIColor.clear, .underlineColor: UIColor.clear]
+        coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.gray]
+        coloredNavAppearance.shadowColor = .clear
+        coloredBarButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(CustomColors.TextDarkGray)]
+        
+        
+        coloredNavAppearance.backButtonAppearance = coloredBarButtonAppearance
+        
+        UINavigationBar.appearance().standardAppearance = coloredNavAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
+        UINavigationBar.appearance().standardAppearance.doneButtonAppearance = coloredBarButtonAppearance
+        UINavigationBar.appearance().compactAppearance?.doneButtonAppearance = coloredBarButtonAppearance
+        UINavigationBar.appearance().standardAppearance.backButtonAppearance = coloredBarButtonAppearance
+        UINavigationBar.appearance().compactAppearance?.backButtonAppearance = coloredBarButtonAppearance
+    }
 }
 
 private let itemFormatter: DateFormatter = {

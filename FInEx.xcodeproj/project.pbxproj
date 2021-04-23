@@ -54,6 +54,8 @@
 		58E2BF7F261D8E3A00477D44 /* FInExUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2BF7E261D8E3A00477D44 /* FInExUITests.swift */; };
 		58E2BF99261E221100477D44 /* CircleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2BF98261E221100477D44 /* CircleModifier.swift */; };
 		58F35D472630D6480008A00C /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F35D462630D6480008A00C /* PieChart.swift */; };
+		58F35D5726321ECA0008A00C /* RoundedRectangleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F35D5626321ECA0008A00C /* RoundedRectangleModifier.swift */; };
+		58F35D5C263274450008A00C /* EditTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F35D5B263274450008A00C /* EditTransactionView.swift */; };
 		6F64154BABF9877B8E0726A1 /* Pods_FInEx.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54EB4804001E5F0E003C868A /* Pods_FInEx.framework */; };
 		B3A9994DBEEE071AA573664C /* Pods_FInEx_FInExUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77E84EAFB9B21994146B980 /* Pods_FInEx_FInExUITests.framework */; };
 		ED9346F69B4424677DFC09F7 /* Pods_FInExTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 856185DAE9BAD2723A74F1A8 /* Pods_FInExTests.framework */; };
@@ -135,6 +137,8 @@
 		58E2BF80261D8E3A00477D44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58E2BF98261E221100477D44 /* CircleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleModifier.swift; sourceTree = "<group>"; };
 		58F35D462630D6480008A00C /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
+		58F35D5626321ECA0008A00C /* RoundedRectangleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedRectangleModifier.swift; sourceTree = "<group>"; };
+		58F35D5B263274450008A00C /* EditTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionView.swift; sourceTree = "<group>"; };
 		856185DAE9BAD2723A74F1A8 /* Pods_FInExTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FInExTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A16CE7243703A581EE65DA5F /* Pods-FInExTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FInExTests.release.xcconfig"; path = "Target Support Files/Pods-FInExTests/Pods-FInExTests.release.xcconfig"; sourceTree = "<group>"; };
 		D77E84EAFB9B21994146B980 /* Pods_FInEx_FInExUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FInEx_FInExUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,16 +177,11 @@
 		5804ADA9262180B000E2FF1E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5804ADAA262180C700E2FF1E /* UserSettings.swift */,
-				5804ADB2262181CB00E2FF1E /* UserSettingsInfo.swift */,
-				5804ADC32622EC1000E2FF1E /* TransactionType.swift */,
-				5804ADC82622ECA400E2FF1E /* TransactionTypeInfo.swift */,
-				5804ADDE2624CB4400E2FF1E /* Transaction.swift */,
-				5804ADE32624CBDF00E2FF1E /* TransactionInfo.swift */,
-				5804ADE82624D9F900E2FF1E /* MonthlyBudget.swift */,
-				5804ADED2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift */,
-				5873EE3C262CA9A2008A4DE7 /* RecurringTransaction.swift */,
-				5873EE41262CADDA008A4DE7 /* RecurringTransactionInfo.swift */,
+				58F35D4F263212840008A00C /* RecurringTransactions */,
+				58F35D4E2632126F0008A00C /* UserSettings */,
+				58F35D4D2632125D0008A00C /* TransactionType */,
+				58F35D4C263212480008A00C /* MonthlyBudget */,
+				58F35D4B2632122A0008A00C /* Transaction */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -234,6 +233,7 @@
 				5873EDEB26280182008A4DE7 /* AddTransactionView.swift */,
 				5873EDFD26290CAC008A4DE7 /* CategotySelector.swift */,
 				5873EE77262F9BEA008A4DE7 /* AddRecurringTransactionView.swift */,
+				58F35D5B263274450008A00C /* EditTransactionView.swift */,
 			);
 			path = Budget;
 			sourceTree = "<group>";
@@ -247,6 +247,7 @@
 				5873EDF32628FE4F008A4DE7 /* Grid.swift */,
 				5873EDF82628FE6D008A4DE7 /* GridLayout.swift */,
 				5873EE12262AB518008A4DE7 /* SaveButtonView.swift */,
+				58F35D5626321ECA0008A00C /* RoundedRectangleModifier.swift */,
 			);
 			path = SharedViews;
 			sourceTree = "<group>";
@@ -326,6 +327,51 @@
 				58E2BF5E261D8E3900477D44 /* ContentView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		58F35D4B2632122A0008A00C /* Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				5804ADE32624CBDF00E2FF1E /* TransactionInfo.swift */,
+				5804ADDE2624CB4400E2FF1E /* Transaction.swift */,
+			);
+			path = Transaction;
+			sourceTree = "<group>";
+		};
+		58F35D4C263212480008A00C /* MonthlyBudget */ = {
+			isa = PBXGroup;
+			children = (
+				5804ADED2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift */,
+				5804ADE82624D9F900E2FF1E /* MonthlyBudget.swift */,
+			);
+			path = MonthlyBudget;
+			sourceTree = "<group>";
+		};
+		58F35D4D2632125D0008A00C /* TransactionType */ = {
+			isa = PBXGroup;
+			children = (
+				5804ADC82622ECA400E2FF1E /* TransactionTypeInfo.swift */,
+				5804ADC32622EC1000E2FF1E /* TransactionType.swift */,
+			);
+			path = TransactionType;
+			sourceTree = "<group>";
+		};
+		58F35D4E2632126F0008A00C /* UserSettings */ = {
+			isa = PBXGroup;
+			children = (
+				5804ADB2262181CB00E2FF1E /* UserSettingsInfo.swift */,
+				5804ADAA262180C700E2FF1E /* UserSettings.swift */,
+			);
+			path = UserSettings;
+			sourceTree = "<group>";
+		};
+		58F35D4F263212840008A00C /* RecurringTransactions */ = {
+			isa = PBXGroup;
+			children = (
+				5873EE41262CADDA008A4DE7 /* RecurringTransactionInfo.swift */,
+				5873EE3C262CA9A2008A4DE7 /* RecurringTransaction.swift */,
+			);
+			path = RecurringTransactions;
 			sourceTree = "<group>";
 		};
 		8876F4C564E3B2AA6F78F80F /* Pods */ = {
@@ -614,6 +660,7 @@
 				5873EE5B262F4DE6008A4DE7 /* Formatters.swift in Sources */,
 				5804ADEE2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift in Sources */,
 				5873EDFE26290CAC008A4DE7 /* CategotySelector.swift in Sources */,
+				58F35D5726321ECA0008A00C /* RoundedRectangleModifier.swift in Sources */,
 				5804ADDF2624CB4400E2FF1E /* Transaction.swift in Sources */,
 				5804ADF32624FFE700E2FF1E /* BudgetManager.swift in Sources */,
 				58487F94261F83D200088341 /* EditCategories.swift in Sources */,
@@ -634,6 +681,7 @@
 				5873EE13262AB518008A4DE7 /* SaveButtonView.swift in Sources */,
 				5873EDF92628FE6D008A4DE7 /* GridLayout.swift in Sources */,
 				5804ADE42624CBDF00E2FF1E /* TransactionInfo.swift in Sources */,
+				58F35D5C263274450008A00C /* EditTransactionView.swift in Sources */,
 				58E2BF5D261D8E3900477D44 /* FInExApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

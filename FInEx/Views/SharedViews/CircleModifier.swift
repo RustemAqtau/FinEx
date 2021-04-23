@@ -22,14 +22,14 @@ struct CircleModifier: ViewModifier {
                     .fill(Color.white)
                     .opacity(1)
                 Circle()
-                    //.fill(LinearGradient(gradient: Gradient(colors: [Color("ToolsIconsGradient1"), Color("ToolsIconsGradient2")]), startPoint: .bottomLeading, endPoint: .topLeading))
                     .fill(color)
                     .opacity(0.7)
                 Circle()
                     .fill(Color.white)
                     .opacity(0.02)
                 Circle()
-                    .stroke(lineWidth: strokeLineWidth).foregroundColor(.white)
+                    .stroke(lineWidth: strokeLineWidth)
+                    .foregroundColor(.white)
                     .shadow(radius: 10)
             }
             content

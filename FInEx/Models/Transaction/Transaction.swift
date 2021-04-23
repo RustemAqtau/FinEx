@@ -41,14 +41,31 @@ extension Transaction {
         return fetchedTypes.first!
     }
     
+    func edit(info: TransactionInfo, context: NSManagedObjectContext) {
+        self.amount = info.amount
+        self.date = info.date
+        self.type = info.typeInfo
+        self.category = info.typeInfo.category
+        self.note = info.note
+        if context.hasChanges {
+            do {
+                try context.save()
+                print("Context saved")
+            } catch {
+                print("Could not save context")
+            }
+        }
+    }
     
     func delete(context: NSManagedObjectContext) {
         context.delete(self)
-        do {
-            try context.save()
-            print("Context saved")
-        } catch {
-            print("Could not save context")
+        if context.hasChanges {
+            do {
+                try context.save()
+                print("Transaction deleted")
+            } catch {
+                print("Could not save context")
+            }
         }
     }
     

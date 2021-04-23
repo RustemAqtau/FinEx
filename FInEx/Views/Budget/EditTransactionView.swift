@@ -1,19 +1,18 @@
 //
-//  AddExpense.swift
+//  EditTransactionview.swift
 //  FInEx
 //
-//  Created by Zhansaya Ayazbayeva on 2021-04-14.
+//  Created by Zhansaya Ayazbayeva on 2021-04-22.
 //
 
 import SwiftUI
 
-struct AddTransactionView: View {
+struct EditTransactionView: View {
     @EnvironmentObject var budgetVM: BudgetManager
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.userSettingsVM) var userSettingsVM
-    @State var currentMonthBudget: MonthlyBudget
-    @State var category: String
+    @Binding var transaction: Transaction
     
     @State var amount: NSDecimalNumber = 0
     @State private var amountString: String = ""
@@ -26,22 +25,14 @@ struct AddTransactionView: View {
     @State var selectedDate: Date = Date()
     @State var note: String = ""
     @State var noteLenghtLimitOut: Bool = false
-    let dateRange: ClosedRange<Date> = {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day], from: Date())
-        let year = components.year!
-        let month = components.month!
-        let day = components.day!
-        let startComponents = DateComponents(year: year, month: month, day: 1)
-        let endComponents = DateComponents(year: year, month: month, day: day)
-        return calendar.date(from:startComponents)!
-            ...
-            calendar.date(from:endComponents)!
-    }()
+    @State var dateRange: ClosedRange<Date> = (Date()...Date())
+    
     @State var showCalendar: Bool = false
     @State var accentColor: Color = CustomColors.ExpensesColor2
     @State var validationFailed: Bool = false
     @State var warningMessage: String = ""
+    
+   
     var body: some View {
         NavigationView {
             GeometryReader { geo in
@@ -116,6 +107,7 @@ struct AddTransactionView: View {
                                 .accentColor(CustomColors.TextDarkGray)
                                 .shadow(radius: 10.0 )
                                 
+                                
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
                         HStack(spacing: 25) {
@@ -143,13 +135,28 @@ struct AddTransactionView: View {
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
-                        Button(action: {
-                            if validationSucceed() {
-                                saveTransaction()
+                        HStack(spacing: 20) {
+                            Button(action: {
+                                self.budgetVM.deleteTransaction(transaction: transaction, context: viewContext)
+                                
+                                presentationMode.wrappedValue.dismiss()
+                            }) {
+                                Image(systemName: Icons.Trash)
+                                    .shadow(radius: 5)
                             }
-                        }) {
-                            SaveButtonView(geo: geo, withTrash: false)
+                            .modifier(CircleModifierSimpleColor(color: .gray, strokeLineWidth: 2))
+                            .foregroundColor(.white)
+                            .shadow(radius: 3)
+                            .frame(height: 55)
+                            Button(action: {
+                                if validationSucceed() {
+                                    saveTransaction()
+                                }
+                            }) {
+                                SaveButtonView(geo: geo, withTrash: true)
+                            }
                         }
+                        .frame(width: geo.size.width * 0.80, alignment: .center)
                     }
                 }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
@@ -168,7 +175,7 @@ struct AddTransactionView: View {
         }
         .onAppear {
             self.showCategorySelector = false
-            switch category {
+            switch transaction.category! {
             case Categories.Income:
                 self.accentColor = CustomColors.IncomeGradient1
             case Categories.Expense:
@@ -177,13 +184,34 @@ struct AddTransactionView: View {
                 self.accentColor = CustomColors.SavingsGradient1
             default: self.accentColor = CustomColors.ExpensesColor2
             }
+            
+            self.selectedDate = transaction.date!
+            let range: ClosedRange<Date> = {
+                let calendar = Calendar.current
+                let components = calendar.dateComponents([.year, .month, .day], from: transaction.date!)
+                let year = components.year!
+                let month = components.month!
+                let startComponents = DateComponents(year: year, month: month, day: 1)
+                let endComponents = DateComponents(year: year, month: month, day: 30)
+                return calendar.date(from:startComponents)!
+                    ...
+                    calendar.date(from:endComponents)!
+            }()
+            self.dateRange = range
+            let formatter = setDecimalFormatter()
+            self.amountString = formatter.string(from: NSDecimalNumber(decimal: transaction.amount! as Decimal))!
+            self.selectedType = transaction.type!
+            self.selectedTypeName = transaction.type!.presentingName
+            self.selectedtypeImageName = transaction.type!.presentingImageName
+            self.selectedTypeCircleColor = transaction.type!.presentingColorName
+            self.note = transaction.note!
         }
         .onTapGesture {
             hideKeyboard()
             self.amountIsEditing = false
         }
         .sheet(isPresented: self.$showCategorySelector, content: {
-            CategotySelector(categoty: self.category,
+            CategotySelector(categoty: self.transaction.category!,
                              selectedType: self.$selectedType,
                              selectedtypeImageName: self.$selectedtypeImageName,
                              selectedTypeCircleColor: self.$selectedTypeCircleColor,
@@ -207,12 +235,7 @@ struct AddTransactionView: View {
             typeInfo: self.selectedType,
             note: self.note
         )
-        budgetVM.addNewTransaction(
-            info: newTransactionInfo,
-            monthlyBudget: self.currentMonthBudget,
-            context: viewContext
-        )
-        budgetVM.getTransactions(context: viewContext)
+        self.transaction.edit(info: newTransactionInfo, context: viewContext)
         presentationMode.wrappedValue.dismiss()
     }
     func validationSucceed() -> Bool {
@@ -234,8 +257,8 @@ struct AddTransactionView: View {
     }
 }
 
-struct AddExpense_Previews: PreviewProvider {
-    static var previews: some View {
-        AddTransactionView(currentMonthBudget: MonthlyBudget(), category: Categories.Expense)
-    }
-}
+//struct EditTransactionview_Previews: PreviewProvider {
+//    static var previews: some View {
+//        EditTransactionView(transaction: .constant(Transaction()), isDeletingTransaction: .constant(false))
+//    }
+//}

@@ -15,7 +15,7 @@ struct CustomTabBarView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(LinearGradient(gradient: Gradient(colors: [Color("TopGradient"), Color.white]), startPoint: .bottomLeading, endPoint: .topLeading))
+                .fill(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading))
                 .frame(width: geo.size.width, height: 120, alignment: .center)
             
             Button(action: {}, label: {

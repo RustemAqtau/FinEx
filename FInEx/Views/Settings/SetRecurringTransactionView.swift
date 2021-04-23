@@ -67,7 +67,7 @@ struct SetRecurringTransactionView: View {
                         .lineLimit(1)
                         .multilineTextAlignment(.center)
                         .cornerRadius(25)
-                        .accentColor(Color("TextDarkGray"))
+                        .accentColor(CustomColors.TextDarkGray)
                         .introspectTextField { textField in
                             textField.becomeFirstResponder()
                             textField.textAlignment = NSTextAlignment.center
@@ -95,7 +95,7 @@ struct SetRecurringTransactionView: View {
                                 
                             Text(self.selectedTypeName)
                                 .font(Font.system(size: 16, weight: .light, design: .default))
-                                .foregroundColor(self.savingFailed ? Color.red : Color("TextDarkGray"))
+                                .foregroundColor(self.savingFailed ? Color.red : CustomColors.TextDarkGray)
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
                         .onTapGesture {
@@ -104,7 +104,7 @@ struct SetRecurringTransactionView: View {
                         
                         HStack(spacing: 15) {
                             Image(systemName: "calendar")
-                                .foregroundColor(Color("TextDarkGray"))
+                                .foregroundColor(CustomColors.TextDarkGray)
                                 .font(Font.system(size: 30, weight: .regular, design: .default))
                                 .onTapGesture {
                                     self.showCalendar = true
@@ -114,8 +114,8 @@ struct SetRecurringTransactionView: View {
                                             displayedComponents: .date)
                                 .labelsHidden()
                                 .background(Color.clear)
-                                .foregroundColor(Color("TextDarkGray"))
-                                .accentColor(Color("TextDarkGray"))
+                                .foregroundColor(CustomColors.TextDarkGray)
+                                .accentColor(CustomColors.TextDarkGray)
                                 .shadow(radius: 10.0 )
                                 
                         }
@@ -124,7 +124,7 @@ struct SetRecurringTransactionView: View {
                         
                         HStack(spacing: 15) {
                             Image(systemName: "clock.arrow.2.circlepath")
-                                .foregroundColor(Color("TextDarkGray"))
+                                .foregroundColor(CustomColors.TextDarkGray)
                                 .font(Font.system(size: 30, weight: .regular, design: .default))
                             
                             Picker(self.selectedPeriodicity + self.dayWeekOfMonth,
@@ -143,7 +143,7 @@ struct SetRecurringTransactionView: View {
                         
                         HStack(spacing: 25) {
                             Image(systemName: "pencil")
-                                .foregroundColor(Color("TextDarkGray"))
+                                .foregroundColor(CustomColors.TextDarkGray)
                                 .font(Font.system(size: 30, weight: .regular, design: .default))
                             TextField(self.note, text: self.$note,
                                       onEditingChanged: {isEditing in if isEditing {
@@ -162,7 +162,7 @@ struct SetRecurringTransactionView: View {
                                       } , onCommit:  {
                                         
                                       })
-                                .foregroundColor(self.noteLenghtLimitOut ? .red : Color("TextDarkGray"))
+                                .foregroundColor(self.noteLenghtLimitOut ? .red : CustomColors.TextDarkGray)
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
@@ -171,7 +171,7 @@ struct SetRecurringTransactionView: View {
                     Button(action: {
                        saveTransaction()
                     }) {
-                        SaveButtonView(geo: geo)
+                        SaveButtonView(geo: geo, withTrash: false)
                     }
                     
                 }

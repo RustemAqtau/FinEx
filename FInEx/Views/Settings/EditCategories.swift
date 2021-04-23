@@ -22,7 +22,7 @@ struct EditCategories: View {
                         //Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
                     }
                     .frame(width: geo.size.width, height: geo.size.height / 4.5, alignment: .center)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color("TopGradient"), Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
+                    .background(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
                     .ignoresSafeArea(.all, edges: .top)
                     .navigationBarTitle (Text(""), displayMode: .inline)
                     
@@ -123,7 +123,7 @@ struct EditCategories: View {
                             }
                             .frame(width: geo.size.width)
                             .scaledToFit()
-                            .foregroundColor(Color("TextDarkGray"))
+                            .foregroundColor(CustomColors.TextDarkGray)
                             
                         }
                         

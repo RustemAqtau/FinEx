@@ -25,7 +25,7 @@ struct PasscodeView: View {
                     .frame(width: geo.size.width * 0.90, alignment: .leading)
                 }
                 .font(Font.system(size: 20, weight: .light, design: .default))
-                .foregroundColor(Color("TextDarkGray"))
+                .foregroundColor(CustomColors.TextDarkGray)
                 .padding()
                 
             }

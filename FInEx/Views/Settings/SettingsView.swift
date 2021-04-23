@@ -27,7 +27,7 @@ struct SettingsView: View {
                     //Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
                 }
                 .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
-                .background(LinearGradient(gradient: Gradient(colors: [Color("TopGradient"), Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
+                .background(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
                 .ignoresSafeArea(.all, edges: .top)
                 .navigationBarTitle (Text("TOOLS"), displayMode: .inline)
                 ScrollView(.vertical) {
@@ -44,14 +44,14 @@ struct SettingsView: View {
                                 VStack(spacing: 0) {
                                     Image(systemName: "arrow.clockwise.icloud.fill")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
-                                        .foregroundColor(Color("ExpensesColor"))
+                                        .foregroundColor(CustomColors.ExpensesColor)
                                     VStack(alignment: .center, spacing: 4) {
                                         Text("REGISTER")
                                         Text("Secure your data in the cloud and use multiple devices")
                                             .font(Font.system(size: 15, weight: .light, design: .rounded))
                                     }
                                     
-                                    .foregroundColor(Color("TextDarkGray"))
+                                    .foregroundColor(CustomColors.TextDarkGray)
                                     .lineLimit(3)
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding()
@@ -69,14 +69,14 @@ struct SettingsView: View {
                                      VStack(spacing: 0) {
                                          Image(systemName: "lock.shield")
                                              .font(Font.system(size: 40, weight: .light, design: .default))
-                                             .foregroundColor(Color("ExpensesColor"))
+                                            .foregroundColor(CustomColors.ExpensesColor)
                                          VStack(alignment: .center, spacing: 4) {
                                              Text("PASSCODE")
                                              Text("Protect your data with a passcode.")
                                                  .font(Font.system(size: 15, weight: .light, design: .rounded))
                                          }
                                          
-                                         .foregroundColor(Color("TextDarkGray"))
+                                         .foregroundColor(CustomColors.TextDarkGray)
                                          .lineLimit(3)
                                          .frame(maxWidth: .infinity, alignment: .center)
                                          .padding()
@@ -101,14 +101,14 @@ struct SettingsView: View {
                                     VStack(spacing: 0) {
                                         Image(systemName: "tag.circle")
                                             .font(Font.system(size: 40, weight: .light, design: .default))
-                                            .foregroundColor(Color("ExpensesColor"))
+                                            .foregroundColor(CustomColors.ExpensesColor)
                                         VStack(alignment: .center, spacing: 4) {
                                             Text("CATEGORIES")
                                             Text("Create, edit or remove any of your categories")
                                                 .font(Font.system(size: 15, weight: .light, design: .rounded))
                                         }
                                         
-                                        .foregroundColor(Color("TextDarkGray"))
+                                        .foregroundColor(CustomColors.TextDarkGray)
                                         .lineLimit(3)
                                         .frame(maxWidth: .infinity, alignment: .center)
                                         .padding()
@@ -129,14 +129,14 @@ struct SettingsView: View {
                                 VStack(spacing: 0) {
                                     Image(systemName: "arrow.triangle.2.circlepath")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
-                                        .foregroundColor(Color("ExpensesColor"))
+                                        .foregroundColor(CustomColors.ExpensesColor)
                                     VStack(alignment: .center, spacing: 4) {
                                         Text("RECURRING")
                                         Text("Manage your regular transactions")
                                             .font(Font.system(size: 15, weight: .light, design: .rounded))
                                     }
                                     
-                                    .foregroundColor(Color("TextDarkGray"))
+                                    .foregroundColor(CustomColors.TextDarkGray)
                                     .lineLimit(3)
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding()
@@ -156,14 +156,14 @@ struct SettingsView: View {
                                 VStack(spacing: 0) {
                                     Image(systemName: "lock.shield")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
-                                        .foregroundColor(Color("ExpensesColor"))
+                                        .foregroundColor(CustomColors.ExpensesColor)
                                     VStack(alignment: .center, spacing: 4) {
                                         Text("REGISTER")
                                         Text("Secure your data in the cloud and use multiple devices")
                                             .font(Font.system(size: 15, weight: .light, design: .rounded))
                                     }
                                     
-                                    .foregroundColor(Color("TextDarkGray"))
+                                    .foregroundColor(CustomColors.TextDarkGray)
                                     .lineLimit(3)
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding()
@@ -178,14 +178,14 @@ struct SettingsView: View {
                                 VStack(spacing: 0) {
                                     Image(systemName: "lock.shield")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
-                                        .foregroundColor(Color("ExpensesColor"))
+                                        .foregroundColor(CustomColors.ExpensesColor)
                                     VStack(alignment: .center, spacing: 4) {
                                         Text("REGISTER")
                                         Text("Secure your data in the cloud and use multiple devices")
                                             .font(Font.system(size: 15, weight: .light, design: .rounded))
                                     }
                                     
-                                    .foregroundColor(Color("TextDarkGray"))
+                                    .foregroundColor(CustomColors.TextDarkGray)
                                     .lineLimit(3)
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding()
@@ -206,7 +206,7 @@ struct SettingsView: View {
             .background(Color.white)
             
         }
-        .accentColor(Color("TextDarkGray"))
+        .accentColor(CustomColors.TextDarkGray)
         //.navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
     
@@ -222,7 +222,7 @@ struct SettingsView: View {
         coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.gray, .strokeColor: UIColor.clear, .underlineColor: UIColor.clear]
         coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.gray]
         coloredNavAppearance.shadowColor = .clear
-        coloredBarButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(Color("TextDarkGray"))]
+        coloredBarButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(CustomColors.TextDarkGray)]
         
         
         coloredNavAppearance.backButtonAppearance = coloredBarButtonAppearance

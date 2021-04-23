@@ -18,6 +18,7 @@ struct SavingsView: View {
     
     @State var recurringTransactions: [RecurringTransaction] = []
     @Binding var addedRecurringTransaction: Bool
+   
     var body: some View {
         let formatter = setDecimalFormatter()
         if let currentBudget = budgetVM.budgetList.last {

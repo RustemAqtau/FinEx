@@ -32,6 +32,17 @@ enum Periodicity: String, CaseIterable {
 }
 
 
+// MARK: - Placeholders
+
+enum Placeholders {
+    static let Amount = "$"
+    static let Note = "Note"
+    static let NewCategorySelector = "Category"
+    static let PieSliceDescriptionExpense = "Expenses by category"
+    static let PieSliceDescriptionIncome = "Income by category"
+    static let PieSliceDescriptionSaving = "Savings by category"
+}
+
 // MARK: - Icons
 enum Icons {
     static let Pencil = "pencil"
@@ -261,7 +272,40 @@ enum Fonts {
     }
 }
 
+// MARK: - Warning Messages
+enum WarningMessages {
+    static let ValidationAmountFail = "Please enter valid amount."
+    static let ValidationCategoryNotSelectedFail = "Please select a category."
+    
+}
+
 // MARK: - Colors
+enum CustomColors {
+    static let CloudBlue = Color("CloudBlue")
+    static let ExpensesColor = Color("ExpensesColor")
+    static let ExpensesColor2 = Color("ExpensesColor2")
+    static let HomeButtonGradient1 = Color("HomeButtonGradient1")
+    static let HomeButtonGradient2 = Color("HomeButtonGradient2")
+    static let IncomeGradient1 = Color("BalanceColor")
+    static let IncomeGradient2 = Color("NewBalanceColor")
+    static let SaveButtonGradient1 = Color("SaveButtonGradient1")
+    static let SaveButtonGradient2 = Color("SaveButtonGradient2")
+    static let SavingsGradient1 = Color("IncomeColor")
+    static let SavingsGradient2 = Color("SavingsColor")
+    static let TextDarkGray = Color("TextDarkGray")
+    static let ToolsIconsGradient1 = Color("ToolsIconsGradient1")
+    static let ToolsIconsGradient2 = Color("ToolsIconsGradient2")
+    static let TopColorGradient1 = Color("TopColor")
+    static let TopColorGradient2 = Color("TopGradient")
+    
+    static let CustomBlue = Color("CustomBlue")
+    static let CustomGreen = Color("CustomGreen")
+    static let CustomPink = Color("CustomPink")
+    static let CustomPurple = Color("CustomPurple")
+    static let CustomRed = Color("CustomRed")
+    static let CustomYellow = Color("CustomYellow")
+ }
+
 enum GradientColors {
     typealias RawValue = LinearGradient
     
@@ -270,6 +314,8 @@ enum GradientColors {
     static let Saving = LinearGradient(gradient: Gradient(colors: [Color("IncomeColor"), Color("SavingsColor")]), startPoint: .bottomTrailing, endPoint: .topLeading)
     
     static let Home = LinearGradient(gradient: Gradient(colors: [Color("HomeButtonGradient1"), Color("HomeButtonGradient2")]), startPoint: .bottomTrailing, endPoint: .topLeading)
+    
+    static let TransactionAmountTextField = LinearGradient(gradient: Gradient(colors: [Color("TextFieldBackgroundLight"), Color("TextFieldBackgroundDark"), Color("TextFieldBackgroundLight")]), startPoint: .topLeading, endPoint: .bottomTrailing)
 }
 
 

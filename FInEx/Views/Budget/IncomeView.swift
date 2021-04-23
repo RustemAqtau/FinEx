@@ -12,12 +12,18 @@ struct IncomeView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.userSettingsVM) var userSettingsVM
     let geo: GeometryProxy
-    @Binding var incomeByDate: [String : [Transaction]]
+    
+    @Binding var incomeByType: [String: [Transaction]]
+    @Binding var incomeTotalAmountByType: [String: Decimal]
+    
+    
     @State var dates: [String] = []
     @State var incomeTotalAmountByDate: [String : Decimal] = [:]
     @State var recurringTransactions: [RecurringTransaction] = []
     @Binding var addedRecurringTransaction: Bool
-    
+    @State var editTransaction: Bool = false
+    @State var editingTransaction: Transaction = Transaction()
+   
     var body: some View {
         let formatter = setDecimalFormatter()
         if let currentBudget = budgetVM.budgetList.last {
@@ -28,14 +34,14 @@ struct IncomeView: View {
                         .environmentObject(budgetVM)
                 }
                 
-                ForEach(self.dates, id: \.self) { date in
+                ForEach(self.incomeByType.keys.sorted(), id: \.self) { type in
                     VStack(alignment: .leading) {
                         HStack {
                             Group {
-                                Text(date)
+                                Text(type)
                             }
                             Spacer()
-                            Text("$" + formatter.string(from: NSDecimalNumber(decimal: incomeTotalAmountByDate[date] ?? 0))! )
+                            Text("$" + formatter.string(from: NSDecimalNumber(decimal: incomeTotalAmountByType[type] ?? 0))! )
                         }
                         .foregroundColor(.gray)
                         .frame(width: geo.size.width / 1.2 )
@@ -44,26 +50,29 @@ struct IncomeView: View {
                         
                         Divider()
                         
-                        ForEach(incomeByDate[date]!, id: \.date) { income in
+                        ForEach(self.incomeByType[type]!, id: \.date) { income in
                             HStack {
                                 Group {
-                                    Image(systemName: income.type!.presentingImageName)
-                                        .foregroundColor(.white)
-                                        .modifier(CircleModifierSimpleColor(color: Color(income.type!.presentingColorName), strokeLineWidth: 3.0))
-                                        .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
-                                        .font(Font.system(size: 24, weight: .regular, design: .default))
+                                    if let incomeType = income.type {
+                                        Image(systemName: incomeType.presentingImageName)
+                                            .foregroundColor(.white)
+                                            .modifier(CircleModifierSimpleColor(color: Color(incomeType.presentingColorName), strokeLineWidth: 3.0))
+                                            .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
+                                            .font(Font.system(size: 24, weight: .regular, design: .default))
+                                            .animation(.linear(duration: 0.5))
+                                            .transition(AnyTransition.opacity)
+                                        VStack(alignment: .leading) {
+                                            Text(incomeType.presentingName)
+                                                .shadow(radius: -10 )
+                                            Text(setDate(date: income.date!))
+                                                .font(Font.system(size: 15, weight: .light, design: .default))
+                                                .foregroundColor(.gray)
+                                                
+                                        }
                                         .animation(.linear(duration: 0.5))
                                         .transition(AnyTransition.opacity)
-                                    VStack(alignment: .leading) {
-                                        Text(income.type!.presentingName)
-                                            .shadow(radius: -10 )
-                                        Text(setDate(date: income.date!))
-                                            .font(Font.system(size: 15, weight: .light, design: .default))
-                                            .foregroundColor(.gray)
-                                            
                                     }
-                                    .animation(.linear(duration: 0.5))
-                                    .transition(AnyTransition.opacity)
+                                    
                                 }
                                 
                                 Spacer()
@@ -73,7 +82,18 @@ struct IncomeView: View {
                             }
                             .frame(width: geo.size.width / 1.15 )
                             .scaledToFit()
-                            
+                            .onTapGesture {
+                                self.editingTransaction = income
+                                print(editingTransaction.amountDecimal)
+                                self.editTransaction = true
+                                
+                            }
+                            .sheet(isPresented: self.$editTransaction, content: {
+                               
+                                withAnimation(.easeInOut(duration: 2)) {
+                                    EditTransactionView(transaction: self.$editingTransaction)
+                                }
+                            })
                             Divider()
                         }
                     }
@@ -91,33 +111,12 @@ struct IncomeView: View {
             
         }
         .onAppear {
-            for key in incomeByDate.keys.sorted(by: >) {
-                self.dates.append(key)
-            }
-            for date in self.dates {
-                var totalAmount: Decimal = 0
-                for transaction in incomeByDate[date]! {
-                    totalAmount += transaction.amount! as Decimal
-                }
-                incomeTotalAmountByDate[date] = totalAmount
-            }
             
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
         }
         .onChange(of: currentBudget.incomeList.count, perform: { value in
-            self.dates.removeAll()
-            self.incomeTotalAmountByDate.removeAll()
-            for key in incomeByDate.keys.sorted(by: >) {
-                self.dates.append(key)
-            }
-            for date in self.dates {
-                var totalAmount: Decimal = 0
-                for transaction in incomeByDate[date]! {
-                    totalAmount += transaction.amount! as Decimal
-                }
-                incomeTotalAmountByDate[date] = totalAmount
-            }
+           
             
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
@@ -126,11 +125,11 @@ struct IncomeView: View {
     }
 }
 
-struct IncomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        GeometryReader { geo in
-            IncomeView(geo: geo, incomeByDate: .constant([:]), addedRecurringTransaction: .constant(false) )
-        }
-        
-    }
-}
+//struct IncomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GeometryReader { geo in
+//            IncomeView(geo: geo, incomeByDate: .constant([:]), addedRecurringTransaction: .constant(false) )
+//        }
+//        
+//    }
+//}

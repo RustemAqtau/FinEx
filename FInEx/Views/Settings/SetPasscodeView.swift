@@ -22,7 +22,7 @@ struct SetPasscodeView: View {
                 .mask(Rectangle().fill(Color.gray).opacity(0.9))
         }
         .font(Font.system(size: 30, weight: .light, design: .default))
-        .foregroundColor(Color("TextDarkGray"))
+        .foregroundColor(CustomColors.TextDarkGray)
     }
 }
 

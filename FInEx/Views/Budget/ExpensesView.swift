@@ -13,11 +13,14 @@ struct ExpensesView: View {
     @Environment(\.userSettingsVM) var userSettingsVM
     let geo: GeometryProxy
     @Binding var expensesBySubCategory: [String : [Transaction]]
-    @State var subCategories: [String] = []
-    @State var expensesTotalAmountBySubCategory: [String : Decimal] = [:]
+   // @State var subCategories: [String] = []
+    @Binding var expensesTotalAmountBySubCategory: [String : Decimal]
     @State var recurringTransactions: [RecurringTransaction] = []
     @Binding var addedRecurringTransaction: Bool
-    
+    @Binding var editTransaction: Bool
+    @Binding var editingTransaction: Transaction
+   
+   
     var body: some View {
         let formatter = setDecimalFormatter()
           if let currentBudget = budgetVM.budgetList.last {
@@ -28,7 +31,7 @@ struct ExpensesView: View {
                         .environmentObject(budgetVM)
                 }
                 
-                ForEach(self.subCategories, id: \.self) { subCategory in
+                ForEach(self.expensesBySubCategory.keys.sorted(), id: \.self) { subCategory in
                     VStack(alignment: .leading) {
                         HStack {
                             Group {
@@ -37,7 +40,7 @@ struct ExpensesView: View {
                             Spacer()
                             Text("$" + formatter.string(from: NSDecimalNumber(decimal: expensesTotalAmountBySubCategory[subCategory] ?? 0))!)
                         }
-                        .foregroundColor(Color("TextDarkGray"))
+                        .foregroundColor(CustomColors.TextDarkGray)
                         .frame(width: geo.size.width / 1.2 )
                         .font(Font.system(size: 18, weight: .light, design: .default))
                         .scaledToFit()
@@ -47,40 +50,61 @@ struct ExpensesView: View {
                         
                         ForEach(expensesBySubCategory[subCategory]!, id: \.date) { expense in
                             HStack {
-                                Group {
-                                    Image(systemName: expense.type!.presentingImageName)
-                                        .foregroundColor(.white)
-                                        .modifier(CircleModifierSimpleColor(color: Color(expense.type!.presentingColorName), strokeLineWidth: 3.0))
-                                        .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
-                                        .font(Font.system(size: 24, weight: .regular, design: .default))
+                                
+                                    Group {
+                                        if let expenseType = expense.type {
+                                        Image(systemName: expenseType.presentingImageName)
+                                            .foregroundColor(.white)
+                                            .modifier(CircleModifierSimpleColor(color: Color(expenseType.presentingColorName), strokeLineWidth: 3.0))
+                                            .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
+                                            .font(Font.system(size: 24, weight: .regular, design: .default))
+                                            .animation(.linear(duration: 0.5))
+                                           // .transition(AnyTransition.opacity)
+                                        VStack(alignment: .leading) {
+                                            Text(expenseType.presentingName)
+                                                .shadow(radius: -10 )
+                                            Text(setDate(date: expense.date!))
+                                                .font(Font.system(size: 15, weight: .light, design: .default))
+                                                .foregroundColor(.gray)
+                                        }
                                         .animation(.linear(duration: 0.5))
-                                        .transition(AnyTransition.opacity)
-                                    VStack(alignment: .leading) {
-                                        Text(expense.type!.presentingName)
-                                            .shadow(radius: -10 )
-                                        Text(setDate(date: expense.date!))
-                                            .font(Font.system(size: 15, weight: .light, design: .default))
-                                            .foregroundColor(.gray)
+                                        //.transition(AnyTransition.opacity)
+                                        
                                     }
-                                    .animation(.linear(duration: 0.5))
-                                    .transition(AnyTransition.opacity)
                                 }
+                                
                                 
                                 Spacer()
                                 Text("$" + formatter.string(from: expense.amount ?? 0)!)
                                     .animation(.linear(duration: 0.5))
-                                    .transition(AnyTransition.opacity)
+                                    //.transition(AnyTransition.opacity)
                             }
                             .frame(width: geo.size.width / 1.15 )
                             .scaledToFit()
-                            
+                            .onTapGesture {
+                                self.editingTransaction = expense
+                                print(editingTransaction.amountDecimal)
+                                self.editTransaction = true
+                                
+                            }
+                            .sheet(isPresented: self.$editTransaction, content: {
+                               
+                                withAnimation(.easeInOut(duration: 2)) {
+                                    EditTransactionView(transaction: self.$editingTransaction)
+                                        .environmentObject(self.budgetVM)
+                                }
+                            })
                             Divider()
                         }
                         .onDelete(perform: {indexSet in withAnimation {  deleteTransaction(subCategory: subCategory, at: indexSet)} })
+                        
                     }
                     .padding(.horizontal)
+                    
+                    
                 }
                 .background(Color.white)
+                
                 //.onDelete(perform: { indexSet in print(indexSet) })
             }
             .frame(width: geo.size.width)
@@ -91,38 +115,22 @@ struct ExpensesView: View {
             .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
         }
         .onAppear {
-            for key in expensesBySubCategory.keys.sorted() {
-                self.subCategories.append(key)
-            }
-            for subCategory in self.subCategories {
-                var totalAmount: Decimal = 0
-                for transaction in expensesBySubCategory[subCategory]! {
-                    totalAmount  += transaction.amount! as Decimal
-                }
-                expensesTotalAmountBySubCategory[subCategory] = totalAmount
-            }
+           
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
             
         }
         .onChange(of: currentBudget.expensesList.count, perform: { value in
-            self.subCategories.removeAll()
-            self.expensesTotalAmountBySubCategory.removeAll()
-            for key in expensesBySubCategory.keys.sorted() {
-                
-                self.subCategories.append(key)
-            }
-            for subCategory in self.subCategories {
-                var totalAmount: Decimal = 0
-                for transaction in expensesBySubCategory[subCategory]! {
-                    totalAmount  += transaction.amount! as Decimal
-                }
-                expensesTotalAmountBySubCategory[subCategory] = totalAmount
-            }
-            
+        
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
 
+        })
+        .onChange(of: self.expensesBySubCategory.count, perform: { value in
+  
+            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentBudget, context: viewContext)
+            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
+            
         })
 
         
@@ -136,12 +144,12 @@ struct ExpensesView: View {
     
 }
 
-struct ExpensesView_Previews: PreviewProvider {
-    static var previews: some View {
-        GeometryReader { geo in
-            ExpensesView(geo: geo, expensesBySubCategory: .constant([:]), addedRecurringTransaction: .constant(false) )
-        }
-        
-    }
-}
+//struct ExpensesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GeometryReader { geo in
+//            ExpensesView(geo: geo, expensesBySubCategory: .constant([:]), addedRecurringTransaction: .constant(false) )
+//        }
+//        
+//    }
+//}
 

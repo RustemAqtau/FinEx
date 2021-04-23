@@ -21,33 +21,32 @@ struct RegisterWithAppleID: View {
                         VStack {
                             Image(systemName: "link.icloud.fill")
                                 .font(Font.system(size: 130, weight: .regular, design: .default))
-                                .foregroundColor(Color("CloudBlue"))
+                                .foregroundColor(CustomColors.CloudBlue)
                                 
                             Text("Sync & Secure")
                                 .font(Font.system(size: 35, weight: .bold, design: .default))
                         }
                         .frame(width: geo.size.width * 0.80, height: geo.size.height * 0.30, alignment: .top)
-                        //.border(Color.black)
-                        //.position(x: geo.size.width / 2, y: 200)
+                        
                     VStack(alignment: .leading) {
                         HStack {
                             Image(systemName: "arrow.triangle.2.circlepath")
                                 .foregroundColor(.red)
-                                .modifier(CircleModifierSimpleColor(color: Color("TopGradient"), strokeLineWidth: 3.0))
+                                .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
                             Text("Sync budgets and transactions between your devices.")
                         }
                         HStack {
                             Image(systemName: "icloud.and.arrow.up.fill")
                                 .foregroundColor(.red)
-                                .modifier(CircleModifierSimpleColor(color: Color("TopGradient"), strokeLineWidth: 3.0))
+                                .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
                             Text("Backup your data in case you lose your phone.")
                         }
                         HStack {
                             Image(systemName: "heart.fill")
                                 .foregroundColor(.red)
-                                .modifier(CircleModifierSimpleColor(color: Color("TopGradient"), strokeLineWidth: 3.0))
+                                .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
                             Text("Dont worry, we will never send you any emails.")
                         }

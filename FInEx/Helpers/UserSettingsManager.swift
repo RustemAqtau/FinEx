@@ -177,7 +177,7 @@ class UserSettingsManager: ObservableObject {
                 }
             }
         }
-        print("transactiontypesByCategoty: \(transactiontypesByCategoty)")
+        //print("transactiontypesByCategoty: \(transactiontypesByCategoty)")
     }
     
     private func fetchTransactionTypes(context: NSManagedObjectContext) -> [TransactionType] {

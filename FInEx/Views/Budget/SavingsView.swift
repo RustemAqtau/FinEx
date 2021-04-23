@@ -12,6 +12,9 @@ struct SavingsView: View {
     @Environment(\.managedObjectContext) private var viewContext
     let geo: GeometryProxy
     @Environment(\.userSettingsVM) var userSettingsVM
+    
+    @Binding var currentMonthBudget: MonthlyBudget
+    
     @Binding var savingsByType: [String: [TransactionType : Decimal]]
     @State var subCategories: [String] = []
     @State var typesInSubCategory: [String : [TransactionType]] = [:]
@@ -21,11 +24,11 @@ struct SavingsView: View {
    
     var body: some View {
         let formatter = setDecimalFormatter()
-        if let currentBudget = budgetVM.budgetList.last {
+      //  if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack {
                 if !self.recurringTransactions.isEmpty {
-                    AddRecurringTransactionView(geo: geo, currentBudget: currentBudget, recurringTransactions: self.recurringTransactions, addedRecurringTransaction: self.$addedRecurringTransaction)
+                    AddRecurringTransactionView(geo: geo, currentBudget: self.currentMonthBudget, recurringTransactions: self.recurringTransactions, addedRecurringTransaction: self.$addedRecurringTransaction)
                         .environmentObject(budgetVM)
                 }
                 
@@ -98,10 +101,10 @@ struct SavingsView: View {
             }
             
             
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentBudget, context: viewContext)
+            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
        }
-        .onChange(of: currentBudget.savingsList.count, perform: { value in
+        .onChange(of: currentMonthBudget.savingsList.count, perform: { value in
             self.subCategories.removeAll()
             self.typesInSubCategory.removeAll()
             for key in savingsByType.keys.sorted() {
@@ -113,19 +116,19 @@ struct SavingsView: View {
                 self.typesInSubCategory[key] = arr
             }
             
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentBudget, context: viewContext)
+            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
         })
-        }
+       // }
     }
 
 }
 
-struct SavingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        GeometryReader { geo in
-            SavingsView(geo: geo, savingsByType: .constant([:]), addedRecurringTransaction: .constant(false))
-        }
-        
-    }
-}
+//struct SavingsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GeometryReader { geo in
+//            SavingsView(geo: geo, savingsByType: .constant([:]), addedRecurringTransaction: .constant(false))
+//        }
+//        
+//    }
+//}

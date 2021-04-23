@@ -13,6 +13,8 @@ struct IncomeView: View {
     @Environment(\.userSettingsVM) var userSettingsVM
     let geo: GeometryProxy
     
+    @Binding var currentMonthBudget: MonthlyBudget
+    
     @Binding var incomeByType: [String: [Transaction]]
     @Binding var incomeTotalAmountByType: [String: Decimal]
     
@@ -26,11 +28,11 @@ struct IncomeView: View {
    
     var body: some View {
         let formatter = setDecimalFormatter()
-        if let currentBudget = budgetVM.budgetList.last {
+       // if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack {
                 if !self.recurringTransactions.isEmpty {
-                    AddRecurringTransactionView(geo: geo, currentBudget: currentBudget, recurringTransactions: self.recurringTransactions, addedRecurringTransaction: self.$addedRecurringTransaction)
+                    AddRecurringTransactionView(geo: geo, currentBudget: self.currentMonthBudget, recurringTransactions: self.recurringTransactions, addedRecurringTransaction: self.$addedRecurringTransaction)
                         .environmentObject(budgetVM)
                 }
                 
@@ -112,16 +114,16 @@ struct IncomeView: View {
         }
         .onAppear {
             
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentBudget, context: viewContext)
+            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
         }
-        .onChange(of: currentBudget.incomeList.count, perform: { value in
+        .onChange(of: currentMonthBudget.incomeList.count, perform: { value in
            
             
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentBudget, context: viewContext)
+            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
         })
-        }
+       // }
     }
 }
 

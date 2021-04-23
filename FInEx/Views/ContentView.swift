@@ -22,7 +22,9 @@ struct ContentView: View {
     @State var isSettingsView = false
     @State var showAddExpense: Bool = false
     @State var currentMonthBudget: MonthlyBudget = MonthlyBudget()
-    //@State var newTransaction
+    
+    @State var getPreviousMonthBudget: Bool = false
+    @State var getNextMonthBudget: Bool = false
     
     let coloredNavAppearance = UINavigationBarAppearance()
     let coloredBarButtonAppearance = UIBarButtonItemAppearance ()
@@ -51,7 +53,9 @@ struct ContentView: View {
                             BudgetView(currentMonthBudget: self.$currentMonthBudget ,
                                        geo: geo,
                                        plusButtonColor: self.$plusButtonColor,
-                                       plusButtonIsServing: self.$plusButtonIsServing)
+                                       plusButtonIsServing: self.$plusButtonIsServing,
+                                       getPreviousMonthBudget: self.$getPreviousMonthBudget,
+                                       getNextMonthBudget: self.$getNextMonthBudget)
                                 .environmentObject(budgetVM)
                         }
                     }
@@ -145,6 +149,20 @@ struct ContentView: View {
             print("budgetList.count: \(self.budgetVM.budgetList.count)")
             self.currentMonthBudget = budgetVM.budgetList.last!
         }
+        .onChange(of: self.getPreviousMonthBudget, perform: { value in
+            if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
+               currentBudgetIndex != self.budgetVM.budgetList.startIndex  {
+                let previousBudgetIndex = self.budgetVM.budgetList.index(before: currentBudgetIndex)
+                self.currentMonthBudget = self.budgetVM.budgetList[previousBudgetIndex]
+            }
+        })
+        .onChange(of: self.getNextMonthBudget, perform: { value in
+            if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
+               currentBudgetIndex != self.budgetVM.budgetList.endIndex - 1  {
+                let nextBudgetIndex = self.budgetVM.budgetList.index(after: currentBudgetIndex)
+                self.currentMonthBudget = self.budgetVM.budgetList[nextBudgetIndex]
+            }
+        })
         .sheet(isPresented: self.$showAddExpense, content: {
             if let currentMonthBudget = budgetVM.budgetList.last {
                 let addingCategory = getAddingCategory()

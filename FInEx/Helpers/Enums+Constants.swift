@@ -45,6 +45,11 @@ enum Placeholders {
 
 // MARK: - Icons
 enum Icons {
+    static let ChevronLeft = "chevron.left"
+    static let CevronRight = "chevron.right"
+    static let ChevronCompactLeft = "chevron.compact.left"
+    static let ChevronCompactRight = "chevron.compact.right"
+    static let PencilAndSquare = "square.and.pencil"
     static let Pencil = "pencil"
     static let Trash = "trash"
     static let Doc = "doc"

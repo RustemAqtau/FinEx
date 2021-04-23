@@ -32,6 +32,8 @@ struct BudgetView: View {
     @State var editTransaction: Bool = false
     @State var editingTransaction: Transaction = Transaction()
    
+    @Binding var getPreviousMonthBudget: Bool
+    @Binding var getNextMonthBudget: Bool
     var body: some View {
         NavigationView {
             let formatter = setDecimalFormatter()
@@ -61,10 +63,8 @@ struct BudgetView: View {
                                     self.incomeSelected = true
                                     self.plusButtonColor = GradientColors.Income
                                     self.plusButtonIsServing = Categories.Income
-                                    
                                 }
                             }
-                            
                             Divider()
                             VStack {
                                 Text(formatter.string(from: currentMonthBudget.totalExpenses)!)
@@ -124,38 +124,52 @@ struct BudgetView: View {
                     .background(LinearGradient(gradient: Gradient(colors: [Color("TopGradient"), Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
                     .foregroundColor(.white)
                     ZStack {
-                        RoundedRectangle(cornerRadius: 20)
+                        RoundedRectangle(cornerRadius: 30)
                             .stroke(lineWidth: 0.5)
                             .shadow(radius: 10)
                             .foregroundColor(.gray)
-                            .frame(width: geo.size.width / 1.5, height: 40, alignment: .center)
+                            .frame(width: geo.size.width * 0.70, height: 45, alignment: .center)
                         HStack(spacing: 20) {
                             Button(action: {
                                 
-                                
+                                self.getPreviousMonthBudget.toggle()
                             }) {
-                                Image(systemName: Icons.CheckmarkSeal_Fill)
+                                Image(systemName: Icons.ChevronCompactLeft)
                             }
-                            
+                            Spacer()
                             Text("\(currentMonthBudget.monthYearStringPresentation)")
+                            Spacer()
+                            Button(action: {
+                                
+                                self.getNextMonthBudget.toggle()
+                            }) {
+                                Image(systemName: Icons.ChevronCompactRight)
+                            }
                                 
                         }
                         .font(Font.system(size: 20, weight: .light, design: .default))
                         .foregroundColor(.black)
+                        .frame(width: geo.size.width * 0.65)
+                        .padding()
                     }
                     .background(Color.white)
                     
                     if self.incomeSelected {
                         IncomeView(geo: geo,
+                                   currentMonthBudget: self.$currentMonthBudget,
                                    incomeByType: self.$incomeByType,
                                    incomeTotalAmountByType: self.$incomeTotalAmountByType,
                                    addedRecurringTransaction: self.$addedRecurringTransaction)
                             .environmentObject(self.budgetVM)
                     } else if self.savingsSelected {
-                        SavingsView(geo: geo, savingsByType: self.$savingsByType, addedRecurringTransaction: self.$addedRecurringTransaction)
+                        SavingsView(geo: geo,
+                                    currentMonthBudget: self.$currentMonthBudget,
+                                    savingsByType: self.$savingsByType,
+                                    addedRecurringTransaction: self.$addedRecurringTransaction)
                             .environmentObject(self.budgetVM)
                     } else {
                         ExpensesView(geo: geo,
+                                     currentMonthBudget: self.$currentMonthBudget,
                                      expensesBySubCategory: self.$expensesBySubCategory,
                                      expensesTotalAmountBySubCategory: self.$expensesTotalAmountBySubCategory,
                                      addedRecurringTransaction: self.$addedRecurringTransaction,
@@ -178,6 +192,12 @@ struct BudgetView: View {
                     updateData()
                 })
                 .onChange(of: self.editTransaction, perform: { value in
+                    updateData()
+                })
+                .onChange(of: self.getPreviousMonthBudget, perform: { value in
+                    updateData()
+                })
+                .onChange(of: self.getNextMonthBudget, perform: { value in
                     updateData()
                 })
            }

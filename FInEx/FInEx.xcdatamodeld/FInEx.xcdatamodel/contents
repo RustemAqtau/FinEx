@@ -4,6 +4,7 @@
         <attribute name="balance" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="month" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="previousMonthBalance" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="year" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Transaction" inverseName="monthlyBudget" inverseEntity="Transaction"/>
     </entity>
@@ -46,10 +47,10 @@
         <attribute name="settingsId" optional="YES" attributeType="Integer 16" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="MonthlyBudget" positionX="-70.0703125" positionY="375.8984375" width="128" height="104"/>
+        <element name="MonthlyBudget" positionX="-70.0703125" positionY="375.8984375" width="128" height="119"/>
+        <element name="RecurringTransaction" positionX="-115.17578125" positionY="109.953125" width="128" height="193"/>
         <element name="Transaction" positionX="-326.2109375" positionY="335.40234375" width="128" height="178"/>
         <element name="TransactionType" positionX="-611.30859375" positionY="79.1640625" width="128" height="163"/>
         <element name="UserSettings" positionX="-63" positionY="-9" width="128" height="74"/>
-        <element name="RecurringTransaction" positionX="-115.17578125" positionY="109.953125" width="128" height="193"/>
     </elements>
 </model>

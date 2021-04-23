@@ -11,14 +11,17 @@ extension MonthlyBudget {
     
     
     var monthYearStringPresentation: String {
-        if !expensesList.isEmpty {
-            if let lastExpense = expensesList.last,
-               let date = lastExpense.date {
-                return setDateMMYY(date: date)
-            }
+//        if !expensesList.isEmpty {
+//            if let lastExpense = expensesList.last,
+//               let date = lastExpense.date {
+//                return setDateMMYY(date: date)
+//            }
+//        }
+//        let currentDate = Date()
+        if let startDate = startDate {
+            return setDateMMYY(date: startDate)
         }
-        let currentDate = Date()
-        return setDateMMYY(date: currentDate)
+        return setDateMMYY(date: Date())
         
     }
     
@@ -242,9 +245,14 @@ extension MonthlyBudget {
     
     // MARK: - static func
     static func update(for date: Date, previousMonthBudget: MonthlyBudget, context: NSManagedObjectContext) {
-        let monthlyBudget = MonthlyBudget(context: context)
+        let calendar = Calendar.current
         let month = getMonthFrom(date: date) ?? 0
         let year = getYearFrom(date: date) ?? 0
+        let startComponents = DateComponents(year: year, month: month, day: 1)
+        let startDate = calendar.date(from:startComponents)!
+        
+        let monthlyBudget = MonthlyBudget(context: context)
+        monthlyBudget.startDate = startDate
         monthlyBudget.month = Int32(month)
         monthlyBudget.year = Int32(year)
         monthlyBudget.previousMonthBalance = previousMonthBudget.balance
@@ -260,12 +268,18 @@ extension MonthlyBudget {
     }
     
     static func update(for date: Date, context: NSManagedObjectContext) {
-        
+        let calendar = Calendar.current
         let month = getMonthFrom(date: date) ?? 0
         let year = getYearFrom(date: date) ?? 0
-        for number in 1...month {
+        
+        var startMonth = month
+        
+        while startMonth != 0 {
+            let startComponents = DateComponents(year: year, month: startMonth, day: 1)
+            let startDate = calendar.date(from:startComponents)!
             let monthlyBudget = MonthlyBudget(context: context)
-            monthlyBudget.month = Int32(number)
+            monthlyBudget.startDate = startDate
+            monthlyBudget.month = Int32(startMonth)
             monthlyBudget.year = Int32(year)
             do {
                 try context.save()
@@ -273,7 +287,22 @@ extension MonthlyBudget {
             } catch {
                 print("Could not save context")
             }
+            startMonth -= 1
         }
+        
+        
+//        for number in 1...month {
+//            let monthlyBudget = MonthlyBudget(context: context)
+//            monthlyBudget.startDate = startDate
+//            monthlyBudget.month = Int32(number)
+//            monthlyBudget.year = Int32(year)
+//            do {
+//                try context.save()
+//                print("Context saved")
+//            } catch {
+//                print("Could not save context")
+//            }
+//        }
         
     }
     

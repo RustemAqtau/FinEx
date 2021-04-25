@@ -13,137 +13,142 @@ struct EditCategories: View {
     @State var isAddingCategory: Bool = false
     @State var isExpense: Bool = true
     @State var addingCategory: String = ""
+    @State var selectedCategory: String = Categories.Income
+    @State var selectedSubCategories: [String]? //= []
     let categories = [0, 1, 2]
     var body: some View {
         NavigationView {
             GeometryReader { geo in
                 Group {
                     VStack {
-                        //Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
                     }
-                    .frame(width: geo.size.width, height: geo.size.height / 4.5, alignment: .center)
-                    .background(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
+                    .frame(width: geo.size.width, height: 20, alignment: .center)
                     .ignoresSafeArea(.all, edges: .top)
                     .navigationBarTitle (Text(""), displayMode: .inline)
-                    
-                    ScrollView {
-                        ForEach(userSettingsVM.categories, id: \.self) { category in
-                            let subCategories = userSettingsVM.subCategories[category] ?? []
-                            VStack {
-                                HStack {
-                                    Text(category)
-                                        .font(Font.system(size: 25, weight: .regular, design: .default))
-                                    
-                                    Spacer()
-                                    Button(action: {
-                                        self.addingCategory = category
-                                        self.isAddingCategory = true
-                                    }) {
-                                        Image(systemName: "plus")
-                                    }.sheet(isPresented: $isAddingCategory, content: {
-                                        withAnimation(.easeInOut(duration: 2)) {
-                                            AddCategorySubTypeView(category: self.$addingCategory)
-                                                .environmentObject(userSettingsVM)
-                                        }
-                                        
-                                    })
-                                    
+                    VStack {
+                        VStack {
+                            Picker(selection: self.$selectedCategory, label: Text("")) {
+                                Text(LocalizedStringKey(Categories.Income)).tag(Categories.Income)
+                                Text(LocalizedStringKey(Categories.Expense)).tag(Categories.Expense)
+                                Text(LocalizedStringKey(Categories.Saving)).tag(Categories.Saving)
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
+                            .colorMultiply(CustomColors.IncomeGradient2).colorInvert()
+                            .colorMultiply(CustomColors.CloudBlue).colorInvert()
+                        }
+                        .frame(width: geo.size.width)
+                        HStack {
+//                                        Text(LocalizedStringKey(self.selectedCategory))
+//                                            .font(Font.system(size: 25, weight: .regular, design: .default))
+//
+//                                        Spacer()
+                            Button(action: {
+                                self.addingCategory = self.selectedCategory
+                                self.isAddingCategory = true
+                            }) {
+                                Text(LocalizedStringKey("ADD NEW"))
+                                    .foregroundColor(CustomColors.TextDarkGray)
+                                    .font(Font.system(size: 16, weight: .regular, design: .default))
+                                    .frame(width: geo.size.width, height: 30, alignment: .center)
+                                
+                            }.sheet(isPresented: $isAddingCategory, content: {
+                                withAnimation(.easeInOut(duration: 2)) {
+                                    AddCategorySubTypeView(category: self.$addingCategory)
+                                        .environmentObject(userSettingsVM)
                                 }
-                                .padding()
-                                if subCategories.isEmpty {
-                                    let types = userSettingsVM.transactiontypesByCategoty[category]![""]!
+                            })
+                        }
+                        ScrollView {
+                                VStack {
                                     
-                                        ForEach(0..<types.count, id: \.self) { index in
-                                            
-                                            HStack(alignment: .center, spacing: 0) {
-                                                Button(action: {}) {
-                                                    Image(systemName: "minus.circle.fill")
-                                                        .foregroundColor(.red)
-                                                        .font(Font.system(size: 20, weight: .regular, design: .default))
-                                                        .frame(width: geo.size.width / 12, height: geo.size.width / 11, alignment: .center)
-                                                        
-                                                }
-                                                Group {
-                                                    Image(systemName: types[index].presentingImageName)
-                                                        .foregroundColor(.white)
-                                                        .modifier(CircleModifierSimpleColor(color: Color(types[index].presentingColorName), strokeLineWidth: 3.0))
-                                                        .frame(width: geo.size.width / 12, height: geo.size.width / 10, alignment: .center)
-                                                        .padding()
-                                                    Text(types[index].presentingName)
-                                                }
-                                                
-                                                
-                                            }
-                                            .frame(width: geo.size.width * 0.95, height: 35, alignment: .leading)
-                                            
-                                            Divider()
-                                        }
-                                    
-                                    
-                                    
-                                } else {
-                                    ForEach(0..<subCategories.count) { index in
-                                        let subCategory = subCategories[index]
-                                        let types = userSettingsVM.transactiontypesByCategoty[category]![subCategory]!
-                                        HStack {
-                                            Text(subCategory)
-                                                .font(Font.system(size: 18, weight: .light, design: .default))
-                                            
-                                        }
-                                        .padding()
-                                        .frame(width: geo.size.width, height: 30, alignment: .leading)
-                                        
-                                        Divider()
-                                        
-                                        ForEach(0..<types.count) { index in
-                                            
-                                            HStack(alignment: .center, spacing: 0) {
-                                                Button(action: {}) {
-                                                    Image(systemName: "minus.circle.fill")
-                                                        .foregroundColor(.red)
-                                                        .font(Font.system(size: 20, weight: .regular, design: .default))
-                                                        .frame(width: geo.size.width / 12, height: geo.size.width / 11, alignment: .center)
-                                                       
-                                                }
-                                                Image(systemName: types[index].presentingImageName)
-                                                    .foregroundColor(.white)
-                                                    .modifier(CircleModifierSimpleColor(color: Color(types[index].presentingColorName), strokeLineWidth: 3.0))
-                                                    .frame(width: geo.size.width / 12, height: geo.size.width / 10, alignment: .center)
-                                                    .padding()
-                                                Text(types[index].presentingName)
+                                    if self.selectedSubCategories != nil {
+                                        if self.selectedSubCategories!.isEmpty {
+                                            let types = userSettingsVM.transactiontypesByCategoty[self.selectedCategory]![""]!
+                                            ForEach(0..<types.count, id: \.self) { index in
+                                                    HStack(alignment: .center, spacing: 0) {
+                                                        Button(action: {}) {
+                                                            Image(systemName: "minus.circle.fill")
+                                                                .foregroundColor(.red)
+                                                                .font(Font.system(size: 20, weight: .regular, design: .default))
+                                                                .frame(width: geo.size.width / 12, height: geo.size.width / 11, alignment: .center)
+                                                        }
+                                                        Group {
+                                                            Image(systemName: types[index].presentingImageName)
+                                                                .foregroundColor(.white)
+                                                                .modifier(CircleModifierSimpleColor(color: Color(types[index].presentingColorName), strokeLineWidth: 3.0))
+                                                                .frame(width: geo.size.width / 12, height: geo.size.width / 10, alignment: .center)
+                                                                .padding()
+                                                            Text(LocalizedStringKey(types[index].presentingName))
+                                                        }
+                                                    }
+                                                    .frame(width: geo.size.width * 0.95, height: 35, alignment: .leading)
                                                     
-                                                
+                                                    Divider()
+                                                }
+                                        } else {
+                                            ForEach(self.selectedSubCategories!, id: \.self) { subCategory in
+                                                    HStack {
+                                                        Text(LocalizedStringKey(subCategory))
+                                                            .font(Font.system(size: 18, weight: .light, design: .default))
+                                                        
+                                                    }
+                                                    .padding()
+                                                    .frame(width: geo.size.width, height: 30, alignment: .leading)
+                                                    
+                                                    Divider()
+                                                if let types = userSettingsVM.transactiontypesByCategoty[self.selectedCategory]![subCategory] {
+                                                    ForEach(types, id: \.self) { type in
+                                                        
+                                                        HStack(alignment: .center, spacing: 0) {
+                                                            Button(action: {}) {
+                                                                Image(systemName: "minus.circle.fill")
+                                                                    .foregroundColor(.red)
+                                                                    .font(Font.system(size: 20, weight: .regular, design: .default))
+                                                                    .frame(width: geo.size.width / 12, height: geo.size.width / 11, alignment: .center)
+                                                                   
+                                                            }
+                                                            Image(systemName: type.presentingImageName)
+                                                                .foregroundColor(.white)
+                                                                .modifier(CircleModifierSimpleColor(color: Color(type.presentingColorName), strokeLineWidth: 3.0))
+                                                                .frame(width: geo.size.width / 12, height: geo.size.width / 10, alignment: .center)
+                                                                .padding()
+                                                            Text(LocalizedStringKey(type.presentingName))
+                                                                
+                                                            
+                                                        }
+                                                        .frame(width: geo.size.width * 0.95, height: 35, alignment: .leading)
+                                                        
+                                                        Divider()
+                                                    }
+                                                }
                                             }
-                                            .frame(width: geo.size.width * 0.95, height: 35, alignment: .leading)
-                                            
-                                            Divider()
                                         }
                                     }
                                 }
+                                .frame(width: geo.size.width)
+                                .scaledToFit()
+                                .foregroundColor(CustomColors.TextDarkGray)
+                               // .transition(AnyTransition.slide)
+                            VStack {
                             }
-                            .frame(width: geo.size.width)
-                            .scaledToFit()
-                            .foregroundColor(CustomColors.TextDarkGray)
-                            
+                            .frame(width: geo.size.width, height: geo.size.height / 3, alignment: .center)
                         }
-                        
-                        VStack {
-                            
-                        }
-                        
-                        .frame(width: geo.size.width, height: geo.size.height / 3, alignment: .center)
+                        .ignoresSafeArea(.all, edges: .bottom)
                     }
                     
-                    .ignoresSafeArea(.all, edges: .bottom)
                 }
                 .background(Color.white)
                 .onAppear {
                     self.userSettingsVM.getTransactiontypes(context: viewContext)
+                    self.selectedSubCategories = userSettingsVM.subCategories[self.selectedCategory]
                 }
-                
+                .onChange(of: self.selectedCategory, perform: { value in
+                    withAnimation(.easeIn(duration: 0.5)) {
+                    self.selectedSubCategories = userSettingsVM.subCategories[self.selectedCategory]
+                    }
+                })
             }
         }
-        //.navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
 }
 

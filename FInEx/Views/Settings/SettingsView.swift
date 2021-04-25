@@ -29,7 +29,7 @@ struct SettingsView: View {
                 .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
                 .background(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
                 .ignoresSafeArea(.all, edges: .top)
-                .navigationBarTitle (Text("TOOLS"), displayMode: .inline)
+                .navigationBarTitle (Text(LocalizedStringKey("TOOLS")), displayMode: .inline)
                 ScrollView(.vertical) {
                     VStack(spacing: 0) {
                         HStack(spacing: 20) {
@@ -46,18 +46,19 @@ struct SettingsView: View {
                                         .font(Font.system(size: 40, weight: .light, design: .default))
                                         .foregroundColor(CustomColors.ExpensesColor)
                                     VStack(alignment: .center, spacing: 4) {
-                                        Text("REGISTER")
-                                        Text("Secure your data in the cloud and use multiple devices")
-                                            .font(Font.system(size: 15, weight: .light, design: .rounded))
+                                        Text(LocalizedStringKey("REGISTER"))
+                                        Text(LocalizedStringKey("Secure your data in the cloud and use multiple devices"))
                                     }
-                                    
+                                    .multilineTextAlignment(.center)
+                                    .font(Font.system(size: 13, weight: .light, design: .rounded))
                                     .foregroundColor(CustomColors.TextDarkGray)
                                     .lineLimit(3)
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding()
                                }
                             }
-                            }.opacity(userSettingsVM.settings.isSignedWithAppleId ? 0 : 1)
+                            }
+                            //.opacity(userSettingsVM.settings.isSignedWithAppleId ? 0 : 1)
                             NavigationLink(
                                 destination: PasscodeView()) {
                                 ZStack {
@@ -71,11 +72,12 @@ struct SettingsView: View {
                                              .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor)
                                          VStack(alignment: .center, spacing: 4) {
-                                             Text("PASSCODE")
-                                             Text("Protect your data with a passcode.")
-                                                 .font(Font.system(size: 15, weight: .light, design: .rounded))
+                                             Text(LocalizedStringKey("PASSCODE"))
+                                             Text(LocalizedStringKey("Protect your data with a passcode."))
+                                                 
                                          }
-                                         
+                                         .multilineTextAlignment(.center)
+                                         .font(Font.system(size: 13, weight: .light, design: .rounded))
                                          .foregroundColor(CustomColors.TextDarkGray)
                                          .lineLimit(3)
                                          .frame(maxWidth: .infinity, alignment: .center)
@@ -103,11 +105,12 @@ struct SettingsView: View {
                                             .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor)
                                         VStack(alignment: .center, spacing: 4) {
-                                            Text("CATEGORIES")
-                                            Text("Create, edit or remove any of your categories")
-                                                .font(Font.system(size: 15, weight: .light, design: .rounded))
+                                            Text(LocalizedStringKey("CATEGORIES"))
+                                            Text(LocalizedStringKey("Create, edit or remove any of your categories"))
+                                                
                                         }
-                                        
+                                        .multilineTextAlignment(.center)
+                                        .font(Font.system(size: 13, weight: .light, design: .rounded))
                                         .foregroundColor(CustomColors.TextDarkGray)
                                         .lineLimit(3)
                                         .frame(maxWidth: .infinity, alignment: .center)
@@ -131,11 +134,12 @@ struct SettingsView: View {
                                         .font(Font.system(size: 40, weight: .light, design: .default))
                                         .foregroundColor(CustomColors.ExpensesColor)
                                     VStack(alignment: .center, spacing: 4) {
-                                        Text("RECURRING")
-                                        Text("Manage your regular transactions")
-                                            .font(Font.system(size: 15, weight: .light, design: .rounded))
+                                        Text(LocalizedStringKey("RECURRING"))
+                                        Text(LocalizedStringKey("Manage your regular transactions"))
+                                            
                                     }
-                                    
+                                    .multilineTextAlignment(.center)
+                                    .font(Font.system(size: 13, weight: .light, design: .rounded))
                                     .foregroundColor(CustomColors.TextDarkGray)
                                     .lineLimit(3)
                                     .frame(maxWidth: .infinity, alignment: .center)
@@ -158,11 +162,12 @@ struct SettingsView: View {
                                         .font(Font.system(size: 40, weight: .light, design: .default))
                                         .foregroundColor(CustomColors.ExpensesColor)
                                     VStack(alignment: .center, spacing: 4) {
-                                        Text("REGISTER")
-                                        Text("Secure your data in the cloud and use multiple devices")
-                                            .font(Font.system(size: 15, weight: .light, design: .rounded))
+                                        Text(LocalizedStringKey("REGISTER"))
+                                        Text(LocalizedStringKey("Secure your data in the cloud and use multiple devices"))
+                                            
                                     }
-                                    
+                                    .multilineTextAlignment(.center)
+                                    .font(Font.system(size: 13, weight: .light, design: .rounded))
                                     .foregroundColor(CustomColors.TextDarkGray)
                                     .lineLimit(3)
                                     .frame(maxWidth: .infinity, alignment: .center)
@@ -180,11 +185,12 @@ struct SettingsView: View {
                                         .font(Font.system(size: 40, weight: .light, design: .default))
                                         .foregroundColor(CustomColors.ExpensesColor)
                                     VStack(alignment: .center, spacing: 4) {
-                                        Text("REGISTER")
-                                        Text("Secure your data in the cloud and use multiple devices")
-                                            .font(Font.system(size: 15, weight: .light, design: .rounded))
+                                        Text(LocalizedStringKey("REGISTER"))
+                                        Text(LocalizedStringKey("Secure your data in the cloud and use multiple devices"))
+                                            
                                     }
-                                    
+                                    .multilineTextAlignment(.center)
+                                    .font(Font.system(size: 13, weight: .light, design: .rounded))
                                     .foregroundColor(CustomColors.TextDarkGray)
                                     .lineLimit(3)
                                     .frame(maxWidth: .infinity, alignment: .center)
@@ -201,7 +207,6 @@ struct SettingsView: View {
                         startAnimate()
                     }
                 }
-                
             }
             .background(Color.white)
             
@@ -218,7 +223,7 @@ struct SettingsView: View {
     
     func setNavBarAppearance() {
         coloredNavAppearance.configureWithOpaqueBackground()
-        coloredNavAppearance.backgroundColor = UIColor(.clear)
+        coloredNavAppearance.backgroundColor = UIColor(CustomColors.TopBackgroundGradient3)
         coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.gray, .strokeColor: UIColor.clear, .underlineColor: UIColor.clear]
         coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.gray]
         coloredNavAppearance.shadowColor = .clear

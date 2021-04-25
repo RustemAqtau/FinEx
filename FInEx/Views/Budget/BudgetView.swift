@@ -25,7 +25,8 @@ struct BudgetView: View {
     @State var incomeByType: [String: [Transaction]] = [:]
     @State var incomeTotalAmountByType: [String: Decimal] = [:]
     
-    @State var savingsByType: [String: [TransactionType : Decimal]] = [:]
+    @State var savingsTypesBySubCategory: [String : [TransactionType]] = [:]
+    @State var savingsTotalAmountByType: [TransactionType : Decimal] = [:]
     
     @State var addedRecurringTransaction: Bool = false
     
@@ -37,18 +38,26 @@ struct BudgetView: View {
     var body: some View {
         NavigationView {
             let formatter = setDecimalFormatter()
-            //if let currentBudget = budgetVM.budgetList.last {
-                
                 VStack {
+                    
                     VStack(spacing: 0) {
-                        
-                        HStack(spacing: -10) {
+                        HStack {
+                            Text("BALANCE")
                             
+                            Text(formatter.string(from: NSDecimalNumber(decimal: currentMonthBudget.currentBalance))!)
+                        }
+                        .frame(width: geo.size.width * 0.90, height: 80, alignment: .center)
+                        .offset(y: 40)
+                        .foregroundColor(CustomColors.TextDarkGray)
+                        .opacity(0.8)
+                        .font(Fonts.light15)
+                        //.background(GradientColors.TopBackground)
+                        HStack(spacing: -10) {
                             VStack {
                                 Text(formatter.string(from: currentMonthBudget.totalIncome)!)
                                     .multilineTextAlignment(.center)
                                     .font(Font.system(size: self.incomeSelected ? 20 : 16, weight: .light, design: .default))
-                                Text("INCOME")
+                                Text(LocalizedStringKey("INCOME"))
                                     .font(.footnote)
                                     .opacity(0.8)
                             }
@@ -70,7 +79,7 @@ struct BudgetView: View {
                                 Text(formatter.string(from: currentMonthBudget.totalExpenses)!)
                                     .font(Font.system(size: (self.savingsSelected || self.incomeSelected) ? 16 : 20, weight: .light, design: .default))
                                     .multilineTextAlignment(.center)
-                                Text("EXPENSES")
+                                Text(LocalizedStringKey("EXPENSES"))
                                     .font(.footnote)
                                     .opacity(0.8)
                             }
@@ -94,7 +103,7 @@ struct BudgetView: View {
                                 Text(formatter.string(from: currentMonthBudget.totalSavings)!)
                                     .font(Font.system(size: self.savingsSelected ? 20 : 16, weight: .light, design: .default))
                                     .multilineTextAlignment(.center)
-                                Text("SAVINGS")
+                                Text(LocalizedStringKey("SAVINGS"))
                                     .font(.footnote)
                                     .opacity(0.8)
                             }
@@ -121,18 +130,21 @@ struct BudgetView: View {
                         
                     }
                     .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color("TopGradient"), Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
+                   //.background(GradientColors.TopBackground)
                     .foregroundColor(.white)
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 30)
-                            .stroke(lineWidth: 0.5)
-                            .shadow(radius: 10)
-                            .foregroundColor(.gray)
-                            .frame(width: geo.size.width * 0.70, height: 45, alignment: .center)
+                    
+                   // ZStack {
+//                        RoundedRectangle(cornerRadius: 30)
+//                            .stroke(lineWidth: 0.5)
+//                            .shadow(radius: 10)
+//                            .foregroundColor(.gray)
+//                            .frame(width: geo.size.width * 0.90, height: 50, alignment: .center)
+//                            .shadow(radius: 5)
                         HStack(spacing: 20) {
                             Button(action: {
-                                
-                                self.getPreviousMonthBudget.toggle()
+                                withAnimation(.easeInOut(duration: 2)) {
+                                    self.getPreviousMonthBudget.toggle()
+                                }
                             }) {
                                 Image(systemName: Icons.ChevronCompactLeft)
                             }
@@ -140,19 +152,21 @@ struct BudgetView: View {
                             Text("\(currentMonthBudget.monthYearStringPresentation)")
                             Spacer()
                             Button(action: {
-                                
-                                self.getNextMonthBudget.toggle()
+                                withAnimation(.easeInOut(duration: 2)) {
+                                    self.getNextMonthBudget.toggle()
+                                }
                             }) {
                                 Image(systemName: Icons.ChevronCompactRight)
                             }
                                 
                         }
+                        .padding()
                         .font(Font.system(size: 20, weight: .light, design: .default))
                         .foregroundColor(.black)
-                        .frame(width: geo.size.width * 0.65)
+                        .modifier(RoundedRectangleModifierSimpleColor(color: Color.white, strokeLineWidth: 3))
+                        .frame(width: geo.size.width * 0.90, height: 55)
                         .padding()
-                    }
-                    .background(Color.white)
+  
                     
                     if self.incomeSelected {
                         IncomeView(geo: geo,
@@ -164,7 +178,8 @@ struct BudgetView: View {
                     } else if self.savingsSelected {
                         SavingsView(geo: geo,
                                     currentMonthBudget: self.$currentMonthBudget,
-                                    savingsByType: self.$savingsByType,
+                                    savingsTypesBySubCategory: self.$savingsTypesBySubCategory,
+                                    savingsTotalAmountByType: self.$savingsTotalAmountByType,
                                     addedRecurringTransaction: self.$addedRecurringTransaction)
                             .environmentObject(self.budgetVM)
                     } else {
@@ -179,8 +194,10 @@ struct BudgetView: View {
                     }
                 }
                 .ignoresSafeArea(.all, edges: .top)
-                .navigationBarTitle (Text("BUDGET"), displayMode: .inline)
-                .background(Color.white)
+                .navigationBarTitle (Text(LocalizedStringKey("BUDGET")), displayMode: .inline)
+                //.background(GradientColors.TopBackground)
+                .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
+                .background(CustomColors.TopBackgroundGradient3)
                 .onAppear {
                     self.presentingTransactions = currentMonthBudget.expensesList
                     updateData()
@@ -201,14 +218,15 @@ struct BudgetView: View {
                     updateData()
                 })
            }
-        //}
+       
     }
     func updateData() {
         self.expensesBySubCategory = self.currentMonthBudget.expensesBySubCategory
         self.expensesTotalAmountBySubCategory = self.currentMonthBudget.expensesTotalAmountBySubCategory
         self.incomeByType = self.currentMonthBudget.incomeByType
         self.incomeTotalAmountByType = self.currentMonthBudget.incomeTotalAmountByType
-        self.savingsByType = self.currentMonthBudget.savingsByType
+        self.savingsTypesBySubCategory = self.currentMonthBudget.savingsTypesBySubCategory
+        self.savingsTotalAmountByType = self.currentMonthBudget.savingsTotalAmountByType
     }
     
     func startAnimate() {

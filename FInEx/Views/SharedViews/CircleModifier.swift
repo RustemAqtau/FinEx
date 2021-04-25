@@ -53,7 +53,6 @@ struct CircleModifierSimpleColor: ViewModifier {
                     .fill(Color.white)
                     .opacity(0.9)
                 Circle()
-                    //.fill(LinearGradient(gradient: Gradient(colors: [Color("ToolsIconsGradient1"), Color("ToolsIconsGradient2")]), startPoint: .bottomLeading, endPoint: .topLeading))
                     .fill(color)
                     .opacity(0.7)
                 Circle()

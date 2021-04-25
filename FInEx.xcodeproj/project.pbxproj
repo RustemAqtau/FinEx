@@ -25,6 +25,9 @@
 		58487F8F261EC0F800088341 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F8E261EC0F800088341 /* AnalyticsView.swift */; };
 		58487F94261F83D200088341 /* EditCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F93261F83D200088341 /* EditCategories.swift */; };
 		58487F9C261FAB2600088341 /* AddCategorySubTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F9B261FAB2600088341 /* AddCategorySubTypeView.swift */; };
+		584AC0612633A84D0055FCC8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 584AC0632633A84D0055FCC8 /* Localizable.strings */; };
+		584AC06C2634BC460055FCC8 /* PasscodeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584AC06B2634BC460055FCC8 /* PasscodeField.swift */; };
+		584AC0712634E0450055FCC8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584AC0702634E0450055FCC8 /* LoginView.swift */; };
 		5873EDD82627A850008A4DE7 /* ExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDD72627A850008A4DE7 /* ExpensesView.swift */; };
 		5873EDDD2627C0DA008A4DE7 /* Enums+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDDC2627C0DA008A4DE7 /* Enums+Constants.swift */; };
 		5873EDE22627C1B8008A4DE7 /* IncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDE12627C1B8008A4DE7 /* IncomeView.swift */; };
@@ -36,7 +39,6 @@
 		5873EE032629119D008A4DE7 /* Extensions+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE022629119D008A4DE7 /* Extensions+.swift */; };
 		5873EE13262AB518008A4DE7 /* SaveButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE12262AB518008A4DE7 /* SaveButtonView.swift */; };
 		5873EE23262BFFDC008A4DE7 /* PasscodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE22262BFFDC008A4DE7 /* PasscodeView.swift */; };
-		5873EE28262C0488008A4DE7 /* SetPasscodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE27262C0488008A4DE7 /* SetPasscodeView.swift */; };
 		5873EE38262CA911008A4DE7 /* RecurringTransactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE37262CA911008A4DE7 /* RecurringTransactionsView.swift */; };
 		5873EE3D262CA9A2008A4DE7 /* RecurringTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE3C262CA9A2008A4DE7 /* RecurringTransaction.swift */; };
 		5873EE42262CADDA008A4DE7 /* RecurringTransactionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE41262CADDA008A4DE7 /* RecurringTransactionInfo.swift */; };
@@ -102,6 +104,10 @@
 		58487F8E261EC0F800088341 /* AnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsView.swift; sourceTree = "<group>"; };
 		58487F93261F83D200088341 /* EditCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategories.swift; sourceTree = "<group>"; };
 		58487F9B261FAB2600088341 /* AddCategorySubTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategorySubTypeView.swift; sourceTree = "<group>"; };
+		584AC0622633A84D0055FCC8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		584AC0672633A8550055FCC8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		584AC06B2634BC460055FCC8 /* PasscodeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeField.swift; sourceTree = "<group>"; };
+		584AC0702634E0450055FCC8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		5873EDD72627A850008A4DE7 /* ExpensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesView.swift; sourceTree = "<group>"; };
 		5873EDDC2627C0DA008A4DE7 /* Enums+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enums+Constants.swift"; sourceTree = "<group>"; };
 		5873EDE12627C1B8008A4DE7 /* IncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeView.swift; sourceTree = "<group>"; };
@@ -113,7 +119,6 @@
 		5873EE022629119D008A4DE7 /* Extensions+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+.swift"; sourceTree = "<group>"; };
 		5873EE12262AB518008A4DE7 /* SaveButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButtonView.swift; sourceTree = "<group>"; };
 		5873EE22262BFFDC008A4DE7 /* PasscodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeView.swift; sourceTree = "<group>"; };
-		5873EE27262C0488008A4DE7 /* SetPasscodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPasscodeView.swift; sourceTree = "<group>"; };
 		5873EE37262CA911008A4DE7 /* RecurringTransactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringTransactionsView.swift; sourceTree = "<group>"; };
 		5873EE3C262CA9A2008A4DE7 /* RecurringTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringTransaction.swift; sourceTree = "<group>"; };
 		5873EE41262CADDA008A4DE7 /* RecurringTransactionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringTransactionInfo.swift; sourceTree = "<group>"; };
@@ -206,9 +211,10 @@
 				58487F9B261FAB2600088341 /* AddCategorySubTypeView.swift */,
 				58487F93261F83D200088341 /* EditCategories.swift */,
 				58487F7C261E7B6A00088341 /* SettingsView.swift */,
-				5873EE27262C0488008A4DE7 /* SetPasscodeView.swift */,
 				5873EE37262CA911008A4DE7 /* RecurringTransactionsView.swift */,
 				5873EE46262CD46D008A4DE7 /* SetRecurringTransactionView.swift */,
+				584AC06B2634BC460055FCC8 /* PasscodeField.swift */,
+				584AC0702634E0450055FCC8 /* LoginView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -277,6 +283,7 @@
 		58E2BF5B261D8E3900477D44 /* FInEx */ = {
 			isa = PBXGroup;
 			children = (
+				584AC0632633A84D0055FCC8 /* Localizable.strings */,
 				5804ADB72622831300E2FF1E /* Helpers */,
 				5804ADA9262180B000E2FF1E /* Models */,
 				5804AD9F2620C16D00E2FF1E /* FInEx.entitlements */,
@@ -489,6 +496,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 58E2BF50261D8E3900477D44;
 			packageReferences = (
@@ -510,6 +518,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				58E2BF64261D8E3A00477D44 /* Preview Assets.xcassets in Resources */,
+				584AC0612633A84D0055FCC8 /* Localizable.strings in Resources */,
 				58E2BF61261D8E3A00477D44 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -640,7 +649,6 @@
 			files = (
 				5873EDEC26280182008A4DE7 /* AddTransactionView.swift in Sources */,
 				58487F8F261EC0F800088341 /* AnalyticsView.swift in Sources */,
-				5873EE28262C0488008A4DE7 /* SetPasscodeView.swift in Sources */,
 				5873EDF42628FE4F008A4DE7 /* Grid.swift in Sources */,
 				5804AD9B2620B29C00E2FF1E /* RegisterWithAppleID.swift in Sources */,
 				5804ADBC2622885D00E2FF1E /* UserSettingsManager.swift in Sources */,
@@ -656,6 +664,7 @@
 				5804ADC42622EC1000E2FF1E /* TransactionType.swift in Sources */,
 				58487F7D261E7B6A00088341 /* SettingsView.swift in Sources */,
 				58F35D472630D6480008A00C /* PieChart.swift in Sources */,
+				584AC06C2634BC460055FCC8 /* PasscodeField.swift in Sources */,
 				58487F85261E7EDA00088341 /* BudgetView.swift in Sources */,
 				5873EE5B262F4DE6008A4DE7 /* Formatters.swift in Sources */,
 				5804ADEE2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift in Sources */,
@@ -672,6 +681,7 @@
 				5804ADC92622ECA400E2FF1E /* TransactionTypeInfo.swift in Sources */,
 				58E2BF99261E221100477D44 /* CircleModifier.swift in Sources */,
 				5873EDE72627E57C008A4DE7 /* SavingsView.swift in Sources */,
+				584AC0712634E0450055FCC8 /* LoginView.swift in Sources */,
 				5873EDE22627C1B8008A4DE7 /* IncomeView.swift in Sources */,
 				5804AD952620032900E2FF1E /* IconsView.swift in Sources */,
 				5873EE23262BFFDC008A4DE7 /* PasscodeView.swift in Sources */,
@@ -716,6 +726,18 @@
 			targetProxy = 58E2BF7B261D8E3A00477D44 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		584AC0632633A84D0055FCC8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				584AC0622633A84D0055FCC8 /* en */,
+				584AC0672633A8550055FCC8 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		58E2BF81261D8E3A00477D44 /* Debug */ = {

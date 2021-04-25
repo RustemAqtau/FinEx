@@ -12,7 +12,7 @@ struct AddTransactionView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.userSettingsVM) var userSettingsVM
-    @State var currentMonthBudget: MonthlyBudget
+    @Binding var currentMonthBudget: MonthlyBudget
     @State var category: String
     
     @State var amount: NSDecimalNumber = 0
@@ -20,7 +20,7 @@ struct AddTransactionView: View {
     @State private var amountIsEditing: Bool = false
     @State var selectedtypeImageName: String = "questionmark"
     @State var selectedTypeCircleColor: String = "TopGradient"
-    @State var selectedTypeName: String = "Category"
+    @State var selectedTypeName: String = NSLocalizedString("Category", comment: "")
     @State var selectedType: TransactionType = TransactionType()
     @State var showCategorySelector: Bool = false
     @State var selectedDate: Date = Date()
@@ -32,7 +32,7 @@ struct AddTransactionView: View {
         let year = components.year!
         let month = components.month!
         let day = components.day!
-        let startComponents = DateComponents(year: year, month: month, day: 1)
+        let startComponents = DateComponents(year: year, month: 1, day: 1)
         let endComponents = DateComponents(year: year, month: month, day: day)
         return calendar.date(from:startComponents)!
             ...
@@ -122,7 +122,7 @@ struct AddTransactionView: View {
                             Image(systemName: "pencil")
                                 .foregroundColor(self.accentColor)
                                 .font(Font.system(size: 30, weight: .regular, design: .default))
-                            TextField("Note", text: self.$note,
+                            TextField(LocalizedStringKey("Note"), text: self.$note,
                                       onEditingChanged: {isEditing in if isEditing {
                                         if !self.note.isEmpty {
                                             //self.note = ""
@@ -234,8 +234,8 @@ struct AddTransactionView: View {
     }
 }
 
-struct AddExpense_Previews: PreviewProvider {
-    static var previews: some View {
-        AddTransactionView(currentMonthBudget: MonthlyBudget(), category: Categories.Expense)
-    }
-}
+//struct AddExpense_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddTransactionView(currentMonthBudget: MonthlyBudget(), category: Categories.Expense)
+//    }
+//}

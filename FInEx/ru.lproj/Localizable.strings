@@ -1,0 +1,133 @@
+/* 
+  Localizable.strings
+  FInEx
+
+  Created by Zhansaya Ayazbayeva on 2021-04-23.
+  
+*/
+// Labels
+"INCOME" = "ДОХОД";
+"EXPENSES" = "РАСХОДЫ";
+"SAVINGS" = "НАКОПЛЕНИЯ";
+"SAVING" = "НАКОПЛЕНИЕ";
+"Income" = "Доход";
+"Expenses" = "Расходы";
+"Expense" = "Расходы";
+"EXPENSE" = "РАСХОД";
+"Savings" = "Накопления";
+"Saving" = "Накопления";
+"BUDGET" = "БЮДЖЕТ";
+"Budget" = "Бюджет";
+"CHARTS" = "ДИАГРАММЫ";
+"SUB CATEGORY" = "ПОДКАТЕГОРИИ";
+"CHANGE" = "ИЗМЕНИТЬ";
+"NAME" = "НАЗВАНИЕ";
+"APPEARANCE" = "ПРЕДСТАВЛЕНИЕ";
+"TOOLS" = "ИНСТРУМЕНТЫ";
+"CATEGORY" = "КАТЕГОРИЯ";
+
+// Picker Data
+"Every two weeks" = "Каждые две недели";
+"Every month" = "Каждый месяц";
+"Every third month" = "Каждый третий месяц";
+"Every year" = "Каждый год";
+
+// Placeholders
+"Note" = "Заметка";
+"Category" = "Категория";
+"Expenses by category" = "Расходы по категориям";
+"Income by category" = "Доходы по категориям";
+"Savings by category" = "Накопления по категориям";
+"Required" = "Обязательное";
+
+// Warning messages
+"Please enter valid amount." = "Введите валидное количество.";
+"Please select a category." = "Выберите категорию.";
+"You have already added a recurring for this categoty, please change category." = "Вы уже добавили периодичность для данное категории, выберите другую категорию.";
+
+// Expenses Categories
+"Housing" = "Жилье";
+"Entertainment" = "Развлечения";
+"Food & Drinks" = "Еда и Напитки";
+"Bills" = "Счета";
+"Transportation" = "Транспорт";
+"Health" = "Здоровье";
+"Subscriptions" = "Подписки";
+"Insurance" = "Страхование";
+"Travel" = "Путешествие";
+"Shopping" = "Покупки";
+
+// Savings Categories
+"Long Term" = "Долгосрочные";
+"Short Term" = "Короткосрочные";
+
+// Income Types
+"Salary" = "Оклад";
+"Bonus" = "Бонус";
+"Pension" = "Пенсия";
+"Dividends" = "Дивиденды";
+"Interest" = "Доля капитала";
+"Child benefit" = "Детское пособие";
+
+// Expenses Types
+"Rent" = "Аренда";
+"Loan" = "Ссуда";
+"Maintenance" = "Содержание";
+"Furniture" = "Мебель";
+"Internet" = "Интернет";
+"Electricity" ="Электричество";
+"Heating" = "Отопление";
+"Water" = "Вода";
+"Mobile" = "Мобильный";
+"Cinema" = "Кинотеатр";
+"Concert" = "Концерт";
+"Hobby" = "Хобби";
+"Bowling" = "Боулинг";
+"Nightclub" = "Ночной клуб";
+"Party" = "Вечеринка";
+"Resraurant" = "Ресторан";
+"Groceries" = "Продукты";
+"Delivery" = "Доставка";
+"Clothing" = "Одежда";
+"Device" = "Устройство";
+"Accessories" = "Аксессуар";
+"Car" = "Автомобиль";
+"TV" = "ТВ";
+"Music" = "Музыка";
+"Gas" = "Бензин";
+"Parking" = "Паркинг";
+"Public Tr." = "Общ.транспорт";
+"Repair" = "Ремонт";
+"Dentist" = "Стоматолог";
+"Check-Up" = "Обследование";
+"Flight" = "Полет";
+"Hotel" = "Отель";
+
+// Savings Types
+"Cash" = "Наличные";
+"Investments" = "Инвестиции";
+"Education" = "Образование";
+
+// Buttons
+"Save" = "Сохранить";
+
+// Settings Labels
+"REGISTER" = "РЕГИСТРИРОВАТЬСЯ";
+"RECURRING" = "ПЕРИОДИЧНОСТЬ";
+"CATEGORIES" = "КАТЕГОРИИ";
+"PASSCODE" = "ПАРОЛЬ";
+"Start Day" = "День начала";
+
+// Settings Descriptions
+"Enable Passcode" = "Включить пароль";
+"Protect your data with a passcode. This way only you can enter and access your information." = "Защитите свои данные паролем. Таким образом только вы будете иметь доступ к вашей информации.";
+"Sync & Secure" = "Синхронизация и Безопасность";
+"Sync budgets and transactions between your devices." = "Синхронизируйте ваши транзакции и бюджет между вашими устройствами.";
+"Backup your data in case you lose your phone." = "Сделайте резервную копию данных на случай потери телефона.";
+"Dont worry, we will never send you any emails." = "Не волнуйтесь, мы не будем отправлять вам электронные письма.";
+"Secure your data in the cloud and use multiple devices" = "Защитите свои данные в облаке и используйте несколько устройств";
+"Manage your regular transactions" = "Настройте ваши регулярные транзакции";
+"Create, edit or remove any of your categories" = "Создавайте, редактируйте или удаляйте любую из ваших категорий";
+"Protect your data with a passcode." = "Защитите свои данные паролем.";
+"Enter a new passcode" = "Введите новый пароль";
+"Recurring " = "Регулярные ";

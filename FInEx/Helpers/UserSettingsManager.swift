@@ -52,6 +52,7 @@ class UserSettingsManager: ObservableObject {
     
     func addNewRecurringTransaction(info: RecurringTransactionInfo, context: NSManagedObjectContext) {
         RecurringTransaction.update(from: info, context: context)
+        getRecurringTransactions(context: context)
     }
     
     func getRecurringTransactionsByCategory(monthlyBudget: MonthlyBudget, context: NSManagedObjectContext) {
@@ -200,61 +201,62 @@ class UserSettingsManager: ObservableObject {
     
     var defaultTransactionTypes: [TransactionTypeInfo] {
         return [
-            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: "Salary", imageName: "briefcase.fill", colorName: "NewBalanceColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: "Bonus", imageName: "bag.fill.badge.plus", colorName: "NewBalanceColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: "Pension", imageName: "p.square", colorName: "NewBalanceColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: "Dividends", imageName: "banknote.fill", colorName: "NewBalanceColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: "Interest", imageName: "building.columns.fill", colorName: "NewBalanceColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: "Child benefit", imageName: "staroflife", colorName: "NewBalanceColor", isHidden: false),
-            
-            //TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Housing.rawValue, name: "Rent", imageName: "house.circle.fill", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Housing.rawValue, name: "Loan", imageName: "house.fill", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Housing.rawValue, name: "Maintenance", imageName: "hammer.fill", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Housing.rawValue, name: "Furniture", imageName: "bed.double.fill", colorName: "ExpensesColor", isHidden: false),
-            
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Bills.rawValue, name: "Internet", imageName: "wifi", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Bills.rawValue, name: "Electricity", imageName: "bolt.fill", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Bills.rawValue, name: "Heating", imageName: "flame.fill", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Bills.rawValue, name: "Water", imageName: "drop", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Bills.rawValue, name: "Mobile", imageName: "phone.connection", colorName: "ExpensesColor", isHidden: false),
-            
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: "Cinema", imageName: "film", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: "Concert", imageName: "guitars", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: "Hobby", imageName: "paintpalette", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: "Bowling", imageName: "person.3", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: "Nightclub", imageName: "timelapse", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: "Party", imageName: "person.2.square.stack", colorName: "ExpensesColor", isHidden: false),
-            
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.FoodAndDrinks.rawValue, name: "Resraurant", imageName: "r.square", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.FoodAndDrinks.rawValue, name: "Groceries", imageName: "cart", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.FoodAndDrinks.rawValue, name: "Delivery", imageName: "shippingbox.fill", colorName: "ExpensesColor", isHidden: false),
-            
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Shopping.rawValue, name: "Clothing", imageName: "creditcard.fill", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Shopping.rawValue, name: "Device", imageName: "gamecontroller", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Shopping.rawValue, name: "Accessories", imageName: "eyeglasses", colorName: "ExpensesColor", isHidden: false),
-            
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Insurance.rawValue, name: "Car", imageName: "car", colorName: "ExpensesColor", isHidden: false),
-            
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Subscriptions.rawValue, name: "TV", imageName: "tv", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Subscriptions.rawValue, name: "Music", imageName: "music.note.list", colorName: "ExpensesColor", isHidden: false),
-            
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: "Loan", imageName: "car.circle.fill", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: "Gas", imageName: "gauge", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: "Parking", imageName: "p.circle.fill", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: "Public Tr.", imageName: "tram.fill", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: "Repair", imageName: "wrench.fill", colorName: "ExpensesColor", isHidden: false),
-            
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Health.rawValue, name: "Dentist", imageName: "mouth.fill", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Health.rawValue, name: "Check-Up", imageName: "stethoscope", colorName: "ExpensesColor", isHidden: false),
-            
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Travel.rawValue, name: "Flight", imageName: "airplane", colorName: "ExpensesColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Travel.rawValue, name: "Hotel", imageName: "building", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: IncomeTypeNames.Salary.localizedString(), imageName: "briefcase.fill", colorName: "NewBalanceColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: IncomeTypeNames.Bonus.localizedString(), imageName: "bag.fill.badge.plus", colorName: "NewBalanceColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: IncomeTypeNames.Pension.localizedString(), imageName: "p.square", colorName: "NewBalanceColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: IncomeTypeNames.Dividends.localizedString(), imageName: "banknote.fill", colorName: "NewBalanceColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: IncomeTypeNames.Interest.localizedString(), imageName: "building.columns.fill", colorName: "NewBalanceColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Income, subCategory: nil, name: IncomeTypeNames.ChildBenefit.localizedString(), imageName: "staroflife", colorName: "NewBalanceColor", isHidden: false),
             
             
-            TransactionTypeInfo(category: Categories.Saving, subCategory: SvaingSubCategories.LongTerm.rawValue, name: "Cash", imageName: "dollarsign.circle.fill", colorName: "SavingsColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Saving, subCategory: SvaingSubCategories.LongTerm.rawValue, name: "Investments", imageName: "arrow.up.doc.fill", colorName: "SavingsColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Saving, subCategory: SvaingSubCategories.ShortTerm.rawValue, name: "Shopping", imageName: "cart.fill.badge.plus", colorName: "SavingsColor", isHidden: false),
-            TransactionTypeInfo(category: Categories.Saving, subCategory: SvaingSubCategories.ShortTerm.rawValue, name: "Education", imageName: "graduationcap.fill", colorName: "SavingsColor", isHidden: false)
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Housing.localizedString(), name: ExpenseTypeNames.Rent.localizedString(), imageName: "house.circle.fill", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Housing.localizedString(), name: ExpenseTypeNames.Loan.localizedString(), imageName: "house.fill", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Housing.localizedString(), name: ExpenseTypeNames.Maintenance.localizedString(), imageName: "hammer.fill", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Housing.localizedString(), name: ExpenseTypeNames.Furniture.localizedString(), imageName: "bed.double.fill", colorName: "ExpensesColor", isHidden: false),
+            
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Bills.localizedString(), name: ExpenseTypeNames.Internet.localizedString(), imageName: "wifi", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Bills.localizedString(), name: ExpenseTypeNames.Electricity.localizedString(), imageName: "bolt.fill", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Bills.localizedString(), name: ExpenseTypeNames.Heating.localizedString(), imageName: "flame.fill", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Bills.localizedString(), name: ExpenseTypeNames.Water.localizedString(), imageName: "drop", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Bills.localizedString(), name: ExpenseTypeNames.Mobile.localizedString(), imageName: "phone.connection", colorName: "ExpensesColor", isHidden: false),
+            
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.localizedString(), name: ExpenseTypeNames.Cinema.localizedString(), imageName: "film", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.localizedString(), name: ExpenseTypeNames.Concert.localizedString(), imageName: "guitars", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.localizedString(), name: ExpenseTypeNames.Hobby.localizedString(), imageName: "paintpalette", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.localizedString(), name: ExpenseTypeNames.Bowling.localizedString(), imageName: "person.3", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.localizedString(), name: ExpenseTypeNames.Nightclub.localizedString(), imageName: "timelapse", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.localizedString(), name: ExpenseTypeNames.Party.localizedString(), imageName: "person.2.square.stack", colorName: "ExpensesColor", isHidden: false),
+            
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.FoodAndDrinks.localizedString(), name: ExpenseTypeNames.Resraurant.localizedString(), imageName: "r.square", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.FoodAndDrinks.localizedString(), name: ExpenseTypeNames.Groceries.localizedString(), imageName: "cart", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.FoodAndDrinks.localizedString(), name: ExpenseTypeNames.Delivery.localizedString(), imageName: "shippingbox.fill", colorName: "ExpensesColor", isHidden: false),
+            
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Shopping.localizedString(), name: ExpenseTypeNames.Clothing.localizedString(), imageName: "creditcard.fill", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Shopping.localizedString(), name: ExpenseTypeNames.Device.localizedString(), imageName: "gamecontroller", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Shopping.localizedString(), name: ExpenseTypeNames.Accessories.localizedString(), imageName: "eyeglasses", colorName: "ExpensesColor", isHidden: false),
+            
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Insurance.localizedString(), name: ExpenseTypeNames.Car.localizedString(), imageName: "car", colorName: "ExpensesColor", isHidden: false),
+            
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Subscriptions.localizedString(), name: ExpenseTypeNames.TV.localizedString(), imageName: "tv", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Subscriptions.localizedString(), name: ExpenseTypeNames.Music.localizedString(), imageName: "music.note.list", colorName: "ExpensesColor", isHidden: false),
+            
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.localizedString(), name: ExpenseTypeNames.Loan.localizedString(), imageName: "car.circle.fill", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.localizedString(), name: ExpenseTypeNames.Gas.localizedString(), imageName: "gauge", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.localizedString(), name: ExpenseTypeNames.Parking.localizedString(), imageName: "p.circle.fill", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.localizedString(), name: ExpenseTypeNames.PublicTr.localizedString(), imageName: "tram.fill", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.localizedString(), name: ExpenseTypeNames.Repair.localizedString(), imageName: "wrench.fill", colorName: "ExpensesColor", isHidden: false),
+            
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Health.localizedString(), name: ExpenseTypeNames.Dentist.localizedString(), imageName: "mouth.fill", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Health.localizedString(), name: ExpenseTypeNames.CheckUp.localizedString(), imageName: "stethoscope", colorName: "ExpensesColor", isHidden: false),
+            
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Travel.localizedString(), name: ExpenseTypeNames.Flight.localizedString(), imageName: "airplane", colorName: "ExpensesColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Travel.localizedString(), name: ExpenseTypeNames.Hotel.localizedString(), imageName: "building", colorName: "ExpensesColor", isHidden: false),
+            
+            
+            TransactionTypeInfo(category: Categories.Saving, subCategory: SvaingSubCategories.LongTerm.localizedString(), name: SavingTypeNames.Cash.localizedString(), imageName: "dollarsign.circle.fill", colorName: "SavingsColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Saving, subCategory: SvaingSubCategories.LongTerm.localizedString(), name: SavingTypeNames.Investments.localizedString(), imageName: "arrow.up.doc.fill", colorName: "SavingsColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Saving, subCategory: SvaingSubCategories.ShortTerm.localizedString(), name: SavingTypeNames.Shopping.localizedString(), imageName: "cart.fill.badge.plus", colorName: "SavingsColor", isHidden: false),
+            TransactionTypeInfo(category: Categories.Saving, subCategory: SvaingSubCategories.ShortTerm.localizedString(), name: SavingTypeNames.Education.localizedString(), imageName: "graduationcap.fill", colorName: "SavingsColor", isHidden: false)
             
         ]
     }

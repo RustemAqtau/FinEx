@@ -25,6 +25,12 @@ extension MonthlyBudget {
         
     }
     
+    var currentBalance: Decimal {
+        var balance: Decimal = 0
+        balance = (totalIncome as Decimal) - (totalExpenses as Decimal)
+        return balance
+    }
+    
     // MARK: - Income
     var incomeByDate: [String: [Transaction]] {
         var dic: [String: [Transaction]] = [:]
@@ -94,9 +100,8 @@ extension MonthlyBudget {
     
     
     var expensesBySubCategory: [String : [Transaction]] {
-        print("expensesList: \(expensesList.count)")
         let subCats = expensesList.map({ transaction in transaction.type?.subCategory })
-        print("subCats\(subCats)")
+        
         var result: [String : [Transaction]] = [:]
         for subCat in subCats {
             var arr: [Transaction] = []
@@ -139,8 +144,6 @@ extension MonthlyBudget {
                 return expenses
             }
         }
-        
-        
         return []
     }
     
@@ -148,26 +151,20 @@ extension MonthlyBudget {
     
     // MARK: - Savings
     var savingsBySubCategory: [String : [Transaction]] {
-        var dic: [String: [Transaction]] = [
-            SvaingSubCategories.LongTerm.rawValue : [],
-            SvaingSubCategories.ShortTerm.rawValue : []
-        ]
+        let subCats = savingsList.map({ transaction in transaction.type?.subCategory })
         
-        for key in dic.keys {
-            for saving in savingsList {
-                if saving.type?.subCategory == key {
-                    dic[key]?.append(saving)
+        var result: [String : [Transaction]] = [:]
+        for subCat in subCats {
+            var arr: [Transaction] = []
+            for expense in savingsList {
+                if expense.type?.subCategory == subCat {
+                    arr.append(expense)
                 }
             }
+            result[subCat!] = arr
         }
-        
-        for elem in dic {
-            if elem.value.isEmpty {
-                dic.removeValue(forKey: elem.key)
-            }
-        }
-        
-        return dic
+
+        return result
     }
     
     var savingsByType: [String : [TransactionType : Decimal]] {
@@ -187,9 +184,26 @@ extension MonthlyBudget {
             }
             dicRes[key] = dic2
         }
-        
         return dicRes
-        
+    }
+    
+    var savingsTypesBySubCategory: [String : [TransactionType]] {
+        let subCats = savingsList.map({ transaction in transaction.type?.subCategory })
+        var result: [String : [TransactionType]] = [:]
+        for subCat in subCats {
+            var arr: [TransactionType] = []
+            for expense in savingsList {
+                if expense.type?.subCategory == subCat {
+                    if !arr.contains(expense.type!) {
+                        arr.append(expense.type!)
+                    }
+                    
+                }
+            }
+            result[subCat!] = arr
+        }
+
+        return result
     }
     
     var savingsTotalAmountByType: [TransactionType : Decimal] {

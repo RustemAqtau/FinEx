@@ -11,9 +11,9 @@ import Foundation
 func setDateMMYY(date: Date) -> String {
     let formatter = DateFormatter()
     formatter.locale = .current
-    formatter.dateFormat = "MMMM, yyyy"
+    formatter.dateFormat = "MMM yyyy"
     let dateString = formatter.string(from: date)
-    return dateString
+    return dateString.capitalized
 }
 
 func setDate(date: Date) -> String {

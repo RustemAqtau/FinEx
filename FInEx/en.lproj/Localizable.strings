@@ -1,0 +1,132 @@
+/*
+  Localizable.strings
+  FInEx
+
+  Created by Zhansaya Ayazbayeva on 2021-04-23.
+  
+*/
+
+"INCOME" = "INCOME";
+"EXPENSES" = "EXPENSES";
+"SAVINGS" = "SAVINGS";
+"Income" = "Income";
+"Expenses" = "Expenses";
+"Savings" = "Savings";
+"BUDGET" = "BUDGET";
+"Budget" = "Budget";
+"CHARTS" = "CHARTS";
+"SUB CATEGORY" = "SUB CATEGORY";
+"CHANGE" = "CHANGE";
+"NAME" = "NAME";
+"APPEARANCE" = "APPEARANCE";
+"TOOLS" = "TOOLS";
+
+
+// Picker Data
+"Every two weeks" = "Every two weeks";
+"Every month" = "Every month";
+"Every third month" = "Every third month";
+"Every year" = "Every year";
+
+// Placeholders
+"Note" = "Note";
+"Category" = "Category";
+"Expenses by category" = "Expenses by category";
+"Income by category" = "Income by category";
+"Savings by category" = "Savings by category";
+"Required" = "Required";
+
+// Warning messages
+"Please enter valid amount." = "Please enter valid amount.";
+"Please select a category." = "Please select a category.";
+"You have already added a recurring for this categoty, please change category." = "You have already added a recurring for this categoty, please change category.";
+
+// Expenses Categories
+"Housing" = "Housing";
+"Entertainment" = "Entertainment";
+"Food & Drinks" = "Food & Drinks";
+"Bills" = "Bills";
+"Transportation" = "Transportation";
+"Health" = "Health";
+"Subscriptions" = "Subscriptions";
+"Insurance" = "Insurance";
+"Travel" = "Travel";
+"Shopping" = "Shopping";
+
+// Savings Categories
+"Long Term" = "Long Term";
+"Short Term" = "Short Term";
+
+// Income Types
+"Salary" = "Salary";
+"Bonus" = "Bonus";
+"Pension" = "Pension";
+"Dividends" = "Dividends";
+"Interest" = "Interest";
+"Child benefit" = "Child benefit";
+
+// Expenses Types
+"Rent" = "Rent";
+"Loan" = "Loan";
+"Maintenance" = "Maintenance";
+"Furniture" = "Furniture";
+"Internet" = "Internet";
+"Electricity" ="Electricity";
+"Heating" = "Heating";
+"Water" = "Water";
+"Mobile" = "Mobile";
+"Cinema" = "Cinema";
+"Concert" = "Concert";
+"Hobby" = "Hobby";
+"Bowling" = "Bowling";
+"Nightclub" = "Nightclub";
+"Party" = "Party";
+"Resraurant" = "Resraurant";
+"Groceries" = "Groceries";
+"Delivery" = "Delivery";
+"Clothing" = "Clothing";
+"Device" = "Device";
+"Accessories" = "Accessories";
+"Car" = "Car";
+"TV" = "TV";
+"Music" = "Music";
+"Gas" = "Gas";
+"Parking" = "Parking";
+"Public Tr." = "Public Tr.";
+"Repair" = "Repair";
+"Dentist" = "Dentist";
+"Check-Up" = "Check-Up";
+"Flight" = "Flight";
+"Hotel" = "Hotel";
+
+// Savings Types
+"Cash" = "Cash";
+"Investments" = "Investments";
+"Education" = "Education";
+
+// Buttons
+"Save" = "Save";
+
+// Settings Labels
+"REGISTER" = "REGISTER";
+"RECURRING" = "RECURRING";
+"CATEGORIES" = "CATEGORIES";
+"PASSCODE" = "PASSCODE";
+"Start Day" = "Start Day";
+
+// Settings Descriptions
+"Enable Passcode" = "Enable Passcode";
+"Protect your data with a passcode. This way only you can enter and access your information." = "Protect your data with a passcode. This way only you can enter and access your information.";
+"Sync & Secure" = "Sync & Secure";
+"Sync budgets and transactions between your devices." = "Sync budgets and transactions between your devices.";
+"Backup your data in case you lose your phone." = "Backup your data in case you lose your phone.";
+"Dont worry, we will never send you any emails." = "Dont worry, we will never send you any emails.";
+"Secure your data in the cloud and use multiple devices" = "Secure your data in the cloud and use multiple devices";
+"Manage your regular transactions" = "Manage your regular transactions";
+"Create, edit or remove any of your categories" = "Create, edit or remove any of your categories";
+"Protect your data with a passcode." = "Protect your data with a passcode.";
+"Enter a new passcode" = "Enter a new passcode";
+"Recurring " = "Recurring ";
+
+
+

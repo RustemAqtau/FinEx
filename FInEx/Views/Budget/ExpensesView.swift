@@ -31,7 +31,6 @@ struct ExpensesView: View {
                     AddRecurringTransactionView(geo: geo, currentBudget: self.currentMonthBudget, recurringTransactions: self.recurringTransactions, addedRecurringTransaction: self.$addedRecurringTransaction)
                         .environmentObject(budgetVM)
                 }
-                
                 ForEach(self.expensesBySubCategory.keys.sorted(), id: \.self) { subCategory in
                     VStack(alignment: .leading) {
                         HStack {
@@ -46,13 +45,10 @@ struct ExpensesView: View {
                         .font(Font.system(size: 18, weight: .light, design: .default))
                         .scaledToFit()
                         .padding()
-                        
                         Divider()
-                        
                         ForEach(expensesBySubCategory[subCategory]!, id: \.date) { expense in
                             HStack {
-                                
-                                    Group {
+                                Group {
                                         if let expenseType = expense.type {
                                         Image(systemName: expenseType.presentingImageName)
                                             .foregroundColor(.white)
@@ -60,7 +56,6 @@ struct ExpensesView: View {
                                             .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
                                             .font(Font.system(size: 24, weight: .regular, design: .default))
                                             .animation(.linear(duration: 0.5))
-                                           // .transition(AnyTransition.opacity)
                                         VStack(alignment: .leading) {
                                             Text(expenseType.presentingName)
                                                 .shadow(radius: -10 )
@@ -69,27 +64,20 @@ struct ExpensesView: View {
                                                 .foregroundColor(.gray)
                                         }
                                         .animation(.linear(duration: 0.5))
-                                        //.transition(AnyTransition.opacity)
                                         
                                     }
                                 }
-                                
-                                
                                 Spacer()
                                 Text("$" + formatter.string(from: expense.amount ?? 0)!)
                                     .animation(.linear(duration: 0.5))
-                                    //.transition(AnyTransition.opacity)
                             }
                             .frame(width: geo.size.width / 1.15 )
                             .scaledToFit()
                             .onTapGesture {
                                 self.editingTransaction = expense
-                                print(editingTransaction.amountDecimal)
                                 self.editTransaction = true
-                                
                             }
                             .sheet(isPresented: self.$editTransaction, content: {
-                               
                                 withAnimation(.easeInOut(duration: 2)) {
                                     EditTransactionView(transaction: self.$editingTransaction)
                                         .environmentObject(self.budgetVM)
@@ -97,16 +85,14 @@ struct ExpensesView: View {
                             })
                             Divider()
                         }
-                        .onDelete(perform: {indexSet in withAnimation {  deleteTransaction(subCategory: subCategory, at: indexSet)} })
                         
                     }
                     .padding(.horizontal)
-                    
+                    .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
                     
                 }
                 .background(Color.white)
                 
-                //.onDelete(perform: { indexSet in print(indexSet) })
             }
             .frame(width: geo.size.width)
             
@@ -137,11 +123,7 @@ struct ExpensesView: View {
         
     }
    // }
-    func deleteTransaction(subCategory: String, at indexSet: IndexSet) {
-        for index in indexSet {
-            expensesBySubCategory[subCategory]![index].delete(context: viewContext)
-        }
-    }
+    
     
 }
 

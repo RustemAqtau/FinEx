@@ -13,112 +13,136 @@ struct AddCategorySubTypeView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     @Binding var category: String
-    @State private var newtypeName: String = ""
-    @State private var appearanceImageName: String = "questionmark"
+    @State private var newtypeName: String = NSLocalizedString("", comment: "")
+    @State private var appearanceImageName: String = Icons.Questionmark
     @State private var appearanceCircleColor: String = "TopGradient"
     @State private var showIcons: Bool = true
-    @State private var selectedSubCategory: String = ""
+    @State private var selectedSubCategory: String = NSLocalizedString("", comment: "")
+    @State private var warningMessage: String = ""
+    @State private var validationFailed: Bool = false
+    @State private var height: CGFloat = 0
+    @State private var saveButtonOffsetY: CGFloat = 30
+    
     private let appearanceColorSet = ["CustomRed", "CustomPink", "CustomPurple", "CustomGreen", "CustomBlue", "CustomYellow"]
     
     var body: some View {
         NavigationView {
             GeometryReader { geo in
                 ScrollView() {
-                    let subCategories = userSettingsVM.subCategories[self.category] ?? []
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("CATEGORY")
-                            .font(Font.system(size: 12, weight: .light, design: .default))
-                        Text(self.category)
-                            .font(Font.system(size: 24, weight: .light, design: .default))
-                    }
-                    .padding()
-                    .frame(width: geo.size.width, alignment: .leading)
-                    //.navigationBarTitle (Text(""), displayMode: .inline)
-                    VStack(alignment: .leading, spacing: 8) {
-                       HStack {
-                            Text("SUB CATEGORY")
-                                .font(Font.system(size: 12, weight: .light, design: .default))
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 25.0)
-                                    .stroke(Color.red)
-                                Picker("CHANGE",
-                                       selection: self.$selectedSubCategory) {
-                                    ForEach(0..<subCategories.count) { index in
-                                        Text(subCategories[index]).tag(subCategories[index])
+                    VStack(spacing: 8) {
+                        Text(warningMessage)
+                            .font(Fonts.light12)
+                            .foregroundColor(.gray)
+                            .opacity(self.validationFailed ? 1 : 0)
+                            .frame(height: self.validationFailed ? 20 : 0)
+                        
+                        let subCategories = userSettingsVM.subCategories[self.category] ?? []
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(LocalizedStringKey("CATEGORY"))
+                                .font(Fonts.light12)
+                            Text(LocalizedStringKey(self.category))
+                                .font(Fonts.light25)
+                        }
+                        .padding(.horizontal)
+                        .frame(width: geo.size.width, alignment: .leading)
+                        
+                        .navigationBarTitle (Text(""), displayMode: .inline)
+                        VStack(alignment: .leading, spacing: 3) {
+                            HStack {
+                                Text(LocalizedStringKey("SUB CATEGORY"))
+                                    .font(Font.system(size: 12, weight: .light, design: .default))
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 25.0)
+                                        .stroke(Color.red)
+                                    Picker(LocalizedStringKey("CHANGE"),
+                                           selection: self.$selectedSubCategory) {
+                                        ForEach(0..<subCategories.count) { index in
+                                            Text(LocalizedStringKey(subCategories[index])).tag(subCategories[index])
+                                        }
                                     }
+                                    .pickerStyle(MenuPickerStyle())
+                                    .font(Font.system(size: 12, weight: .light, design: .default))
                                 }
-                                .pickerStyle(MenuPickerStyle())
-                                .font(Font.system(size: 12, weight: .light, design: .default))
+                                .frame(width: geo.size.width / 4, height: 20, alignment: .center)
                             }
-                            .frame(width: geo.size.width / 4, height: 20, alignment: .center)
+                            Text(LocalizedStringKey("\(self.selectedSubCategory)"))
+                                .font(Font.system(size: 24, weight: .light, design: .default))
                         }
-                        Text("\(self.selectedSubCategory)")
-                            .font(Font.system(size: 24, weight: .light, design: .default))
-                    }
-                    .padding()
-                    .frame(width: geo.size.width, height: subCategories.isEmpty ? 0 : 80 , alignment: .leading)
-                    .opacity(subCategories.isEmpty ? 0 : 1)
-                    .onAppear {
-                        if !subCategories.isEmpty {
-                            self.selectedSubCategory = subCategories.first!
+                        .padding(.horizontal)
+                        .frame(width: geo.size.width, height: subCategories.isEmpty ? 0 : 80 , alignment: .leading)
+                        .opacity(subCategories.isEmpty ? 0 : 1)
+                        .onAppear {
+                            if !subCategories.isEmpty {
+                                self.selectedSubCategory = subCategories.first!
+                            }
                         }
-                    }
-                    
-                    VStack(alignment: .leading) {
-                        Text("NAME")
-                            .font(Font.system(size: 12, weight: .light, design: .default))
-                        TextField("Required", text: self.$newtypeName, onEditingChanged: {isEditing in if isEditing {
-                            self.showIcons = false
-                        } else { self.showIcons = true }} , onCommit:  {
-                            
-                        })
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(LocalizedStringKey("NAME"))
+                                .font(Font.system(size: 12, weight: .light, design: .default))
+                            TextField(LocalizedStringKey(Placeholders.Required), text: self.$newtypeName, onEditingChanged: {isEditing in if isEditing {
+                                
+                                self.showIcons = false
+                                self.height = geo.size.height
+                                replaceSaveButton(down: false)
+                                
+                            } else { self.showIcons = true }} , onCommit:  {
+                                
+                            })
                             .accentColor(.gray)
                             .introspectTextField { textField in
-                                    textField.becomeFirstResponder()
+                                textField.becomeFirstResponder()
+                                
                             }
                             .font(Font.system(size: 22, weight: .light, design: .default))
-                            
-                    }
-                    .padding()
-                    .frame(width: geo.size.width, alignment: .leading)
-                    
-                    
-                    VStack(alignment: .leading) {
-                        Text("APPEARANCE")
-                            .font(Font.system(size: 12, weight: .light, design: .default))
-                        Image(systemName: self.appearanceImageName)
-                            .foregroundColor(.white)
-                            .modifier(CircleModifierSimpleColor(color: Color(self.appearanceCircleColor), strokeLineWidth: 3.0))
-                            .font(Font.system(size: 24, weight: .regular, design: .default))
-                            .frame(width: geo.size.width / 8, height: geo.size.width / 8, alignment: .center)
-                            .onTapGesture {
-                                self.showIcons.toggle()
-                            }
-                            
-                        HStack(spacing: 15) {
-                            ForEach(0..<self.appearanceColorSet.count) { index in
-                                Text("")
-                                    .modifier(CircleModifierSimpleColor(color: Color(self.appearanceColorSet[index]), strokeLineWidth: 3.0))
-                                    .frame(width: geo.size.width / 10, height: geo.size.width / 10, alignment: .center)
-                                    .onTapGesture {
-                                        self.appearanceCircleColor = self.appearanceColorSet[index]
-                                    }
-                            }
                         }
-                        .padding()
-                    }
-                    .padding()
-                    .frame(width: geo.size.width, alignment: .leading)
-                    VStack {
-                        Button(action: {
-                            save()
+                        .padding(.horizontal)
+                        .frame(width: geo.size.width, height: 60, alignment: .top)
+                        
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(LocalizedStringKey("APPEARANCE"))
+                                .font(Fonts.light12)
+                            HStack {
+                                Image(systemName: self.appearanceImageName)
+                                    .foregroundColor(.white)
+                                    .modifier(CircleModifierSimpleColor(color: Color(self.appearanceCircleColor), strokeLineWidth: 3.0))
+                                    .font(Font.system(size: 24, weight: .regular, design: .default))
+                                    .frame(width: geo.size.width / 8, height: geo.size.width / 8, alignment: .center)
+                                    .onTapGesture {
+                                        withAnimation(.easeInOut(duration: 0.3)) {
+                                        hideKeyboard()
+                                        replaceSaveButton(down: false)
+                                        self.showIcons.toggle()
+                                        }
+                                    }
+                                
+                                HStack(spacing: 10) {
+                                    ForEach(0..<self.appearanceColorSet.count) { index in
+                                        Text("")
+                                            .modifier(CircleModifierSimpleColor(color: Color(self.appearanceColorSet[index]), strokeLineWidth: 2.0))
+                                            .frame(width: geo.size.width / 11, height: geo.size.width / 11, alignment: .center)
+                                            .onTapGesture {
+                                                self.appearanceCircleColor = self.appearanceColorSet[index]
+                                            }
+                                    }
+                                }
+                                .padding()
+                            }
                             
+                        }
+                        .padding(.horizontal)
+                        .frame(width: geo.size.width,  alignment: .leading)
+                        
+                        
+                        Button(action: {
+                            if validationSucceed() {
+                                save()
+                            }
                         }) {
                             SaveButtonView(geo: geo, withTrash: false)
                         }
+                        .offset(y: self.saveButtonOffsetY)
+                        
                     }
-                    .frame(width: geo.size.width, height: 150, alignment: .bottom)
-                    .opacity(self.showIcons ? 0 : 1)
                     
                 }
                 .foregroundColor(CustomColors.TextDarkGray)
@@ -129,8 +153,11 @@ struct AddCategorySubTypeView: View {
                 )
             }
             .onTapGesture {
+                withAnimation(.easeInOut(duration: 0.5)) {
                 hideKeyboard()
-                self.showIcons.toggle()
+                replaceSaveButton(down: true)
+                self.showIcons = false
+                }
             }
             .navigationBarItems(leading: Button(action: {
                 presentationMode.wrappedValue.dismiss()
@@ -139,9 +166,22 @@ struct AddCategorySubTypeView: View {
                 Image(systemName: "xmark")
                     .font(Font.system(size: 20, weight: .regular, design: .default))
             })
-            
+            .onChange(of: self.newtypeName, perform: { value in
+                validationFailed = false
+            })
+            .onChange(of: self.appearanceImageName, perform: { value in
+                validationFailed = false
+            })
         }
     }
+    
+    private func replaceSaveButton(down: Bool) {
+        
+        withAnimation(.easeInOut(duration: 0.5)) {
+            self.saveButtonOffsetY = down ? self.height * 0.40 : 25
+        }
+    }
+    
     private func save() {
         let newTransactionTypeInfo = TransactionTypeInfo(
             category: category,
@@ -154,7 +194,20 @@ struct AddCategorySubTypeView: View {
         self.userSettingsVM.getTransactiontypes(context: viewContext)
         presentationMode.wrappedValue.dismiss()
     }
-    
+    func validationSucceed() -> Bool {
+        
+        guard !self.newtypeName.isEmpty else {
+            self.validationFailed = true
+            self.warningMessage = WarningMessages.RequiredField
+            return false
+        }
+        guard self.appearanceImageName != Icons.Questionmark else {
+            self.validationFailed = true
+            self.warningMessage = WarningMessages.RequiredField
+            return false
+        }
+        return true
+    }
     
 }
 
@@ -172,15 +225,6 @@ struct AddCategoryView_Previews: PreviewProvider {
     }
 }
 
-enum SubCategories: String, CaseIterable {
-    case Entertainment = "er"
-    case Health
-    case Insurance
-    case Travel
-    case Bills
-
-    //var id: String { self.rawValue }
-}
 
 
 

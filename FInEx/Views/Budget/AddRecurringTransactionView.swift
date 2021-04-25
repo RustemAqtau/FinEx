@@ -28,7 +28,7 @@ struct AddRecurringTransactionView: View {
                         RoundedRectangle(cornerRadius:30)
                             .fill(Color.white)
                         RoundedRectangle(cornerRadius:30)
-                            .stroke(Color.gray)
+                            .stroke(Color.white)
                         HStack {
                             HStack {
                                 Group {
@@ -38,8 +38,8 @@ struct AddRecurringTransactionView: View {
                                         .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
                                         .font(Font.system(size: 24, weight: .regular, design: .default))
                                     VStack(alignment: .leading) {
-                                        Text(transaction.type!.presentingName)
-                                        Text(transaction.periodicity!)
+                                        Text(LocalizedStringKey(transaction.type!.presentingName))
+                                        Text(LocalizedStringKey(transaction.periodicity!))
                                             .font(Font.system(size: 15, weight: .light, design: .default))
                                             .foregroundColor(.gray)
                                     }

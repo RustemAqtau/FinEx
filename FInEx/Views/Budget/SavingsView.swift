@@ -15,7 +15,9 @@ struct SavingsView: View {
     
     @Binding var currentMonthBudget: MonthlyBudget
     
-    @Binding var savingsByType: [String: [TransactionType : Decimal]]
+    @Binding var savingsTypesBySubCategory: [String : [TransactionType]]
+    @Binding var savingsTotalAmountByType: [TransactionType : Decimal]
+    
     @State var subCategories: [String] = []
     @State var typesInSubCategory: [String : [TransactionType]] = [:]
     
@@ -24,7 +26,6 @@ struct SavingsView: View {
    
     var body: some View {
         let formatter = setDecimalFormatter()
-      //  if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack {
                 if !self.recurringTransactions.isEmpty {
@@ -32,7 +33,7 @@ struct SavingsView: View {
                         .environmentObject(budgetVM)
                 }
                 
-                ForEach(self.subCategories, id: \.self) { subCategory in
+                ForEach(self.savingsTypesBySubCategory.keys.sorted(), id: \.self) { subCategory in
                     VStack(alignment: .leading) {
                         HStack {
                             Group {
@@ -47,7 +48,7 @@ struct SavingsView: View {
                         
                         Divider()
                         
-                        ForEach(typesInSubCategory[subCategory]!, id: \.self) { type in
+                        ForEach(savingsTypesBySubCategory[subCategory]!, id: \.self) { type in
                             HStack {
                                 Group {
                                     Image(systemName: type.presentingImageName)
@@ -56,20 +57,18 @@ struct SavingsView: View {
                                         .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
                                         .font(Font.system(size: 24, weight: .regular, design: .default))
                                         .animation(.linear(duration: 0.5))
-                                        .transition(AnyTransition.opacity)
+                                        
                                     VStack(alignment: .leading) {
                                         Text(type.presentingName)
                                             .shadow(radius: -10 )
                                             
                                     }
                                     .animation(.linear(duration: 0.5))
-                                    .transition(AnyTransition.opacity)
                                 }
-                                
                                 Spacer()
-                                Text("$" + formatter.string(from: NSDecimalNumber(decimal: savingsByType[subCategory]![type] ?? 0) )!)
+                                Text("$" + formatter.string(from: NSDecimalNumber(decimal: savingsTotalAmountByType[type] ?? 0) )!)
                                     .animation(.linear(duration: 0.5))
-                                    .transition(AnyTransition.opacity)
+                                    
                             }
                             .frame(width: geo.size.width / 1.15 )
                             .scaledToFit()
@@ -78,6 +77,7 @@ struct SavingsView: View {
                         }
                     }
                     .padding(.horizontal)
+                    .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
                 }
                 .background(Color.white)
                 
@@ -91,35 +91,15 @@ struct SavingsView: View {
             
         }
         .onAppear {
-            for key in savingsByType.keys.sorted() {
-                self.subCategories.append(key)
-                var arr: [TransactionType] = []
-                for type in savingsByType[key]!.keys {
-                    arr.append(type)
-                }
-                self.typesInSubCategory[key] = arr
-            }
-            
             
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
        }
         .onChange(of: currentMonthBudget.savingsList.count, perform: { value in
-            self.subCategories.removeAll()
-            self.typesInSubCategory.removeAll()
-            for key in savingsByType.keys.sorted() {
-                self.subCategories.append(key)
-                var arr: [TransactionType] = []
-                for type in savingsByType[key]!.keys {
-                    arr.append(type)
-                }
-                self.typesInSubCategory[key] = arr
-            }
             
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
         })
-       // }
     }
 
 }

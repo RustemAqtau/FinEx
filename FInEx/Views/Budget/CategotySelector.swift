@@ -31,18 +31,20 @@ struct CategotySelector: View {
                            let rowCounter = types[subCategory]!.count / 3
                             let modula = types[subCategory]!.count % 3
                             HStack {
-                                Text(subCategory)
+                                Text(LocalizedStringKey(subCategory))
                                     .font(Font.system(size: 22, weight: .light, design: .default))
                             }
                             .frame(width: geo.size.width * 0.80, alignment: .leading)
                             Divider()
-                            Grid(self.types[subCategory]!, viewForItem: { transactionType in
+                            Grid(userSettingsVM.transactiontypesByCategoty[categoty]![subCategory]!, viewForItem: { transactionType in
                                 VStack {
                                     Image(systemName: transactionType.presentingImageName)
                                         .modifier(CircleModifierSimpleColor(color: Color(transactionType.presentingColorName), strokeLineWidth: 3.0))
                                         .font(Font.system(size: 24, weight: .regular, design: .default))
-                                    Text(transactionType.presentingName)
+                                    Text(LocalizedStringKey(transactionType.presentingName))
                                         .font(Font.system(size: 12, weight: .light, design: .default))
+                                        .multilineTextAlignment(.center)
+                                        .lineLimit(1)
                                 }
                                 .frame(width: 85, height: 85, alignment: .center)
                                 .onTapGesture {
@@ -76,9 +78,9 @@ struct CategotySelector: View {
         .foregroundColor(.white)
         .onAppear {
             self.subCategories = userSettingsVM.subCategories[self.categoty]!.sorted()
-            print("subCategories: \(subCategories)")
+            
             self.types = userSettingsVM.transactiontypesByCategoty[categoty]!
-            print("types: \(types)")
+            
         }
     }
 }

@@ -49,9 +49,7 @@ struct IncomeView: View {
                         .frame(width: geo.size.width / 1.2 )
                         .scaledToFit()
                         .padding()
-                        
                         Divider()
-                        
                         ForEach(self.incomeByType[type]!, id: \.date) { income in
                             HStack {
                                 Group {
@@ -62,37 +60,29 @@ struct IncomeView: View {
                                             .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
                                             .font(Font.system(size: 24, weight: .regular, design: .default))
                                             .animation(.linear(duration: 0.5))
-                                            .transition(AnyTransition.opacity)
+                                            
                                         VStack(alignment: .leading) {
                                             Text(incomeType.presentingName)
                                                 .shadow(radius: -10 )
-                                            Text(setDate(date: income.date!))
+                                             Text(setDate(date: income.date!))
                                                 .font(Font.system(size: 15, weight: .light, design: .default))
                                                 .foregroundColor(.gray)
-                                                
                                         }
                                         .animation(.linear(duration: 0.5))
-                                        .transition(AnyTransition.opacity)
                                     }
-                                    
                                 }
-                                
-                                Spacer()
+                               Spacer()
                                 Text("$" + formatter.string(from: income.amountDecimal)!)
                                     .animation(.linear(duration: 0.5))
-                                    .transition(AnyTransition.opacity)
                             }
                             .frame(width: geo.size.width / 1.15 )
                             .scaledToFit()
                             .onTapGesture {
                                 self.editingTransaction = income
-                                print(editingTransaction.amountDecimal)
                                 self.editTransaction = true
-                                
                             }
                             .sheet(isPresented: self.$editTransaction, content: {
-                               
-                                withAnimation(.easeInOut(duration: 2)) {
+                               withAnimation(.easeInOut(duration: 2)) {
                                     EditTransactionView(transaction: self.$editingTransaction)
                                 }
                             })
@@ -100,6 +90,7 @@ struct IncomeView: View {
                         }
                     }
                     .padding(.horizontal)
+                    .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
                 }
                 .background(Color.white)
                 

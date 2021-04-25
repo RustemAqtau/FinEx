@@ -23,8 +23,8 @@ struct RecurringTransactionsView: View {
                     VStack(spacing: 20) {
                         ForEach(userSettingsVM.cetegoriesArray, id: \.self) { category in
                             HStack {
-                                Text("Recurring " + category)
-                                    .font(Font.system(size: 25, weight: .regular, design: .default))
+                                Text(NSLocalizedString("Recurring ", comment: "") + NSLocalizedString(category, comment: ""))
+                                    .font(Fonts.light20)
                                 Spacer()
                                 Button(action: {
                                     self.isAddingTransaction = true
@@ -84,7 +84,7 @@ struct RecurringTransactionsView: View {
                     self.recurringTransactionsByCategory = userSettingsVM.recurringTransactionsByCategory
                     
                 }
-                .onChange(of: userSettingsVM.recurringTransactions.count, perform: { value in
+                .onChange(of: self.isAddingTransaction, perform: { value in
                     userSettingsVM.getRecurringTransactionsByCategory(context: viewContext)
                     self.recurringTransactionsByCategory = userSettingsVM.recurringTransactionsByCategory
                 })

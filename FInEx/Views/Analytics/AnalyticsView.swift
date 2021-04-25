@@ -18,14 +18,14 @@ struct AnalyticsView: View {
     @State var entriesForExpenses: [PieChartDataEntry] = []
     @State var entriesForIncome: [PieChartDataEntry] = []
     @State var entriesForSaving: [PieChartDataEntry] = []
-    @State var pieSliceDescription: String = "Expenses by Category".uppercased()
+    @State var pieSliceDescription: String = NSLocalizedString("Expenses by Category", comment: "").uppercased()
     @State var selectedCategory: String = Categories.Income
     var body: some View {
         GeometryReader { geo in
             VStack {
                 
                 VStack(spacing: 0) {
-                    Text("CHARTS")
+                    Text(LocalizedStringKey("CHARTS"))
                         .foregroundColor(.gray)
                     Button(action: {
                         let shareManager = CSVShareManager()
@@ -62,12 +62,15 @@ struct AnalyticsView: View {
                 .background(Color.white)
                 VStack {
                     Picker(selection: self.$selectedCategory, label: Text("")) {
-                        Text(Categories.Income).tag(Categories.Income)
-                        Text(Categories.Expense).tag(Categories.Expense)
-                        Text(Categories.Saving).tag(Categories.Saving)
+                        Text(LocalizedStringKey(Categories.Income)).tag(Categories.Income)
+                        Text(LocalizedStringKey(Categories.Expense)).tag(Categories.Expense)
+                        Text(LocalizedStringKey(Categories.Saving)).tag(Categories.Saving)
                     }
                     .pickerStyle(SegmentedPickerStyle())
+                    .colorMultiply(CustomColors.IncomeGradient2).colorInvert()
+                    .colorMultiply(CustomColors.CloudBlue).colorInvert()
                 }
+                .frame(width: geo.size.width * 0.90)
                 VStack {
                     
                     Text(self.pieSliceDescription.uppercased())

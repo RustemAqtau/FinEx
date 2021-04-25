@@ -7,6 +7,8 @@
 
 import SwiftUI
 import CoreData
+import KeychainAccess
+import LocalAuthentication
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -28,9 +30,11 @@ struct ContentView: View {
     
     let coloredNavAppearance = UINavigationBarAppearance()
     let coloredBarButtonAppearance = UIBarButtonItemAppearance ()
+    
+    @State var askPasscode: Bool = false
+    @State var askBiometrix: Bool = false
     init() {
         setNavBarAppearance()
-        
     }
     
     var body: some View {
@@ -46,7 +50,9 @@ struct ContentView: View {
                         if let currentBudget = budgetVM.budgetList.last {
                         AnalyticsView(currentMonthBudget: .constant(currentBudget))
                                         .environmentObject(budgetVM)
+                            
                         }
+                        
                             
                     } else {
                         if !budgetVM.budgetList.isEmpty {
@@ -61,6 +67,7 @@ struct ContentView: View {
                     }
                 }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
+                
                 .overlay(
 
                     ZStack {
@@ -89,7 +96,15 @@ struct ContentView: View {
                         .opacity(0.8)
                         .frame(width: geo.size.width / 5, height: geo.size.height / 8, alignment: .center)
                         .position(x: geo.size.width / 2, y: geo.size.height / 2.3)
-                        
+                        .sheet(isPresented: self.$showAddExpense, content: {
+                            
+                                let addingCategory = getAddingCategory()
+                                AddTransactionView(currentMonthBudget: self.$currentMonthBudget, category: addingCategory)
+                                    .environmentObject(self.budgetVM)
+                                    .environment(\.userSettingsVM, self.userSettingsVM)
+                            
+                            
+                        })
                         HStack(alignment: .top , spacing: geo.size.width / 2) {
                             
                             Button(action: {
@@ -121,6 +136,8 @@ struct ContentView: View {
                 )
             }
         }
+        
+        
         .ignoresSafeArea(.all, edges: .top)
         .onAppear {
             if self.userSettingsVM.checkUserSettingsIsEmpty(context: viewContext) {
@@ -148,33 +165,45 @@ struct ContentView: View {
             }
             print("budgetList.count: \(self.budgetVM.budgetList.count)")
             self.currentMonthBudget = budgetVM.budgetList.last!
+            
+//            if userSettingsVM.settings.isSetPassCode {
+//                if userSettingsVM.settings.isSetBiometrix {
+//                    self.askBiometrix = true
+//                } else {
+//                    self.askPasscode = true
+//                }
+//                
+//            }
         }
         .onChange(of: self.getPreviousMonthBudget, perform: { value in
             if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
                currentBudgetIndex != self.budgetVM.budgetList.startIndex  {
-                let previousBudgetIndex = self.budgetVM.budgetList.index(before: currentBudgetIndex)
-                self.currentMonthBudget = self.budgetVM.budgetList[previousBudgetIndex]
+                withAnimation(.easeInOut(duration: 1)) {
+                    let previousBudgetIndex = self.budgetVM.budgetList.index(before: currentBudgetIndex)
+                    self.currentMonthBudget = self.budgetVM.budgetList[previousBudgetIndex]
+                }
             }
         })
         .onChange(of: self.getNextMonthBudget, perform: { value in
             if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
                currentBudgetIndex != self.budgetVM.budgetList.endIndex - 1  {
-                let nextBudgetIndex = self.budgetVM.budgetList.index(after: currentBudgetIndex)
-                self.currentMonthBudget = self.budgetVM.budgetList[nextBudgetIndex]
+                withAnimation(.easeInOut(duration: 1)) {
+                    let nextBudgetIndex = self.budgetVM.budgetList.index(after: currentBudgetIndex)
+                    self.currentMonthBudget = self.budgetVM.budgetList[nextBudgetIndex]
+                }
             }
         })
-        .sheet(isPresented: self.$showAddExpense, content: {
-            if let currentMonthBudget = budgetVM.budgetList.last {
-                let addingCategory = getAddingCategory()
-                AddTransactionView(currentMonthBudget: currentMonthBudget, category: addingCategory)
-                    .environmentObject(self.budgetVM)
-                    .environment(\.userSettingsVM, self.userSettingsVM)
-            }
-            
-        })
-       
+        
+        
+//        .fullScreenCover(isPresented: self.$askBiometrix, content: {
+//            LoginView()
+//        })
+//        .fullScreenCover(isPresented: self.$askPasscode, content: {
+//            PasscodeField(isNewPasscode: false)
+//        })
         
     }
+    
     
     
     private func getAddingCategory() -> String {
@@ -199,7 +228,7 @@ struct ContentView: View {
     }
     func setNavBarAppearance() {
         coloredNavAppearance.configureWithOpaqueBackground()
-        coloredNavAppearance.backgroundColor = UIColor(.clear)
+        coloredNavAppearance.backgroundColor = UIColor(CustomColors.TopBackgroundGradient3)
         coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.gray, .strokeColor: UIColor.clear, .underlineColor: UIColor.clear]
         coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.gray]
         coloredNavAppearance.shadowColor = .clear

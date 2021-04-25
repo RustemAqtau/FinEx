@@ -114,7 +114,7 @@ struct EditTransactionView: View {
                             Image(systemName: "pencil")
                                 .foregroundColor(self.accentColor)
                                 .font(Font.system(size: 30, weight: .regular, design: .default))
-                            TextField("Note", text: self.$note,
+                            TextField(LocalizedStringKey("Note"), text: self.$note,
                                       onEditingChanged: {isEditing in if isEditing {
                                         if !self.note.isEmpty {
                                             //self.note = ""

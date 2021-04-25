@@ -46,7 +46,7 @@ struct PieChart: UIViewRepresentable {
             
         }
         func chartValueNothingSelected(_ chartView: ChartViewBase) {
-            parent.pieSliceDescription = "Expenses by Category".uppercased()
+            parent.pieSliceDescription = NSLocalizedString("Expenses by Category", comment: "").uppercased()
         }
         
     }
@@ -72,7 +72,7 @@ struct PieChart: UIViewRepresentable {
     }
     
     func formatDescription( _ description: Description?) {
-        description?.text = "description"
+        description?.text = "Description"
         description?.position = CGPoint(x: 100, y: -20)
         description?.textColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
         description?.font = UIFont(name: "Avenir", size: 16)!

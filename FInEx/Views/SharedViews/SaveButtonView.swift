@@ -15,7 +15,7 @@ struct SaveButtonView: View {
             RoundedRectangle(cornerRadius: 45)
                 .fill(LinearGradient(gradient: Gradient(colors: [CustomColors.SaveButtonGradient2, CustomColors.SaveButtonGradient1]), startPoint: .bottom, endPoint: .top))
                 .shadow(radius: 3)
-            Text("Save")
+            Text(LocalizedStringKey("Save"))
                 .foregroundColor(CustomColors.TextDarkGray)
                 .font(Font.system(size: 26, weight: .regular, design: .default))
         }

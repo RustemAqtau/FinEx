@@ -18,12 +18,12 @@ struct SetRecurringTransactionView: View {
     @State private var amountIsEditing: Bool = false
     @State var selectedtypeImageName: String = "questionmark"
     @State var selectedTypeCircleColor: String = "TopGradient"
-    @State var selectedTypeName: String = "Category"
+    @State var selectedTypeName: String = NSLocalizedString("Category", comment: "")
     @State var selectedType: TransactionType = TransactionType()
     @State var showCategorySelector: Bool = false
     @State var selectedDate: Date = Date()
     //@State var nextAddingDate: Date = Date()
-    @State var note: String = "Note"
+    @State var note: String = NSLocalizedString("Note", comment: "")
     @State var noteLenghtLimitOut: Bool = false
     @State var selectedPeriodicity: String = Periodicity.Month.rawValue
     @State var periodicityList: [String] = []
@@ -45,44 +45,44 @@ struct SetRecurringTransactionView: View {
     var body: some View {
         NavigationView {
             GeometryReader { geo in
-                VStack(alignment: .center, spacing: 30) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 35.0)
-                            .fill(Color.white)
-                            .opacity(self.amountIsEditing ? 1 : 0)
-                        RoundedRectangle(cornerRadius: 35.0)
-                            .stroke(Color.gray)
-                            //.shadow(radius: 5.0 )
-                            .opacity(self.amountIsEditing ? 1 : 0)
-                        TextField("$", text: self.$amountString, onEditingChanged: { isEditing in
-                            
-                            if isEditing {
-                                self.amountIsEditing = true
-                                self.amountString = ""
-                            } else {
-                                self.amountIsEditing = false
-                                
+                VStack(alignment: .center, spacing: 20) {
+                    VStack {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 35.0)
+                                .fill(Color.white)
+                                .opacity(self.amountIsEditing ? 1 : 0)
+                            RoundedRectangle(cornerRadius: 35.0)
+                                .stroke(Color.gray)
+                                .opacity(self.amountIsEditing ? 1 : 0)
+                            TextField("$", text: self.$amountString, onEditingChanged: { isEditing in
+                                if isEditing {
+                                    self.amountIsEditing = true
+                                    self.amountString = ""
+                                } else {
+                                    self.amountIsEditing = false
+                                }
+                            })
+                            .lineLimit(1)
+                            .multilineTextAlignment(.center)
+                            .cornerRadius(25)
+                            .accentColor(CustomColors.TextDarkGray)
+                            .introspectTextField { textField in
+                                textField.becomeFirstResponder()
+                                textField.textAlignment = NSTextAlignment.center
                             }
-                        })
-                        .lineLimit(1)
-                        .multilineTextAlignment(.center)
-                        .cornerRadius(25)
-                        .accentColor(CustomColors.TextDarkGray)
-                        .introspectTextField { textField in
-                            textField.becomeFirstResponder()
-                            textField.textAlignment = NSTextAlignment.center
+                            .font(Font.system(size: 30, weight: .light, design: .default))
+                            .keyboardType(.decimalPad)
+                            .padding()
+                            
                         }
-                        .font(Font.system(size: 30, weight: .light, design: .default))
-                        .keyboardType(.decimalPad)
-                        .padding()
-                        
+                        .frame(width: geo.size.width * 0.60, height: 60, alignment: .center)
                     }
-                    .frame(width: geo.size.width / 1.5, height: 60, alignment: .center)
+                    .frame(width: geo.size.width * 0.60, height: 100, alignment: .center)
                     
                     Divider()
                     
-                    VStack(spacing: 15) {
-                        Text("You have already added a recurring for this categoty, please change category.")
+                    VStack(spacing: 10) {
+                        Text(LocalizedStringKey("You have already added a recurring for this categoty, please change category."))
                             .font(Font.system(size: 10, weight: .light, design: .default))
                             .foregroundColor(Color.gray)
                             .opacity(self.savingFailed ? 1 : 0)
@@ -97,7 +97,7 @@ struct SetRecurringTransactionView: View {
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                                 .foregroundColor(self.savingFailed ? Color.red : CustomColors.TextDarkGray)
                         }
-                        .frame(width: geo.size.width * 0.80, alignment: .leading)
+                        .frame(width: geo.size.width * 0.90, alignment: .leading)
                         .onTapGesture {
                             self.showCategorySelector = true
                         }
@@ -109,7 +109,7 @@ struct SetRecurringTransactionView: View {
                                 .onTapGesture {
                                     self.showCalendar = true
                                 }
-                            DatePicker("Start Day", selection: self.$selectedDate,
+                            DatePicker(LocalizedStringKey("Start Day"), selection: self.$selectedDate,
                                             in: dateRange,
                                             displayedComponents: .date)
                                 .labelsHidden()
@@ -119,7 +119,7 @@ struct SetRecurringTransactionView: View {
                                 .shadow(radius: 10.0 )
                                 
                         }
-                        .frame(width: geo.size.width * 0.80, alignment: .leading)
+                        .frame(width: geo.size.width * 0.90, alignment: .leading)
                         //.padding()
                         
                         HStack(spacing: 15) {
@@ -139,7 +139,7 @@ struct SetRecurringTransactionView: View {
                             .frame(width: geo.size.width * 0.65, alignment: .leading)
                             
                         }
-                        .frame(width: geo.size.width * 0.80, alignment: .leading)
+                        .frame(width: geo.size.width * 0.90, alignment: .leading)
                         
                         HStack(spacing: 25) {
                             Image(systemName: "pencil")
@@ -165,18 +165,20 @@ struct SetRecurringTransactionView: View {
                                 .foregroundColor(self.noteLenghtLimitOut ? .red : CustomColors.TextDarkGray)
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                         }
-                        .frame(width: geo.size.width * 0.80, alignment: .leading)
-                        
-                    }
-                    Button(action: {
-                       saveTransaction()
-                    }) {
-                        SaveButtonView(geo: geo, withTrash: false)
+                        .frame(width: geo.size.width * 0.90, alignment: .leading)
+                        Button(action: {
+                           saveTransaction()
+                        }) {
+                            SaveButtonView(geo: geo, withTrash: false)
+                        }
                     }
                     
                 }
+                .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
+                .ignoresSafeArea(.all, edges: .bottom)
                 
             }
+            
             .onAppear {
                 var periodicityArray: [String] = []
                 for elem in Periodicity.allCases {
@@ -219,6 +221,9 @@ struct SetRecurringTransactionView: View {
             })
             .navigationBarTitle (Text(""), displayMode: .inline)
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
     func saveTransaction() {
         userSettingsVM.getRecurringTransactions(context: viewContext)
@@ -236,7 +241,6 @@ struct SetRecurringTransactionView: View {
                 category: self.category)
             
             userSettingsVM.addNewRecurringTransaction(info: newRecurringTransactionInfo, context: viewContext)
-            userSettingsVM.getRecurringTransactions(context: viewContext)
             presentationMode.wrappedValue.dismiss()
         } else {
             // show Warning

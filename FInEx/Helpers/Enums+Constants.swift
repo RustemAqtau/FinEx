@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+enum KeychainAccessKeys {
+    static let AppleIDCredential = "userIdentifierAppleIDCredential"
+    static let Passcode = "passcode"
+}
+
 enum Coordinator {
   static func topViewController(_ viewController: UIViewController? = nil) -> UIViewController? {
     let vc = viewController ?? UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.rootViewController
@@ -41,6 +46,7 @@ enum Placeholders {
     static let PieSliceDescriptionExpense = "Expenses by category"
     static let PieSliceDescriptionIncome = "Income by category"
     static let PieSliceDescriptionSaving = "Savings by category"
+    static let Required = "Required"
 }
 
 // MARK: - Icons
@@ -234,6 +240,7 @@ enum Icons {
     static let Photo_Fill = "photo.fill"
     static let ChessBoard = "checkerboard.rectangle"
     static let CameraAperture = "camera.aperture"
+    static let Questionmark = "questionmark"
 }
 
 // MARK: - Fonts
@@ -281,6 +288,7 @@ enum Fonts {
 enum WarningMessages {
     static let ValidationAmountFail = "Please enter valid amount."
     static let ValidationCategoryNotSelectedFail = "Please select a category."
+    static let RequiredField = "Please fill all the required fields."
     
 }
 
@@ -303,6 +311,10 @@ enum CustomColors {
     static let TopColorGradient1 = Color("TopColor")
     static let TopColorGradient2 = Color("TopGradient")
     
+    static let TopBackgroundGradient1 = Color("TopBackgroundGradient1")
+    static let TopBackgroundGradient2 = Color("TopBackgroundGradient2")
+    static let TopBackgroundGradient3 = Color("TopBackgroundGradient3")
+    
     static let CustomBlue = Color("CustomBlue")
     static let CustomGreen = Color("CustomGreen")
     static let CustomPink = Color("CustomPink")
@@ -313,6 +325,8 @@ enum CustomColors {
 
 enum GradientColors {
     typealias RawValue = LinearGradient
+    
+    static let TopBackground = LinearGradient(gradient: Gradient(colors: [Color.white, CustomColors.TopBackgroundGradient2, CustomColors.TopBackgroundGradient3, Color.white]), startPoint: .bottomTrailing, endPoint: .topLeading)
     
     static let Expense = LinearGradient(gradient: Gradient(colors: [Color("ExpensesColor"), Color("ExpensesColor2")]), startPoint: .bottomTrailing, endPoint: .topLeading)
     static let Income = LinearGradient(gradient: Gradient(colors: [Color("BalanceColor"), Color("NewBalanceColor")]), startPoint: .bottomTrailing, endPoint: .topLeading)
@@ -329,13 +343,68 @@ enum Categories: CaseIterable {
     static let Income = "Income"
     static let Expense = "Expense"
     static let Saving = "Saving"
+    
 }
 enum Categories2: String,  CaseIterable {
     case Income = "Income"
     case Expense = "Expense"
     case Saving = "Saving"
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
 }
 
+enum IncomeTypeNames: String {
+    case Salary = "Salary"
+    case Bonus = "Bonus"
+    case Pension = "Pension"
+    case Dividends = "Dividends"
+    case Interest = "Interest"
+    case ChildBenefit = "Child benefit"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+enum ExpenseTypeNames: String {
+    case Rent = "Rent"
+    case Loan = "Loan"
+    case Maintenance = "Maintenance"
+    case Furniture = "Furniture"
+    case Internet = "Internet"
+    case Electricity = "Electricity"
+    case Heating = "Heating"
+    case Water = "Water"
+    case Mobile = "Mobile"
+    case Cinema = "Cinema"
+    case Concert = "Concert"
+    case Hobby = "Hobby"
+    case Bowling = "Bowling"
+    case Nightclub = "Nightclub"
+    case Party = "Party"
+    case Resraurant = "Resraurant"
+    case Groceries = "Groceries"
+    case Delivery = "Delivery"
+    case Clothing = "Clothing"
+    case Device = "Device"
+    case Accessories = "Accessories"
+    case Car = "Car"
+    case TV = "TV"
+    case Music = "Music"
+    case Gas = "Gas"
+    case Parking = "Parking"
+    case PublicTr = "Public Tr."
+    case Repair = "Repair"
+    case Dentist = "Dentist"
+    case CheckUp = "Check-Up"
+    case Flight = "Flight"
+    case Hotel = "Hotel"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
 
 enum ExpenseSubCategories: String, CaseIterable {
     case Housing = "Housing"
@@ -348,12 +417,36 @@ enum ExpenseSubCategories: String, CaseIterable {
     case Insurance = "Insurance"
     case Travel = "Travel"
     case Shopping = "Shopping"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+enum SavingTypeNames: String {
+    case Cash = "Cash"
+    case Investments = "Investments"
+    case Shopping = "Shopping"
+    case Education = "Education"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
 }
 
 enum SvaingSubCategories: String, CaseIterable {
     case LongTerm = "Long Term"
     case ShortTerm = "Short Term"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
 }
+
+
+
+
+
 
 enum CategoryIcons {
     typealias RawValue = [String]

@@ -9,6 +9,20 @@ import CoreData
 
 extension UserSettings {
     
+    func changeIsSetBiometrix(value: Bool, context: NSManagedObjectContext) {
+        self.isSetBiometrix = value
+        if context.hasChanges {
+            
+            do {
+                try context.save()
+                print("Context saved")
+            } catch {
+                print("Could not save context")
+            }
+        }
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    }
+    
     func changeIsSetPassCode(value: Bool, context: NSManagedObjectContext) {
         self.isSetPassCode = value
         if context.hasChanges {

@@ -10,23 +10,27 @@ import AuthenticationServices
 import KeychainAccess
 
 struct RegisterWithAppleID: View {
-    @EnvironmentObject var userSettings: UserSettings
+   // @EnvironmentObject var userSettings: UserSettings
+    @Environment(\.userSettingsVM) var userSettingsVM
     @Environment(\.managedObjectContext) private var viewContext
     @State private var showSuccessView: Bool = false
+    
+   
     var body: some View {
         NavigationView {
             GeometryReader { geo in
-                VStack(spacing: 20) {
+                VStack(spacing: 5) {
                     Group {
                         VStack {
                             Image(systemName: "link.icloud.fill")
-                                .font(Font.system(size: 130, weight: .regular, design: .default))
+                                .font(Font.system(size: 180, weight: .regular, design: .default))
                                 .foregroundColor(CustomColors.CloudBlue)
                                 
-                            Text("Sync & Secure")
-                                .font(Font.system(size: 35, weight: .bold, design: .default))
+                            Text(LocalizedStringKey("Sync & Secure"))
+                                .font(Font.system(size: 25, weight: .bold, design: .default))
+                                .multilineTextAlignment(.center)
                         }
-                        .frame(width: geo.size.width * 0.80, height: geo.size.height * 0.30, alignment: .top)
+                        .frame(width: geo.size.width * 0.90, height: geo.size.height * 0.30, alignment: .top)
                         
                     VStack(alignment: .leading) {
                         HStack {
@@ -34,25 +38,33 @@ struct RegisterWithAppleID: View {
                                 .foregroundColor(.red)
                                 .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
-                            Text("Sync budgets and transactions between your devices.")
+                            Text(LocalizedStringKey("Sync budgets and transactions between your devices."))
+                                .lineLimit(3)
+                                .multilineTextAlignment(.leading)
                         }
                         HStack {
                             Image(systemName: "icloud.and.arrow.up.fill")
                                 .foregroundColor(.red)
                                 .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
-                            Text("Backup your data in case you lose your phone.")
+                            Text(LocalizedStringKey("Backup your data in case you lose your phone."))
+                                .lineLimit(3)
+                                .multilineTextAlignment(.leading)
                         }
                         HStack {
                             Image(systemName: "heart.fill")
                                 .foregroundColor(.red)
                                 .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
-                            Text("Dont worry, we will never send you any emails.")
+                            Text(LocalizedStringKey("Dont worry, we will never send you any emails."))
+                                .lineLimit(3)
+                                .multilineTextAlignment(.leading)
                         }
                     }
+                    .font(Fonts.light15)
+                    .foregroundColor(CustomColors.TextDarkGray)
                     .padding()
-                    .frame(width: geo.size.width * 0.80, height: geo.size.height * 0.30)
+                    .frame(width: geo.size.width * 0.90, height: geo.size.height * 0.40, alignment: .center)
                     
                     SignInWithAppleButton(.signIn) { request in
                         request.requestedScopes = [.fullName, .email]
@@ -64,8 +76,8 @@ struct RegisterWithAppleID: View {
                                 let keychain = Keychain(service: "zh.ayazbayeva.FInEx")
                                     .synchronizable(true)
                                     .accessibility(.afterFirstUnlock)
-                                keychain["userIdentifierAppleIDCredential"] = appleIDCredential.user
-                                userSettings.changeIsSignedWithAppleId(value: true, context: viewContext)
+                                keychain[KeychainAccessKeys.AppleIDCredential] = appleIDCredential.user
+                                userSettingsVM.settings.changeIsSignedWithAppleId(value: true, context: viewContext)
                                 self.showSuccessView = true
                                 // TODO: - SuccessView
                                 print("Authorisation successful")
@@ -79,15 +91,14 @@ struct RegisterWithAppleID: View {
                     }
                     .signInWithAppleButtonStyle(.black)
                     .cornerRadius(40.0)
-                    .frame(width: 300, height: 55, alignment: .center)
+                    .frame(width: 300, height: 55, alignment: .top)
                 }
             }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
-                .navigationBarTitle (Text(""), displayMode: .inline)
+                
             }
+            .navigationBarTitle (Text(""), displayMode: .inline)
         }
-        
-        
     }
 }
 

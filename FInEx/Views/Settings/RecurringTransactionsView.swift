@@ -16,7 +16,7 @@ struct RecurringTransactionsView: View {
     @State var addingCategory: String = ""
     private let cetegoriesArray = [Categories.Income, Categories.Expense, Categories.Saving]
     var body: some View {
-        let formatter = setDecimalFormatter()
+        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
         NavigationView {
             GeometryReader { geo in
                 ScrollView {
@@ -64,7 +64,7 @@ struct RecurringTransactionsView: View {
                                         }
                                         
                                         Spacer()
-                                        Text("$" + formatter.string(from: transaction.amount ?? 0)!)
+                                        Text(formatter.string(from: transaction.amount ?? 0)!)
                                     }
                                     .frame(width: geo.size.width / 1.15)
                                     .scaledToFit()

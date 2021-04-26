@@ -27,7 +27,7 @@ struct IncomeView: View {
     @State var editingTransaction: Transaction = Transaction()
    
     var body: some View {
-        let formatter = setDecimalFormatter()
+        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
        // if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack {
@@ -43,14 +43,15 @@ struct IncomeView: View {
                                 Text(type)
                             }
                             Spacer()
-                            Text("$" + formatter.string(from: NSDecimalNumber(decimal: incomeTotalAmountByType[type] ?? 0))! )
+                            Text(formatter.string(from: NSDecimalNumber(decimal: incomeTotalAmountByType[type] ?? 0))! )
                         }
                         .foregroundColor(.gray)
                         .frame(width: geo.size.width / 1.2 )
                         .scaledToFit()
                         .padding()
-                        Divider()
+                       Divider()
                         ForEach(self.incomeByType[type]!, id: \.date) { income in
+                            
                             HStack {
                                 Group {
                                     if let incomeType = income.type {
@@ -72,11 +73,13 @@ struct IncomeView: View {
                                     }
                                 }
                                Spacer()
-                                Text("$" + formatter.string(from: income.amountDecimal)!)
+                                Text(formatter.string(from: income.amountDecimal)!)
                                     .animation(.linear(duration: 0.5))
                             }
+                            
                             .frame(width: geo.size.width / 1.15 )
                             .scaledToFit()
+                            
                             .onTapGesture {
                                 self.editingTransaction = income
                                 self.editTransaction = true
@@ -109,8 +112,10 @@ struct IncomeView: View {
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
         }
         .onChange(of: currentMonthBudget.incomeList.count, perform: { value in
-           
-            
+            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
+            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
+        })
+        .onChange(of: self.incomeTotalAmountByType, perform: { value in
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
         })

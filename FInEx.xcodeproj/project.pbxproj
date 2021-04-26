@@ -28,6 +28,7 @@
 		584AC0612633A84D0055FCC8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 584AC0632633A84D0055FCC8 /* Localizable.strings */; };
 		584AC06C2634BC460055FCC8 /* PasscodeField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584AC06B2634BC460055FCC8 /* PasscodeField.swift */; };
 		584AC0712634E0450055FCC8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584AC0702634E0450055FCC8 /* LoginView.swift */; };
+		584AC0822637189B0055FCC8 /* AppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584AC0812637189A0055FCC8 /* AppearanceView.swift */; };
 		5873EDD82627A850008A4DE7 /* ExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDD72627A850008A4DE7 /* ExpensesView.swift */; };
 		5873EDDD2627C0DA008A4DE7 /* Enums+Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDDC2627C0DA008A4DE7 /* Enums+Constants.swift */; };
 		5873EDE22627C1B8008A4DE7 /* IncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EDE12627C1B8008A4DE7 /* IncomeView.swift */; };
@@ -108,6 +109,7 @@
 		584AC0672633A8550055FCC8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		584AC06B2634BC460055FCC8 /* PasscodeField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeField.swift; sourceTree = "<group>"; };
 		584AC0702634E0450055FCC8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		584AC0812637189A0055FCC8 /* AppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceView.swift; sourceTree = "<group>"; };
 		5873EDD72627A850008A4DE7 /* ExpensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesView.swift; sourceTree = "<group>"; };
 		5873EDDC2627C0DA008A4DE7 /* Enums+Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Enums+Constants.swift"; sourceTree = "<group>"; };
 		5873EDE12627C1B8008A4DE7 /* IncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeView.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				5873EE46262CD46D008A4DE7 /* SetRecurringTransactionView.swift */,
 				584AC06B2634BC460055FCC8 /* PasscodeField.swift */,
 				584AC0702634E0450055FCC8 /* LoginView.swift */,
+				584AC0812637189A0055FCC8 /* AppearanceView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -687,6 +690,7 @@
 				5873EE23262BFFDC008A4DE7 /* PasscodeView.swift in Sources */,
 				5873EDD82627A850008A4DE7 /* ExpensesView.swift in Sources */,
 				5804ADAB262180C700E2FF1E /* UserSettings.swift in Sources */,
+				584AC0822637189B0055FCC8 /* AppearanceView.swift in Sources */,
 				58487F9C261FAB2600088341 /* AddCategorySubTypeView.swift in Sources */,
 				5873EE13262AB518008A4DE7 /* SaveButtonView.swift in Sources */,
 				5873EDF92628FE6D008A4DE7 /* GridLayout.swift in Sources */,

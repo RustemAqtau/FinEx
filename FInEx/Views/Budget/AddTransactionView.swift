@@ -42,6 +42,7 @@ struct AddTransactionView: View {
     @State var accentColor: Color = CustomColors.ExpensesColor2
     @State var validationFailed: Bool = false
     @State var warningMessage: String = ""
+    @State var amountPlaceholder: String = ""
     var body: some View {
         NavigationView {
             GeometryReader { geo in
@@ -55,7 +56,7 @@ struct AddTransactionView: View {
                             .fill(Color.white)
                         RoundedRectangle(cornerRadius: 35.0)
                             .stroke(self.accentColor)
-                        TextField("$", text: self.$amountString, onEditingChanged: { isEditing in
+                        TextField(self.amountPlaceholder, text: self.$amountString, onEditingChanged: { isEditing in
                             if isEditing {
                                 self.amountIsEditing = true
                                 
@@ -177,6 +178,7 @@ struct AddTransactionView: View {
                 self.accentColor = CustomColors.SavingsGradient1
             default: self.accentColor = CustomColors.ExpensesColor2
             }
+            self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
         }
         .onTapGesture {
             hideKeyboard()

@@ -63,6 +63,7 @@ struct ContentView: View {
                                        getPreviousMonthBudget: self.$getPreviousMonthBudget,
                                        getNextMonthBudget: self.$getNextMonthBudget)
                                 .environmentObject(budgetVM)
+                                .environment(\.userSettingsVM, userSettingsVM)
                         }
                     }
                 }
@@ -166,6 +167,10 @@ struct ContentView: View {
             print("budgetList.count: \(self.budgetVM.budgetList.count)")
             self.currentMonthBudget = budgetVM.budgetList.last!
             
+            let currencyFormatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
+            if userSettingsVM.settings.currencySymbol == nil {
+                userSettingsVM.settings.currencySymbol = currencyFormatter.currencySymbol
+            }
 //            if userSettingsVM.settings.isSetPassCode {
 //                if userSettingsVM.settings.isSetBiometrix {
 //                    self.askBiometrix = true

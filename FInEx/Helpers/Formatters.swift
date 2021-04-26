@@ -11,7 +11,7 @@ import Foundation
 func setDateMMYY(date: Date) -> String {
     let formatter = DateFormatter()
     formatter.locale = .current
-    formatter.dateFormat = "MMM yyyy"
+    formatter.dateFormat = "LLLL yyyy"
     let dateString = formatter.string(from: date)
     return dateString.capitalized
 }
@@ -24,10 +24,15 @@ func setDate(date: Date) -> String {
     return dateString
 }
 
-func setDecimalFormatter() -> NumberFormatter {
+func setDecimalFormatter(currencySymbol: String) -> NumberFormatter {
+//    let currencys = Locale.isoCurrencyCodes
+//    print(currencys)
     let formatter = NumberFormatter()
     formatter.locale = .current
-    formatter.numberStyle = .decimal
+    formatter.numberStyle = .currency
+    print(formatter.currencySymbol ?? "-")
+    //formatter.currencyCode = "RUB"
+    formatter.currencySymbol = currencySymbol
     formatter.maximumFractionDigits = 2
     //formatter.groupingSeparator = ""
     return formatter

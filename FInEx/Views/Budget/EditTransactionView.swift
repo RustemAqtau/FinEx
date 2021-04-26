@@ -198,7 +198,7 @@ struct EditTransactionView: View {
                     calendar.date(from:endComponents)!
             }()
             self.dateRange = range
-            let formatter = setDecimalFormatter()
+            let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
             self.amountString = formatter.string(from: NSDecimalNumber(decimal: transaction.amount! as Decimal))!
             self.selectedType = transaction.type!
             self.selectedTypeName = transaction.type!.presentingName

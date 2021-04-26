@@ -18,7 +18,7 @@ struct AddRecurringTransactionView: View {
     @Binding var addedRecurringTransaction: Bool
     
     var body: some View {
-        let formatter = setDecimalFormatter()
+        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
         VStack {
             Text("You have upcoming expense")
                 .font(Font.system(size: 14, weight: .regular, design: .default))
@@ -45,7 +45,7 @@ struct AddRecurringTransactionView: View {
                                     }
                                 }
                                 Spacer()
-                                Text("$" + formatter.string(from: transaction.amount ?? 0)!)
+                                Text(formatter.string(from: transaction.amount ?? 0)!)
                             }
                             .frame(width: geo.size.width * 0.70)
                             .scaledToFit()

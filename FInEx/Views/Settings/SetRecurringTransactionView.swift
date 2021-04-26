@@ -25,7 +25,7 @@ struct SetRecurringTransactionView: View {
     //@State var nextAddingDate: Date = Date()
     @State var note: String = NSLocalizedString("Note", comment: "")
     @State var noteLenghtLimitOut: Bool = false
-    @State var selectedPeriodicity: String = Periodicity.Month.rawValue
+    @State var selectedPeriodicity: String = Periodicity.Month.localizedString()
     @State var periodicityList: [String] = []
     let dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current
@@ -191,10 +191,10 @@ struct SetRecurringTransactionView: View {
                 format.locale = .current
                 var dateString: String = ""
                 switch self.selectedPeriodicity {
-                case Periodicity.Month.rawValue, Periodicity.Quarter.rawValue:
+                case Periodicity.Month.localizedString(), Periodicity.Quarter.localizedString():
                     format.dateFormat = "dd"
                     dateString = "day " + format.string(from: self.selectedDate)
-                case Periodicity.TwoWeeks.rawValue:
+                case Periodicity.TwoWeeks.localizedString():
                     format.dateFormat = "EEEE"
                     dateString = format.string(from: self.selectedDate)
                 default:

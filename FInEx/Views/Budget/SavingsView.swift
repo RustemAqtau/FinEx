@@ -25,7 +25,7 @@ struct SavingsView: View {
     @Binding var addedRecurringTransaction: Bool
    
     var body: some View {
-        let formatter = setDecimalFormatter()
+        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
         ScrollView {
             VStack {
                 if !self.recurringTransactions.isEmpty {
@@ -66,7 +66,7 @@ struct SavingsView: View {
                                     .animation(.linear(duration: 0.5))
                                 }
                                 Spacer()
-                                Text("$" + formatter.string(from: NSDecimalNumber(decimal: savingsTotalAmountByType[type] ?? 0) )!)
+                                Text(formatter.string(from: NSDecimalNumber(decimal: savingsTotalAmountByType[type] ?? 0) )!)
                                     .animation(.linear(duration: 0.5))
                                     
                             }
@@ -91,12 +91,14 @@ struct SavingsView: View {
             
         }
         .onAppear {
-            
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
        }
         .onChange(of: currentMonthBudget.savingsList.count, perform: { value in
-            
+            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
+            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
+        })
+        .onChange(of: self.typesInSubCategory, perform: { value in
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
         })

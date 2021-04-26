@@ -151,29 +151,35 @@ struct SettingsView: View {
                         .padding()
                         .offset(y: offsetY)
                         HStack(spacing: 20) {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 25.0)
-                                    .fill(Color.white)
-                                    .shadow(radius: 6)
-                                RoundedRectangle(cornerRadius: 25.0)
-                                    .stroke(Color.white)
-                                VStack(spacing: 0) {
-                                    Image(systemName: "lock.shield")
-                                        .font(Font.system(size: 40, weight: .light, design: .default))
-                                        .foregroundColor(CustomColors.ExpensesColor)
-                                    VStack(alignment: .center, spacing: 4) {
-                                        Text(LocalizedStringKey("REGISTER"))
-                                        Text(LocalizedStringKey("Secure your data in the cloud and use multiple devices"))
-                                            
-                                    }
-                                    .multilineTextAlignment(.center)
-                                    .font(Font.system(size: 13, weight: .light, design: .rounded))
-                                    .foregroundColor(CustomColors.TextDarkGray)
-                                    .lineLimit(3)
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                                    .padding()
-                               }
+                            NavigationLink(
+                                destination: AppearanceView()
+                                    .environment(\.userSettingsVM, self.userSettingsVM)
+                            ) {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 25.0)
+                                        .fill(Color.white)
+                                        .shadow(radius: 6)
+                                    RoundedRectangle(cornerRadius: 25.0)
+                                        .stroke(Color.white)
+                                    VStack(spacing: 0) {
+                                        Image(systemName: "lock.shield")
+                                            .font(Font.system(size: 40, weight: .light, design: .default))
+                                            .foregroundColor(CustomColors.ExpensesColor)
+                                        VStack(alignment: .center, spacing: 4) {
+                                            Text(LocalizedStringKey("APPEARANCE"))
+                                            Text(LocalizedStringKey("-"))
+                                                
+                                        }
+                                        .multilineTextAlignment(.center)
+                                        .font(Font.system(size: 13, weight: .light, design: .rounded))
+                                        .foregroundColor(CustomColors.TextDarkGray)
+                                        .lineLimit(3)
+                                        .frame(maxWidth: .infinity, alignment: .center)
+                                        .padding()
+                                   }
+                                }
                             }
+                            
                             ZStack {
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .fill(Color.white)

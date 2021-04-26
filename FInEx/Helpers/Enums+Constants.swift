@@ -27,6 +27,18 @@ enum Coordinator {
   }
 }
 
+// MARK: - Currency Symbols
+enum CurrencySymbols: String, CaseIterable {
+    case dollar = "$"
+    case euro = "€"
+    case yen = "¥"
+    case pound = "£"
+    case ruble = "₽"
+    case tenge = "₸"
+    case lira = "₤"
+}
+
+// MARK: - Periodicity
 enum Periodicity: String, CaseIterable {
     typealias RawValue = String
     
@@ -34,6 +46,10 @@ enum Periodicity: String, CaseIterable {
     case Month = "Every month"
     case Quarter = "Every third month"
     case Year = "Every year"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
 }
 
 

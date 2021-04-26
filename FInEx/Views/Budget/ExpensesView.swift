@@ -23,7 +23,7 @@ struct ExpensesView: View {
    
    
     var body: some View {
-        let formatter = setDecimalFormatter()
+        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
           //if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack {
@@ -38,7 +38,7 @@ struct ExpensesView: View {
                                 Text(subCategory)
                             }
                             Spacer()
-                            Text("$" + formatter.string(from: NSDecimalNumber(decimal: expensesTotalAmountBySubCategory[subCategory] ?? 0))!)
+                            Text(formatter.string(from: NSDecimalNumber(decimal: expensesTotalAmountBySubCategory[subCategory] ?? 0))!)
                         }
                         .foregroundColor(CustomColors.TextDarkGray)
                         .frame(width: geo.size.width / 1.2 )
@@ -68,7 +68,7 @@ struct ExpensesView: View {
                                     }
                                 }
                                 Spacer()
-                                Text("$" + formatter.string(from: expense.amount ?? 0)!)
+                                Text(formatter.string(from: expense.amount ?? 0)!)
                                     .animation(.linear(duration: 0.5))
                             }
                             .frame(width: geo.size.width / 1.15 )
@@ -102,7 +102,6 @@ struct ExpensesView: View {
             .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
         }
         .onAppear {
-           
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
             
@@ -123,7 +122,15 @@ struct ExpensesView: View {
         
     }
    // }
-    
+    private func setDecimalZeroFractionFormatter() -> NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.locale = .current
+        formatter.numberStyle = .currency
+        formatter.currencySymbol = userSettingsVM.settings.currencySymbol
+        formatter.maximumFractionDigits = 2
+        formatter.groupingSeparator = ""
+        return formatter
+    }
     
 }
 

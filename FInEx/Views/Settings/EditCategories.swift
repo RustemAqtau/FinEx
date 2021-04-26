@@ -24,7 +24,7 @@ struct EditCategories: View {
                     }
                     .frame(width: geo.size.width, height: 20, alignment: .center)
                     .ignoresSafeArea(.all, edges: .top)
-                    .navigationBarTitle (Text(""), displayMode: .inline)
+                    .navigationBarTitle (Text(""), displayMode: .large)
                     VStack {
                         VStack {
                             Picker(selection: self.$selectedCategory, label: Text("")) {

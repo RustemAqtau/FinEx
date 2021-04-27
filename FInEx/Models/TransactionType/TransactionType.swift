@@ -25,6 +25,16 @@ extension TransactionType {
         return name ?? "Unknown"
     }
     
+    func toggleIsHidden(context: NSManagedObjectContext) {
+        self.isHidden.toggle()
+        do {
+            try context.save()
+            print("Context saved")
+        } catch {
+            print("Could not save context")
+        }
+    }
+    
     static func getType(by info: TransactionTypeInfo, context: NSManagedObjectContext) -> TransactionType? {
         var type: TransactionType? = TransactionType()
         let predicate = NSPredicate(format: "(category = %@ AND subCategory = %@) AND name = %@", argumentArray: [info.category, info.subCategory as Any, info.name])

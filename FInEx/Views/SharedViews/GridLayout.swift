@@ -16,24 +16,17 @@ struct GridLayout {
         self.size = size
         
         guard size.width != 0, size.height != 0, itemCount > 0 else { return }
-        
-        var bestLayout: (rowCount: Int, columnCount: Int) = (1, itemCount)
-        var smallestVariance: Double?
-        let sizeAspectRatio = abs(Double(size.width / size.height))
-        for rows in 1...itemCount {
-            let columns = (itemCount / rows) + (itemCount % rows > 0 ? 1: 0)
-            if (rows - 1) * columns < itemCount {
-                let itemAspectRatio = sizeAspectRatio * (Double(rows) / Double(columns))
-                let variance = abs(itemAspectRatio - desiredAspectRatio)
-                if smallestVariance == nil || variance < smallestVariance! {
-                    smallestVariance = variance
-                    bestLayout = (rowCount: rows, columnCount: columns)
-                }
-            }
-            
+
+        if itemCount <= 3 {
+            rowCount = 1
+        } else if itemCount > 3 && itemCount <= 6 {
+            rowCount = 2
+        } else if itemCount > 6 && itemCount <= 9 {
+            rowCount = 2
+        } else {
+            rowCount = 4
         }
-        rowCount = bestLayout.rowCount
-        columnCount = 3 //bestLayout.columnCount
+        columnCount = 3
     }
     
     var itemSize: CGSize {

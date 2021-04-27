@@ -27,6 +27,8 @@ struct ContentView: View {
     
     @State var getPreviousMonthBudget: Bool = false
     @State var getNextMonthBudget: Bool = false
+    @State var hideLeftChevron: Bool = false
+    @State var hideRightChevron: Bool = false
     
     let coloredNavAppearance = UINavigationBarAppearance()
     let coloredBarButtonAppearance = UIBarButtonItemAppearance ()
@@ -50,10 +52,7 @@ struct ContentView: View {
                         if let currentBudget = budgetVM.budgetList.last {
                         AnalyticsView(currentMonthBudget: .constant(currentBudget))
                                         .environmentObject(budgetVM)
-                            
                         }
-                        
-                            
                     } else {
                         if !budgetVM.budgetList.isEmpty {
                             BudgetView(currentMonthBudget: self.$currentMonthBudget ,
@@ -61,7 +60,9 @@ struct ContentView: View {
                                        plusButtonColor: self.$plusButtonColor,
                                        plusButtonIsServing: self.$plusButtonIsServing,
                                        getPreviousMonthBudget: self.$getPreviousMonthBudget,
-                                       getNextMonthBudget: self.$getNextMonthBudget)
+                                       getNextMonthBudget: self.$getNextMonthBudget,
+                                       hideLeftChevron: self.$hideLeftChevron,
+                                       hideRightChevron: self.$hideRightChevron)
                                 .environmentObject(budgetVM)
                                 .environment(\.userSettingsVM, userSettingsVM)
                         }
@@ -149,7 +150,7 @@ struct ContentView: View {
 
                 self.userSettingsVM.loadDefaultTransactionTypes(context: viewContext)
             }
-            self.userSettingsVM.getTransactiontypes(context: viewContext)
+            self.userSettingsVM.getAllTransactiontypes(context: viewContext)
             
             let currentDate = Date()
             let currentMonth = getMonthFrom(date: currentDate)
@@ -166,10 +167,12 @@ struct ContentView: View {
             }
             print("budgetList.count: \(self.budgetVM.budgetList.count)")
             self.currentMonthBudget = budgetVM.budgetList.last!
-            
-            let currencyFormatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
             if userSettingsVM.settings.currencySymbol == nil {
-                userSettingsVM.settings.currencySymbol = currencyFormatter.currencySymbol
+                let formatter = NumberFormatter()
+                formatter.locale = .current
+                formatter.numberStyle = .currency
+                formatter.maximumFractionDigits = 2
+                userSettingsVM.settings.currencySymbol = formatter.currencySymbol
             }
 //            if userSettingsVM.settings.isSetPassCode {
 //                if userSettingsVM.settings.isSetBiometrix {
@@ -183,20 +186,35 @@ struct ContentView: View {
         .onChange(of: self.getPreviousMonthBudget, perform: { value in
             if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
                currentBudgetIndex != self.budgetVM.budgetList.startIndex  {
-                withAnimation(.easeInOut(duration: 1)) {
+             //   withAnimation(.easeIn(duration: 1)) {
                     let previousBudgetIndex = self.budgetVM.budgetList.index(before: currentBudgetIndex)
                     self.currentMonthBudget = self.budgetVM.budgetList[previousBudgetIndex]
-                }
+             //   }
             }
         })
         .onChange(of: self.getNextMonthBudget, perform: { value in
             if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
                currentBudgetIndex != self.budgetVM.budgetList.endIndex - 1  {
-                withAnimation(.easeInOut(duration: 1)) {
+            //    withAnimation(.easeIn(duration: 1)) {
                     let nextBudgetIndex = self.budgetVM.budgetList.index(after: currentBudgetIndex)
                     self.currentMonthBudget = self.budgetVM.budgetList[nextBudgetIndex]
-                }
+            //    }
             }
+        })
+        .onChange(of: self.currentMonthBudget, perform: { value in
+            if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
+               currentBudgetIndex == self.budgetVM.budgetList.startIndex {
+                self.hideLeftChevron = true
+            } else {
+                self.hideLeftChevron = false
+            }
+            if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
+                currentBudgetIndex == self.budgetVM.budgetList.endIndex - 1 {
+                self.hideRightChevron = true
+            } else {
+                self.hideRightChevron = false
+            }
+            
         })
         
         

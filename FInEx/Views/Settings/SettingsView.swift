@@ -212,6 +212,9 @@ struct SettingsView: View {
                     .onAppear {
                         startAnimate()
                     }
+                    VStack {
+                    }
+                    .frame(width: geo.size.width, height: 100, alignment: .center)
                 }
             }
             .background(Color.white)

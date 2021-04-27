@@ -191,7 +191,7 @@ struct AddCategorySubTypeView: View {
             colorName: appearanceCircleColor,
             isHidden: false)
         userSettingsVM.addNewTransactiontype(info: newTransactionTypeInfo, context: viewContext)
-        self.userSettingsVM.getTransactiontypes(context: viewContext)
+        self.userSettingsVM.getAllTransactiontypes(context: viewContext)
         presentationMode.wrappedValue.dismiss()
     }
     func validationSucceed() -> Bool {

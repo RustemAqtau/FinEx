@@ -9,9 +9,12 @@ import SwiftUI
 
 struct CategotySelector: View {
     @Environment(\.userSettingsVM) var userSettingsVM
+    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     @State var subCategories: [String] = []
     @State var types: [String:[TransactionType]] = [:]
+    
+   
     
     var categoty: String
     @Binding var selectedType: TransactionType
@@ -28,15 +31,15 @@ struct CategotySelector: View {
                 ScrollView {
                     ForEach(self.subCategories, id: \.self) { subCategory in
                         VStack(alignment: .center, spacing: 15) {
-                           let rowCounter = types[subCategory]!.count / 3
-                            let modula = types[subCategory]!.count % 3
+                       
                             HStack {
                                 Text(LocalizedStringKey(subCategory))
                                     .font(Font.system(size: 22, weight: .light, design: .default))
                             }
                             .frame(width: geo.size.width * 0.80, alignment: .leading)
                             Divider()
-                            Grid(userSettingsVM.transactiontypesByCategoty[categoty]![subCategory]!, viewForItem: { transactionType in
+                            
+                            Grid(userSettingsVM.transactionTypesByCategoty[categoty]![subCategory]!, viewForItem: { transactionType in
                                 VStack {
                                     Image(systemName: transactionType.presentingImageName)
                                         .modifier(CircleModifierSimpleColor(color: Color(transactionType.presentingColorName), strokeLineWidth: 3.0))
@@ -54,9 +57,10 @@ struct CategotySelector: View {
                                     self.selectedTypeName = transactionType.presentingName
                                     presentationMode.wrappedValue.dismiss()
                                 }
+                                
                             }
                             )
-                            .frame(width: geo.size.width * 0.90, height: CGFloat(100 * (modula == 0 ? rowCounter : rowCounter + 1)), alignment: .center)
+                            .frame(width: geo.size.width * 0.90, height: CGFloat(100 * getRowCount(typeCount: types[subCategory]!.count)), alignment: .center)
                         }
                         .frame(width: geo.size.width * 0.90, alignment: .center)
                         
@@ -78,10 +82,22 @@ struct CategotySelector: View {
         .foregroundColor(.white)
         .onAppear {
             self.subCategories = userSettingsVM.subCategories[self.categoty]!.sorted()
-            
-            self.types = userSettingsVM.transactiontypesByCategoty[categoty]!
+            userSettingsVM.getTransactiontypes(context: viewContext)
+            self.types = userSettingsVM.transactionTypesByCategoty[categoty]!
             
         }
+    }
+    
+    private func getRowCount(typeCount: Int) -> Int {
+        
+        if typeCount <= 3 {
+            return 1
+        } else if typeCount > 3 && typeCount <= 6 {
+            return 2
+        } else if typeCount > 6 {
+            return 3
+        }
+        return 4
     }
 }
 

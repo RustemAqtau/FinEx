@@ -12,8 +12,9 @@ import SwiftUI
 class UserSettingsManager: ObservableObject {
     
     @Published var settings = UserSettings()
+    @Published var allTransactionTypes: [TransactionType] = []
     @Published var transactionTypes: [TransactionType] = []
-    @Published var transactiontypesByCategoty: [String : [String : [TransactionType]]] = [
+    @Published var allTransactionTypesByCategoty: [String : [String : [TransactionType]]] = [
         Categories.Income: [Categories.Income:[]],
         Categories.Expense : [
             ExpenseSubCategories.Bills.rawValue:[],
@@ -28,6 +29,23 @@ class UserSettingsManager: ObservableObject {
             ExpenseSubCategories.Travel.rawValue : []],
         Categories.Saving : [SvaingSubCategories.LongTerm.rawValue : [],
                              SvaingSubCategories.ShortTerm.rawValue : []]]
+    
+    @Published var transactionTypesByCategoty: [String : [String : [TransactionType]]] = [
+        Categories.Income: [Categories.Income:[]],
+        Categories.Expense : [
+            ExpenseSubCategories.Bills.rawValue:[],
+            ExpenseSubCategories.Housing.rawValue : [],
+            ExpenseSubCategories.Entertainment.rawValue : [],
+            ExpenseSubCategories.FoodAndDrinks.rawValue : [],
+            ExpenseSubCategories.Shopping.rawValue : [],
+            ExpenseSubCategories.Health.rawValue : [],
+            ExpenseSubCategories.Insurance.rawValue : [],
+            ExpenseSubCategories.Subscriptions.rawValue : [],
+            ExpenseSubCategories.Transportation.rawValue : [],
+            ExpenseSubCategories.Travel.rawValue : []],
+        Categories.Saving : [SvaingSubCategories.LongTerm.rawValue : [],
+                             SvaingSubCategories.ShortTerm.rawValue : []]]
+    
     let categories = [Categories.Income, Categories.Expense, Categories.Saving]
     
     var subCategories: [String: [String]] {
@@ -157,33 +175,57 @@ class UserSettingsManager: ObservableObject {
         
     }
     
+    func getAllTransactiontypes(context: NSManagedObjectContext) {
+        let predicate = NSPredicate(format: "name != nil")
+        allTransactionTypes = fetchTransactionTypes(context: context, predicate: predicate)
+        for key in allTransactionTypesByCategoty.keys {
+            for subKey in allTransactionTypesByCategoty[key]!.keys {
+                allTransactionTypesByCategoty[key]?[subKey]?.removeAll()
+                if key == Categories.Income {
+                    for type in allTransactionTypes {
+                        if type.category == key && type.subCategory == nil {
+                            allTransactionTypesByCategoty[Categories.Income]?[Categories.Income]?.append(type)
+                        }
+                    }
+                }
+                for type in allTransactionTypes {
+                    if type.category == key {
+                        if type.subCategory != nil && type.subCategory == subKey {
+                            allTransactionTypesByCategoty[key]?[subKey]?.append(type)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     func getTransactiontypes(context: NSManagedObjectContext) {
-        transactionTypes = fetchTransactionTypes(context: context)
-        for key in transactiontypesByCategoty.keys {
-            for subKey in transactiontypesByCategoty[key]!.keys {
-                transactiontypesByCategoty[key]?[subKey]?.removeAll()
+        let predicate = NSPredicate(format: "name !=  %@ AND isHidden =  %@", argumentArray: [nil, false])
+        transactionTypes = fetchTransactionTypes(context: context, predicate: predicate)
+        for key in transactionTypesByCategoty.keys {
+            for subKey in transactionTypesByCategoty[key]!.keys {
+                transactionTypesByCategoty[key]?[subKey]?.removeAll()
                 if key == Categories.Income {
                     for type in transactionTypes {
                         if type.category == key && type.subCategory == nil {
-                            transactiontypesByCategoty[Categories.Income]?[Categories.Income]?.append(type)
+                            transactionTypesByCategoty[Categories.Income]?[Categories.Income]?.append(type)
                         }
                     }
                 }
                 for type in transactionTypes {
                     if type.category == key {
                         if type.subCategory != nil && type.subCategory == subKey {
-                            transactiontypesByCategoty[key]?[subKey]?.append(type)
+                            transactionTypesByCategoty[key]?[subKey]?.append(type)
                         }
                     }
                 }
             }
         }
-        //print("transactiontypesByCategoty: \(transactiontypesByCategoty)")
     }
     
-    private func fetchTransactionTypes(context: NSManagedObjectContext) -> [TransactionType] {
+    
+    private func fetchTransactionTypes(context: NSManagedObjectContext, predicate: NSPredicate) -> [TransactionType] {
         var transactionTypes: [TransactionType] = []
-        let predicate = NSPredicate(format: "name != nil")
         let request = TransactionType.fetchRequest(predicate: predicate)
         do {
             let result = try context.fetch(request)
@@ -195,7 +237,8 @@ class UserSettingsManager: ObservableObject {
     }
     
     func checkTransactionTypesIsEmpty(context: NSManagedObjectContext) -> Bool {
-        let transactionTypes = fetchTransactionTypes(context: context)
+        let predicate = NSPredicate(format: "name != nil")
+        let transactionTypes = fetchTransactionTypes(context: context, predicate: predicate)
         return transactionTypes.isEmpty
     }
     

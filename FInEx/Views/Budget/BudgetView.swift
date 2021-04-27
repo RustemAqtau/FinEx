@@ -36,6 +36,9 @@ struct BudgetView: View {
     
     @Binding var getPreviousMonthBudget: Bool
     @Binding var getNextMonthBudget: Bool
+    @Binding var hideLeftChevron: Bool
+    @Binding var hideRightChevron: Bool
+    
     var body: some View {
         NavigationView {
             let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
@@ -136,31 +139,26 @@ struct BudgetView: View {
                 //.background(GradientColors.TopBackground)
                 .foregroundColor(.white)
                 
-                // ZStack {
-                //                        RoundedRectangle(cornerRadius: 30)
-                //                            .stroke(lineWidth: 0.5)
-                //                            .shadow(radius: 10)
-                //                            .foregroundColor(.gray)
-                //                            .frame(width: geo.size.width * 0.90, height: 50, alignment: .center)
-                //                            .shadow(radius: 5)
                 HStack(spacing: 20) {
                     Button(action: {
-                        withAnimation(.easeInOut(duration: 2)) {
+                        //withAnimation(.linear(duration: 1)) {
                             self.getPreviousMonthBudget.toggle()
-                        }
+                       // }
                     }) {
                         Image(systemName: Icons.ChevronCompactLeft)
                     }
+                    .opacity(self.hideLeftChevron ? 0 : 1)
                     Spacer()
                     Text("\(currentMonthBudget.monthYearStringPresentation)")
                     Spacer()
                     Button(action: {
-                        withAnimation(.easeInOut(duration: 2)) {
+                        //withAnimation(.linear(duration: 1)) {
                             self.getNextMonthBudget.toggle()
-                        }
+                       // }
                     }) {
                         Image(systemName: Icons.ChevronCompactRight)
                     }
+                    .opacity(self.hideRightChevron ? 0 : 1)
                     
                 }
                 .padding()
@@ -200,12 +198,12 @@ struct BudgetView: View {
             //.navigationBarTitle (Text(""), displayMode: .inline)
             .navigationBarTitle (Text(LocalizedStringKey("BUDGET")), displayMode: .inline)
             //.background(GradientColors.TopBackground)
-            .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
+           // .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
             .background(CustomColors.TopBackgroundGradient3)
             .onAppear {
                 self.presentingTransactions = currentMonthBudget.expensesList
                 updateData()
-                print(userSettingsVM.settings.currencySymbol)
+                //print(userSettingsVM.settings.currencySymbol)
             }
             .onChange(of: self.budgetVM.transactionList.count, perform: { value in
                 updateData()

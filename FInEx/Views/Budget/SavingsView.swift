@@ -34,15 +34,16 @@ struct SavingsView: View {
                 }
                 
                 ForEach(self.savingsTypesBySubCategory.keys.sorted(), id: \.self) { subCategory in
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 5) {
                         HStack {
                             Group {
                                 Text(subCategory)
                             }
                             Spacer()
                         }
-                        .foregroundColor(.gray)
+                        .foregroundColor(CustomColors.TextDarkGray)
                         .frame(width: geo.size.width / 1.2 )
+                        .font(Font.system(size: 18, weight: .light, design: .rounded))
                         .scaledToFit()
                         .padding()
                         

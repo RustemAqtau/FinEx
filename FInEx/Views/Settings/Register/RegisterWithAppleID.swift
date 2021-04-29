@@ -14,7 +14,7 @@ struct RegisterWithAppleID: View {
     @Environment(\.userSettingsVM) var userSettingsVM
     @Environment(\.managedObjectContext) private var viewContext
     @State private var showSuccessView: Bool = false
-    
+    @Binding var  hideTabBar: Bool
    
     var body: some View {
         NavigationView {
@@ -94,16 +94,18 @@ struct RegisterWithAppleID: View {
                     .frame(width: 300, height: 55, alignment: .top)
                 }
             }
-                .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
-                
+            .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
+                .onAppear {
+                    self.hideTabBar = true
+                }
             }
             .navigationBarTitle (Text(""), displayMode: .inline)
         }
     }
 }
 
-struct RegisterWithAppleID_Previews: PreviewProvider {
-    static var previews: some View {
-        RegisterWithAppleID()
-    }
-}
+//struct RegisterWithAppleID_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RegisterWithAppleID()
+//    }
+//}

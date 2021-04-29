@@ -18,7 +18,7 @@ struct EditCategories: View {
     @State var hideButtonName: String = "minus.circle.fill"
     @State var showHideButton: Bool = false
     let categories = [0, 1, 2]
-    
+    @Binding var  hideTabBar: Bool
     var body: some View {
         NavigationView {
             GeometryReader { geo in
@@ -171,6 +171,7 @@ struct EditCategories: View {
                 .onAppear {
                     self.userSettingsVM.getAllTransactiontypes(context: viewContext)
                     self.selectedSubCategories = userSettingsVM.subCategories[self.selectedCategory]
+                    self.hideTabBar = true
                 }
                 .onChange(of: self.selectedCategory, perform: { value in
                     withAnimation(.easeIn(duration: 0.5)) {
@@ -185,12 +186,3 @@ struct EditCategories: View {
     }
 }
 
-struct EditCategories_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            EditCategories()
-            EditCategories()
-                .preferredColorScheme(.dark)
-        }
-    }
-}

@@ -22,26 +22,16 @@ struct SetRecurringTransactionView: View {
     @State var selectedType: TransactionType = TransactionType()
     @State var showCategorySelector: Bool = false
     @State var selectedDate: Date = Date()
-    //@State var nextAddingDate: Date = Date()
     @State var note: String = NSLocalizedString("Note", comment: "")
     @State var noteLenghtLimitOut: Bool = false
     @State var selectedPeriodicity: String = Periodicity.Month.localizedString()
     @State var periodicityList: [String] = []
-    let dateRange: ClosedRange<Date> = {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day], from: Date())
-        let year = components.year!
-        let month = components.month!
-        let day = components.day!
-        let startComponents = DateComponents(year: year, month: month, day: 1)
-        let endComponents = DateComponents(year: year, month: month, day: 30)
-        return calendar.date(from:startComponents)!
-            ...
-            calendar.date(from:endComponents)!
-    }()
+    let dateRange: ClosedRange<Date>  = getDateRange(for: Date())
     @State var showCalendar: Bool = false
     @State var dayWeekOfMonth: String = ""
     @State var savingFailed: Bool = false
+    @State var amountPlaceholder: String = ""
+    
     var body: some View {
         NavigationView {
             GeometryReader { geo in
@@ -54,7 +44,7 @@ struct SetRecurringTransactionView: View {
                             RoundedRectangle(cornerRadius: 35.0)
                                 .stroke(Color.gray)
                                 .opacity(self.amountIsEditing ? 1 : 0)
-                            TextField("$", text: self.$amountString, onEditingChanged: { isEditing in
+                            TextField(self.amountPlaceholder, text: self.$amountString, onEditingChanged: { isEditing in
                                 if isEditing {
                                     self.amountIsEditing = true
                                     self.amountString = ""
@@ -83,8 +73,10 @@ struct SetRecurringTransactionView: View {
                     
                     VStack(spacing: 10) {
                         Text(LocalizedStringKey("You have already added a recurring for this categoty, please change category."))
-                            .font(Font.system(size: 10, weight: .light, design: .default))
+                            .font(Fonts.light12)
                             .foregroundColor(Color.gray)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2)
                             .opacity(self.savingFailed ? 1 : 0)
                         HStack(spacing: 15) {
                             Image(systemName: self.selectedtypeImageName)
@@ -185,6 +177,7 @@ struct SetRecurringTransactionView: View {
                     periodicityArray.append(elem.rawValue)
                 }
                 self.periodicityList = periodicityArray
+                self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
             }
             .onChange(of: self.selectedPeriodicity, perform: { value in
                 let format = DateFormatter()

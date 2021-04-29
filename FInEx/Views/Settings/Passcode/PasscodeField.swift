@@ -14,6 +14,7 @@ public struct PasscodeField: View {
     @Environment(\.presentationMode) var presentationMode
     @State var isNewPasscode: Bool
     @State var showResetButton :Bool = false
+    @State var askBiometrix: Bool
     
     var maxDigits: Int = 4
     @State var pin: String = ""
@@ -47,7 +48,11 @@ public struct PasscodeField: View {
             }
             .opacity(self.showResetButton ? 1 : 0)
         }
-        
+        .onAppear {
+            if self.askBiometrix {
+                tryBiometricAuthentication()
+            }
+        }
     }
     
     private var pinDots: some View {
@@ -178,30 +183,30 @@ public struct PasscodeField: View {
         
         return "circle.fill"
     }
-}
-
-extension String {
     
-    var digits: [Int] {
-        var result = [Int]()
-        
-        for char in self {
-            if let number = Int(String(char)) {
-                result.append(number)
+    private func tryBiometricAuthentication() {
+        let context = LAContext()
+        var error: NSError?
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Authenticate to unlock FInEx app."
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { authenticated, error in
+                DispatchQueue.main.async {
+                    if authenticated {
+                        presentationMode.wrappedValue.dismiss()
+                    } else {
+                        if let errorString = error?.localizedDescription {
+                            print("Error in biometric policy evaluation: \(errorString)")
+                        }
+                    }
+                }
             }
+        } else {
+            if let errorString = error?.localizedDescription {
+                print("Error in biometric policy evaluation: \(errorString)")
+            }
+            
         }
-        
-        return result
     }
-    
 }
 
-extension Int {
-    
-    var numberString: String {
-        
-        guard self < 10 else { return "0" }
-        
-        return String(self)
-    }
-}
+

@@ -11,6 +11,7 @@ import Charts
 struct PieChart: UIViewRepresentable {
     var entries: [PieChartDataEntry]
     @Binding var pieSliceDescription: String
+    var currencySymbol: String?
     @State var colors: [NSUIColor] = ChartColorTemplates.incomePastel()
     let pieChart = PieChartView()
     func makeUIView(context: Context) -> PieChartView {
@@ -20,15 +21,17 @@ struct PieChart: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: PieChartView, context: Context) {
+        uiView.chartAnimator.animate(xAxisDuration: 1, yAxisDuration: 1, easingOptionX: .easeInOutCirc, easingOptionY: .easeInOutCirc)
         let dataSet = PieChartDataSet(entries: entries)
         dataSet.colors = colors
         let pieChartData = PieChartData(dataSet: dataSet)
         uiView.data = pieChartData
         configureChart(uiView)
         formatCenter(uiView)
-        formatDescription(uiView.chartDescription)
+        //formatDescription(uiView.chartDescription)
         formatLegend(uiView.legend)
         formatDataSet(dataSet)
+        dataSet.label = ""
         uiView.notifyDataSetChanged()
     }
     
@@ -40,9 +43,12 @@ struct PieChart: UIViewRepresentable {
         func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
             let labelText = entry.value(forKey: "label")! as! String
             let number = entry.value(forKey: "value")! as! Double
-           
-            parent.pieSliceDescription = labelText + " • \(number)"
-          // parent.pieChart.centerTextOffset = CGPoint(x: 0, y: 0 - (parent.pieChart.radius + 15))
+            let formatter = NumberFormatter()
+            formatter.locale = .current
+            formatter.numberStyle = .currency
+            formatter.currencySymbol = parent.currencySymbol
+            formatter.maximumFractionDigits = 0
+            parent.pieChart.chartDescription?.text = labelText + " • \(formatter.string(from: NSNumber(value: number))!)"
             
         }
         func chartValueNothingSelected(_ chartView: ChartViewBase) {
@@ -59,9 +65,7 @@ struct PieChart: UIViewRepresentable {
         pieChart.rotationEnabled = false
         pieChart.drawEntryLabelsEnabled = false
         pieChart.drawEntryLabelsEnabled = false
-        //pieChart.extraLeftOffset = 70
-        //pieChart.extraBottomOffset = 40
-        //pieChart.extraRightOffset = 20
+        
     }
     
     func formatCenter(_ pieChart: PieChartView) {
@@ -72,11 +76,10 @@ struct PieChart: UIViewRepresentable {
     }
     
     func formatDescription( _ description: Description?) {
-        description?.text = "Description"
-        description?.position = CGPoint(x: 100, y: -20)
+        description?.position = CGPoint(x: 300, y: 190)
         description?.textColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
-        description?.font = UIFont(name: "Avenir", size: 16)!
-        description?.textAlign = .center
+        description?.font = UIFont(name: "Avenir", size: 10)!
+        description?.textAlign = .right
     }
     
     func formatLegend(_ legend: Legend) {

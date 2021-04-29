@@ -12,6 +12,7 @@ struct AppearanceView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @State var selectedCurrencySymbol: String = ""
     @State var currencyName: String = ""
+    @Binding var  hideTabBar: Bool
     var body: some View {
         GeometryReader { geo in
             NavigationView {
@@ -54,7 +55,7 @@ struct AppearanceView: View {
                             }
                             
                         }
-                       
+                        
                     }
                     .padding(.horizontal)
                     .frame(width: geo.size.width, height: 50, alignment: .leading)
@@ -68,6 +69,8 @@ struct AppearanceView: View {
                         setCurrencyName()
                     }
                     
+                    self.hideTabBar = true
+                    
                 }
                 .onChange(of: self.selectedCurrencySymbol, perform: { value in
                     userSettingsVM.settings.changeCurrencySymbol(value: self.selectedCurrencySymbol, context: viewContext)
@@ -75,8 +78,6 @@ struct AppearanceView: View {
                 })
             }
         }
-        
-        
     }
     private func setCurrencyName() {
         switch self.selectedCurrencySymbol {

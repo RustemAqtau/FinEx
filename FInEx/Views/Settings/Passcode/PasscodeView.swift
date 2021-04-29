@@ -14,7 +14,7 @@ struct PasscodeView: View {
     @State var enablePasscode: Bool = false
     @State var enableBiometrix: Bool = false
     @State var showSheet: Bool = false
-    
+    @Binding var  hideTabBar: Bool
     var body: some View {
         NavigationView {
             GeometryReader { geo in
@@ -41,7 +41,7 @@ struct PasscodeView: View {
                 .padding()
                 .frame(width: geo.size.width * 0.90, alignment: .leading)
                 .onAppear {
-                    print("onAppear: \(self.enablePasscode)")
+                    self.hideTabBar = true
                     self.enablePasscode = userSettingsVM.settings.isSetPassCode
                     self.enableBiometrix = userSettingsVM.settings.isSetBiometrix
                 }
@@ -55,11 +55,11 @@ struct PasscodeView: View {
                 .onChange(of: self.enableBiometrix, perform: { value in
                     userSettingsVM.settings.changeIsSetBiometrix(value: self.enableBiometrix, context: viewContext)
                 })
-//                .fullScreenCover(isPresented: self.$showSheet, content: {
-//                    PasscodeField(isNewPasscode: true)
-//                })
+                .fullScreenCover(isPresented: self.$showSheet, content: {
+                    PasscodeField(isNewPasscode: true, askBiometrix: false)
+                })
                 .sheet(isPresented: self.$showSheet, content: {
-                    PasscodeField(isNewPasscode: true)
+                    PasscodeField(isNewPasscode: true, askBiometrix: false)
                 })
             }
             
@@ -67,8 +67,3 @@ struct PasscodeView: View {
     }
 }
 
-struct PasscodeView_Previews: PreviewProvider {
-    static var previews: some View {
-        PasscodeView()
-    }
-}

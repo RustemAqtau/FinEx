@@ -72,6 +72,10 @@ class UserSettingsManager: ObservableObject {
         RecurringTransaction.update(from: info, context: context)
         getRecurringTransactions(context: context)
     }
+    func deleteRecurringTransaction(transaction: RecurringTransaction, context: NSManagedObjectContext) {
+        transaction.delete(context: context)
+        getRecurringTransactions(context: context)
+    }
     
     func getRecurringTransactionsByCategory(monthlyBudget: MonthlyBudget, context: NSManagedObjectContext) {
         for category in cetegoriesArray {
@@ -200,7 +204,7 @@ class UserSettingsManager: ObservableObject {
     }
     
     func getTransactiontypes(context: NSManagedObjectContext) {
-        let predicate = NSPredicate(format: "name !=  %@ AND isHidden =  %@", argumentArray: [nil, false])
+        let predicate = NSPredicate(format: "name != nil AND isHidden =  %@", argumentArray: [false])
         transactionTypes = fetchTransactionTypes(context: context, predicate: predicate)
         for key in transactionTypesByCategoty.keys {
             for subKey in transactionTypesByCategoty[key]!.keys {

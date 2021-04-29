@@ -26,18 +26,7 @@ struct AddTransactionView: View {
     @State var selectedDate: Date = Date()
     @State var note: String = ""
     @State var noteLenghtLimitOut: Bool = false
-    let dateRange: ClosedRange<Date> = {
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day], from: Date())
-        let year = components.year!
-        let month = components.month!
-        let day = components.day!
-        let startComponents = DateComponents(year: year, month: 1, day: 1)
-        let endComponents = DateComponents(year: year, month: month, day: day)
-        return calendar.date(from:startComponents)!
-            ...
-            calendar.date(from:endComponents)!
-    }()
+    @State var dateRange: ClosedRange<Date> = getDateRange(for: Date())
     @State var showCalendar: Bool = false
     @State var accentColor: Color = CustomColors.ExpensesColor2
     @State var validationFailed: Bool = false
@@ -179,6 +168,7 @@ struct AddTransactionView: View {
             default: self.accentColor = CustomColors.ExpensesColor2
             }
             self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
+            self.dateRange = getDateRange(for: self.currentMonthBudget.startDate ?? Date())
         }
         .onTapGesture {
             hideKeyboard()
@@ -199,7 +189,8 @@ struct AddTransactionView: View {
         })
         
     }
-    func saveTransaction() {
+    
+    private func saveTransaction() {
         let locale = Locale.current
         self.amount = NSDecimalNumber(string: self.amountString, locale: locale)
         print(self.amount)
@@ -217,7 +208,8 @@ struct AddTransactionView: View {
         budgetVM.getTransactions(context: viewContext)
         presentationMode.wrappedValue.dismiss()
     }
-    func validationSucceed() -> Bool {
+    
+    private func validationSucceed() -> Bool {
         guard !self.amountString.isEmpty,
               !Double(truncating: NSDecimalNumber(string: self.amountString)).isNaN
         else {
@@ -234,6 +226,8 @@ struct AddTransactionView: View {
         }
         return true
     }
+    
+    
 }
 
 //struct AddExpense_Previews: PreviewProvider {

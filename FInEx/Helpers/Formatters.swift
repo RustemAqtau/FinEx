@@ -52,3 +52,20 @@ func getYearFrom(date: Date) -> Int? {
     let year = components.year
     return year
 }
+
+func getDateRange(for date: Date) -> ClosedRange<Date> {
+    let dateRange: ClosedRange<Date> = {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
+        let year = components.year!
+        let month = components.month!
+        let startComponents = DateComponents(year: year, month: month, day: 1)
+        let endOfMonth = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: date)!
+        
+        return calendar.date(from:startComponents)!
+            ...
+            endOfMonth
+    }()
+    
+    return dateRange
+}

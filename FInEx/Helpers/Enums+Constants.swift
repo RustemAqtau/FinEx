@@ -351,6 +351,8 @@ enum GradientColors {
     static let Home = LinearGradient(gradient: Gradient(colors: [Color("HomeButtonGradient1"), Color("HomeButtonGradient2")]), startPoint: .bottomTrailing, endPoint: .topLeading)
     
     static let TransactionAmountTextField = LinearGradient(gradient: Gradient(colors: [Color("TextFieldBackgroundLight"), Color("TextFieldBackgroundDark"), Color("TextFieldBackgroundLight")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+    
+    static let TabBarBackground = LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading)
 }
 
 
@@ -421,6 +423,7 @@ enum ExpenseTypeNames: String {
         return NSLocalizedString(self.rawValue, comment: "")
     }
 }
+
 
 enum ExpenseSubCategories: String, CaseIterable {
     case Housing = "Housing"

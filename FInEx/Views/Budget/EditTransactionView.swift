@@ -31,7 +31,7 @@ struct EditTransactionView: View {
     @State var accentColor: Color = CustomColors.ExpensesColor2
     @State var validationFailed: Bool = false
     @State var warningMessage: String = ""
-    
+    @State var amountPlaceholder: String = ""
    
     var body: some View {
         NavigationView {
@@ -46,7 +46,7 @@ struct EditTransactionView: View {
                             .fill(Color.white)
                         RoundedRectangle(cornerRadius: 35.0)
                             .stroke(self.accentColor)
-                        TextField("$", text: self.$amountString, onEditingChanged: { isEditing in
+                        TextField(self.amountPlaceholder, text: self.$amountString, onEditingChanged: { isEditing in
                             if isEditing {
                                 self.amountIsEditing = true
                                 
@@ -186,25 +186,18 @@ struct EditTransactionView: View {
             }
             
             self.selectedDate = transaction.date!
-            let range: ClosedRange<Date> = {
-                let calendar = Calendar.current
-                let components = calendar.dateComponents([.year, .month, .day], from: transaction.date!)
-                let year = components.year!
-                let month = components.month!
-                let startComponents = DateComponents(year: year, month: month, day: 1)
-                let endComponents = DateComponents(year: year, month: month, day: 30)
-                return calendar.date(from:startComponents)!
-                    ...
-                    calendar.date(from:endComponents)!
-            }()
-            self.dateRange = range
+            
+            self.dateRange = getDateRange(for: transaction.date!)
             let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
-            self.amountString = formatter.string(from: NSDecimalNumber(decimal: transaction.amount! as Decimal))!
+            var amount = formatter.string(from: NSDecimalNumber(decimal: transaction.amount! as Decimal))!
+            amount.removeFirst()
+            self.amountString = amount 
             self.selectedType = transaction.type!
             self.selectedTypeName = transaction.type!.presentingName
             self.selectedtypeImageName = transaction.type!.presentingImageName
             self.selectedTypeCircleColor = transaction.type!.presentingColorName
             self.note = transaction.note!
+            self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
         }
         .onTapGesture {
             hideKeyboard()
@@ -225,7 +218,8 @@ struct EditTransactionView: View {
         })
         
     }
-    func saveTransaction() {
+    
+    private func saveTransaction() {
         let locale = Locale.current
         self.amount = NSDecimalNumber(string: self.amountString, locale: locale)
         print(self.amount)
@@ -238,7 +232,8 @@ struct EditTransactionView: View {
         self.transaction.edit(info: newTransactionInfo, context: viewContext)
         presentationMode.wrappedValue.dismiss()
     }
-    func validationSucceed() -> Bool {
+    
+    private func validationSucceed() -> Bool {
         guard !self.amountString.isEmpty,
               !Double(truncating: NSDecimalNumber(string: self.amountString)).isNaN
         else {

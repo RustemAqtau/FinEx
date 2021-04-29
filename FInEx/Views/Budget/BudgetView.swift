@@ -19,6 +19,7 @@ struct BudgetView: View {
     @State var savingsSelected = false
     @Binding var plusButtonColor: LinearGradient
     @Binding var plusButtonIsServing: String
+    @Binding var coloredNavAppearance: UINavigationBarAppearance
     
     @State var expensesBySubCategory: [String: [Transaction]] = [:]
     @State var expensesTotalAmountBySubCategory: [String : Decimal] = [:]
@@ -39,6 +40,8 @@ struct BudgetView: View {
     @Binding var hideLeftChevron: Bool
     @Binding var hideRightChevron: Bool
     
+    @Binding var showAddTransaction: Bool
+    
     var body: some View {
         NavigationView {
             let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
@@ -48,11 +51,10 @@ struct BudgetView: View {
                 VStack(spacing: 0) {
                     HStack {
                         Text("BALANCE")
-                        
                         Text(formatter.string(from: NSDecimalNumber(decimal: currentMonthBudget.currentBalance))!)
                     }
-                    .frame(width: geo.size.width * 0.90, height: 80, alignment: .center)
-                    .offset(y: 45)
+                   .frame(width: geo.size.width * 0.90, height: 20, alignment: .center)
+                    //.offset(y: 50)
                     .foregroundColor(CustomColors.TextDarkGray)
                     .opacity(0.8)
                     .font(Fonts.light15)
@@ -126,8 +128,8 @@ struct BudgetView: View {
                             }
                         }
                     }
-                    .frame(width: geo.size.width, height: 70
-                           , alignment: .center)
+                    .frame(width: geo.size.width, height: 90, alignment: .center)
+                   // .border(Color.black)
                     .offset(x: 0, y: offsetY)
                     .onAppear {
                         startAnimate()
@@ -135,7 +137,14 @@ struct BudgetView: View {
                     }
                     
                 }
-                .frame(width: geo.size.width, height: geo.size.height / 4.5, alignment: .center)
+               .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
+                .sheet(isPresented: self.$showAddTransaction, content: {
+                    let addingCategory = getAddingCategory()
+                    AddTransactionView(currentMonthBudget: self.$currentMonthBudget, category: addingCategory)
+                        .environmentObject(self.budgetVM)
+                        .environment(\.userSettingsVM, self.userSettingsVM)
+                })
+               // .border(Color.black)
                 //.background(GradientColors.TopBackground)
                 .foregroundColor(.white)
                 
@@ -161,12 +170,11 @@ struct BudgetView: View {
                     .opacity(self.hideRightChevron ? 0 : 1)
                     
                 }
-                .padding()
+                .padding(.horizontal)
                 .font(Font.system(size: 20, weight: .light, design: .default))
                 .foregroundColor(.black)
                 .modifier(RoundedRectangleModifierSimpleColor(color: Color.white, strokeLineWidth: 3))
-                .frame(width: geo.size.width * 0.90, height: 55)
-                .padding()
+                .frame(width: geo.size.width * 0.90, height: 50)
                 
                 
                 if self.incomeSelected {
@@ -194,8 +202,8 @@ struct BudgetView: View {
                         .environmentObject(self.budgetVM)
                 }
             }
-            .ignoresSafeArea(.all, edges: .top)
-            //.navigationBarTitle (Text(""), displayMode: .inline)
+            
+          //  .ignoresSafeArea(.all, edges: .top)
             .navigationBarTitle (Text(LocalizedStringKey("BUDGET")), displayMode: .inline)
             //.background(GradientColors.TopBackground)
            // .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
@@ -204,6 +212,14 @@ struct BudgetView: View {
                 self.presentingTransactions = currentMonthBudget.expensesList
                 updateData()
                 //print(userSettingsVM.settings.currencySymbol)
+                
+                coloredNavAppearance.backgroundColor = UIColor(CustomColors.TopBackgroundGradient3)
+                
+                
+                
+                UINavigationBar.appearance().standardAppearance = coloredNavAppearance
+                UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
+                
             }
             .onChange(of: self.budgetVM.transactionList.count, perform: { value in
                 updateData()
@@ -235,7 +251,7 @@ struct BudgetView: View {
     
     func startAnimate() {
         withAnimation(.easeInOut(duration: 0.5)) {
-            self.offsetY = 20.0
+            self.offsetY = 10.0
         }
     }
     
@@ -247,6 +263,21 @@ struct BudgetView: View {
         formatter.maximumFractionDigits = 2
         formatter.groupingSeparator = ""
         return formatter
+    }
+    
+    private func getAddingCategory() -> String {
+        var addingCategory: String = ""
+        switch self.plusButtonIsServing {
+        case Categories.Expense:
+            addingCategory = Categories.Expense
+        case Categories.Income:
+            addingCategory = Categories.Income
+        case Categories.Saving:
+            addingCategory = Categories.Saving
+        default:
+            addingCategory = Categories.Expense
+        }
+        return addingCategory
     }
     
 }

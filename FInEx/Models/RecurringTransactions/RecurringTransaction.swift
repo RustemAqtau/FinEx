@@ -59,15 +59,38 @@ extension RecurringTransaction {
         return fetchedTypes.first!
     }
     
-    func delete(context: NSManagedObjectContext) {
-        context.delete(self)
-        do {
-            try context.save()
-            print("Context saved")
-        } catch {
-            print("Could not save context")
+    func edit(info: RecurringTransactionInfo, context: NSManagedObjectContext) {
+        self.amount = info.amount
+        self.startDate = info.startDate
+        self.type = info.type
+        self.category = info.category
+        self.note = info.note
+        self.periodicity = info.periodicity
+        self.nextAddingDate = info.nextAddingDate
+        self.nextAddingMonth = Int32(nextAddingMonth)
+        self.nextAddingYear = Int32(nextAddingYear)
+        if context.hasChanges {
+            do {
+                try context.save()
+                print("Context saved")
+            } catch {
+                print("Could not save context")
+            }
         }
     }
+    
+    func delete(context: NSManagedObjectContext) {
+        context.delete(self)
+        if context.hasChanges {
+            do {
+                try context.save()
+                print("Transaction deleted")
+            } catch {
+                print("Could not save context")
+            }
+        }
+    }
+    
     
     static func update(from info: RecurringTransactionInfo, context: NSManagedObjectContext) {
         let nextAddingMonth = getMonthFrom(date: info.nextAddingDate)!

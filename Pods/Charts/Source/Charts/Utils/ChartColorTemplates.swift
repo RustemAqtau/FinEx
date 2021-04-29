@@ -59,6 +59,42 @@ open class ChartColorTemplates: NSObject
         ]
     }
     
+    @objc open class func savingPastel () -> [NSUIColor]
+    {
+        return [
+            NSUIColor(red: 0.220, green: 0.690, blue: 0.549, alpha: 1.0),
+            NSUIColor(red: 0.315, green: 0.753, blue: 0.655, alpha: 1.0),
+            NSUIColor(red: 0.410, green: 0.852, blue: 0.688, alpha: 1.0),
+            NSUIColor(red: 0.481, green: 0.963, blue: 0.829, alpha: 1.0),
+            NSUIColor(red: 0.700, green: 1.000, blue: 1.000, alpha: 1.0),
+            NSUIColor(red: 0.000, green: 0.804, blue: 1.000, alpha: 1.0),
+            NSUIColor(red: 0.000, green: 1.000, blue: 0.474, alpha: 1.0),
+            NSUIColor(red: 0.000, green: 1.000, blue: 0.624, alpha: 1.0)
+            
+        ]
+    }
+    
+    @objc open class func incomeBarPastel () -> [NSUIColor]
+    {
+        return [
+            NSUIColor(red: 0.000, green: 0.445, blue: 0.443, alpha: 1.0)
+        ]
+    }
+    
+    @objc open class func expenseBarPastel () -> [NSUIColor]
+    {
+        return [
+            NSUIColor(red: 1.000, green: 0.528, blue: 0.536, alpha: 1.0)
+        ]
+    }
+    
+    @objc open class func savingBarPastel () -> [NSUIColor]
+    {
+        return [
+            NSUIColor(red: 0.220, green: 0.690, blue: 0.549, alpha: 1.0)
+        ]
+    }
+    
     @objc open class func liberty () -> [NSUIColor]
     {
         return [

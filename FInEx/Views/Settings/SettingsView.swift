@@ -9,15 +9,15 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(\.userSettingsVM) var userSettingsVM
-    let tools = ["Register", "Passcode", "Categories", "Recurring", "Appearance", "Remainder"]
+    @State var offsetY: CGFloat = -5.0
     let coloredNavAppearance = UINavigationBarAppearance()
     let coloredBarButtonAppearance = UIBarButtonItemAppearance ()
-    @State var offsetY: CGFloat = -5.0
     
-    init() {
-        setNavBarAppearance()
-        
-    }
+    @Binding var  hideTabBar: Bool
+//    init() {
+//        setNavBarAppearance()
+//
+//    }
     var body: some View {
         NavigationView {
             
@@ -34,53 +34,57 @@ struct SettingsView: View {
                     VStack(spacing: 0) {
                         HStack(spacing: 20) {
                             NavigationLink(
-                                destination: RegisterWithAppleID()) {
+                                destination: RegisterWithAppleID(hideTabBar: self.$hideTabBar)) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .fill(Color.white)
                                     .shadow(radius: 6)
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .stroke(Color.white)
-                                VStack(spacing: 0) {
+                                VStack(spacing: 10) {
                                     Image(systemName: "arrow.clockwise.icloud.fill")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
                                         .foregroundColor(CustomColors.ExpensesColor)
+                                    
                                     VStack(alignment: .center, spacing: 4) {
                                         Text(LocalizedStringKey("REGISTER"))
+                                            .font(Font.system(size: 13, weight: .regular, design: .rounded))
                                         Text(LocalizedStringKey("Secure your data in the cloud and use multiple devices"))
+                                            .font(Font.system(size: 13, weight: .light, design: .rounded))
                                     }
                                     .multilineTextAlignment(.center)
-                                    .font(Font.system(size: 13, weight: .light, design: .rounded))
                                     .foregroundColor(CustomColors.TextDarkGray)
                                     .lineLimit(3)
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                                    .padding()
+                                    .frame(maxWidth: .infinity, alignment: .top)
+                                    .padding(.horizontal)
                                }
                             }
+                            //.frame(width: 140, height: 190, alignment: .top)
                             }
                             //.opacity(userSettingsVM.settings.isSignedWithAppleId ? 0 : 1)
                             NavigationLink(
-                                destination: PasscodeView()) {
+                                destination: PasscodeView(hideTabBar: self.$hideTabBar)) {
                                 ZStack {
                                      RoundedRectangle(cornerRadius: 25.0)
                                          .fill(Color.white)
                                          .shadow(radius: 6)
                                      RoundedRectangle(cornerRadius: 25.0)
                                          .stroke(Color.white)
-                                     VStack(spacing: 0) {
+                                     VStack(spacing: 10) {
                                          Image(systemName: "lock.shield")
                                              .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor)
                                          VStack(alignment: .center, spacing: 4) {
                                              Text(LocalizedStringKey("PASSCODE"))
+                                                .font(Font.system(size: 13, weight: .regular, design: .rounded))
                                              Text(LocalizedStringKey("Protect your data with a passcode."))
-                                                 
+                                                .font(Font.system(size: 13, weight: .light, design: .rounded))
                                          }
                                          .multilineTextAlignment(.center)
-                                         .font(Font.system(size: 13, weight: .light, design: .rounded))
+                                         
                                          .foregroundColor(CustomColors.TextDarkGray)
                                          .lineLimit(3)
-                                         .frame(maxWidth: .infinity, alignment: .center)
+                                         .frame(maxWidth: .infinity, alignment: .top)
                                          .padding()
                                     }
                                  }
@@ -91,7 +95,7 @@ struct SettingsView: View {
                         .offset(y: offsetY)
                         HStack(spacing: 20) {
                             NavigationLink(
-                                destination: EditCategories()
+                                destination: EditCategories(hideTabBar: self.$hideTabBar)
                                     .environmentObject(userSettingsVM)
                             ) {
                                 ZStack {
@@ -120,7 +124,7 @@ struct SettingsView: View {
                                 }
                             
                             NavigationLink(
-                                destination: RecurringTransactionsView()
+                                destination: RecurringTransactionsView(hideTabBar: self.$hideTabBar)
                                     .environmentObject(userSettingsVM)
                             ) {
                             ZStack {
@@ -152,7 +156,7 @@ struct SettingsView: View {
                         .offset(y: offsetY)
                         HStack(spacing: 20) {
                             NavigationLink(
-                                destination: AppearanceView()
+                                destination: AppearanceView(hideTabBar: self.$hideTabBar)
                                     .environment(\.userSettingsVM, self.userSettingsVM)
                             ) {
                                 ZStack {
@@ -210,7 +214,9 @@ struct SettingsView: View {
                     }
                     .frame(width: geo.size.width , height: geo.size.height * 0.95, alignment: .center)
                     .onAppear {
+                        setNavBarAppearance()
                         startAnimate()
+                        self.hideTabBar = false
                     }
                     VStack {
                     }
@@ -232,7 +238,7 @@ struct SettingsView: View {
     
     func setNavBarAppearance() {
         coloredNavAppearance.configureWithOpaqueBackground()
-        coloredNavAppearance.backgroundColor = UIColor(CustomColors.TopBackgroundGradient3)
+        coloredNavAppearance.backgroundColor = UIColor(.clear) //UIColor(CustomColors.TopBackgroundGradient3)
         coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.gray, .strokeColor: UIColor.clear, .underlineColor: UIColor.clear]
         coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.gray]
         coloredNavAppearance.shadowColor = .clear
@@ -250,8 +256,8 @@ struct SettingsView: View {
     }
 }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView()
-    }
-}
+//struct SettingsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SettingsView()
+//    }
+//}

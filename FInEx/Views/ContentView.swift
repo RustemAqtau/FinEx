@@ -15,6 +15,11 @@ struct ContentView: View {
     @Environment(\.userSettingsVM) var userSettingsVM
     @ObservedObject var budgetVM = BudgetManager()
     @State var offsetY: CGFloat = 0.0
+    
+    @State var mainButtonTapped: Bool = false
+    @State var analyticsButtonTapped: Bool = false
+    @State var toolsButtonTapped: Bool = false
+    
     @State var incomeSelected = false
     @State var savingsSelected = false
     @State var plusButtonColor = GradientColors.Expense
@@ -22,7 +27,8 @@ struct ContentView: View {
     @State var isBudgetView = true
     @State var isAnalyticsView = false
     @State var isSettingsView = false
-    @State var showAddExpense: Bool = false
+    
+    @State var showAddTransaction: Bool = false
     @State var currentMonthBudget: MonthlyBudget = MonthlyBudget()
     
     @State var getPreviousMonthBudget: Bool = false
@@ -30,11 +36,13 @@ struct ContentView: View {
     @State var hideLeftChevron: Bool = false
     @State var hideRightChevron: Bool = false
     
-    let coloredNavAppearance = UINavigationBarAppearance()
+    @State var coloredNavAppearance = UINavigationBarAppearance()
     let coloredBarButtonAppearance = UIBarButtonItemAppearance ()
     
     @State var askPasscode: Bool = false
     @State var askBiometrix: Bool = false
+    
+    @State var hideTabBar: Bool = false
     init() {
         setNavBarAppearance()
     }
@@ -45,109 +53,64 @@ struct ContentView: View {
             GeometryReader() { geo in
                 Group {
                     if isSettingsView {
-                        SettingsView()
+                        SettingsView(hideTabBar: self.$hideTabBar)
                             .environment(\.userSettingsVM, userSettingsVM)
-                            
+                        
                     } else if isAnalyticsView {
-                        if let currentBudget = budgetVM.budgetList.last {
-                        AnalyticsView(currentMonthBudget: .constant(currentBudget))
-                                        .environmentObject(budgetVM)
-                        }
+                        AnalyticsView(coloredNavAppearance: self.$coloredNavAppearance,
+                                      currentMonthBudget: self.$currentMonthBudget,
+                                      getPreviousMonthBudget: self.$getPreviousMonthBudget,
+                                      getNextMonthBudget: self.$getNextMonthBudget,
+                                      hideLeftChevron: self.$hideLeftChevron,
+                                      hideRightChevron: self.$hideRightChevron)
+                            .environmentObject(budgetVM)
+                            .environment(\.userSettingsVM, userSettingsVM)
                     } else {
                         if !budgetVM.budgetList.isEmpty {
                             BudgetView(currentMonthBudget: self.$currentMonthBudget ,
                                        geo: geo,
                                        plusButtonColor: self.$plusButtonColor,
                                        plusButtonIsServing: self.$plusButtonIsServing,
+                                       coloredNavAppearance: self.$coloredNavAppearance,
                                        getPreviousMonthBudget: self.$getPreviousMonthBudget,
                                        getNextMonthBudget: self.$getNextMonthBudget,
                                        hideLeftChevron: self.$hideLeftChevron,
-                                       hideRightChevron: self.$hideRightChevron)
+                                       hideRightChevron: self.$hideRightChevron,
+                                       showAddTransaction: self.$showAddTransaction)
                                 .environmentObject(budgetVM)
                                 .environment(\.userSettingsVM, userSettingsVM)
+                            
                         }
                     }
                 }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
-                
                 .overlay(
-
-                    ZStack {
-                        Rectangle()
-                            .fill(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading))
-                            .frame(width: geo.size.width, height: 120, alignment: .center)
-                        
-                        Button(action: {
-                            if self.isAnalyticsView {
-                                self.isAnalyticsView = false
-                                self.plusButtonColor = GradientColors.Expense
-                                self.plusButtonIsServing = Categories.Expense
-                            } else if self.isSettingsView {
-                                self.isSettingsView = false
-                                self.plusButtonColor = GradientColors.Expense
-                                self.plusButtonIsServing = Categories.Expense
-                            } else {
-                                self.showAddExpense = true
-                            }
-                            
-                        }, label: {
-                            Image(systemName: (self.isAnalyticsView || self.isSettingsView) ? "house.fill" : "plus")
-                        })
-                        .foregroundColor(.white)
-                        .modifier(CircleModifier(color: self.plusButtonColor, strokeLineWidth: 3.0))
-                        .opacity(0.8)
-                        .frame(width: geo.size.width / 5, height: geo.size.height / 8, alignment: .center)
-                        .position(x: geo.size.width / 2, y: geo.size.height / 2.3)
-                        .sheet(isPresented: self.$showAddExpense, content: {
-                            
-                                let addingCategory = getAddingCategory()
-                                AddTransactionView(currentMonthBudget: self.$currentMonthBudget, category: addingCategory)
-                                    .environmentObject(self.budgetVM)
-                                    .environment(\.userSettingsVM, self.userSettingsVM)
-                            
-                            
-                        })
-                        HStack(alignment: .top , spacing: geo.size.width / 2) {
-                            
-                            Button(action: {
-                                if self.isSettingsView {
-                                        self.isSettingsView.toggle()
-                                    }
-                                    self.isAnalyticsView = true
-                                self.plusButtonColor = GradientColors.Home
-                                
-                            }, label: {
-                                Image(systemName: "circle.grid.cross")
-                            })
-                            Button(action: {
-                                if self.isAnalyticsView {
-                                    self.isAnalyticsView.toggle()
-                                }
-                                self.isSettingsView = true
-                                self.plusButtonColor = GradientColors.Home
-                            }, label: {
-                                Image(systemName: "wrench")
-                            })
-                           
-                        }
-                        .foregroundColor(.gray)
-                        .position(x: geo.size.width / 2, y: geo.size.height / 2.1)
-                    }
-                    .font(Font.system(size: 30, weight: .medium, design: .default))
-                    .position(x: geo.size.width / 2, y: geo.size.height)
+                    CustomTabBarView(geo: geo,
+                                     plusButtonColor: self.$plusButtonColor,
+                                     isBudgetView: self.$isBudgetView,
+                                     mainButtonTapped: self.$mainButtonTapped,
+                                     isAnalyticsView: self.$isAnalyticsView,
+                                     isSettingsView: self.$isSettingsView,
+                                     toolsButtonTapped: self.$toolsButtonTapped,
+                                     analyticsButtonTapped: self.$analyticsButtonTapped
+                    )
+                    .opacity(self.hideTabBar ? 0 : 1)
                 )
             }
+            
         }
-        
-        
-        .ignoresSafeArea(.all, edges: .top)
+        .fullScreenCover(isPresented: self.$askPasscode, content: {
+            PasscodeField(isNewPasscode: false, askBiometrix: self.askBiometrix)
+        })
+        .transition(.identity)
+        // .ignoresSafeArea(.all, edges: .top)
         .onAppear {
             if self.userSettingsVM.checkUserSettingsIsEmpty(context: viewContext) {
                 self.userSettingsVM.setUserSettings(context: viewContext)
             }
             self.userSettingsVM.getUserSettings(context: viewContext)
             if self.userSettingsVM.checkTransactionTypesIsEmpty(context: viewContext) {
-
+                
                 self.userSettingsVM.loadDefaultTransactionTypes(context: viewContext)
             }
             self.userSettingsVM.getAllTransactiontypes(context: viewContext)
@@ -165,7 +128,14 @@ struct ContentView: View {
                     self.budgetVM.getBudgetList(context: viewContext)
                 }
             }
-            print("budgetList.count: \(self.budgetVM.budgetList.count)")
+            
+            if userSettingsVM.settings.isSetPassCode {
+                self.askPasscode = true
+                if userSettingsVM.settings.isSetBiometrix {
+                    self.askBiometrix = true
+                }
+            }
+            
             self.currentMonthBudget = budgetVM.budgetList.last!
             if userSettingsVM.settings.currencySymbol == nil {
                 let formatter = NumberFormatter()
@@ -174,31 +144,52 @@ struct ContentView: View {
                 formatter.maximumFractionDigits = 2
                 userSettingsVM.settings.currencySymbol = formatter.currencySymbol
             }
-//            if userSettingsVM.settings.isSetPassCode {
-//                if userSettingsVM.settings.isSetBiometrix {
-//                    self.askBiometrix = true
-//                } else {
-//                    self.askPasscode = true
-//                }
-//                
-//            }
+            
         }
+        .onChange(of: self.mainButtonTapped, perform: { value in
+            if self.isAnalyticsView {
+                self.isAnalyticsView = false
+                self.plusButtonColor = GradientColors.Expense
+                self.plusButtonIsServing = Categories.Expense
+            } else if self.isSettingsView {
+                self.isSettingsView = false
+                self.plusButtonColor = GradientColors.Expense
+                self.plusButtonIsServing = Categories.Expense
+            } else {
+                self.showAddTransaction = true
+            }
+        })
+        .onChange(of: self.analyticsButtonTapped, perform: { value in
+            if self.isSettingsView {
+                self.isSettingsView.toggle()
+            }
+            self.isAnalyticsView = true
+            self.plusButtonColor = GradientColors.Home
+            self.currentMonthBudget = budgetVM.budgetList.last!
+        })
+        .onChange(of: self.toolsButtonTapped, perform: { value in
+            if self.isAnalyticsView {
+                self.isAnalyticsView.toggle()
+            }
+            self.isSettingsView = true
+            self.plusButtonColor = GradientColors.Home
+        })
         .onChange(of: self.getPreviousMonthBudget, perform: { value in
             if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
                currentBudgetIndex != self.budgetVM.budgetList.startIndex  {
-             //   withAnimation(.easeIn(duration: 1)) {
-                    let previousBudgetIndex = self.budgetVM.budgetList.index(before: currentBudgetIndex)
-                    self.currentMonthBudget = self.budgetVM.budgetList[previousBudgetIndex]
-             //   }
+                //   withAnimation(.easeIn(duration: 1)) {
+                let previousBudgetIndex = self.budgetVM.budgetList.index(before: currentBudgetIndex)
+                self.currentMonthBudget = self.budgetVM.budgetList[previousBudgetIndex]
+                //   }
             }
         })
         .onChange(of: self.getNextMonthBudget, perform: { value in
             if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
                currentBudgetIndex != self.budgetVM.budgetList.endIndex - 1  {
-            //    withAnimation(.easeIn(duration: 1)) {
-                    let nextBudgetIndex = self.budgetVM.budgetList.index(after: currentBudgetIndex)
-                    self.currentMonthBudget = self.budgetVM.budgetList[nextBudgetIndex]
-            //    }
+                //    withAnimation(.easeIn(duration: 1)) {
+                let nextBudgetIndex = self.budgetVM.budgetList.index(after: currentBudgetIndex)
+                self.currentMonthBudget = self.budgetVM.budgetList[nextBudgetIndex]
+                //    }
             }
         })
         .onChange(of: self.currentMonthBudget, perform: { value in
@@ -209,21 +200,13 @@ struct ContentView: View {
                 self.hideLeftChevron = false
             }
             if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
-                currentBudgetIndex == self.budgetVM.budgetList.endIndex - 1 {
+               currentBudgetIndex == self.budgetVM.budgetList.endIndex - 1 {
                 self.hideRightChevron = true
             } else {
                 self.hideRightChevron = false
             }
-            
         })
         
-        
-//        .fullScreenCover(isPresented: self.$askBiometrix, content: {
-//            LoginView()
-//        })
-//        .fullScreenCover(isPresented: self.$askPasscode, content: {
-//            PasscodeField(isNewPasscode: false)
-//        })
         
     }
     

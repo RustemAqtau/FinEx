@@ -24,17 +24,13 @@ func setDate(date: Date) -> String {
     return dateString
 }
 
-func setDecimalFormatter(currencySymbol: String) -> NumberFormatter {
-//    let currencys = Locale.isoCurrencyCodes
-//    print(currencys)
+func setDecimalFormatter(currencySymbol: String, fractionDigitsNumber: Int) -> NumberFormatter {
+
     let formatter = NumberFormatter()
     formatter.locale = .current
     formatter.numberStyle = .currency
-    print(formatter.currencySymbol ?? "-")
-    //formatter.currencyCode = "RUB"
     formatter.currencySymbol = currencySymbol
-    formatter.maximumFractionDigits = 2
-    //formatter.groupingSeparator = ""
+    formatter.maximumFractionDigits = fractionDigitsNumber
     return formatter
 }
 

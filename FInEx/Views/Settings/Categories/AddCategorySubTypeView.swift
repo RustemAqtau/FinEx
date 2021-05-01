@@ -9,6 +9,7 @@ import SwiftUI
 import Introspect
 
 struct AddCategorySubTypeView: View {
+    @ObservedObject var keyboardHeightHelper = KeyboardHeightHelper()
     @EnvironmentObject var userSettingsVM: UserSettingsManager
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
@@ -90,8 +91,10 @@ struct AddCategorySubTypeView: View {
                             })
                             .accentColor(.gray)
                             .introspectTextField { textField in
-                                textField.becomeFirstResponder()
-                                
+                               // textField.becomeFirstResponder()
+                                if self.showIcons {
+                                    textField.resignFirstResponder()
+                                }
                             }
                             .font(Font.system(size: 22, weight: .light, design: .default))
                         }
@@ -109,9 +112,9 @@ struct AddCategorySubTypeView: View {
                                     .frame(width: geo.size.width / 8, height: geo.size.width / 8, alignment: .center)
                                     .onTapGesture {
                                         withAnimation(.easeInOut(duration: 0.3)) {
-                                        hideKeyboard()
+                                       // hideKeyboard()
                                         replaceSaveButton(down: false)
-                                        self.showIcons.toggle()
+                                        self.showIcons = true
                                         }
                                     }
                                 
@@ -140,8 +143,8 @@ struct AddCategorySubTypeView: View {
                         }) {
                             SaveButtonView(geo: geo, withTrash: false)
                         }
-                        .offset(y: self.saveButtonOffsetY)
-                        
+                       // .offset(y: self.saveButtonOffsetY)
+                        //.offset(y: -self.keyboardHeightHelper.keyboardHeight)
                     }
                     
                 }
@@ -178,8 +181,9 @@ struct AddCategorySubTypeView: View {
     private func replaceSaveButton(down: Bool) {
         
         withAnimation(.easeInOut(duration: 0.5)) {
-            self.saveButtonOffsetY = down ? self.height * 0.40 : 25
+            self.saveButtonOffsetY = down ? self.keyboardHeightHelper.keyboardHeight  : -self.keyboardHeightHelper.keyboardHeight
         }
+        
     }
     
     private func save() {

@@ -27,6 +27,83 @@ enum Coordinator {
   }
 }
 
+
+
+// MARK: - Remainders
+
+enum MonthlyRemainderDay: Int, CaseIterable {
+    
+    case one = 1
+    case two = 2
+    case three = 3
+    case four = 4
+    case five = 5
+    case six = 6
+    case seven = 7
+    case eight = 8
+    case nine = 9
+    case ten = 10
+    case eleven = 11
+    case twelve = 12
+    case thirteen = 13
+    case fourteen = 14
+    case fifteen = 15
+    case sixteen = 16
+    case seventeen = 17
+    case eighteen = 18
+    case nineteen = 19
+    case twenty = 20
+    case twentyOne = 21
+    case twentyTwo = 22
+    case twentyThree = 23
+    case twentyFour = 24
+    case twentyFive = 25
+    case twentySix = 26
+    case twentySeven = 27
+    case twentyEight = 28
+    case twentyNine = 29
+    case thirty = 30
+}
+
+enum DailyRemainderTime: String, CaseIterable {
+
+    case six = "06.00"
+    case seven = "07.00"
+    case eight = "08.00"
+    case nine = "09.00"
+    case ten = "10.00"
+    case eleven = "11.00"
+    case twelve = "12.00"
+    case thirteen = "13.00"
+    case fourteen = "14.00"
+    case fifteen = "15.00"
+    case sixteen = "16.00"
+    case seventeen = "17.00"
+    case eighteen = "18.00"
+    case nineteen = "19.00"
+    case twenty = "20.00"
+    case twentyOne = "21.00"
+    case twentyTwo = "22.00"
+
+}
+
+enum LocalNotificationTexts: String, CaseIterable {
+    case dailyTitle = "Daily remainder ⏰"
+    case dailyBody = "Have you added your expenses for today?"
+    case monthlyTitle = "Any bills left to pay? 💸"
+    case monthlyBody = "Just don't forget them, or it might cost you some of your well earned money."
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+enum LocalNotificationIDs {
+    static let dailyNotificationID = "dailyNotificationID"
+    static let monthlyNotification = "monthlyNotification"
+}
+
+
 // MARK: - Currency Symbols
 enum CurrencySymbols: String, CaseIterable {
     case dollar = "$"
@@ -40,8 +117,7 @@ enum CurrencySymbols: String, CaseIterable {
 
 // MARK: - Periodicity
 enum Periodicity: String, CaseIterable {
-    typealias RawValue = String
-    
+   
     case TwoWeeks = "Every two weeks"
     case Month = "Every month"
     case Quarter = "Every third month"
@@ -63,6 +139,222 @@ enum Placeholders {
     static let PieSliceDescriptionIncome = "Income by category"
     static let PieSliceDescriptionSaving = "Savings by category"
     static let Required = "Required"
+}
+
+
+
+
+
+// MARK: - Warning Messages
+enum WarningMessages {
+    static let ValidationAmountFail = "Please enter valid amount."
+    static let ValidationCategoryNotSelectedFail = "Please select a category."
+    static let RequiredField = "Please fill all the required fields."
+    static let ExistingCategory = "You have already added a recurring for this categoty, please change category."
+    static let CheckBalance = "You don't have enough money for this transaction. Please check your balance."
+}
+
+// MARK: - Colors
+enum CustomColors {
+    static let CloudBlue = Color("CloudBlue")
+    static let ExpensesColor = Color("ExpensesColor")
+    static let ExpensesColor2 = Color("ExpensesColor2")
+    static let HomeButtonGradient1 = Color("HomeButtonGradient1")
+    static let HomeButtonGradient2 = Color("HomeButtonGradient2")
+    static let IncomeGradient1 = Color("BalanceColor")
+    static let IncomeGradient2 = Color("NewBalanceColor")
+    static let SaveButtonGradient1 = Color("SaveButtonGradient1")
+    static let SaveButtonGradient2 = Color("SaveButtonGradient2")
+    static let SavingsGradient1 = Color("IncomeColor")
+    static let SavingsGradient2 = Color("SavingsColor")
+    static let TextDarkGray = Color("TextDarkGray")
+    static let ToolsIconsGradient1 = Color("ToolsIconsGradient1")
+    static let ToolsIconsGradient2 = Color("ToolsIconsGradient2")
+    static let TopColorGradient1 = Color("TopColor")
+    static let TopColorGradient2 = Color("TopGradient")
+    
+    static let TopBackgroundGradient1 = Color("TopBackgroundGradient1")
+    static let TopBackgroundGradient2 = Color("TopBackgroundGradient2")
+    static let TopBackgroundGradient3 = Color("TopBackgroundGradient3")
+    
+    static let CustomBlue = Color("CustomBlue")
+    static let CustomGreen = Color("CustomGreen")
+    static let CustomPink = Color("CustomPink")
+    static let CustomPurple = Color("CustomPurple")
+    static let CustomRed = Color("CustomRed")
+    static let CustomYellow = Color("CustomYellow")
+ }
+
+enum GradientColors {
+    typealias RawValue = LinearGradient
+    
+    static let TopBackground = LinearGradient(gradient: Gradient(colors: [Color.white, CustomColors.TopBackgroundGradient2, CustomColors.TopBackgroundGradient3, Color.white]), startPoint: .bottomTrailing, endPoint: .topLeading)
+    
+    static let Expense = LinearGradient(gradient: Gradient(colors: [Color("ExpensesColor"), Color("ExpensesColor2")]), startPoint: .bottomTrailing, endPoint: .topLeading)
+    static let Income = LinearGradient(gradient: Gradient(colors: [Color("BalanceColor"), Color("NewBalanceColor")]), startPoint: .bottomTrailing, endPoint: .topLeading)
+    static let Saving = LinearGradient(gradient: Gradient(colors: [Color("IncomeColor"), Color("SavingsColor")]), startPoint: .bottomTrailing, endPoint: .topLeading)
+    
+    static let Home = LinearGradient(gradient: Gradient(colors: [Color("HomeButtonGradient1"), Color("HomeButtonGradient2")]), startPoint: .bottomTrailing, endPoint: .topLeading)
+    
+    static let TransactionAmountTextField = LinearGradient(gradient: Gradient(colors: [Color("TextFieldBackgroundLight"), Color("TextFieldBackgroundDark"), Color("TextFieldBackgroundLight")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+    
+    static let TabBarBackground = LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading)
+}
+
+
+// MARK: - Categories
+enum Categories: CaseIterable {
+    static let Income = "Income"
+    static let Expense = "Expense"
+    static let Saving = "Saving"
+    
+}
+enum Categories2: String,  CaseIterable {
+    case Income = "Income"
+    case Expense = "Expense"
+    case Saving = "Saving"
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+enum IncomeTypeNames: String {
+    case Salary = "Salary"
+    case Bonus = "Bonus"
+    case Pension = "Pension"
+    case Dividends = "Dividends"
+    case Interest = "Interest"
+    case ChildBenefit = "Child benefit"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+enum ExpenseTypeNames: String {
+    case Rent = "Rent"
+    case Loan = "Loan"
+    case Maintenance = "Maintenance"
+    case Furniture = "Furniture"
+    case Internet = "Internet"
+    case Electricity = "Electricity"
+    case Heating = "Heating"
+    case Water = "Water"
+    case Mobile = "Mobile"
+    case Cinema = "Cinema"
+    case Concert = "Concert"
+    case Hobby = "Hobby"
+    case Bowling = "Bowling"
+    case Nightclub = "Nightclub"
+    case Party = "Party"
+    case Resraurant = "Resraurant"
+    case Groceries = "Groceries"
+    case Delivery = "Delivery"
+    case Clothing = "Clothing"
+    case Device = "Device"
+    case Accessories = "Accessories"
+    case Car = "Car"
+    case TV = "TV"
+    case Music = "Music"
+    case Gas = "Gas"
+    case Parking = "Parking"
+    case PublicTr = "Public Tr."
+    case Repair = "Repair"
+    case Dentist = "Dentist"
+    case CheckUp = "Check-Up"
+    case Flight = "Flight"
+    case Hotel = "Hotel"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+
+enum ExpenseSubCategories: String, CaseIterable {
+    case Housing = "Housing"
+    case Entertainment = "Entertainment"
+    case FoodAndDrinks = "Food & Drinks"
+    case Bills = "Bills"
+    case Transportation = "Transportation"
+    case Health = "Health"
+    case Subscriptions = "Subscriptions"
+    case Insurance = "Insurance"
+    case Travel = "Travel"
+    case Shopping = "Shopping"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+enum SavingTypeNames: String {
+    case Cash = "Cash"
+    case Investments = "Investments"
+    case Shopping = "Shopping"
+    case Education = "Education"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+enum SvaingSubCategories: String, CaseIterable {
+    case LongTerm = "Long Term"
+    case ShortTerm = "Short Term"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+enum CategoryIcons {
+    typealias RawValue = [String]
+    
+    static let first = ["person.3", "person.crop.square.fill.and.at.rectangle", "eyebrow", "mouth", "lungs", "face.dashed.fill", "person.fill.viewfinder", "figure.walk", "figure.wave", "figure.stand.line.dotted.figure.stand", "hands.sparkles.fill"]
+    static let second = ["drop", "flame", "bolt", "hare", "tortoise", "ladybug", "leaf", "heart.text.square", "heart", "bandage.fill", "cross.case.fill", "bed.double", "pills"]
+    static let third = ["waveform.path.ecg", "staroflife", "cross", "bag.fill", "cart", "creditcard.fill", "giftcard.fill", "dollarsign.circle.fill", "bitcoinsign.circle.fill"]
+}
+
+// MARK: - Fonts
+enum Fonts {
+    static var light45: Font {
+        Font.system(size: 45, weight: .light, design: .default)
+    }
+    static var light40: Font {
+        Font.system(size: 40, weight: .light, design: .default)
+    }
+    static var light35: Font {
+        Font.system(size: 35, weight: .light, design: .default)
+    }
+    static var light30: Font {
+        Font.system(size: 30, weight: .light, design: .default)
+    }
+    static var light25: Font {
+        Font.system(size: 25, weight: .light, design: .default)
+    }
+    static var light20: Font {
+        Font.system(size: 20, weight: .light, design: .default)
+    }
+    static var light15: Font {
+        Font.system(size: 15, weight: .light, design: .default)
+    }
+    static var light12: Font {
+        Font.system(size: 12, weight: .light, design: .default)
+    }
+    
+    static var regular20: Font {
+        Font.system(size: 20, weight: .regular, design: .default)
+    }
+    static var regular22: Font {
+        Font.system(size: 22, weight: .regular, design: .default)
+    }
+    static var regular24: Font {
+        Font.system(size: 24, weight: .regular, design: .default)
+    }
+    static var regular26: Font {
+        Font.system(size: 26, weight: .regular, design: .default)
+    }
 }
 
 // MARK: - Icons
@@ -257,223 +549,8 @@ enum Icons {
     static let ChessBoard = "checkerboard.rectangle"
     static let CameraAperture = "camera.aperture"
     static let Questionmark = "questionmark"
+    static let Checkmark = "checkmark"
+    static let CheckmarkRectangle = "checkmark.rectangle"
 }
-
-// MARK: - Fonts
-enum Fonts {
-    static var light45: Font {
-        Font.system(size: 45, weight: .light, design: .default)
-    }
-    static var light40: Font {
-        Font.system(size: 40, weight: .light, design: .default)
-    }
-    static var light35: Font {
-        Font.system(size: 35, weight: .light, design: .default)
-    }
-    static var light30: Font {
-        Font.system(size: 30, weight: .light, design: .default)
-    }
-    static var light25: Font {
-        Font.system(size: 25, weight: .light, design: .default)
-    }
-    static var light20: Font {
-        Font.system(size: 20, weight: .light, design: .default)
-    }
-    static var light15: Font {
-        Font.system(size: 15, weight: .light, design: .default)
-    }
-    static var light12: Font {
-        Font.system(size: 12, weight: .light, design: .default)
-    }
-    
-    static var regular20: Font {
-        Font.system(size: 20, weight: .regular, design: .default)
-    }
-    static var regular22: Font {
-        Font.system(size: 22, weight: .regular, design: .default)
-    }
-    static var regular24: Font {
-        Font.system(size: 24, weight: .regular, design: .default)
-    }
-    static var regular26: Font {
-        Font.system(size: 26, weight: .regular, design: .default)
-    }
-}
-
-// MARK: - Warning Messages
-enum WarningMessages {
-    static let ValidationAmountFail = "Please enter valid amount."
-    static let ValidationCategoryNotSelectedFail = "Please select a category."
-    static let RequiredField = "Please fill all the required fields."
-    
-}
-
-// MARK: - Colors
-enum CustomColors {
-    static let CloudBlue = Color("CloudBlue")
-    static let ExpensesColor = Color("ExpensesColor")
-    static let ExpensesColor2 = Color("ExpensesColor2")
-    static let HomeButtonGradient1 = Color("HomeButtonGradient1")
-    static let HomeButtonGradient2 = Color("HomeButtonGradient2")
-    static let IncomeGradient1 = Color("BalanceColor")
-    static let IncomeGradient2 = Color("NewBalanceColor")
-    static let SaveButtonGradient1 = Color("SaveButtonGradient1")
-    static let SaveButtonGradient2 = Color("SaveButtonGradient2")
-    static let SavingsGradient1 = Color("IncomeColor")
-    static let SavingsGradient2 = Color("SavingsColor")
-    static let TextDarkGray = Color("TextDarkGray")
-    static let ToolsIconsGradient1 = Color("ToolsIconsGradient1")
-    static let ToolsIconsGradient2 = Color("ToolsIconsGradient2")
-    static let TopColorGradient1 = Color("TopColor")
-    static let TopColorGradient2 = Color("TopGradient")
-    
-    static let TopBackgroundGradient1 = Color("TopBackgroundGradient1")
-    static let TopBackgroundGradient2 = Color("TopBackgroundGradient2")
-    static let TopBackgroundGradient3 = Color("TopBackgroundGradient3")
-    
-    static let CustomBlue = Color("CustomBlue")
-    static let CustomGreen = Color("CustomGreen")
-    static let CustomPink = Color("CustomPink")
-    static let CustomPurple = Color("CustomPurple")
-    static let CustomRed = Color("CustomRed")
-    static let CustomYellow = Color("CustomYellow")
- }
-
-enum GradientColors {
-    typealias RawValue = LinearGradient
-    
-    static let TopBackground = LinearGradient(gradient: Gradient(colors: [Color.white, CustomColors.TopBackgroundGradient2, CustomColors.TopBackgroundGradient3, Color.white]), startPoint: .bottomTrailing, endPoint: .topLeading)
-    
-    static let Expense = LinearGradient(gradient: Gradient(colors: [Color("ExpensesColor"), Color("ExpensesColor2")]), startPoint: .bottomTrailing, endPoint: .topLeading)
-    static let Income = LinearGradient(gradient: Gradient(colors: [Color("BalanceColor"), Color("NewBalanceColor")]), startPoint: .bottomTrailing, endPoint: .topLeading)
-    static let Saving = LinearGradient(gradient: Gradient(colors: [Color("IncomeColor"), Color("SavingsColor")]), startPoint: .bottomTrailing, endPoint: .topLeading)
-    
-    static let Home = LinearGradient(gradient: Gradient(colors: [Color("HomeButtonGradient1"), Color("HomeButtonGradient2")]), startPoint: .bottomTrailing, endPoint: .topLeading)
-    
-    static let TransactionAmountTextField = LinearGradient(gradient: Gradient(colors: [Color("TextFieldBackgroundLight"), Color("TextFieldBackgroundDark"), Color("TextFieldBackgroundLight")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-    
-    static let TabBarBackground = LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading)
-}
-
-
-// MARK: - Categories
-enum Categories: CaseIterable {
-    static let Income = "Income"
-    static let Expense = "Expense"
-    static let Saving = "Saving"
-    
-}
-enum Categories2: String,  CaseIterable {
-    case Income = "Income"
-    case Expense = "Expense"
-    case Saving = "Saving"
-    func localizedString() -> String {
-        return NSLocalizedString(self.rawValue, comment: "")
-    }
-}
-
-enum IncomeTypeNames: String {
-    case Salary = "Salary"
-    case Bonus = "Bonus"
-    case Pension = "Pension"
-    case Dividends = "Dividends"
-    case Interest = "Interest"
-    case ChildBenefit = "Child benefit"
-    
-    func localizedString() -> String {
-        return NSLocalizedString(self.rawValue, comment: "")
-    }
-}
-
-enum ExpenseTypeNames: String {
-    case Rent = "Rent"
-    case Loan = "Loan"
-    case Maintenance = "Maintenance"
-    case Furniture = "Furniture"
-    case Internet = "Internet"
-    case Electricity = "Electricity"
-    case Heating = "Heating"
-    case Water = "Water"
-    case Mobile = "Mobile"
-    case Cinema = "Cinema"
-    case Concert = "Concert"
-    case Hobby = "Hobby"
-    case Bowling = "Bowling"
-    case Nightclub = "Nightclub"
-    case Party = "Party"
-    case Resraurant = "Resraurant"
-    case Groceries = "Groceries"
-    case Delivery = "Delivery"
-    case Clothing = "Clothing"
-    case Device = "Device"
-    case Accessories = "Accessories"
-    case Car = "Car"
-    case TV = "TV"
-    case Music = "Music"
-    case Gas = "Gas"
-    case Parking = "Parking"
-    case PublicTr = "Public Tr."
-    case Repair = "Repair"
-    case Dentist = "Dentist"
-    case CheckUp = "Check-Up"
-    case Flight = "Flight"
-    case Hotel = "Hotel"
-    
-    func localizedString() -> String {
-        return NSLocalizedString(self.rawValue, comment: "")
-    }
-}
-
-
-enum ExpenseSubCategories: String, CaseIterable {
-    case Housing = "Housing"
-    case Entertainment = "Entertainment"
-    case FoodAndDrinks = "Food & Drinks"
-    case Bills = "Bills"
-    case Transportation = "Transportation"
-    case Health = "Health"
-    case Subscriptions = "Subscriptions"
-    case Insurance = "Insurance"
-    case Travel = "Travel"
-    case Shopping = "Shopping"
-    
-    func localizedString() -> String {
-        return NSLocalizedString(self.rawValue, comment: "")
-    }
-}
-
-enum SavingTypeNames: String {
-    case Cash = "Cash"
-    case Investments = "Investments"
-    case Shopping = "Shopping"
-    case Education = "Education"
-    
-    func localizedString() -> String {
-        return NSLocalizedString(self.rawValue, comment: "")
-    }
-}
-
-enum SvaingSubCategories: String, CaseIterable {
-    case LongTerm = "Long Term"
-    case ShortTerm = "Short Term"
-    
-    func localizedString() -> String {
-        return NSLocalizedString(self.rawValue, comment: "")
-    }
-}
-
-
-
-
-
-
-enum CategoryIcons {
-    typealias RawValue = [String]
-    
-    static let first = ["person.3", "person.crop.square.fill.and.at.rectangle", "eyebrow", "mouth", "lungs", "face.dashed.fill", "person.fill.viewfinder", "figure.walk", "figure.wave", "figure.stand.line.dotted.figure.stand", "hands.sparkles.fill"]
-    static let second = ["drop", "flame", "bolt", "hare", "tortoise", "ladybug", "leaf", "heart.text.square", "heart", "bandage.fill", "cross.case.fill", "bed.double", "pills"]
-    static let third = ["waveform.path.ecg", "staroflife", "cross", "bag.fill", "cart", "creditcard.fill", "giftcard.fill", "dollarsign.circle.fill", "bitcoinsign.circle.fill"]
-}
-
 
 

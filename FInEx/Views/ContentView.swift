@@ -76,7 +76,8 @@ struct ContentView: View {
                                        getNextMonthBudget: self.$getNextMonthBudget,
                                        hideLeftChevron: self.$hideLeftChevron,
                                        hideRightChevron: self.$hideRightChevron,
-                                       showAddTransaction: self.$showAddTransaction)
+                                       showAddTransaction: self.$showAddTransaction,
+                                       askPasscode: self.$askPasscode)
                                 .environmentObject(budgetVM)
                                 .environment(\.userSettingsVM, userSettingsVM)
                             
@@ -84,18 +85,6 @@ struct ContentView: View {
                     }
                 }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
-                .overlay(
-                    CustomTabBarView(geo: geo,
-                                     plusButtonColor: self.$plusButtonColor,
-                                     isBudgetView: self.$isBudgetView,
-                                     mainButtonTapped: self.$mainButtonTapped,
-                                     isAnalyticsView: self.$isAnalyticsView,
-                                     isSettingsView: self.$isSettingsView,
-                                     toolsButtonTapped: self.$toolsButtonTapped,
-                                     analyticsButtonTapped: self.$analyticsButtonTapped
-                    )
-                    .opacity(self.hideTabBar ? 0 : 1)
-                )
             }
             
         }
@@ -141,7 +130,7 @@ struct ContentView: View {
                 let formatter = NumberFormatter()
                 formatter.locale = .current
                 formatter.numberStyle = .currency
-                formatter.maximumFractionDigits = 2
+                formatter.maximumFractionDigits = 0
                 userSettingsVM.settings.currencySymbol = formatter.currencySymbol
             }
             
@@ -206,11 +195,20 @@ struct ContentView: View {
                 self.hideRightChevron = false
             }
         })
-        
+        .overlay(
+            CustomTabBarView(//geo: geo,
+                             plusButtonColor: self.$plusButtonColor,
+                             isBudgetView: self.$isBudgetView,
+                             mainButtonTapped: self.$mainButtonTapped,
+                             isAnalyticsView: self.$isAnalyticsView,
+                             isSettingsView: self.$isSettingsView,
+                             toolsButtonTapped: self.$toolsButtonTapped,
+                             analyticsButtonTapped: self.$analyticsButtonTapped
+            )
+            .opacity(self.hideTabBar ? 0 : 1)
+        )
         
     }
-    
-    
     
     private func getAddingCategory() -> String {
         var addingCategory: String = ""
@@ -234,7 +232,7 @@ struct ContentView: View {
     }
     func setNavBarAppearance() {
         coloredNavAppearance.configureWithOpaqueBackground()
-        coloredNavAppearance.backgroundColor = UIColor(CustomColors.TopBackgroundGradient3)
+        coloredNavAppearance.backgroundColor = UIColor.clear //UIColor(CustomColors.TopBackgroundGradient3)
         coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.gray, .strokeColor: UIColor.clear, .underlineColor: UIColor.clear]
         coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.gray]
         coloredNavAppearance.shadowColor = .clear

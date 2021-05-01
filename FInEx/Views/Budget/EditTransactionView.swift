@@ -188,7 +188,7 @@ struct EditTransactionView: View {
             self.selectedDate = transaction.date!
             
             self.dateRange = getDateRange(for: transaction.date!)
-            let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
+            let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
             var amount = formatter.string(from: NSDecimalNumber(decimal: transaction.amount! as Decimal))!
             amount.removeFirst()
             self.amountString = amount 

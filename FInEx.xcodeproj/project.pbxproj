@@ -20,6 +20,9 @@
 		5804ADEE2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADED2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift */; };
 		5804ADF32624FFE700E2FF1E /* BudgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804ADF22624FFE700E2FF1E /* BudgetManager.swift */; };
 		5840040F263A7706001B7C20 /* EditRecurringTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5840040E263A7706001B7C20 /* EditRecurringTransactionView.swift */; };
+		58400412263B3B64001B7C20 /* RemaindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58400411263B3B64001B7C20 /* RemaindersView.swift */; };
+		58400414263C7E8E001B7C20 /* KeyboardHeightHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58400413263C7E8E001B7C20 /* KeyboardHeightHelper.swift */; };
+		58400416263CAEA0001B7C20 /* WithdrawSavingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58400415263CAEA0001B7C20 /* WithdrawSavingView.swift */; };
 		58487F7D261E7B6A00088341 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F7C261E7B6A00088341 /* SettingsView.swift */; };
 		58487F85261E7EDA00088341 /* BudgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F84261E7EDA00088341 /* BudgetView.swift */; };
 		58487F8A261E90AD00088341 /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F89261E90AD00088341 /* CustomTabBarView.swift */; };
@@ -101,6 +104,9 @@
 		5804ADED2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyBudgetInfo.swift; sourceTree = "<group>"; };
 		5804ADF22624FFE700E2FF1E /* BudgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetManager.swift; sourceTree = "<group>"; };
 		5840040E263A7706001B7C20 /* EditRecurringTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRecurringTransactionView.swift; sourceTree = "<group>"; };
+		58400411263B3B64001B7C20 /* RemaindersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemaindersView.swift; sourceTree = "<group>"; };
+		58400413263C7E8E001B7C20 /* KeyboardHeightHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHeightHelper.swift; sourceTree = "<group>"; };
+		58400415263CAEA0001B7C20 /* WithdrawSavingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawSavingView.swift; sourceTree = "<group>"; };
 		58487F7C261E7B6A00088341 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		58487F84261E7EDA00088341 /* BudgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetView.swift; sourceTree = "<group>"; };
 		58487F89261E90AD00088341 /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
@@ -203,6 +209,7 @@
 				5873EDDC2627C0DA008A4DE7 /* Enums+Constants.swift */,
 				5873EE022629119D008A4DE7 /* Extensions+.swift */,
 				5873EE5A262F4DE6008A4DE7 /* Formatters.swift */,
+				58400413263C7E8E001B7C20 /* KeyboardHeightHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -251,9 +258,18 @@
 			path = Register;
 			sourceTree = "<group>";
 		};
+		58400410263B3B4D001B7C20 /* Remainders */ = {
+			isa = PBXGroup;
+			children = (
+				58400411263B3B64001B7C20 /* RemaindersView.swift */,
+			);
+			path = Remainders;
+			sourceTree = "<group>";
+		};
 		5873EDD02627A778008A4DE7 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				58400410263B3B4D001B7C20 /* Remainders */,
 				5840040D263A6F7B001B7C20 /* Register */,
 				5840040C263A6F69001B7C20 /* Appereance */,
 				5840040B263A6F4E001B7C20 /* Categories */,
@@ -286,6 +302,7 @@
 				5873EDFD26290CAC008A4DE7 /* CategotySelector.swift */,
 				5873EE77262F9BEA008A4DE7 /* AddRecurringTransactionView.swift */,
 				58F35D5B263274450008A00C /* EditTransactionView.swift */,
+				58400415263CAEA0001B7C20 /* WithdrawSavingView.swift */,
 			);
 			path = Budget;
 			sourceTree = "<group>";
@@ -708,14 +725,17 @@
 				5873EE38262CA911008A4DE7 /* RecurringTransactionsView.swift in Sources */,
 				58E2BF5F261D8E3900477D44 /* ContentView.swift in Sources */,
 				58487F8A261E90AD00088341 /* CustomTabBarView.swift in Sources */,
+				58400414263C7E8E001B7C20 /* KeyboardHeightHelper.swift in Sources */,
 				5804ADC42622EC1000E2FF1E /* TransactionType.swift in Sources */,
 				58487F7D261E7B6A00088341 /* SettingsView.swift in Sources */,
 				58F35D472630D6480008A00C /* PieChart.swift in Sources */,
+				58400416263CAEA0001B7C20 /* WithdrawSavingView.swift in Sources */,
 				584AC06C2634BC460055FCC8 /* PasscodeField.swift in Sources */,
 				58487F85261E7EDA00088341 /* BudgetView.swift in Sources */,
 				5873EE5B262F4DE6008A4DE7 /* Formatters.swift in Sources */,
 				5804ADEE2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift in Sources */,
 				5873EDFE26290CAC008A4DE7 /* CategotySelector.swift in Sources */,
+				58400412263B3B64001B7C20 /* RemaindersView.swift in Sources */,
 				58F35D5726321ECA0008A00C /* RoundedRectangleModifier.swift in Sources */,
 				5897C42026389710005E14BA /* BarChart.swift in Sources */,
 				5804ADDF2624CB4400E2FF1E /* Transaction.swift in Sources */,

@@ -23,69 +23,78 @@ struct ExpensesView: View {
    
    
     var body: some View {
-        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
+        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
           //if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
-            VStack {
+            VStack(spacing: 15) {
                 if !self.recurringTransactions.isEmpty {
                     AddRecurringTransactionView(geo: geo, currentBudget: self.currentMonthBudget, recurringTransactions: self.recurringTransactions, addedRecurringTransaction: self.$addedRecurringTransaction)
                         .environmentObject(budgetVM)
                 }
                 if !self.expensesBySubCategory.isEmpty {
                     ForEach(self.expensesBySubCategory.keys.sorted(), id: \.self) { subCategory in
-                        VStack(alignment: .leading, spacing: 5) {
-                            HStack(alignment: .bottom) {
-                                Group {
-                                    Text(subCategory)
-                                }
-                                Spacer()
-                                Text(formatter.string(from: NSDecimalNumber(decimal: expensesTotalAmountBySubCategory[subCategory] ?? 0))!)
-                            }
-                            .foregroundColor(CustomColors.TextDarkGray)
-                            .frame(width: geo.size.width / 1.2 )
-                            .font(Font.system(size: 18, weight: .light, design: .rounded))
-                            .scaledToFit()
-                            .padding()
-                            Divider()
-                                
-                            ForEach(expensesBySubCategory[subCategory]!, id: \.date) { expense in
-                                HStack {
+                        ZStack {
+                            Rectangle()
+                                .fill(Color.white)
+                                .shadow(radius: 5)
+                                .frame(width: geo.size.width, alignment: .leading)
+                            VStack(alignment: .leading, spacing: 5) {
+                                HStack(alignment: .bottom) {
                                     Group {
-                                            if let expenseType = expense.type {
-                                            Image(systemName: expenseType.presentingImageName)
-                                                .foregroundColor(.white)
-                                                .modifier(CircleModifierSimpleColor(color: Color(expenseType.presentingColorName), strokeLineWidth: 3.0))
-                                                .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
-                                                .font(Font.system(size: 24, weight: .regular, design: .default))
-                                                .animation(.linear(duration: 0.5))
-                                            VStack(alignment: .leading) {
-                                                Text(expenseType.presentingName)
-                                                    .shadow(radius: -10 )
-                                                Text(setDate(date: expense.date!))
-                                                    .font(Font.system(size: 15, weight: .light, design: .default))
-                                                    .foregroundColor(.gray)
-                                            }
-                                            .animation(.linear(duration: 0.5))
-                                            
-                                        }
+                                        Text(subCategory)
                                     }
                                     Spacer()
-                                    Text(formatter.string(from: expense.amount ?? 0)!)
-                                        .animation(.linear(duration: 0.5))
+                                    Text(formatter.string(from: NSDecimalNumber(decimal: expensesTotalAmountBySubCategory[subCategory] ?? 0))!)
                                 }
-                                .frame(width: geo.size.width / 1.15 )
+                                .foregroundColor(CustomColors.TextDarkGray)
+                                .frame(width: geo.size.width / 1.2 )
+                                .font(Font.system(size: 18, weight: .light, design: .rounded))
                                 .scaledToFit()
-                                .onTapGesture {
-                                    self.editingTransaction = expense
-                                    self.editTransaction = true
+                                .padding()
+                                Divider()
+                                    
+                                ForEach(expensesBySubCategory[subCategory]!, id: \.date) { expense in
+                                    HStack {
+                                        Group {
+                                                if let expenseType = expense.type {
+                                                Image(systemName: expenseType.presentingImageName)
+                                                    .foregroundColor(.white)
+                                                    .modifier(CircleModifierSimpleColor(color: Color(expenseType.presentingColorName), strokeLineWidth: 3.0))
+                                                    .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
+                                                    .font(Font.system(size: 24, weight: .regular, design: .default))
+                                                    .animation(.linear(duration: 0.5))
+                                                VStack(alignment: .leading) {
+                                                    Text(expenseType.presentingName)
+                                                        .shadow(radius: -10 )
+                                                    Text(setDate(date: expense.date!))
+                                                        .font(Font.system(size: 15, weight: .light, design: .default))
+                                                        .foregroundColor(.gray)
+                                                }
+                                              //  .animation(.linear(duration: 0.3))
+                                                
+                                            }
+                                        }
+                                        Spacer()
+                                        Text(formatter.string(from: expense.amount ?? 0)!)
+                                           // .animation(.linear(duration: 0.3))
+                                    }
+                                    .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25))
+                                    //.animation(.linear(duration: 0.3))
+                                    .frame(width: geo.size.width / 1.15 )
+                                    .scaledToFit()
+                                    .onTapGesture {
+                                        self.editingTransaction = expense
+                                        self.editTransaction = true
+                                    }
+                                    
+                                    Divider()
                                 }
                                 
-                                Divider()
                             }
-                            
+                            .padding(.horizontal)
+                            .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
                         }
-                        .padding(.horizontal)
-                        .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
+                        
                         
                     }
                     .background(Color.white)
@@ -116,16 +125,18 @@ struct ExpensesView: View {
         .onAppear {
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
-            
         }
         .onChange(of: self.currentMonthBudget.expensesList.count, perform: { value in
-        
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
 
         })
         .onChange(of: self.expensesBySubCategory.count, perform: { value in
-  
+            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
+            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
+            
+        })
+        .onChange(of: self.addedRecurringTransaction, perform: { value in
             userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
             self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
             
@@ -138,16 +149,7 @@ struct ExpensesView: View {
         })
         
     }
-   // }
-    private func setDecimalZeroFractionFormatter() -> NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.locale = .current
-        formatter.numberStyle = .currency
-        formatter.currencySymbol = userSettingsVM.settings.currencySymbol
-        formatter.maximumFractionDigits = 2
-        formatter.groupingSeparator = ""
-        return formatter
-    }
+   
     
 }
 

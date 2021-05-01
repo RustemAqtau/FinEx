@@ -18,49 +18,65 @@ struct PasscodeView: View {
     var body: some View {
         NavigationView {
             GeometryReader { geo in
-                VStack {
-                    Text(LocalizedStringKey("Protect your data with a passcode. This way only you can enter and access your information."))
-                        .multilineTextAlignment(.leading)
-                    Divider()
-                        .frame(width: geo.size.width * 0.90)
-                    HStack(alignment: .center) {
-                        Toggle(isOn: self.$enablePasscode, label: {
-                            Text(LocalizedStringKey("Enable Passcode"))
-                        })
+                ScrollView {
+                    ZStack {
+                        Rectangle()
+                            .fill(Color.white)
+                            .shadow(radius: 5)
+                            .frame(width: geo.size.width, height: geo.size.height / 3.5, alignment: .leading)
+                        VStack {
+                            Text(LocalizedStringKey("Protect your data with a passcode. This way only you can enter and access your information."))
+                                .multilineTextAlignment(.leading)
+                                .font(Fonts.light15)
+                                .lineLimit(2)
+                                
+                            Divider()
+                                .frame(width: geo.size.width * 0.90)
+                            HStack(alignment: .center) {
+                                Toggle(isOn: self.$enablePasscode, label: {
+                                    Text(LocalizedStringKey("Enable Passcode"))
+                                        .foregroundColor(CustomColors.TextDarkGray)
+                                        .font(Fonts.light15)
+                                })
+                            }
+                            .frame(width: geo.size.width * 0.90, alignment: .leading)
+                            HStack(alignment: .center) {
+                                Toggle(isOn: self.$enableBiometrix, label: {
+                                    Text(LocalizedStringKey("Enable TouchID/FaceID"))
+                                        .foregroundColor(CustomColors.TextDarkGray)
+                                        .font(Fonts.light15)
+                                })
+                            }
+                            .frame(width: geo.size.width * 0.90, alignment: .leading)
+                        }
+                        .font(Font.system(size: 18, weight: .light, design: .default))
+                        .foregroundColor(CustomColors.TextDarkGray)
+                        .padding()
                     }
-                    .frame(width: geo.size.width * 0.90, alignment: .leading)
-                    HStack(alignment: .center) {
-                        Toggle(isOn: self.$enableBiometrix, label: {
-                            Text(LocalizedStringKey("Enable TouchID/FaceID"))
-                        })
+                    .navigationBarTitle (Text(""), displayMode: .inline)
+                    .frame(width: geo.size.width, alignment: .top)
+                    .onAppear {
+                        self.hideTabBar = true
+                        self.enablePasscode = userSettingsVM.settings.isSetPassCode
+                        self.enableBiometrix = userSettingsVM.settings.isSetBiometrix
                     }
-                    .frame(width: geo.size.width * 0.90, alignment: .leading)
+                    .onChange(of: self.enablePasscode, perform: { value in
+                        if self.enablePasscode {
+                            showSheet = true
+                        }
+                        userSettingsVM.settings.editIsSetPassCode(value: self.enablePasscode, context: viewContext)
+                    })
+                    .onChange(of: self.enableBiometrix, perform: { value in
+                        userSettingsVM.settings.editIsSetBiometrix(value: self.enableBiometrix, context: viewContext)
+                    })
+                    .fullScreenCover(isPresented: self.$showSheet, content: {
+                        PasscodeField(isNewPasscode: true, askBiometrix: false)
+                    })
+                    .sheet(isPresented: self.$showSheet, content: {
+                        PasscodeField(isNewPasscode: true, askBiometrix: false)
+                    })
                 }
-                .font(Font.system(size: 18, weight: .light, design: .default))
-                .foregroundColor(CustomColors.TextDarkGray)
-                .padding()
-                .frame(width: geo.size.width * 0.90, alignment: .leading)
-                .onAppear {
-                    self.hideTabBar = true
-                    self.enablePasscode = userSettingsVM.settings.isSetPassCode
-                    self.enableBiometrix = userSettingsVM.settings.isSetBiometrix
-                }
-                .onChange(of: self.enablePasscode, perform: { value in
-                    print("onChange: \(self.enablePasscode)")
-                    if self.enablePasscode {
-                        showSheet = true
-                    }
-                    userSettingsVM.settings.changeIsSetPassCode(value: self.enablePasscode, context: viewContext)
-                })
-                .onChange(of: self.enableBiometrix, perform: { value in
-                    userSettingsVM.settings.changeIsSetBiometrix(value: self.enableBiometrix, context: viewContext)
-                })
-                .fullScreenCover(isPresented: self.$showSheet, content: {
-                    PasscodeField(isNewPasscode: true, askBiometrix: false)
-                })
-                .sheet(isPresented: self.$showSheet, content: {
-                    PasscodeField(isNewPasscode: true, askBiometrix: false)
-                })
+                
             }
             
         }

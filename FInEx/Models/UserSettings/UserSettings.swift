@@ -9,7 +9,77 @@ import CoreData
 
 extension UserSettings {
     
-    func changeCurrencySymbol(value: String, context: NSManagedObjectContext) {
+    func editShowDecimals(value: Bool, context: NSManagedObjectContext) {
+        self.showDecimals = value
+             if context.hasChanges {
+                 
+                 do {
+                     try context.save()
+                     print("Context saved")
+                 } catch {
+                     print("Could not save context")
+            }
+        }
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    }
+    
+    func editMonthlyRemainderDay(value: Int, context: NSManagedObjectContext) {
+        self.monthlyRemainderDay = Int32(value)
+             if context.hasChanges {
+                 
+                 do {
+                     try context.save()
+                     print("Context saved")
+                 } catch {
+                     print("Could not save context")
+            }
+        }
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    }
+    
+    func editEnableMonthlyRemainder(value: Bool, context: NSManagedObjectContext) {
+        self.enableMonthlyRemainder = value
+             if context.hasChanges {
+                 
+                 do {
+                     try context.save()
+                     print("Context saved")
+                 } catch {
+                     print("Could not save context")
+            }
+        }
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    }
+    
+    func editDailyRemainderHour(value: String, context: NSManagedObjectContext) {
+        self.dailyRemainderHour = value
+             if context.hasChanges {
+                 
+                 do {
+                     try context.save()
+                     print("Context saved")
+                 } catch {
+                     print("Could not save context")
+            }
+        }
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    }
+    
+    func editEnableDailyRemainder(value: Bool, context: NSManagedObjectContext) {
+        self.enableDailyRemainder = value
+             if context.hasChanges {
+                 
+                 do {
+                     try context.save()
+                     print("Context saved")
+                 } catch {
+                     print("Could not save context")
+            }
+        }
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    }
+    
+    func editCurrencySymbol(value: String, context: NSManagedObjectContext) {
         self.currencySymbol = value
         if context.hasChanges {
             
@@ -23,7 +93,7 @@ extension UserSettings {
         context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
-    func changeIsSetBiometrix(value: Bool, context: NSManagedObjectContext) {
+    func editIsSetBiometrix(value: Bool, context: NSManagedObjectContext) {
         self.isSetBiometrix = value
         if context.hasChanges {
             
@@ -37,7 +107,7 @@ extension UserSettings {
         context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
-    func changeIsSetPassCode(value: Bool, context: NSManagedObjectContext) {
+    func editIsSetPassCode(value: Bool, context: NSManagedObjectContext) {
         self.isSetPassCode = value
         if context.hasChanges {
             
@@ -51,7 +121,7 @@ extension UserSettings {
         context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
-    func changeIsSignedWithAppleId(value: Bool, context: NSManagedObjectContext) {
+    func editIsSignedWithAppleId(value: Bool, context: NSManagedObjectContext) {
         self.isSignedWithAppleId = value
         if context.hasChanges {
             

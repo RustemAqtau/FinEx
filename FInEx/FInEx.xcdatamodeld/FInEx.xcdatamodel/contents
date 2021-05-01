@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D74" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20D74" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="MonthlyBudget" representedClassName="MonthlyBudget" syncable="YES" codeGenerationType="class">
         <attribute name="balance" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="month" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -43,16 +43,21 @@
     </entity>
     <entity name="UserSettings" representedClassName="UserSettings" syncable="YES" codeGenerationType="class">
         <attribute name="currencySymbol" optional="YES" attributeType="String"/>
+        <attribute name="dailyRemainderHour" optional="YES" attributeType="String"/>
+        <attribute name="enableDailyRemainder" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="enableMonthlyRemainder" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isSetBiometrix" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isSetPassCode" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isSignedWithAppleId" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="monthlyRemainderDay" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="settingsId" optional="YES" attributeType="Integer 16" usesScalarValueType="YES"/>
+        <attribute name="showDecimals" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
     <elements>
         <element name="MonthlyBudget" positionX="-70.0703125" positionY="375.8984375" width="128" height="119"/>
         <element name="RecurringTransaction" positionX="-115.17578125" positionY="109.953125" width="128" height="193"/>
         <element name="Transaction" positionX="-326.2109375" positionY="335.40234375" width="128" height="178"/>
         <element name="TransactionType" positionX="-611.30859375" positionY="79.1640625" width="128" height="163"/>
-        <element name="UserSettings" positionX="-63" positionY="-9" width="128" height="104"/>
+        <element name="UserSettings" positionX="-63" positionY="-9" width="128" height="179"/>
     </elements>
 </model>

@@ -10,11 +10,11 @@ import AuthenticationServices
 import KeychainAccess
 
 struct RegisterWithAppleID: View {
-   // @EnvironmentObject var userSettings: UserSettings
     @Environment(\.userSettingsVM) var userSettingsVM
     @Environment(\.managedObjectContext) private var viewContext
     @State private var showSuccessView: Bool = false
     @Binding var  hideTabBar: Bool
+    @State var isSigned: Bool = false
    
     var body: some View {
         NavigationView {
@@ -22,7 +22,7 @@ struct RegisterWithAppleID: View {
                 VStack(spacing: 5) {
                     Group {
                         VStack {
-                            Image(systemName: "link.icloud.fill")
+                            Image(systemName: self.isSigned ? Icons.iCloudCheckmark_Fill : Icons.iCloudLink_Fill)
                                 .font(Font.system(size: 180, weight: .regular, design: .default))
                                 .foregroundColor(CustomColors.CloudBlue)
                                 
@@ -35,25 +35,25 @@ struct RegisterWithAppleID: View {
                     VStack(alignment: .leading) {
                         HStack {
                             Image(systemName: "arrow.triangle.2.circlepath")
-                                .foregroundColor(.red)
+                                .foregroundColor(self.isSigned ? CustomColors.CloudBlue : .red)
                                 .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
-                            Text(LocalizedStringKey("Sync budgets and transactions between your devices."))
+                            Text(self.isSigned ? LocalizedStringKey("Your budget and transactions are synchronized between your devices.") : LocalizedStringKey("Sync budget and transactions between your devices."))
                                 .lineLimit(3)
                                 .multilineTextAlignment(.leading)
                         }
                         HStack {
                             Image(systemName: "icloud.and.arrow.up.fill")
-                                .foregroundColor(.red)
+                                .foregroundColor(self.isSigned ? CustomColors.CloudBlue : .red)
                                 .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
-                            Text(LocalizedStringKey("Backup your data in case you lose your phone."))
+                            Text(self.isSigned ? LocalizedStringKey("Your data safely backed up on the cloud incase you lose/change your phone.") : LocalizedStringKey("Backup your data in case you lose/change your phone."))
                                 .lineLimit(3)
                                 .multilineTextAlignment(.leading)
                         }
                         HStack {
                             Image(systemName: "heart.fill")
-                                .foregroundColor(.red)
+                                .foregroundColor(self.isSigned ? CustomColors.CloudBlue : .red)
                                 .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
                             Text(LocalizedStringKey("Dont worry, we will never send you any emails."))
@@ -77,7 +77,7 @@ struct RegisterWithAppleID: View {
                                     .synchronizable(true)
                                     .accessibility(.afterFirstUnlock)
                                 keychain[KeychainAccessKeys.AppleIDCredential] = appleIDCredential.user
-                                userSettingsVM.settings.changeIsSignedWithAppleId(value: true, context: viewContext)
+                                userSettingsVM.settings.editIsSignedWithAppleId(value: true, context: viewContext)
                                 self.showSuccessView = true
                                 // TODO: - SuccessView
                                 print("Authorisation successful")
@@ -92,20 +92,19 @@ struct RegisterWithAppleID: View {
                     .signInWithAppleButtonStyle(.black)
                     .cornerRadius(40.0)
                     .frame(width: 300, height: 55, alignment: .top)
+                    .opacity(self.isSigned ? 0 : 1)
                 }
             }
             .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
-                .onAppear {
-                    self.hideTabBar = true
-                }
+            .onAppear {
+                self.hideTabBar = true
+                self.isSigned = self.userSettingsVM.settings.isSignedWithAppleId
+                print(self.userSettingsVM.settings.isSignedWithAppleId)
+            }
             }
             .navigationBarTitle (Text(""), displayMode: .inline)
         }
     }
 }
 
-//struct RegisterWithAppleID_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RegisterWithAppleID()
-//    }
-//}
+

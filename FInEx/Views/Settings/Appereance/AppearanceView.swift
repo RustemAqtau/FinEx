@@ -12,70 +12,107 @@ struct AppearanceView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @State var selectedCurrencySymbol: String = ""
     @State var currencyName: String = ""
+    @State var showDecimals: Bool = false
     @Binding var  hideTabBar: Bool
     var body: some View {
         GeometryReader { geo in
             NavigationView {
-                VStack(alignment: .leading) {
-                    HStack {
-                        
-                    }
-                    .padding(.horizontal)
-                    .frame(width: geo.size.width, height: 50, alignment: .leading)
-                    HStack {
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack {
-                                Text("Currency Symbol".uppercased())
-                                    .font(Fonts.light12)
-                                ZStack {
-                                    RoundedRectangle(cornerRadius: 25.0)
-                                        .stroke(Color.red)
-                                    Picker(LocalizedStringKey("CHANGE"),
-                                           selection: self.$selectedCurrencySymbol) {
-                                        ForEach(CurrencySymbols.allCases, id: \.self) { symbol in
-                                            Text(LocalizedStringKey(symbol.rawValue)).tag(symbol.rawValue)
-                                        }
-                                    }
-                                    .pickerStyle(MenuPickerStyle())
-                                    .font(Font.system(size: 12, weight: .light, design: .default))
-                                }
-                                .frame(width: geo.size.width / 4, height: 20, alignment: .center)
-                            }
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 30) {
+                        HStack {
                             
+                        }
+                        .padding(.horizontal)
+                        .frame(width: geo.size.width, height: 50, alignment: .leading)
+                        ZStack {
+                            Rectangle()
+                                .fill(Color.white)
+                                .shadow(radius: 5)
+                                .frame(width: geo.size.width, height: 80, alignment: .leading)
                             HStack {
-                                Text(self.selectedCurrencySymbol)
-                                    .modifier(CircleModifier(color: GradientColors.Home, strokeLineWidth: 2))
-                                    .foregroundColor(.white)
-                                    .font(Font.system(size: 20, weight: .regular, design: .default))
-                                    .frame(width: geo.size.width / 12, height: geo.size.width / 11, alignment: .center)
-                                Text(self.currencyName)
-                                    .foregroundColor(CustomColors.TextDarkGray)
-                                    .font(Fonts.light20)
+                                VStack(alignment: .leading, spacing: 8) {
+                                    HStack {
+                                        Text("Currency Symbol".uppercased())
+                                            .font(Fonts.light12)
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 25.0)
+                                                .stroke(Color.red)
+                                            Picker(LocalizedStringKey("CHANGE"),
+                                                   selection: self.$selectedCurrencySymbol) {
+                                                ForEach(CurrencySymbols.allCases, id: \.self) { symbol in
+                                                    Text(LocalizedStringKey(symbol.rawValue)).tag(symbol.rawValue)
+                                                }
+                                            }
+                                            .pickerStyle(MenuPickerStyle())
+                                            .font(Font.system(size: 12, weight: .light, design: .default))
+                                        }
+                                        .frame(width: geo.size.width / 4, height: 20, alignment: .center)
+                                    }
+                                    
+                                    HStack {
+                                        Text(self.selectedCurrencySymbol)
+                                            .modifier(CircleModifier(color: GradientColors.Home, strokeLineWidth: 2))
+                                            .foregroundColor(.white)
+                                            .font(Font.system(size: 20, weight: .regular, design: .default))
+                                            .frame(width: geo.size.width / 12, height: geo.size.width / 11, alignment: .center)
+                                        Text(self.currencyName)
+                                            .foregroundColor(CustomColors.TextDarkGray)
+                                            .font(Fonts.light20)
+                                        
+                                    }
+                                    
+                                }
                                 
                             }
-                            
+                            .padding(.horizontal)
+                            .frame(width: geo.size.width, height: 50, alignment: .leading)
+                        }
+                        
+                        ZStack {
+                            Rectangle()
+                                .fill(Color.white)
+                                .shadow(radius: 5)
+                                .frame(width: geo.size.width, height: 80, alignment: .leading)
+                            HStack {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text("Currency".uppercased())
+                                        .font(Fonts.light12)
+                                    Toggle(isOn: self.$showDecimals, label: {
+                                        HStack {
+                                            Text("Show double decimals")
+                                                .foregroundColor(CustomColors.TextDarkGray)
+                                                .font(Fonts.light20)
+                                        }
+                                    })
+                                }
+                            }
+                            .padding(.horizontal)
+                            .frame(width: geo.size.width, height: 50, alignment: .leading)
                         }
                         
                     }
-                    .padding(.horizontal)
-                    .frame(width: geo.size.width, height: 50, alignment: .leading)
-                    Divider()
-                }
-                .frame(width: geo.size.width, height: geo.size.height, alignment: .topLeading)
-                .navigationBarTitle (Text(LocalizedStringKey("")), displayMode: .inline)
-                .onAppear{
-                    if let symbol = userSettingsVM.settings.currencySymbol {
-                        self.selectedCurrencySymbol = symbol
-                        setCurrencyName()
+                    .frame(width: geo.size.width, height: geo.size.height, alignment: .topLeading)
+                    .navigationBarTitle (Text(LocalizedStringKey("")), displayMode: .inline)
+                    .onAppear{
+                        if let symbol = userSettingsVM.settings.currencySymbol {
+                            self.selectedCurrencySymbol = symbol
+                            setCurrencyName()
+                        }
+                        
+                        self.showDecimals = self.userSettingsVM.settings.showDecimals
+                        
+                        self.hideTabBar = true
+                        
                     }
-                    
-                    self.hideTabBar = true
-                    
+                    .onChange(of: self.selectedCurrencySymbol, perform: { value in
+                        userSettingsVM.settings.editCurrencySymbol(value: value, context: viewContext)
+                        setCurrencyName()
+                    })
+                    .onChange(of: self.showDecimals, perform: { value in
+                        self.userSettingsVM.settings.editShowDecimals(value: value, context: viewContext)
+                    })
                 }
-                .onChange(of: self.selectedCurrencySymbol, perform: { value in
-                    userSettingsVM.settings.changeCurrencySymbol(value: self.selectedCurrencySymbol, context: viewContext)
-                    setCurrencyName()
-                })
+                
             }
         }
     }

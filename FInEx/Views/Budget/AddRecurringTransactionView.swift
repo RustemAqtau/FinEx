@@ -18,17 +18,20 @@ struct AddRecurringTransactionView: View {
     @Binding var addedRecurringTransaction: Bool
     
     var body: some View {
-        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
+        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
         VStack {
-            Text("You have upcoming expense")
-                .font(Font.system(size: 14, weight: .regular, design: .default))
+            Text("Your recurring transactions are available to add")
+                .font(Fonts.light15)
+                .foregroundColor(CustomColors.TextDarkGray)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
             ZStack {
                 ForEach(self.recurringTransactions, id: \.self) { transaction in
                     Group {
                         RoundedRectangle(cornerRadius:30)
                             .fill(Color.white)
                         RoundedRectangle(cornerRadius:30)
-                            .stroke(Color.white)
+                            .stroke(Color.gray)
                         HStack {
                             HStack {
                                 Group {
@@ -38,26 +41,39 @@ struct AddRecurringTransactionView: View {
                                         .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
                                         .font(Font.system(size: 24, weight: .regular, design: .default))
                                     VStack(alignment: .leading) {
-                                        Text(LocalizedStringKey(transaction.type!.presentingName))
-                                        Text(LocalizedStringKey(transaction.periodicity!))
-                                            .font(Font.system(size: 15, weight: .light, design: .default))
-                                            .foregroundColor(.gray)
+                                        HStack {
+                                            Text(LocalizedStringKey(transaction.type!.presentingName))
+                                            Text("•")
+                                            Text(formatter.string(from: transaction.amount ?? 0)!)
+                                        }
+                                        .font(Fonts.light15)
+                                        .foregroundColor(CustomColors.TextDarkGray)
+                                        HStack(spacing: 5) {
+                                            Image(systemName: "arrow.triangle.2.circlepath")
+                                            Text(LocalizedStringKey(transaction.periodicity!))
+                                        }
+                                        .font(Fonts.light12)
+                                        .foregroundColor(.gray)
                                     }
                                 }
                                 Spacer()
-                                Text(formatter.string(from: transaction.amount ?? 0)!)
+                                
                             }
                             .frame(width: geo.size.width * 0.70)
                             .scaledToFit()
+                            
                             Button(action: {
                                 self.budgetVM.addRecurringTransaction(info: transaction, monthlyBudget: currentBudget, context: viewContext)
                                 transaction.updateNextAddingDate(context: viewContext)
-                                self.addedRecurringTransaction.toggle()
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    self.addedRecurringTransaction.toggle()
+                                }
+                                
                             }) {
-                                Image(systemName: "checkmark.seal.fill")
+                                Image(systemName: Icons.Checkmark)
                                     .frame(width: geo.size.width * 0.20)
-                                    .foregroundColor(Color.green)
-                                    .font(Font.system(size: 20, weight: .light, design: .default))
+                                    .foregroundColor(CustomColors.TextDarkGray)
+                                    .font(Fonts.light20)
                             }
                         }
                     }

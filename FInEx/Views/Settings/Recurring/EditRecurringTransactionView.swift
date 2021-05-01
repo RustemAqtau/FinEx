@@ -31,13 +31,25 @@ struct EditRecurringTransactionView: View {
     @State var dayWeekOfMonth: String = ""
     @State var savingFailed: Bool = false
     @State var amountPlaceholder: String = ""
-    
+    @State var validationFailed: Bool = false
+    @State var warningMessage: String = ""
+    @State var categoryValidationFailed: Bool = false
+    @State var amountValidationFailed: Bool = false
     
     var body: some View {
         NavigationView {
             GeometryReader { geo in
                 VStack(alignment: .center, spacing: 20) {
+                    
                     VStack {
+                        Text(self.warningMessage)
+                            .font(Fonts.light12)
+                            .foregroundColor(Color.gray)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2)
+                            .opacity(self.validationFailed ? 1 : 0)
+                            .padding(.horizontal)
+                            .frame(width: geo.size.width * 0.90, alignment: .center)
                         ZStack {
                             RoundedRectangle(cornerRadius: 35.0)
                                 .fill(Color.white)
@@ -62,24 +74,19 @@ struct EditRecurringTransactionView: View {
                                 textField.textAlignment = NSTextAlignment.center
                             }
                             .font(Font.system(size: 30, weight: .light, design: .default))
+                            .foregroundColor(self.amountValidationFailed ? .red : CustomColors.TextDarkGray)
                             .keyboardType(.decimalPad)
                             .padding()
                             
                         }
                         .frame(width: geo.size.width * 0.60, height: 60, alignment: .center)
                     }
-                    .frame(width: geo.size.width * 0.60, height: 100, alignment: .center)
+                    .frame(width: geo.size.width * 0.90, height: 100, alignment: .center)
                     
                     Divider()
                     
                     VStack(spacing: 10) {
-                        Text(LocalizedStringKey("You have already added a recurring for this categoty, please change category."))
-                            .font(Fonts.light12)
-                            .foregroundColor(Color.gray)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2)
-                            .opacity(self.savingFailed ? 1 : 0)
-                            .padding(.horizontal)
+                        
                         HStack(spacing: 15) {
                             Image(systemName: self.selectedtypeImageName)
                                 .foregroundColor(.white)
@@ -89,7 +96,7 @@ struct EditRecurringTransactionView: View {
                                 
                             Text(self.selectedTypeName)
                                 .font(Font.system(size: 16, weight: .light, design: .default))
-                                .foregroundColor(self.savingFailed ? Color.red : CustomColors.TextDarkGray)
+                                .foregroundColor(self.categoryValidationFailed ? Color.red : CustomColors.TextDarkGray)
                         }
                         .frame(width: geo.size.width * 0.90, alignment: .leading)
                         .onTapGesture {
@@ -175,9 +182,9 @@ struct EditRecurringTransactionView: View {
                             .shadow(radius: 3)
                             .frame(height: 55)
                             Button(action: {
-                                
-                                saveTransaction()
-                                
+                                if validationSucceed() {
+                                    saveTransaction()
+                                }
                             }) {
                                 SaveButtonView(geo: geo, withTrash: true)
                             }
@@ -200,7 +207,7 @@ struct EditRecurringTransactionView: View {
                 self.periodicityList = periodicityArray
                 self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
                 
-                let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!)
+                let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
                 var amount = formatter.string(from: NSDecimalNumber(decimal: self.transaction.amount! as Decimal))!
                 amount.removeFirst()
                 self.amountString = amount
@@ -244,21 +251,26 @@ struct EditRecurringTransactionView: View {
                     .font(Font.system(size: 20, weight: .regular, design: .default))
             })
             .navigationBarTitle (Text(""), displayMode: .inline)
+            .onChange(of: self.selectedtypeImageName, perform: { value in
+                validationFailed = false
+                self.amountValidationFailed = false
+                self.categoryValidationFailed = false
+            })
+            .onChange(of: self.amountString, perform: { value in
+                validationFailed = false
+                self.amountValidationFailed = false
+                self.categoryValidationFailed = false
+            })
         }
         .onTapGesture {
             hideKeyboard()
         }
+        .accentColor(CustomColors.TextDarkGray)
     }
+    
     func saveTransaction() {
-        userSettingsVM.getRecurringTransactions(context: viewContext)
-        
-        if (self.transaction.type != self.selectedType) && userSettingsVM.recurringTransactions.contains(where: { transaction in transaction.type == self.selectedType }) {
-            // show Warning
-            self.savingFailed = true
-        } else {
             let locale = Locale.current
             self.amount = NSDecimalNumber(string: self.amountString, locale: locale)
-      
             let newRecurringTransactionInfo = RecurringTransactionInfo(
                 startDate: self.selectedDate,
                 nextAddingDate: self.selectedDate,
@@ -269,9 +281,29 @@ struct EditRecurringTransactionView: View {
                 category: self.transaction.category!)
             self.transaction.edit(info: newRecurringTransactionInfo, context: viewContext)
             presentationMode.wrappedValue.dismiss()
-        }
         
-       
+    }
+    private func validationSucceed() -> Bool {
+        guard !self.amountString.isEmpty,
+              !Double(truncating: NSDecimalNumber(string: self.amountString)).isNaN
+        else {
+            self.validationFailed = true
+            self.warningMessage = WarningMessages.ValidationAmountFail
+            return false
+            
+        }
+        guard self.selectedTypeName != Placeholders.NewCategorySelector else {
+            self.validationFailed = true
+            self.warningMessage = WarningMessages.ValidationCategoryNotSelectedFail
+            return false
+        }
+        userSettingsVM.getRecurringTransactions(context: viewContext)
+        guard !(self.transaction.type != self.selectedType) && userSettingsVM.recurringTransactions.contains(where: { transaction in transaction.type == self.selectedType }) else {
+            self.validationFailed = true
+            self.warningMessage = WarningMessages.ExistingCategory
+            return false
+        }
+        return true
     }
 }
 

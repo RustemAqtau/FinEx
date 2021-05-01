@@ -19,7 +19,7 @@ struct SaveButtonView: View {
                 .foregroundColor(CustomColors.TextDarkGray)
                 .font(Font.system(size: 26, weight: .regular, design: .default))
         }
-        .frame(width: self.withTrash ? geo.size.width * 0.60 : geo.size.width * 0.80, height: 55, alignment: .center)
+        .frame(width: self.withTrash ? geo.size.width * 0.60 : geo.size.width * 0.90, height: 55, alignment: .center)
     }
 }
 

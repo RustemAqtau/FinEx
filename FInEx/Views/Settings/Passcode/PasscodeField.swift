@@ -21,9 +21,7 @@ public struct PasscodeField: View {
     @State var showPin = false
     @State var isDisabled = false
     @State var textColor = Color.black
-    
-  //  var handler: (String, (Bool) -> Void) -> Void
-    
+   
     public var body: some View {
         let label = self.isNewPasscode ?  "Enter New Passcode" : "Enter Passcode"
         VStack(spacing: 20) {
@@ -137,19 +135,7 @@ public struct PasscodeField: View {
                 
             }
             
-//            handler(pin) { isSuccess in
-//                if isSuccess {
-//                    print("pin matched, go to next page, no action to perfrom here")
-//                } else {
-//                    pin = ""
-//                    isDisabled = false
-//                    print("this has to called after showing toast why is the failure")
-//                }
-//            }
         }
-        
-        // this code is never reached under  normal circumstances. If the user pastes a text with count higher than the
-        // max digits, we remove the additional characters and make a recursive call.
         if pin.count > maxDigits {
             pin = String(pin.prefix(maxDigits))
             submitPin()

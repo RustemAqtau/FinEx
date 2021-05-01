@@ -1,40 +1,37 @@
 //
-//  AddExpense.swift
+//  WithdrawSavingView.swift
 //  FInEx
 //
-//  Created by Zhansaya Ayazbayeva on 2021-04-14.
+//  Created by Zhansaya Ayazbayeva on 2021-04-30.
 //
 
 import SwiftUI
 
-struct AddTransactionView: View {
-    @ObservedObject var keyboardHeightHelper = KeyboardHeightHelper()
+struct WithdrawSavingView: View {
     @EnvironmentObject var budgetVM: BudgetManager
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.userSettingsVM) var userSettingsVM
     @Binding var currentMonthBudget: MonthlyBudget
-    @State var category: String
+    @Binding var savingsType: TransactionType
     
     @State var amount: NSDecimalNumber = 0
     @State private var amountString: String = ""
     @State private var amountIsEditing: Bool = false
     @State var selectedtypeImageName: String = "questionmark"
     @State var selectedTypeCircleColor: String = "TopGradient"
-    @State var selectedTypeName: String = NSLocalizedString("Category", comment: "")
+    @State var selectedTypeName: String = "Category"
     @State var selectedType: TransactionType = TransactionType()
     @State var showCategorySelector: Bool = false
     @State var selectedDate: Date = Date()
     @State var note: String = ""
     @State var noteLenghtLimitOut: Bool = false
-    @State var dateRange: ClosedRange<Date> = getDateRange(for: Date())
-    @State var showCalendar: Bool = false
-    @State var accentColor: Color = CustomColors.ExpensesColor2
-    @State var validationFailed: Bool = false
-    @State var warningMessage: String = ""
-    @State var amountPlaceholder: String = ""
-    @State private var saveButtonOffsetY: CGFloat = 20
+    
+    @State private var accentColor: Color = CustomColors.ExpensesColor2
+    @State private var validationFailed: Bool = false
     @State private var balanceCheckFailed: Bool = false
+    @State private var warningMessage: String = ""
+    @State private var amountPlaceholder: String = ""
     
     var body: some View {
         NavigationView {
@@ -56,7 +53,6 @@ struct AddTransactionView: View {
                             TextField(self.amountPlaceholder, text: self.$amountString, onEditingChanged: { isEditing in
                                 if isEditing {
                                     self.amountIsEditing = true
-                                    replaceSaveButton(down: false)
                                 } else {
                                     hideKeyboard()
                                     self.amountIsEditing = false
@@ -76,8 +72,6 @@ struct AddTransactionView: View {
                          }
                         .frame(width: geo.size.width * 0.60, height: 60, alignment: .center)
                     }
-                    
-                    
                     Divider()
                     VStack(spacing: 20) {
                         HStack(spacing: 15) {
@@ -98,36 +92,23 @@ struct AddTransactionView: View {
                                 .foregroundColor(CustomColors.TextDarkGray)
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
-                        .onTapGesture {
-                            self.showCategorySelector = true
-                        }
+                        .opacity(0.8)
                         
                         HStack(spacing: 15) {
                             Image(systemName: "calendar")
                                 .foregroundColor(self.accentColor)
                                 .font(Font.system(size: 30, weight: .regular, design: .default))
-                                .onTapGesture {
-                                    self.showCalendar = true
-                                }
-                            DatePicker("Label", selection: self.$selectedDate,
-                                            in: dateRange,
-                                            displayedComponents: .date)
-                                .labelsHidden()
-                                .background(Color.clear)
-                                .foregroundColor(CustomColors.TextDarkGray)
-                                .accentColor(CustomColors.TextDarkGray)
-                                .shadow(radius: 10.0 )
-                                
-                        }
+                            Text(setDate(date: self.selectedDate))
+                                .opacity(0.6)
+                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
+                        .opacity(0.8)
                         HStack(spacing: 25) {
                             Image(systemName: "pencil")
                                 .foregroundColor(self.accentColor)
                                 .font(Font.system(size: 30, weight: .regular, design: .default))
                             TextField(LocalizedStringKey("Note"), text: self.$note,
                                       onEditingChanged: {isEditing in if isEditing {
-                                        
-                                        replaceSaveButton(down: false)
                                         if !self.note.isEmpty {
                                             //self.note = ""
                                         }
@@ -148,6 +129,7 @@ struct AddTransactionView: View {
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
+                        
                         Button(action: {
                             if validationSucceed() {
                                 saveTransaction()
@@ -155,8 +137,6 @@ struct AddTransactionView: View {
                         }) {
                             SaveButtonView(geo: geo, withTrash: false)
                         }
-                        //.offset(y: self.saveButtonOffsetY)
-                        //.offset(y: -self.keyboardHeightHelper.keyboardHeight)
                     }
                 }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
@@ -172,46 +152,23 @@ struct AddTransactionView: View {
                     .foregroundColor(CustomColors.TextDarkGray)
             })
             .navigationBarTitle (Text(""), displayMode: .inline)
-        }
-        .onAppear {
-            self.showCategorySelector = false
-            switch category {
-            case Categories.Income:
-                self.accentColor = CustomColors.IncomeGradient1
-            case Categories.Expense:
-                self.accentColor = CustomColors.ExpensesColor2
-            case Categories.Saving:
-                self.accentColor = CustomColors.SavingsGradient1
-            default: self.accentColor = CustomColors.ExpensesColor2
+            .onAppear {
+                
+                self.selectedType = self.savingsType
+                self.selectedTypeName = self.savingsType.presentingName
+                self.selectedtypeImageName = self.savingsType.presentingImageName
+                self.selectedTypeCircleColor = self.savingsType.presentingColorName
+                self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
             }
-            self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
-            self.dateRange = getDateRange(for: self.currentMonthBudget.startDate ?? Date())
         }
-        .onTapGesture {
-            hideKeyboard()
-            self.amountIsEditing = false
-            replaceSaveButton(down: true)
-        }
-        .sheet(isPresented: self.$showCategorySelector, content: {
-            CategotySelector(categoty: self.category,
-                             selectedType: self.$selectedType,
-                             selectedtypeImageName: self.$selectedtypeImageName,
-                             selectedTypeCircleColor: self.$selectedTypeCircleColor,
-                             selectedTypeName: self.$selectedTypeName)
-        })
-        .onChange(of: self.selectedtypeImageName, perform: { value in
-            validationFailed = false
-        })
-        .onChange(of: self.amountString, perform: { value in
-            validationFailed = false
-        })
-        
     }
     
     private func saveTransaction() {
         let locale = Locale.current
-        self.amount = NSDecimalNumber(string: self.amountString, locale: locale)
-        print(self.amount)
+        var decimal = NSDecimalNumber(string: self.amountString, locale: locale).decimalValue
+        decimal.negate()
+        self.amount = NSDecimalNumber(decimal: decimal)
+        print("negativeAmount = \(self.amount)")
         let newTransactionInfo = TransactionInfo(
             amount: self.amount,
             date: self.selectedDate,
@@ -236,42 +193,30 @@ struct AddTransactionView: View {
             self.warningMessage = WarningMessages.ValidationAmountFail
             return false
         }
-        if category == Categories.Saving {
-            guard checkBalanceSucceed() else {
-                self.validationFailed = true
-                self.warningMessage = WarningMessages.CheckBalance
-                return false
-            }
-        }
-        guard self.selectedTypeName != Placeholders.NewCategorySelector else {
+        
+        guard checkBalanceSucceed() else {
             self.validationFailed = true
-            self.warningMessage = WarningMessages.ValidationCategoryNotSelectedFail
+            self.warningMessage = WarningMessages.CheckBalance
             return false
         }
+        
+//        guard self.selectedTypeName != Placeholders.NewCategorySelector else {
+//            self.validationFailed = true
+//            self.warningMessage = WarningMessages.ValidationCategoryNotSelectedFail
+//            return false
+//        }
         return true
     }
     
     private func checkBalanceSucceed() -> Bool {
         let locale = Locale.current
         let amount = NSDecimalNumber(string: self.amountString, locale: locale)
-        if self.currentMonthBudget.currentBalance >= amount as Decimal {
+        if (self.currentMonthBudget.savingsTotalAmountByType[self.savingsType] ?? 0) >= amount as Decimal {
             return true
         }
         self.balanceCheckFailed = true
         return false
     }
-    
-    private func replaceSaveButton(down: Bool) {
-        
-        withAnimation(.easeInOut(duration: 0.5)) {
-            self.saveButtonOffsetY = down ? self.keyboardHeightHelper.keyboardHeight  : -self.keyboardHeightHelper.keyboardHeight
-        }
-        
-    }
 }
 
-//struct AddExpense_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddTransactionView(currentMonthBudget: MonthlyBudget(), category: Categories.Expense)
-//    }
-//}
+

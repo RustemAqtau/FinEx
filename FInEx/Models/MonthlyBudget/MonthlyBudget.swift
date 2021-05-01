@@ -11,13 +11,6 @@ extension MonthlyBudget {
     
     
     var monthYearStringPresentation: String {
-//        if !expensesList.isEmpty {
-//            if let lastExpense = expensesList.last,
-//               let date = lastExpense.date {
-//                return setDateMMYY(date: date)
-//            }
-//        }
-//        let currentDate = Date()
         if let startDate = startDate {
             return setDateMMYY(date: startDate)
         }
@@ -27,7 +20,7 @@ extension MonthlyBudget {
     
     var currentBalance: Decimal {
         var balance: Decimal = 0
-        balance = (totalIncome as Decimal) - (totalExpenses as Decimal)
+        balance = (totalIncome as Decimal) - ((totalExpenses as Decimal) + (totalCurrentMonthSavings as Decimal))
         return balance
     }
     
@@ -156,9 +149,43 @@ extension MonthlyBudget {
         var result: [String : [Transaction]] = [:]
         for subCat in subCats {
             var arr: [Transaction] = []
-            for expense in savingsList {
-                if expense.type?.subCategory == subCat {
-                    arr.append(expense)
+            for saving in savingsList {
+                if saving.type?.subCategory == subCat {
+                    arr.append(saving)
+                }
+            }
+            result[subCat!] = arr
+        }
+
+        return result
+    }
+    
+    var currentMonthSavingsByType: [TransactionType : [Transaction]] {
+        let types = currentMonthSavings.map({ transaction in transaction.type })
+        
+        var result: [TransactionType : [Transaction]] = [:]
+        for type in types {
+            var arr: [Transaction] = []
+            for saving in currentMonthSavings {
+                if saving.type == type {
+                    arr.append(saving)
+                }
+            }
+            result[type!] = arr
+        }
+
+        return result
+    }
+    
+    var currentMonthSavingsBySubCategory: [String : [Transaction]] {
+        let subCats = currentMonthSavings.map({ transaction in transaction.type?.subCategory })
+        
+        var result: [String : [Transaction]] = [:]
+        for subCat in subCats {
+            var arr: [Transaction] = []
+            for saving in currentMonthSavings {
+                if saving.type?.subCategory == subCat {
+                    arr.append(saving)
                 }
             }
             result[subCat!] = arr
@@ -233,6 +260,16 @@ extension MonthlyBudget {
         return NSDecimalNumber(decimal: amount)
     }
     
+    var totalCurrentMonthSavings: NSDecimalNumber {
+        var amount:Decimal = 0.0
+        if !currentMonthSavings.isEmpty {
+            for saving in savingsList {
+                amount += (saving.amount as Decimal?)!
+            }
+        }
+        return NSDecimalNumber(decimal: amount)
+    }
+    
     var savingsList: [Transaction] {
         if let context = self.managedObjectContext {
             if let savings = getTransactions(for: Categories.Saving, context: context) {
@@ -243,6 +280,15 @@ extension MonthlyBudget {
         return []
     }
     
+    var currentMonthSavings: [Transaction] {
+        if let context = self.managedObjectContext {
+            if let savings = getCurrentTransactions(for: Categories.Saving, context: context) {
+                return savings
+            }
+        }
+        
+        return []
+    }
     
     
     // MARK: - private func
@@ -255,7 +301,14 @@ extension MonthlyBudget {
         }
     }
     
-    
+    private func getCurrentTransactions(for category: String, context: NSManagedObjectContext) -> [Transaction]? {
+        let predicate = NSPredicate(format: "monthlyBudget = %@ AND category = %@ AND date > %@", argumentArray: [self, category, self.startDate])
+        let request = Transaction.fetchRequest(predicate: predicate)
+        do {
+            let fetchedSavings = try? context.fetch(request)
+            return fetchedSavings
+        }
+    }
     
     // MARK: - static func
     static func update(for date: Date, previousMonthBudget: MonthlyBudget, context: NSManagedObjectContext) {

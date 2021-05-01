@@ -20,16 +20,14 @@ struct SettingsView: View {
 //    }
     var body: some View {
         NavigationView {
-            
             GeometryReader { geo in
-                
                 VStack {
-                    //Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
                 }
                 .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
                 .background(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
                 .ignoresSafeArea(.all, edges: .top)
                 .navigationBarTitle (Text(LocalizedStringKey("TOOLS")), displayMode: .inline)
+                
                 ScrollView(.vertical) {
                     VStack(spacing: 0) {
                         HStack(spacing: 20) {
@@ -41,12 +39,13 @@ struct SettingsView: View {
                                     .shadow(radius: 6)
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .stroke(Color.white)
-                                VStack(spacing: 10) {
+                                VStack(spacing: 20) {
                                     Image(systemName: "arrow.clockwise.icloud.fill")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
                                         .foregroundColor(CustomColors.ExpensesColor)
-                                    
-                                    VStack(alignment: .center, spacing: 4) {
+                                        .frame(height: 50)
+                                        
+                                    VStack(alignment: .center, spacing: 8) {
                                         Text(LocalizedStringKey("REGISTER"))
                                             .font(Font.system(size: 13, weight: .regular, design: .rounded))
                                         Text(LocalizedStringKey("Secure your data in the cloud and use multiple devices"))
@@ -57,9 +56,12 @@ struct SettingsView: View {
                                     .lineLimit(3)
                                     .frame(maxWidth: .infinity, alignment: .top)
                                     .padding(.horizontal)
+                                    .frame(height: 90, alignment: .top)
+                                    
                                }
                             }
-                            //.frame(width: 140, height: 190, alignment: .top)
+                            .padding(.vertical)
+                            .frame(height: 210, alignment: .top)
                             }
                             //.opacity(userSettingsVM.settings.isSignedWithAppleId ? 0 : 1)
                             NavigationLink(
@@ -70,28 +72,33 @@ struct SettingsView: View {
                                          .shadow(radius: 6)
                                      RoundedRectangle(cornerRadius: 25.0)
                                          .stroke(Color.white)
-                                     VStack(spacing: 10) {
+                                     VStack(spacing: 20) {
                                          Image(systemName: "lock.shield")
                                              .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor)
-                                         VStack(alignment: .center, spacing: 4) {
+                                            .frame(height: 50)
+                                            
+                                         VStack(alignment: .center, spacing: 8) {
                                              Text(LocalizedStringKey("PASSCODE"))
                                                 .font(Font.system(size: 13, weight: .regular, design: .rounded))
                                              Text(LocalizedStringKey("Protect your data with a passcode."))
                                                 .font(Font.system(size: 13, weight: .light, design: .rounded))
                                          }
                                          .multilineTextAlignment(.center)
-                                         
                                          .foregroundColor(CustomColors.TextDarkGray)
                                          .lineLimit(3)
                                          .frame(maxWidth: .infinity, alignment: .top)
-                                         .padding()
+                                         .padding(.horizontal)
+                                         .frame(height: 90, alignment: .top)
+                                         
                                     }
                                  }
+                                .padding(.vertical)
+                                .frame(height: 210, alignment: .top)
                             }
                            
                         }
-                        .padding()
+                        .padding(.horizontal)
                         .offset(y: offsetY)
                         HStack(spacing: 20) {
                             NavigationLink(
@@ -104,13 +111,16 @@ struct SettingsView: View {
                                         .shadow(radius: 6)
                                     RoundedRectangle(cornerRadius: 25.0)
                                         .stroke(Color.white)
-                                    VStack(spacing: 0) {
+                                    VStack(spacing: 20) {
                                         Image(systemName: "tag.circle")
                                             .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor)
-                                        VStack(alignment: .center, spacing: 4) {
+                                            .frame(height: 50)
+                                        VStack(alignment: .center, spacing: 8) {
                                             Text(LocalizedStringKey("CATEGORIES"))
+                                                .font(Font.system(size: 13, weight: .regular, design: .rounded))
                                             Text(LocalizedStringKey("Create, edit or remove any of your categories"))
+                                                .font(Font.system(size: 13, weight: .light, design: .rounded))
                                                 
                                         }
                                         .multilineTextAlignment(.center)
@@ -118,9 +128,13 @@ struct SettingsView: View {
                                         .foregroundColor(CustomColors.TextDarkGray)
                                         .lineLimit(3)
                                         .frame(maxWidth: .infinity, alignment: .center)
-                                        .padding()
+                                        .padding(.horizontal)
+                                        .frame(height: 90, alignment: .top)
+                                        
                                    }
                                 }
+                                .padding(.vertical)
+                                .frame(height: 210, alignment: .top)
                                 }
                             
                             NavigationLink(
@@ -133,13 +147,16 @@ struct SettingsView: View {
                                     .shadow(radius: 6)
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .stroke(Color.white)
-                                VStack(spacing: 0) {
+                                VStack(spacing: 20) {
                                     Image(systemName: "arrow.triangle.2.circlepath")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
                                         .foregroundColor(CustomColors.ExpensesColor)
-                                    VStack(alignment: .center, spacing: 4) {
+                                        .frame(height: 50)
+                                    VStack(alignment: .center, spacing: 8) {
                                         Text(LocalizedStringKey("RECURRING"))
+                                            .font(Font.system(size: 13, weight: .regular, design: .rounded))
                                         Text(LocalizedStringKey("Manage your regular transactions"))
+                                            .font(Font.system(size: 13, weight: .light, design: .rounded))
                                             
                                     }
                                     .multilineTextAlignment(.center)
@@ -147,12 +164,16 @@ struct SettingsView: View {
                                     .foregroundColor(CustomColors.TextDarkGray)
                                     .lineLimit(3)
                                     .frame(maxWidth: .infinity, alignment: .center)
-                                    .padding()
+                                    .padding(.horizontal)
+                                    .frame(height: 90, alignment: .top)
+                                    
                                }
                             }
+                            .padding(.vertical)
+                            .frame(height: 210, alignment: .top)
                         }
                         }
-                        .padding()
+                        .padding(.horizontal)
                         .offset(y: offsetY)
                         HStack(spacing: 20) {
                             NavigationLink(
@@ -165,13 +186,16 @@ struct SettingsView: View {
                                         .shadow(radius: 6)
                                     RoundedRectangle(cornerRadius: 25.0)
                                         .stroke(Color.white)
-                                    VStack(spacing: 0) {
+                                    VStack(spacing: 20) {
                                         Image(systemName: "lock.shield")
                                             .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor)
-                                        VStack(alignment: .center, spacing: 4) {
+                                            .frame(height: 50)
+                                        VStack(alignment: .center, spacing: 8) {
                                             Text(LocalizedStringKey("APPEARANCE"))
-                                            Text(LocalizedStringKey("-"))
+                                                .font(Font.system(size: 13, weight: .regular, design: .rounded))
+                                            Text(LocalizedStringKey("Customize the app to suit you"))
+                                                .font(Font.system(size: 13, weight: .light, design: .rounded))
                                                 
                                         }
                                         .multilineTextAlignment(.center)
@@ -179,40 +203,56 @@ struct SettingsView: View {
                                         .foregroundColor(CustomColors.TextDarkGray)
                                         .lineLimit(3)
                                         .frame(maxWidth: .infinity, alignment: .center)
-                                        .padding()
+                                        .padding(.horizontal)
+                                        .frame(height: 90, alignment: .top)
+                                        
                                    }
                                 }
+                                .padding(.vertical)
+                                .frame(height: 210, alignment: .top)
                             }
                             
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 25.0)
-                                    .fill(Color.white)
-                                    .shadow(radius: 6)
-                                RoundedRectangle(cornerRadius: 25.0)
-                                    .stroke(Color.white)
-                                VStack(spacing: 0) {
-                                    Image(systemName: "lock.shield")
-                                        .font(Font.system(size: 40, weight: .light, design: .default))
-                                        .foregroundColor(CustomColors.ExpensesColor)
-                                    VStack(alignment: .center, spacing: 4) {
-                                        Text(LocalizedStringKey("REGISTER"))
-                                        Text(LocalizedStringKey("Secure your data in the cloud and use multiple devices"))
-                                            
-                                    }
-                                    .multilineTextAlignment(.center)
-                                    .font(Font.system(size: 13, weight: .light, design: .rounded))
-                                    .foregroundColor(CustomColors.TextDarkGray)
-                                    .lineLimit(3)
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                                    .padding()
-                               }
+                            NavigationLink(
+                                destination: RemaindersView(hideTabBar: self.$hideTabBar)
+                                    .environment(\.userSettingsVM, userSettingsVM)
+                            ) {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 25.0)
+                                        .fill(Color.white)
+                                        .shadow(radius: 6)
+                                    RoundedRectangle(cornerRadius: 25.0)
+                                        .stroke(Color.white)
+                                    VStack(spacing: 20) {
+                                        Image(systemName: "lock.shield")
+                                            .font(Font.system(size: 40, weight: .light, design: .default))
+                                            .foregroundColor(CustomColors.ExpensesColor)
+                                            .frame(height: 50)
+                                        VStack(alignment: .center, spacing: 8) {
+                                            Text(LocalizedStringKey("REMAINDER"))
+                                                .font(Font.system(size: 13, weight: .regular, design: .rounded))
+                                            Text(LocalizedStringKey("Set up reminders and get notified when it suits you"))
+                                                .font(Font.system(size: 13, weight: .light, design: .rounded))
+                                                
+                                        }
+                                        .multilineTextAlignment(.center)
+                                        .font(Font.system(size: 13, weight: .light, design: .rounded))
+                                        .foregroundColor(CustomColors.TextDarkGray)
+                                        .lineLimit(3)
+                                        .frame(maxWidth: .infinity, alignment: .center)
+                                        .padding(.horizontal)
+                                        .frame(height: 90, alignment: .top)
+                                   }
+                                }
+                                .padding(.vertical)
+                                .frame(height: 210, alignment: .top)
                             }
+                            
                         }
-                        .padding()
+                        .padding(.horizontal)
                         .offset(y: offsetY)
                         
                     }
-                    .frame(width: geo.size.width , height: geo.size.height * 0.95, alignment: .center)
+                    .frame(width: geo.size.width , alignment: .center)
                     .onAppear {
                         setNavBarAppearance()
                         startAnimate()
@@ -242,9 +282,8 @@ struct SettingsView: View {
         coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.gray, .strokeColor: UIColor.clear, .underlineColor: UIColor.clear]
         coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.gray]
         coloredNavAppearance.shadowColor = .clear
+        
         coloredBarButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(CustomColors.TextDarkGray)]
-        
-        
         coloredNavAppearance.backButtonAppearance = coloredBarButtonAppearance
         
         UINavigationBar.appearance().standardAppearance = coloredNavAppearance

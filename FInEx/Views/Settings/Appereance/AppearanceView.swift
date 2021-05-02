@@ -14,16 +14,14 @@ struct AppearanceView: View {
     @State var currencyName: String = ""
     @State var showDecimals: Bool = false
     @Binding var  hideTabBar: Bool
+    @Binding var themeColorChanged: Bool
+    
     var body: some View {
         GeometryReader { geo in
             NavigationView {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 30) {
-                        HStack {
-                            
-                        }
-                        .padding(.horizontal)
-                        .frame(width: geo.size.width, height: 50, alignment: .leading)
+
                         ZStack {
                             Rectangle()
                                 .fill(Color.white)
@@ -34,6 +32,7 @@ struct AppearanceView: View {
                                     HStack {
                                         Text("Currency Symbol".uppercased())
                                             .font(Fonts.light12)
+                                            .foregroundColor(CustomColors.TextDarkGray)
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 25.0)
                                                 .stroke(Color.red)
@@ -45,6 +44,7 @@ struct AppearanceView: View {
                                             }
                                             .pickerStyle(MenuPickerStyle())
                                             .font(Font.system(size: 12, weight: .light, design: .default))
+                                            .foregroundColor(CustomColors.TextDarkGray)
                                         }
                                         .frame(width: geo.size.width / 4, height: 20, alignment: .center)
                                     }
@@ -77,6 +77,7 @@ struct AppearanceView: View {
                                 VStack(alignment: .leading, spacing: 8) {
                                     Text("Currency".uppercased())
                                         .font(Fonts.light12)
+                                        .foregroundColor(CustomColors.TextDarkGray)
                                     Toggle(isOn: self.$showDecimals, label: {
                                         HStack {
                                             Text("Show double decimals")
@@ -90,9 +91,43 @@ struct AppearanceView: View {
                             .frame(width: geo.size.width, height: 50, alignment: .leading)
                         }
                         
+                        ZStack {
+                            Rectangle()
+                                .fill(Color.white)
+                                .shadow(radius: 5)
+                                .frame(width: geo.size.width, height: 80, alignment: .leading)
+                            HStack {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    HStack {
+                                        Text("Color theme".uppercased())
+                                            .font(Fonts.light12)
+                                    }
+                                    .foregroundColor(CustomColors.TextDarkGray)
+                                    HStack {
+                                        ForEach(Theme.colors.keys.sorted(), id: \.self) { theme in
+                                            Text("")
+                                                .modifier(CircleModifier(color: Theme.colors[theme]!, strokeLineWidth: 2))
+                                                .frame(width: geo.size.width / 11, height: geo.size.width / 11, alignment: .center)
+                                                .onTapGesture {
+                                                    print(theme)
+                                                    self.userSettingsVM.settings.editColorTheme(value: theme, context: viewContext)
+                                                    self.themeColorChanged.toggle()
+                                                }
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            .padding(.horizontal)
+                            .frame(width: geo.size.width, height: 50, alignment: .leading)
+                        }
+                        
                     }
+                    
                     .frame(width: geo.size.width, height: geo.size.height, alignment: .topLeading)
-                    .navigationBarTitle (Text(LocalizedStringKey("")), displayMode: .inline)
+                    .navigationBarTitle (Text(""), displayMode: .inline)
                     .onAppear{
                         if let symbol = userSettingsVM.settings.currencySymbol {
                             self.selectedCurrencySymbol = symbol
@@ -112,9 +147,12 @@ struct AppearanceView: View {
                         self.userSettingsVM.settings.editShowDecimals(value: value, context: viewContext)
                     })
                 }
-                
+                .background(CustomColors.White_Background)
+                .ignoresSafeArea(.all, edges: .bottom)
             }
+            
         }
+        
     }
     private func setCurrencyName() {
         switch self.selectedCurrencySymbol {

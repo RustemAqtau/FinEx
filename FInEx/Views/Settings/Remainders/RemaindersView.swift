@@ -129,26 +129,32 @@ struct RemaindersView: View {
                         }
                         .scaledToFit()
                         .frame(width: geo.size.width)
+                        .foregroundColor(CustomColors.TextDarkGray)
                         if self.isDailyRemainder {
                             Picker(dailyRemainderTime.rawValue,
                                    selection: $dailyRemainderTime){
                                 ForEach(DailyRemainderTime.allCases, id: \.self) { time in
                                     Text("\(time.rawValue)").tag(time)
                                         .font(Fonts.light25)
+                                        .foregroundColor(CustomColors.TextDarkGray)
                                 }
                             }
                             .pickerStyle(WheelPickerStyle())
                             .textCase(.uppercase)
+                            .accentColor(CustomColors.TextDarkGray)
                         } else {
                             Picker("\(monthlyRemainderDay.rawValue)",
                                    selection: $monthlyRemainderDay){
                                 ForEach(MonthlyRemainderDay.allCases, id: \.self) { day in
                                     Text("\(day.rawValue)").tag(day)
                                         .font(Fonts.light25)
+                                        .foregroundColor(CustomColors.TextDarkGray)
                                 }
                             }
                             .pickerStyle(WheelPickerStyle())
                             .textCase(.uppercase)
+                            .accentColor(CustomColors.TextDarkGray)
+                            
                         }
                         
                         
@@ -159,7 +165,7 @@ struct RemaindersView: View {
                 )
             }
             .navigationBarTitle (Text(""), displayMode: .inline)
-            //.background(Color.green)
+            .background(CustomColors.White_Background)
             .ignoresSafeArea(.all, edges: .bottom)
         }
         .onAppear {

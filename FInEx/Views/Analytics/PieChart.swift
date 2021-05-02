@@ -49,6 +49,7 @@ struct PieChart: UIViewRepresentable {
             formatter.currencySymbol = parent.currencySymbol
             formatter.maximumFractionDigits = 0
             parent.pieChart.chartDescription?.text = labelText + " • \(formatter.string(from: NSNumber(value: number))!)"
+            parent.pieChart.chartDescription?.textColor = UIColor(CustomColors.TextDarkGray)
             
         }
         func chartValueNothingSelected(_ chartView: ChartViewBase) {
@@ -80,6 +81,7 @@ struct PieChart: UIViewRepresentable {
         description?.textColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
         description?.font = UIFont(name: "Avenir", size: 10)!
         description?.textAlign = .right
+        description?.textColor = UIColor(CustomColors.TextDarkGray)
     }
     
     func formatLegend(_ legend: Legend) {
@@ -93,6 +95,7 @@ struct PieChart: UIViewRepresentable {
         legend.verticalAlignment = .center
         legend.drawInside = false
         legend.textWidthMax = 40
+        legend.textColor = UIColor(CustomColors.TextDarkGray)
     }
     
     func formatDataSet(_ dataSet: ChartDataSet) {

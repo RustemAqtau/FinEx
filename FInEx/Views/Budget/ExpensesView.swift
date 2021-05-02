@@ -70,16 +70,16 @@ struct ExpensesView: View {
                                                         .font(Font.system(size: 15, weight: .light, design: .default))
                                                         .foregroundColor(.gray)
                                                 }
-                                              //  .animation(.linear(duration: 0.3))
+                                                //.animation(.linear(duration: 0.3))
                                                 
                                             }
                                         }
                                         Spacer()
                                         Text(formatter.string(from: expense.amount ?? 0)!)
-                                           // .animation(.linear(duration: 0.3))
+                                            //.animation(.linear(duration: 0.3))
                                     }
-                                    .animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25))
-                                    //.animation(.linear(duration: 0.3))
+                                    //.animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25))
+                                    .animation(.linear(duration: 0.3))
                                     .frame(width: geo.size.width / 1.15 )
                                     .scaledToFit()
                                     .onTapGesture {

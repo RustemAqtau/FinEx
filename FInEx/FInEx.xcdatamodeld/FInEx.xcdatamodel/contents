@@ -42,6 +42,7 @@
         <relationship name="transaction" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="type" inverseEntity="Transaction"/>
     </entity>
     <entity name="UserSettings" representedClassName="UserSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="colorTheme" optional="YES" attributeType="String"/>
         <attribute name="currencySymbol" optional="YES" attributeType="String"/>
         <attribute name="dailyRemainderHour" optional="YES" attributeType="String"/>
         <attribute name="enableDailyRemainder" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -58,6 +59,6 @@
         <element name="RecurringTransaction" positionX="-115.17578125" positionY="109.953125" width="128" height="193"/>
         <element name="Transaction" positionX="-326.2109375" positionY="335.40234375" width="128" height="178"/>
         <element name="TransactionType" positionX="-611.30859375" positionY="79.1640625" width="128" height="163"/>
-        <element name="UserSettings" positionX="-63" positionY="-9" width="128" height="179"/>
+        <element name="UserSettings" positionX="-63" positionY="-9" width="128" height="194"/>
     </elements>
 </model>

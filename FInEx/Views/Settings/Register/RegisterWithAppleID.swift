@@ -29,6 +29,7 @@ struct RegisterWithAppleID: View {
                             Text(LocalizedStringKey("Sync & Secure"))
                                 .font(Font.system(size: 25, weight: .bold, design: .default))
                                 .multilineTextAlignment(.center)
+                                .foregroundColor(CustomColors.TextDarkGray)
                         }
                         .frame(width: geo.size.width * 0.90, height: geo.size.height * 0.30, alignment: .top)
                         
@@ -41,6 +42,7 @@ struct RegisterWithAppleID: View {
                             Text(self.isSigned ? LocalizedStringKey("Your budget and transactions are synchronized between your devices.") : LocalizedStringKey("Sync budget and transactions between your devices."))
                                 .lineLimit(3)
                                 .multilineTextAlignment(.leading)
+                                .foregroundColor(CustomColors.TextDarkGray)
                         }
                         HStack {
                             Image(systemName: "icloud.and.arrow.up.fill")
@@ -50,6 +52,7 @@ struct RegisterWithAppleID: View {
                             Text(self.isSigned ? LocalizedStringKey("Your data safely backed up on the cloud incase you lose/change your phone.") : LocalizedStringKey("Backup your data in case you lose/change your phone."))
                                 .lineLimit(3)
                                 .multilineTextAlignment(.leading)
+                                .foregroundColor(CustomColors.TextDarkGray)
                         }
                         HStack {
                             Image(systemName: "heart.fill")
@@ -59,6 +62,7 @@ struct RegisterWithAppleID: View {
                             Text(LocalizedStringKey("Dont worry, we will never send you any emails."))
                                 .lineLimit(3)
                                 .multilineTextAlignment(.leading)
+                                .foregroundColor(CustomColors.TextDarkGray)
                         }
                     }
                     .font(Fonts.light15)
@@ -95,15 +99,19 @@ struct RegisterWithAppleID: View {
                     .opacity(self.isSigned ? 0 : 1)
                 }
             }
-            .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
-            .onAppear {
-                self.hideTabBar = true
-                self.isSigned = self.userSettingsVM.settings.isSignedWithAppleId
-                print(self.userSettingsVM.settings.isSignedWithAppleId)
+            
+                .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
+                .onAppear {
+                    self.hideTabBar = true
+                    self.isSigned = self.userSettingsVM.settings.isSignedWithAppleId
+                    print(self.userSettingsVM.settings.isSignedWithAppleId)
+                }
             }
-            }
+            .background(CustomColors.White_Background)
             .navigationBarTitle (Text(""), displayMode: .inline)
+            .ignoresSafeArea(.all, edges: .bottom)
         }
+        
     }
 }
 

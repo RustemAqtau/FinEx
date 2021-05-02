@@ -22,6 +22,7 @@ struct CustomTabBarView: View {
             ZStack {
                 Rectangle()
                     .fill(GradientColors.TabBarBackground)
+                    //.fill(Theme.tabbarColor[ColorTheme.blue.rawValue]!)
                     .frame(width: proxi.size.width, height: 120, alignment: .center)
                 
                 Button(action: {

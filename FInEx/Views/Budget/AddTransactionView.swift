@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddTransactionView: View {
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject var keyboardHeightHelper = KeyboardHeightHelper()
     @EnvironmentObject var budgetVM: BudgetManager
     @Environment(\.managedObjectContext) private var viewContext
@@ -163,6 +164,7 @@ struct AddTransactionView: View {
                 .ignoresSafeArea(.all, edges: .bottom)
                 
             }
+            .background(CustomColors.White_Background)
             .navigationBarItems(leading: Button(action: {
                 presentationMode.wrappedValue.dismiss()
                 

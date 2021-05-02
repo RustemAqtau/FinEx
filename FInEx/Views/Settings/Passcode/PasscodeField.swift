@@ -26,6 +26,7 @@ public struct PasscodeField: View {
         let label = self.isNewPasscode ?  "Enter New Passcode" : "Enter Passcode"
         VStack(spacing: 20) {
             Text(label).font(.title)
+                .foregroundColor(CustomColors.TextDarkGray)
             ZStack {
                 pinDots
                 backgroundField
@@ -46,6 +47,8 @@ public struct PasscodeField: View {
             }
             .opacity(self.showResetButton ? 1 : 0)
         }
+        .background(CustomColors.White_Background)
+        .ignoresSafeArea(.all, edges: .bottom)
         .onAppear {
             if self.askBiometrix {
                 tryBiometricAuthentication()

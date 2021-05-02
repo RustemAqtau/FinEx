@@ -69,7 +69,6 @@ struct BarChart: UIViewRepresentable {
             dataSet.colors = ChartColorTemplates.incomeBarPastel()
             dataSet.valueColors = ChartColorTemplates.incomeBarPastel()
         }
-        
         let formatter = NumberFormatter()
         formatter.locale = .current
         formatter.numberStyle = .currency
@@ -84,6 +83,7 @@ struct BarChart: UIViewRepresentable {
         formatter.numberStyle = .none
         leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: formatter)
         leftAxis.axisMinimum = 0
+        leftAxis.labelTextColor = UIColor(CustomColors.TextDarkGray)
     }
     
     func formatXAxis(xAxis: XAxis) {
@@ -99,5 +99,6 @@ struct BarChart: UIViewRepresentable {
         legend.verticalAlignment = .top
         legend.drawInside = true
         legend.yOffset = 30
+        legend.textColor = UIColor(CustomColors.TextDarkGray)
     }
 }

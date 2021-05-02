@@ -143,6 +143,7 @@ struct WithdrawSavingView: View {
                 .ignoresSafeArea(.all, edges: .bottom)
                 
             }
+            .background(CustomColors.White_Background)
             .navigationBarItems(leading: Button(action: {
                 presentationMode.wrappedValue.dismiss()
                 

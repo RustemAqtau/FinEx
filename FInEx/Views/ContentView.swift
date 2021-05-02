@@ -11,11 +11,14 @@ import KeychainAccess
 import LocalAuthentication
 
 struct ContentView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.userSettingsVM) var userSettingsVM
     @ObservedObject var budgetVM = BudgetManager()
     @State var offsetY: CGFloat = 0.0
     
+    @State var themeColor: LinearGradient = Theme.colors[ColorTheme.purple.rawValue]!
+    @State var themeColorChanged: Bool = false
     @State var mainButtonTapped: Bool = false
     @State var analyticsButtonTapped: Bool = false
     @State var toolsButtonTapped: Bool = false
@@ -53,7 +56,9 @@ struct ContentView: View {
             GeometryReader() { geo in
                 Group {
                     if isSettingsView {
-                        SettingsView(hideTabBar: self.$hideTabBar)
+                        SettingsView(hideTabBar: self.$hideTabBar,
+                                     themeColorChanged: self.$themeColorChanged,
+                                     themeColor: self.$themeColor)
                             .environment(\.userSettingsVM, userSettingsVM)
                         
                     } else if isAnalyticsView {
@@ -62,7 +67,8 @@ struct ContentView: View {
                                       getPreviousMonthBudget: self.$getPreviousMonthBudget,
                                       getNextMonthBudget: self.$getNextMonthBudget,
                                       hideLeftChevron: self.$hideLeftChevron,
-                                      hideRightChevron: self.$hideRightChevron)
+                                      hideRightChevron: self.$hideRightChevron,
+                                      themeColor: self.$themeColor)
                             .environmentObject(budgetVM)
                             .environment(\.userSettingsVM, userSettingsVM)
                     } else {
@@ -72,6 +78,7 @@ struct ContentView: View {
                                        plusButtonColor: self.$plusButtonColor,
                                        plusButtonIsServing: self.$plusButtonIsServing,
                                        coloredNavAppearance: self.$coloredNavAppearance,
+                                       themeColor: self.$themeColor,
                                        getPreviousMonthBudget: self.$getPreviousMonthBudget,
                                        getNextMonthBudget: self.$getNextMonthBudget,
                                        hideLeftChevron: self.$hideLeftChevron,
@@ -133,7 +140,7 @@ struct ContentView: View {
                 formatter.maximumFractionDigits = 0
                 userSettingsVM.settings.currencySymbol = formatter.currencySymbol
             }
-            
+            setThemeColor()
         }
         .onChange(of: self.mainButtonTapped, perform: { value in
             if self.isAnalyticsView {
@@ -195,6 +202,9 @@ struct ContentView: View {
                 self.hideRightChevron = false
             }
         })
+        .onChange(of: self.themeColorChanged, perform: { value in
+            setThemeColor()
+        })
         .overlay(
             CustomTabBarView(//geo: geo,
                              plusButtonColor: self.$plusButtonColor,
@@ -230,12 +240,31 @@ struct ContentView: View {
             self.offsetY = 20.0
         }
     }
+    
+    private func setThemeColor() {
+        if let colorTheme = self.userSettingsVM.settings.colorTheme {
+            switch colorTheme {
+            case ColorTheme.purple.rawValue:
+                self.themeColor = Theme.colors[ColorTheme.purple.rawValue]!
+            case ColorTheme.pink.rawValue:
+                self.themeColor = Theme.colors[ColorTheme.pink.rawValue]!
+            case ColorTheme.blue.rawValue:
+                self.themeColor = Theme.colors[ColorTheme.blue.rawValue]!
+            case ColorTheme.orange.rawValue:
+                self.themeColor = Theme.colors[ColorTheme.orange.rawValue]!
+            default:
+                self.themeColor = Theme.colors[ColorTheme.purple.rawValue]!
+            }
+        }
+        
+    }
+    
     func setNavBarAppearance() {
         coloredNavAppearance.configureWithOpaqueBackground()
-        coloredNavAppearance.backgroundColor = UIColor.clear //UIColor(CustomColors.TopBackgroundGradient3)
-        coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.gray, .strokeColor: UIColor.clear, .underlineColor: UIColor.clear]
+        coloredNavAppearance.backgroundColor = colorScheme == .dark ? UIColor(CustomColors.White_Background) : UIColor.clear //UIColor(CustomColors.TopBackgroundGradient3)
+        coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.gray, .strokeColor: UIColor.clear, .underlineColor: colorScheme == .dark ? UIColor(CustomColors.White_Background) : UIColor.clear]
         coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.gray]
-        coloredNavAppearance.shadowColor = .clear
+        coloredNavAppearance.shadowColor = colorScheme == .dark ? UIColor(CustomColors.White_Background) : UIColor.clear
         coloredBarButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(CustomColors.TextDarkGray)]
         
         

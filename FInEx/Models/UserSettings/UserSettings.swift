@@ -9,6 +9,20 @@ import CoreData
 
 extension UserSettings {
     
+    func editColorTheme(value: String, context: NSManagedObjectContext) {
+        self.colorTheme = value
+             if context.hasChanges {
+                 
+                 do {
+                     try context.save()
+                     print("Context saved")
+                 } catch {
+                     print("Could not save context")
+            }
+        }
+        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    }
+    
     func editShowDecimals(value: Bool, context: NSManagedObjectContext) {
         self.showDecimals = value
              if context.hasChanges {

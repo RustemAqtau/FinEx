@@ -163,6 +163,7 @@ struct EditTransactionView: View {
                 .ignoresSafeArea(.all, edges: .bottom)
                 
             }
+            .background(CustomColors.White_Background)
             .navigationBarItems(leading: Button(action: {
                 presentationMode.wrappedValue.dismiss()
                 
@@ -173,6 +174,7 @@ struct EditTransactionView: View {
             })
             .navigationBarTitle (Text(""), displayMode: .inline)
         }
+        
         .onAppear {
             self.showCategorySelector = false
             switch transaction.category! {

@@ -35,85 +35,91 @@ struct SavingsView: View {
                     AddRecurringTransactionView(geo: geo, currentBudget: self.currentMonthBudget, recurringTransactions: self.recurringTransactions, addedRecurringTransaction: self.$addedRecurringTransaction)
                         .environmentObject(budgetVM)
                 }
-                
-                ForEach(self.savingsTypesBySubCategory.keys.sorted(), id: \.self) { subCategory in
-                    ZStack {
-                        Rectangle()
-                            .fill(Color.white)
-                            .shadow(radius: 5)
-                            .frame(width: geo.size.width, alignment: .leading)
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Group {
-                                    Text(subCategory)
-                                }
-                                Spacer()
-                            }
-                            .foregroundColor(CustomColors.TextDarkGray)
-                            .frame(width: geo.size.width / 1.2 )
-                            .font(Font.system(size: 18, weight: .light, design: .rounded))
-                            .scaledToFit()
-                            .padding()
-                            Divider()
-                            
-                            ForEach(savingsTypesBySubCategory[subCategory]!, id: \.self) { type in
+                if !self.savingsTypesBySubCategory.isEmpty {
+                    ForEach(self.savingsTypesBySubCategory.keys.sorted(), id: \.self) { subCategory in
+                        ZStack {
+                            Rectangle()
+                                .fill(Color.white)
+                                .shadow(radius: 5)
+                                .frame(width: geo.size.width, alignment: .leading)
+                            VStack(alignment: .leading, spacing: 10) {
                                 HStack {
                                     Group {
-                                        Image(systemName: type.presentingImageName)
-                                            .foregroundColor(.white)
-                                            .modifier(CircleModifierSimpleColor(color: Color(type.presentingColorName), strokeLineWidth: 3.0))
-                                            .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
-                                            .font(Font.system(size: 24, weight: .regular, design: .default))
-                                            .animation(.linear(duration: 0.5))
-                                        
-                                        VStack(alignment: .leading) {
-                                            Text(type.presentingName)
-                                                .shadow(radius: -10 )
-                                            
-                                        }
-                                        .animation(.linear(duration: 0.5))
+                                        Text(subCategory)
                                     }
                                     Spacer()
-                                    Text(formatter.string(from: NSDecimalNumber(decimal: savingsTotalAmountByType[type] ?? 0) )!)
-                                        .animation(.linear(duration: 0.5))
-                                    
                                 }
-                                .frame(width: geo.size.width / 1.1  )
+                                .foregroundColor(CustomColors.TextDarkGray)
+                                .frame(width: geo.size.width / 1.2 )
+                                .font(Font.system(size: 18, weight: .light, design: .rounded))
                                 .scaledToFit()
-                                .onTapGesture {
-                                    self.editingType = type
-                                    self.showWithdrawSheet = true
-                                }
+                                .padding()
                                 Divider()
-                                ForEach(currentMonthSavingsByType[type]!, id: \.self) { transaction in
+                                
+                                ForEach(savingsTypesBySubCategory[subCategory]!, id: \.self) { type in
                                     HStack {
                                         Group {
-                                            Text(setDate(date: transaction.date!))
+                                            Image(systemName: type.presentingImageName)
+                                                .foregroundColor(.white)
+                                                .modifier(CircleModifierSimpleColor(color: Color(type.presentingColorName), strokeLineWidth: 3.0))
+                                                .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
+                                                .font(Font.system(size: 24, weight: .regular, design: .default))
+                                                .animation(.linear(duration: 0.5))
+                                            
+                                            VStack(alignment: .leading) {
+                                                Text(type.presentingName)
+                                                    .shadow(radius: -10 )
                                                 
+                                            }
+                                            .animation(.linear(duration: 0.5))
                                         }
                                         Spacer()
-                                        Text(formatter.string(from: transaction.amount ?? 0)!)
+                                        Text(formatter.string(from: NSDecimalNumber(decimal: savingsTotalAmountByType[type] ?? 0) )!)
                                             .animation(.linear(duration: 0.5))
+                                        
                                     }
-                                    .frame(width: geo.size.width / 1.1 )
+                                    .frame(width: geo.size.width / 1.1  )
                                     .scaledToFit()
-                                    .font(Font.system(size: 15, weight: .light, design: .default))
-                                    .foregroundColor(CustomColors.TextDarkGray)
+                                    .onTapGesture {
+                                        self.editingType = type
+                                        self.showWithdrawSheet = true
+                                    }
                                     Divider()
+                                    if !currentMonthSavingsByType.isEmpty,
+                                       let transaction = currentMonthSavingsByType[type] {
+                                        ForEach(currentMonthSavingsByType[type]!, id: \.self) { transaction in
+                                            HStack {
+                                                Group {
+                                                    Text(setDate(date: transaction.date!))
+                                                    
+                                                }
+                                                Spacer()
+                                                Text(formatter.string(from: transaction.amount ?? 0)!)
+                                                    .animation(.linear(duration: 0.5))
+                                            }
+                                            .frame(width: geo.size.width / 1.1 )
+                                            .scaledToFit()
+                                            .font(Font.system(size: 15, weight: .light, design: .default))
+                                            .foregroundColor(CustomColors.TextDarkGray)
+                                            Divider()
+                                        }
+                                    }
+                                    
                                 }
                             }
+                            .padding(.horizontal)
+                            .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
                         }
+                        .background(Color.white)
                         .padding(.horizontal)
-                        .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
+                        
                     }
-                    .background(Color.white)
-                    .padding(.horizontal)
-                    
+                    .frame(width: geo.size.width)
                 }
-                .frame(width: geo.size.width)
-                    }
-                    
-                    
+                
+            }
+            
+            
             
             VStack {
                 

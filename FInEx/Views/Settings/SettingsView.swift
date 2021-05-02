@@ -14,20 +14,19 @@ struct SettingsView: View {
     let coloredBarButtonAppearance = UIBarButtonItemAppearance ()
     
     @Binding var  hideTabBar: Bool
-//    init() {
-//        setNavBarAppearance()
-//
-//    }
+    @Binding var themeColorChanged: Bool
+    @Binding var themeColor: LinearGradient
+
     var body: some View {
         NavigationView {
             GeometryReader { geo in
                 VStack {
                 }
-                .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
-                .background(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
+                .frame(width: geo.size.width, height: geo.size.height / 7, alignment: .center)
+                .background(themeColor)
                 .ignoresSafeArea(.all, edges: .top)
                 .navigationBarTitle (Text(LocalizedStringKey("TOOLS")), displayMode: .inline)
-                
+                .zIndex(100)
                 ScrollView(.vertical) {
                     VStack(spacing: 0) {
                         HStack(spacing: 20) {
@@ -177,7 +176,8 @@ struct SettingsView: View {
                         .offset(y: offsetY)
                         HStack(spacing: 20) {
                             NavigationLink(
-                                destination: AppearanceView(hideTabBar: self.$hideTabBar)
+                                destination: AppearanceView(hideTabBar: self.$hideTabBar,
+                                                            themeColorChanged: self.$themeColorChanged)
                                     .environment(\.userSettingsVM, self.userSettingsVM)
                             ) {
                                 ZStack {
@@ -249,8 +249,8 @@ struct SettingsView: View {
                             
                         }
                         .padding(.horizontal)
-                        .offset(y: offsetY)
-                        
+                        //.offset(y: offsetY)
+                        .offset(y: 10.0)
                     }
                     .frame(width: geo.size.width , alignment: .center)
                     .onAppear {

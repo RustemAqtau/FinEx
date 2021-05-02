@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BudgetView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var budgetVM: BudgetManager
     @Environment(\.userSettingsVM) var userSettingsVM
     @Environment(\.managedObjectContext) private var viewContext
@@ -20,6 +21,7 @@ struct BudgetView: View {
     @Binding var plusButtonColor: LinearGradient
     @Binding var plusButtonIsServing: String
     @Binding var coloredNavAppearance: UINavigationBarAppearance
+    @Binding var themeColor: LinearGradient
     
     @State var expensesBySubCategory: [String: [Transaction]] = [:]
     @State var expensesTotalAmountBySubCategory: [String : Decimal] = [:]
@@ -51,7 +53,7 @@ struct BudgetView: View {
                 VStack {
                 }
                 .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
-                .background(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
+                .background(themeColor)
                 .ignoresSafeArea(.all, edges: .top)
                 //.navigationBarTitle (Text(LocalizedStringKey("ANALYTICS")), displayMode: .inline)
                 
@@ -139,11 +141,12 @@ struct BudgetView: View {
                         }
                         .frame(width: geo.size.width, height: 90, alignment: .center)
                        // .border(Color.black)
-                        .offset(x: 0, y: offsetY)
-                        .onAppear {
-                            startAnimate()
-                            
-                        }
+                        //.offset(x: 0, y: offsetY)
+                        .offset(x: 0, y: 10.0)
+//                        .onAppear {
+//                            startAnimate()
+//
+//                        }
                         
                     }
                    .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
@@ -221,12 +224,7 @@ struct BudgetView: View {
                 .onAppear {
                     self.presentingTransactions = currentMonthBudget.expensesList
                     updateData()
-                    //print(userSettingsVM.settings.currencySymbol)
-                    
-                   // coloredNavAppearance.backgroundColor = UIColor(CustomColors.TopBackgroundGradient3)
-                    
-                    
-                    
+                    //coloredNavAppearance.backgroundColor = colorScheme == .dark ? UIColor(CustomColors.White_Background) : UIColor.clear
                     UINavigationBar.appearance().standardAppearance = coloredNavAppearance
                     UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
                     
@@ -246,8 +244,14 @@ struct BudgetView: View {
                 .onChange(of: self.getNextMonthBudget, perform: { value in
                     updateData()
                 })
+                .onChange(of: self.addedRecurringTransaction, perform: { value in
+                    updateData()
+                })
+                .onChange(of: self.askPasscode, perform: { value in
+                    updateData()
+                })
             }
-            
+            .background(CustomColors.White_Background)
             
 //            .onChange(of: self.askPasscode, perform: { value in
 //                updateData()
@@ -296,6 +300,7 @@ struct BudgetView: View {
         }
         return addingCategory
     }
+    
     
 }
 

@@ -40,19 +40,19 @@ struct EditCategories: View {
                             .colorMultiply(CustomColors.CloudBlue).colorInvert()
                         }
                         .frame(width: geo.size.width)
+                        .foregroundColor(CustomColors.TextDarkGray)
+                        
                         HStack {
-//                                        Text(LocalizedStringKey(self.selectedCategory))
-//                                            .font(Font.system(size: 25, weight: .regular, design: .default))
-//
-//                                        Spacer()
+
                             Button(action: {
                                 self.addingCategory = self.selectedCategory
                                 self.isAddingCategory = true
                             }) {
-                                Text(LocalizedStringKey("ADD NEW"))
+                                Image(systemName: "plus")
+                                //Text(LocalizedStringKey("ADD NEW"))
                                     .foregroundColor(CustomColors.TextDarkGray)
-                                    .font(Font.system(size: 16, weight: .regular, design: .default))
-                                    .frame(width: geo.size.width, height: 30, alignment: .center)
+                                    .font(Font.system(size: 20, weight: .regular, design: .default))
+                                    .frame(width: geo.size.width * 0.90, height: 30, alignment: .center)
                                 
                             }.sheet(isPresented: $isAddingCategory, content: {
                                 withAnimation(.easeInOut(duration: 2)) {
@@ -61,6 +61,8 @@ struct EditCategories: View {
                                 }
                             })
                         }
+                        .frame(width: geo.size.width * 0.90, alignment: .trailing)
+                        
                         ScrollView {
                                 VStack {
                                     if self.selectedSubCategories != nil {
@@ -83,6 +85,7 @@ struct EditCategories: View {
                                                                 .frame(width: geo.size.width / 12, height: geo.size.width / 10, alignment: .center)
                                                                 .padding()
                                                             Text(LocalizedStringKey(types[index].presentingName))
+                                                            
                                                         }
                                                         .frame(width: geo.size.width * 0.60)
                                                         Button(action: {
@@ -155,6 +158,7 @@ struct EditCategories: View {
                                 .frame(width: geo.size.width)
                                 .scaledToFit()
                                 .foregroundColor(CustomColors.TextDarkGray)
+                                
                                 .transition(AnyTransition.asymmetric(
                                                 insertion: AnyTransition.opacity.combined(with: .slide),
                                                 removal: .move(edge: .leading))
@@ -167,7 +171,8 @@ struct EditCategories: View {
                     }
                     
                 }
-                .background(Color.white)
+                .background(CustomColors.White_Background)
+                .ignoresSafeArea(.all, edges: .bottom)
                 .onAppear {
                     self.userSettingsVM.getAllTransactiontypes(context: viewContext)
                     self.selectedSubCategories = userSettingsVM.subCategories[self.selectedCategory]
@@ -183,6 +188,7 @@ struct EditCategories: View {
                 })
             }
         }
+        .accentColor(CustomColors.TextDarkGray)
     }
 }
 

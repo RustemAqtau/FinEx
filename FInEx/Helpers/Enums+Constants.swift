@@ -27,7 +27,22 @@ enum Coordinator {
   }
 }
 
+enum ActiveSheet: Identifiable {
+    case add
+    case edit
+    
+    var id: Int {
+        hashValue
+    }
+}
 
+// MARK: - ColorTheme
+enum ColorTheme: String, CaseIterable {
+    case purple = "purple"
+    case orange = "orange"
+    case blue = "blue"
+    case pink = "pink"
+}
 
 // MARK: - Remainders
 
@@ -183,6 +198,13 @@ enum CustomColors {
     static let CustomPurple = Color("CustomPurple")
     static let CustomRed = Color("CustomRed")
     static let CustomYellow = Color("CustomYellow")
+    
+    static let Theme_purple = Color("Theme_purple")
+    static let Theme_orange = Color("Theme_orange")
+    static let Theme_blue = Color("Theme_blue")
+    static let Theme_pink = Color("Theme_pink")
+    
+    static let White_Background = Color("WhiteBackground")
  }
 
 enum GradientColors {
@@ -201,6 +223,22 @@ enum GradientColors {
     static let TabBarBackground = LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading)
 }
 
+struct Theme {
+    // LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading)
+    static let colors: [String : LinearGradient] = [
+        ColorTheme.purple.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_purple, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading),
+        ColorTheme.pink.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_pink, Color("Theme_orange-1"), Color.white, Color("Theme_orange-1"), CustomColors.Theme_pink]), startPoint: .topLeading, endPoint: .bottomTrailing),
+        ColorTheme.blue.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_blue, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading),
+        ColorTheme.orange.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_orange, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading)
+    ]
+    
+    static let tabbarColor: [String : LinearGradient] = [
+        ColorTheme.purple.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_purple, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading),
+        ColorTheme.pink.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_pink, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading),
+        ColorTheme.blue.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_blue, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading),
+        ColorTheme.orange.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_orange, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading)
+    ]
+}
 
 // MARK: - Categories
 enum Categories: CaseIterable {

@@ -155,6 +155,8 @@ struct AddCategorySubTypeView: View {
                         .opacity(self.showIcons ? 1 : 0)
                 )
             }
+            .background(CustomColors.White_Background)
+            .ignoresSafeArea(.all, edges: .bottom)
             .onTapGesture {
                 withAnimation(.easeInOut(duration: 0.5)) {
                 hideKeyboard()
@@ -176,6 +178,7 @@ struct AddCategorySubTypeView: View {
                 validationFailed = false
             })
         }
+        .accentColor(CustomColors.TextDarkGray)
     }
     
     private func replaceSaveButton(down: Bool) {

@@ -138,6 +138,7 @@ struct EditRecurringTransactionView: View {
                             .font(Font.system(size: 16, weight: .light, design: .default))
                             .multilineTextAlignment(.center)
                             .frame(width: geo.size.width * 0.65, alignment: .leading)
+                            .foregroundColor(CustomColors.TextDarkGray)
                             
                         }
                         .frame(width: geo.size.width * 0.90, alignment: .leading)
@@ -244,6 +245,7 @@ struct EditRecurringTransactionView: View {
                                  selectedTypeName: self.$selectedTypeName)
             })
             .navigationBarItems(leading: Button(action: {
+                
                 presentationMode.wrappedValue.dismiss()
                 
             }) {
@@ -266,6 +268,8 @@ struct EditRecurringTransactionView: View {
             hideKeyboard()
         }
         .accentColor(CustomColors.TextDarkGray)
+        .background(CustomColors.White_Background)
+        .ignoresSafeArea(.all, edges: .bottom)
     }
     
     func saveTransaction() {

@@ -227,6 +227,7 @@ struct SetRecurringTransactionView: View {
                                  selectedTypeName: self.$selectedTypeName)
             })
             .navigationBarItems(leading: Button(action: {
+                
                 presentationMode.wrappedValue.dismiss()
             }) {
                 Image(systemName: "xmark")
@@ -251,6 +252,8 @@ struct SetRecurringTransactionView: View {
             hideKeyboard()
         }
         .accentColor(CustomColors.TextDarkGray)
+        .background(CustomColors.White_Background)
+        .ignoresSafeArea(.all, edges: .bottom)
     }
     
     private func saveTransaction() {

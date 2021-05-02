@@ -53,6 +53,7 @@ struct PasscodeView: View {
                         .foregroundColor(CustomColors.TextDarkGray)
                         .padding()
                     }
+                    
                     .navigationBarTitle (Text(""), displayMode: .inline)
                     .frame(width: geo.size.width, alignment: .top)
                     .onAppear {
@@ -78,7 +79,8 @@ struct PasscodeView: View {
                 }
                 
             }
-            
+            .background(CustomColors.White_Background)
+            .ignoresSafeArea(.all, edges: .bottom)
         }
     }
 }

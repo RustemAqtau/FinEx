@@ -34,6 +34,7 @@ struct AnalyticsView: View {
     @Binding var getNextMonthBudget: Bool
     @Binding var hideLeftChevron: Bool
     @Binding var hideRightChevron: Bool
+    @Binding var themeColor: LinearGradient
     
     var body: some View {
         NavigationView {
@@ -41,10 +42,10 @@ struct AnalyticsView: View {
                 VStack {
                 }
                 .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
-                .background(LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading))
+                .background(themeColor)
                 .ignoresSafeArea(.all, edges: .top)
                 .navigationBarTitle (Text(LocalizedStringKey("ANALYTICS")), displayMode: .inline)
-                VStack {
+                VStack(spacing: 10) {
                     VStack {
                         Picker(selection: self.$selectedCategory, label: Text("")) {
                             Text(LocalizedStringKey(Categories.Income)).tag(Categories.Income)
@@ -56,6 +57,7 @@ struct AnalyticsView: View {
                         .colorMultiply(CustomColors.CloudBlue).colorInvert()
                     }
                     .frame(width: geo.size.width * 0.90)
+                    .offset(x: 0, y: 5)
                     
                     ScrollView {
                         HStack(spacing: 20) {
@@ -69,6 +71,7 @@ struct AnalyticsView: View {
                             .opacity(self.hideLeftChevron ? 0 : 1)
                             Spacer()
                             Text("\(currentMonthBudget.monthYearStringPresentation)")
+                                
                             Spacer()
                             Button(action: {
                                 //withAnimation(.linear(duration: 1)) {
@@ -79,6 +82,7 @@ struct AnalyticsView: View {
                             }
                             .opacity(self.hideRightChevron ? 0 : 1)
                             
+                            
                         }
                         .padding(.horizontal)
                         .font(Font.system(size: 20, weight: .light, design: .default))
@@ -87,15 +91,7 @@ struct AnalyticsView: View {
                         .frame(width: geo.size.width * 0.90, height: 50)
                         
                         VStack {
-//                            Text(self.pieSliceDescription.uppercased())
-//                                .animation(.spring(response: 1, dampingFraction: 1, blendDuration: 1))
-//                                .font(Fonts.light12)
-//                                .foregroundColor(CustomColors.ExpensesColor)
-//                                .frame(width: geo.size.width * 0.90, alignment: .leading)
-//                                .onAppear {
-//                                    self.pieSliceDescription = ""
-//                                }
-//                            Divider()
+
                             switch self.selectedCategory {
                             case Categories.Income:
                                 if !self.entriesForIncome.isEmpty {
@@ -173,6 +169,7 @@ struct AnalyticsView: View {
                                 }
                             Divider()
                             Text( "\(self.selectedCategory) progress for " + "\(Int(self.currentMonthBudget.year))")
+                                .foregroundColor(CustomColors.TextDarkGray)
                             switch self.selectedCategory {
                             case Categories.Income:
                                 BarChart(selectedCategory: self.$selectedCategory, entries: self.entriesBarChartIncome, selectedBarDescription: self.$selectedBarDescription, currencySymbol: self.userSettingsVM.settings.currencySymbol)
@@ -202,7 +199,7 @@ struct AnalyticsView: View {
                     
                 
                 }
-               // .ignoresSafeArea(.all, edges: .top)
+                .background(CustomColors.White_Background)
                 .onAppear {
                     coloredNavAppearance.backgroundColor = UIColor(.clear)
                     getEntriesPieChartIncome()

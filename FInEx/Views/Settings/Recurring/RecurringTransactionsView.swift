@@ -18,6 +18,7 @@ struct RecurringTransactionsView: View {
     
     @State var editTransaction: Bool = false
     @State var editingTransaction: RecurringTransaction = RecurringTransaction()
+    @State var activeSheet: ActiveSheet?
     
     var body: some View {
         let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
@@ -36,8 +37,10 @@ struct RecurringTransactionsView: View {
                                     HStack {
                                         Text(NSLocalizedString("Recurring ", comment: "") + NSLocalizedString(category, comment: ""))
                                             .font(Fonts.light20)
+                                        
                                         Spacer()
                                         Button(action: {
+                                            activeSheet = .add
                                             self.isAddingTransaction = true
                                             self.addingCategory = category
                                         }) {
@@ -62,6 +65,7 @@ struct RecurringTransactionsView: View {
                                                         VStack(alignment: .leading) {
                                                             Text(type.presentingName)
                                                                 .shadow(radius: -10 )
+                                                                .foregroundColor(CustomColors.TextDarkGray)
                                                             Text(transaction.periodicity!)
                                                                 .font(Font.system(size: 15, weight: .light, design: .default))
                                                                 .foregroundColor(.gray)
@@ -70,10 +74,12 @@ struct RecurringTransactionsView: View {
                                                 }
                                                 Spacer()
                                                 Text(formatter.string(from: transaction.amount ?? 0)!)
+                                                    .foregroundColor(CustomColors.TextDarkGray)
                                             }
                                             .frame(width: geo.size.width / 1.15)
                                             .scaledToFit()
                                             .onTapGesture {
+                                                activeSheet = .edit
                                                 self.editingTransaction = transaction
                                                 self.editTransaction = true
                                             }
@@ -84,11 +90,14 @@ struct RecurringTransactionsView: View {
                             }
                         }
                     }
+                    .navigationBarTitle (Text(""), displayMode: .inline)
                     VStack {
                     }
                     .frame(height: 100)
                     
                 }
+                .background(CustomColors.White_Background)
+                .ignoresSafeArea(.all, edges: .bottom)
                 .onAppear {
                     self.hideTabBar = true
                     userSettingsVM.getRecurringTransactionsByCategory(context: viewContext)
@@ -107,20 +116,34 @@ struct RecurringTransactionsView: View {
                     userSettingsVM.getRecurringTransactionsByCategory(context: viewContext)
                     self.recurringTransactionsByCategory = userSettingsVM.recurringTransactionsByCategory
                 })
-                .navigationBarTitle (Text(""), displayMode: .inline)
-                .sheet(isPresented: self.$editTransaction, content: {
-                    withAnimation(.easeInOut(duration: 2)) {
-                        EditRecurringTransactionView(transaction: self.$editingTransaction)
-                            .environment(\.userSettingsVM, userSettingsVM)
-                    }
-                })
-                .sheet(isPresented: $isAddingTransaction, content: {
-                    withAnimation(.easeInOut(duration: 2)) {
-                        SetRecurringTransactionView(category: self.$addingCategory)
-                            .environmentObject(userSettingsVM)
-                    }
-                })
+                
+//                .sheet(isPresented: $isAddingTransaction, content: {
+//                    withAnimation(.easeInOut(duration: 2)) {
+//                        SetRecurringTransactionView(category: self.$addingCategory)
+//                            .environmentObject(userSettingsVM)
+//                    }
+//                })
             }
+//            .sheet(isPresented: self.$editTransaction, content: {
+//                withAnimation(.easeInOut(duration: 2)) {
+//                    EditRecurringTransactionView(transaction: self.$editingTransaction)
+//                        //.environment(\.userSettingsVM, userSettingsVM)
+//                }
+//            })
+            .sheet(item: $activeSheet) { item in
+                        switch item {
+                        case .add:
+                            withAnimation(.easeInOut(duration: 2)) {
+                                SetRecurringTransactionView(category: self.$addingCategory)
+                                    .environmentObject(userSettingsVM)
+                            }
+                        case .edit:
+                            withAnimation(.easeInOut(duration: 2)) {
+                                EditRecurringTransactionView(transaction: self.$editingTransaction)
+                                    //.environment(\.userSettingsVM, userSettingsVM)
+                            }
+                        }
+                    }
         }
     }
 }

@@ -27,7 +27,7 @@ struct WithdrawSavingView: View {
     @State var note: String = ""
     @State var noteLenghtLimitOut: Bool = false
     
-    @State private var accentColor: Color = CustomColors.ExpensesColor2
+    @State private var accentColor: Color = CustomColors.SavingsGradient1
     @State private var validationFailed: Bool = false
     @State private var balanceCheckFailed: Bool = false
     @State private var warningMessage: String = ""
@@ -135,7 +135,7 @@ struct WithdrawSavingView: View {
                                 saveTransaction()
                             }
                         }) {
-                            SaveButtonView(geo: geo, withTrash: false)
+                            SaveButtonView(geo: geo, withTrash: false, withdraw: true)
                         }
                     }
                 }

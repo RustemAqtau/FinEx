@@ -153,7 +153,7 @@ struct EditTransactionView: View {
                                     saveTransaction()
                                 }
                             }) {
-                                SaveButtonView(geo: geo, withTrash: true)
+                                SaveButtonView(geo: geo, withTrash: true, withdraw: false)
                             }
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .center)

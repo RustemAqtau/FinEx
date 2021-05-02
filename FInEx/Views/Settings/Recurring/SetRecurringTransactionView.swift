@@ -181,7 +181,7 @@ struct SetRecurringTransactionView: View {
                             }
                            
                         }) {
-                            SaveButtonView(geo: geo, withTrash: false)
+                            SaveButtonView(geo: geo, withTrash: false, withdraw: false)
                         }
                         //.offset(y: -self.keyboardHeightHelper.keyboardHeight)
                     }

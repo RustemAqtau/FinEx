@@ -221,6 +221,10 @@ enum GradientColors {
     static let TransactionAmountTextField = LinearGradient(gradient: Gradient(colors: [Color("TextFieldBackgroundLight"), Color("TextFieldBackgroundDark"), Color("TextFieldBackgroundLight")]), startPoint: .topLeading, endPoint: .bottomTrailing)
     
     static let TabBarBackground = LinearGradient(gradient: Gradient(colors: [CustomColors.TopColorGradient2, Color.white]), startPoint: .bottomLeading, endPoint: .topLeading)
+    
+    static let SaveButton = LinearGradient(gradient: Gradient(colors: [CustomColors.SaveButtonGradient2, CustomColors.SaveButtonGradient1]), startPoint: .bottom, endPoint: .top)
+    
+    static let WithdrawButton = LinearGradient(gradient: Gradient(colors: [CustomColors.SavingsGradient1, CustomColors.SavingsGradient2]), startPoint: .bottom, endPoint: .top)
 }
 
 struct Theme {

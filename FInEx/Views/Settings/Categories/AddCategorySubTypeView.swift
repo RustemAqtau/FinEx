@@ -141,7 +141,7 @@ struct AddCategorySubTypeView: View {
                                 save()
                             }
                         }) {
-                            SaveButtonView(geo: geo, withTrash: false)
+                            SaveButtonView(geo: geo, withTrash: false, withdraw: false)
                         }
                        // .offset(y: self.saveButtonOffsetY)
                         //.offset(y: -self.keyboardHeightHelper.keyboardHeight)

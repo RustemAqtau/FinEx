@@ -10,12 +10,13 @@ import SwiftUI
 struct SaveButtonView: View {
     let geo: GeometryProxy
     let withTrash: Bool
+    let withdraw: Bool
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 45)
-                .fill(LinearGradient(gradient: Gradient(colors: [CustomColors.SaveButtonGradient2, CustomColors.SaveButtonGradient1]), startPoint: .bottom, endPoint: .top))
+                .fill(withdraw ? GradientColors.WithdrawButton : GradientColors.SaveButton)
                 .shadow(radius: 3)
-            Text(LocalizedStringKey("Save"))
+            Text(withdraw ? LocalizedStringKey("Withraw") : LocalizedStringKey("Save"))
                 .foregroundColor(CustomColors.TextDarkGray)
                 .font(Font.system(size: 26, weight: .regular, design: .default))
         }
@@ -23,11 +24,4 @@ struct SaveButtonView: View {
     }
 }
 
-struct SaveButton_Previews: PreviewProvider {
-    static var previews: some View {
-        GeometryReader { geo in
-            SaveButtonView(geo: geo, withTrash: false)
-        }
-        
-    }
-}
+

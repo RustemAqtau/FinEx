@@ -186,6 +186,7 @@ struct RemaindersView: View {
             }
         }
         .onChange(of: self.enableDailyRemainder, perform: { value in
+            self.hideTabBar = true
             userSettingsVM.settings.editEnableDailyRemainder(value: self.enableDailyRemainder, context: viewContext)
             if self.enableDailyRemainder {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge]) { granted, error in
@@ -203,6 +204,7 @@ struct RemaindersView: View {
             }
         })
         .onChange(of: self.enableMonthlyRemainder, perform: { value in
+            self.hideTabBar = true
             userSettingsVM.settings.editEnableMonthlyRemainder(value: self.enableMonthlyRemainder, context: viewContext)
             if self.enableMonthlyRemainder {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge]) { granted, error in
@@ -220,9 +222,11 @@ struct RemaindersView: View {
             }
         })
         .onChange(of: self.dailyRemainderTime, perform: { value in
+            self.hideTabBar = true
             self.userSettingsVM.settings.editDailyRemainderHour(value: self.dailyRemainderTime.rawValue, context: viewContext)
         })
         .onChange(of: self.monthlyRemainderDay, perform: { value in
+            self.hideTabBar = true
             self.userSettingsVM.settings.editMonthlyRemainderDay(value: self.monthlyRemainderDay.rawValue, context: viewContext)
         })
         

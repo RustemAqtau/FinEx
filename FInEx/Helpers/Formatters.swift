@@ -49,6 +49,15 @@ func getYearFrom(date: Date) -> Int? {
     return year
 }
 
+func getFirstDayOfmonth(date: Date) -> Date {
+    let calendar = Calendar.current
+    let year = getYearFrom(date: date)
+    let month = getMonthFrom(date: date)
+    let startComponents = DateComponents(year: year, month: month, day: 1)
+    let startDate = calendar.date(from:startComponents)!
+    return startDate
+}
+
 func getDateRange(for date: Date) -> ClosedRange<Date> {
     let dateRange: ClosedRange<Date> = {
         let calendar = Calendar.current

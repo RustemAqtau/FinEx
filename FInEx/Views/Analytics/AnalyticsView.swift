@@ -42,7 +42,7 @@ struct AnalyticsView: View {
                 VStack {
                 }
                 .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
-                .background(themeColor)
+                .background(Color.white)
                 .ignoresSafeArea(.all, edges: .top)
                 .navigationBarTitle (Text(LocalizedStringKey("ANALYTICS")), displayMode: .inline)
                 VStack(spacing: 10) {

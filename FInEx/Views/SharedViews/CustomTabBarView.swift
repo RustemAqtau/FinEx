@@ -20,11 +20,16 @@ struct CustomTabBarView: View {
     var body: some View {
         GeometryReader { proxi in
             ZStack {
-                Rectangle()
-                    .fill(GradientColors.TabBarBackground)
-                    //.fill(Theme.tabbarColor[ColorTheme.blue.rawValue]!)
-                    .frame(width: proxi.size.width, height: 120, alignment: .center)
                 
+                    
+                Rectangle()
+                    //.fill(GradientColors.TabBarBackground)
+                    //.fill(Theme.tabbarColor[ColorTheme.blue.rawValue]!)
+                    .fill(Color.white)
+                    .frame(width: proxi.size.width, height: 120, alignment: .center)
+                Rectangle()
+                    .stroke(Color.gray, lineWidth: 0.3)
+                    .frame(width: proxi.size.width, height: 120, alignment: .center)
                 Button(action: {
                     self.mainButtonTapped.toggle()
                 }, label: {
@@ -32,7 +37,7 @@ struct CustomTabBarView: View {
                 })
                 .foregroundColor(.white)
                 .modifier(CircleModifier(color: self.plusButtonColor, strokeLineWidth: 3.0))
-                .opacity(0.8)
+                .opacity(1)
                 .frame(width: proxi.size.width / 5, height: proxi.size.height / 8, alignment: .center)
                 .position(x: proxi.size.width / 2, y: proxi.size.height / 2.3)
                 
@@ -50,7 +55,7 @@ struct CustomTabBarView: View {
                     })
                 }
                 .foregroundColor(.gray)
-                .position(x: proxi.size.width / 2, y: proxi.size.height / 2.1)
+                .position(x: proxi.size.width / 2, y: proxi.size.height / 2.2)
             }
             .font(Font.system(size: 30, weight: .medium, design: .default))
             .position(x: proxi.size.width / 2, y: proxi.size.height)

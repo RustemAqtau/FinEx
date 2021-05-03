@@ -20,7 +20,18 @@ extension MonthlyBudget {
     
     var currentBalance: Decimal {
         var balance: Decimal = 0
-        balance = (totalIncome as Decimal) - ((totalExpenses as Decimal) + (totalCurrentMonthSavings as Decimal))
+        balance = (totalIncome as Decimal) - ((totalExpenses as Decimal) + (totalCurrentMonthSavings as Decimal)) + ((self.previousMonthBalance ?? 0) as Decimal)
+        if self.isInitialMonth {
+            var remainingBalanceFromPrevious: Decimal = 0
+            if let context = self.managedObjectContext {
+                if let previousBudgets = getAllPreviousBudgets(context: context) {
+                    for budget in previousBudgets {
+                        remainingBalanceFromPrevious += budget.currentBalance
+                    }
+                }
+            }
+            balance += remainingBalanceFromPrevious
+        }
         return balance
     }
     
@@ -224,7 +235,6 @@ extension MonthlyBudget {
                     if !arr.contains(expense.type!) {
                         arr.append(expense.type!)
                     }
-                    
                 }
             }
             result[subCat!] = arr
@@ -271,9 +281,23 @@ extension MonthlyBudget {
     }
     
     var savingsList: [Transaction] {
+        
         if let context = self.managedObjectContext {
-            if let savings = getTransactions(for: Categories.Saving, context: context) {
-                return savings
+            
+            if self.isInitialMonth {
+                print("inInitial = \(isInitialMonth), month = \(self.month)")
+                var allSavings: [Transaction] = []
+                if let previousSavings = getInitialMonthSavingsList(for: Categories.Saving, context: context) {
+                    allSavings.append(contentsOf: previousSavings)
+                }
+                if let initalMonthSavings = getTransactions(for: Categories.Saving, context: context) {
+                    allSavings.append(contentsOf: initalMonthSavings)
+                }
+                return allSavings
+            } else {
+                if let savings = getTransactions(for: Categories.Saving, context: context) {
+                    return savings
+                }
             }
         }
         
@@ -310,6 +334,15 @@ extension MonthlyBudget {
         }
     }
     
+    private func getInitialMonthSavingsList(for category: String, context: NSManagedObjectContext) -> [Transaction]? {
+        let predicate = NSPredicate(format: "category = %@ AND date < %@", argumentArray: [category, self.startDate])
+        let request = Transaction.fetchRequest(predicate: predicate)
+        do {
+            let fetchedSavings = try? context.fetch(request)
+            return fetchedSavings
+        }
+    }
+    
     // MARK: - static func
     static func update(for date: Date, previousMonthBudget: MonthlyBudget, context: NSManagedObjectContext) {
         let calendar = Calendar.current
@@ -322,7 +355,7 @@ extension MonthlyBudget {
         monthlyBudget.startDate = startDate
         monthlyBudget.month = Int32(month)
         monthlyBudget.year = Int32(year)
-        monthlyBudget.previousMonthBalance = previousMonthBudget.balance
+        monthlyBudget.previousMonthBalance = NSDecimalNumber(decimal: previousMonthBudget.currentBalance)
         for transaction in previousMonthBudget.savingsList {
             Transaction.update(from: transaction, monthlyBudget: monthlyBudget, context: context)
         }
@@ -336,10 +369,10 @@ extension MonthlyBudget {
     
     static func update(for date: Date, context: NSManagedObjectContext) {
         let calendar = Calendar.current
-        let month = getMonthFrom(date: date) ?? 0
+        let newMonth = getMonthFrom(date: date) ?? 0
         let year = getYearFrom(date: date) ?? 0
         
-        var startMonth = month
+        var startMonth = newMonth
         
         while startMonth != 0 {
             let startComponents = DateComponents(year: year, month: startMonth, day: 1)
@@ -348,6 +381,12 @@ extension MonthlyBudget {
             monthlyBudget.startDate = startDate
             monthlyBudget.month = Int32(startMonth)
             monthlyBudget.year = Int32(year)
+            if startMonth == newMonth {
+                print("startMonth: \(startMonth)")
+                monthlyBudget.isInitialMonth = true
+            } else {
+                monthlyBudget.isInitialMonth = false
+            }
             do {
                 try context.save()
                 print("Context saved")
@@ -371,6 +410,15 @@ extension MonthlyBudget {
 //            }
 //        }
         
+    }
+    
+    func getAllPreviousBudgets(context: NSManagedObjectContext) -> [MonthlyBudget]? {
+        let predicate = NSPredicate(format: "startDate < %@", argumentArray: [self.startDate])
+        let request = MonthlyBudget.fetchRequest(predicate: predicate)
+        do {
+            let fetchedSavings = try? context.fetch(request)
+            return fetchedSavings
+        }
     }
     
     static func fetchRequest(predicate: NSPredicate) -> NSFetchRequest<MonthlyBudget> {

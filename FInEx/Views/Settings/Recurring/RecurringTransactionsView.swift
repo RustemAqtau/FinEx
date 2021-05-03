@@ -52,7 +52,7 @@ struct RecurringTransactionsView: View {
                                     .frame(width: geo.size.width / 1.15 )
                                     .scaledToFit()
                                     Divider()
-                                    ForEach(self.recurringTransactionsByCategory[category] ?? [], id: \.self) { transaction in
+                                    ForEach(userSettingsVM.recurringTransactionsByCategory[category] ?? [], id: \.self) { transaction in
                                         VStack {
                                             HStack {
                                                 Group {
@@ -104,38 +104,17 @@ struct RecurringTransactionsView: View {
                     self.recurringTransactionsByCategory = userSettingsVM.recurringTransactionsByCategory
                     
                 }
-                .onChange(of: self.isAddingTransaction, perform: { value in
-                    userSettingsVM.getRecurringTransactionsByCategory(context: viewContext)
-                    self.recurringTransactionsByCategory = userSettingsVM.recurringTransactionsByCategory
-                })
-                .onChange(of: self.userSettingsVM.recurringTransactions.count, perform: { value in
-                    userSettingsVM.getRecurringTransactionsByCategory(context: viewContext)
-                    self.recurringTransactionsByCategory = userSettingsVM.recurringTransactionsByCategory
-                })
-                .onChange(of: self.editTransaction, perform: { value in
-                    userSettingsVM.getRecurringTransactionsByCategory(context: viewContext)
-                    self.recurringTransactionsByCategory = userSettingsVM.recurringTransactionsByCategory
-                })
                 
-//                .sheet(isPresented: $isAddingTransaction, content: {
-//                    withAnimation(.easeInOut(duration: 2)) {
-//                        SetRecurringTransactionView(category: self.$addingCategory)
-//                            .environmentObject(userSettingsVM)
-//                    }
-//                })
+                
+
             }
-//            .sheet(isPresented: self.$editTransaction, content: {
-//                withAnimation(.easeInOut(duration: 2)) {
-//                    EditRecurringTransactionView(transaction: self.$editingTransaction)
-//                        //.environment(\.userSettingsVM, userSettingsVM)
-//                }
-//            })
+
             .sheet(item: $activeSheet) { item in
                         switch item {
                         case .add:
                             withAnimation(.easeInOut(duration: 2)) {
                                 SetRecurringTransactionView(category: self.$addingCategory)
-                                    .environmentObject(userSettingsVM)
+                                    .environment(\.userSettingsVM, self.userSettingsVM)
                             }
                         case .edit:
                             withAnimation(.easeInOut(duration: 2)) {
@@ -145,6 +124,21 @@ struct RecurringTransactionsView: View {
                         }
                     }
         }
+        .onChange(of: self.isAddingTransaction, perform: { value in
+            self.hideTabBar = true
+            userSettingsVM.getRecurringTransactionsByCategory(context: viewContext)
+            self.recurringTransactionsByCategory = userSettingsVM.recurringTransactionsByCategory
+        })
+        .onChange(of: self.userSettingsVM.recurringTransactions.count, perform: { value in
+            self.hideTabBar = true
+            userSettingsVM.getRecurringTransactionsByCategory(context: viewContext)
+            self.recurringTransactionsByCategory = userSettingsVM.recurringTransactionsByCategory
+        })
+        .onChange(of: self.editTransaction, perform: { value in
+            self.hideTabBar = true
+            userSettingsVM.getRecurringTransactionsByCategory(context: viewContext)
+            self.recurringTransactionsByCategory = userSettingsVM.recurringTransactionsByCategory
+        })
     }
 }
 

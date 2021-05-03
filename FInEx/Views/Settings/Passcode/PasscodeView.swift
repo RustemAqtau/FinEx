@@ -62,17 +62,19 @@ struct PasscodeView: View {
                         self.enableBiometrix = userSettingsVM.settings.isSetBiometrix
                     }
                     .onChange(of: self.enablePasscode, perform: { value in
+                        self.hideTabBar = true
                         if self.enablePasscode {
                             showSheet = true
                         }
                         userSettingsVM.settings.editIsSetPassCode(value: self.enablePasscode, context: viewContext)
                     })
                     .onChange(of: self.enableBiometrix, perform: { value in
+                        self.hideTabBar = true
                         userSettingsVM.settings.editIsSetBiometrix(value: self.enableBiometrix, context: viewContext)
                     })
-                    .fullScreenCover(isPresented: self.$showSheet, content: {
-                        PasscodeField(isNewPasscode: true, askBiometrix: false)
-                    })
+//                    .fullScreenCover(isPresented: self.$showSheet, content: {
+//                        PasscodeField(isNewPasscode: true, askBiometrix: false)
+//                    })
                     .sheet(isPresented: self.$showSheet, content: {
                         PasscodeField(isNewPasscode: true, askBiometrix: false)
                     })

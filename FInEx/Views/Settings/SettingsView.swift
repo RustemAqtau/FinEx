@@ -23,7 +23,7 @@ struct SettingsView: View {
                 VStack {
                 }
                 .frame(width: geo.size.width, height: geo.size.height / 7, alignment: .center)
-                .background(themeColor)
+                .background(Color.white)
                 .ignoresSafeArea(.all, edges: .top)
                 .navigationBarTitle (Text(LocalizedStringKey("TOOLS")), displayMode: .inline)
                 .zIndex(100)
@@ -138,7 +138,7 @@ struct SettingsView: View {
                             
                             NavigationLink(
                                 destination: RecurringTransactionsView(hideTabBar: self.$hideTabBar)
-                                    .environmentObject(userSettingsVM)
+                                    .environment(\.userSettingsVM, self.userSettingsVM)
                             ) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 25.0)

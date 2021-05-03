@@ -203,6 +203,7 @@ struct ContentView: View {
             }
         })
         .onChange(of: self.themeColorChanged, perform: { value in
+            
             setThemeColor()
         })
         .overlay(

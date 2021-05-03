@@ -52,7 +52,7 @@ struct BudgetView: View {
             GeometryReader { geo in
                 VStack {
                 }
-                .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
+                .frame(width: geo.size.width, height: geo.size.height / 3, alignment: .center)
                 .background(themeColor)
                 .ignoresSafeArea(.all, edges: .top)
                 //.navigationBarTitle (Text(LocalizedStringKey("ANALYTICS")), displayMode: .inline)
@@ -140,6 +140,7 @@ struct BudgetView: View {
                             }
                         }
                         .frame(width: geo.size.width, height: 90, alignment: .center)
+                        
                        // .border(Color.black)
                         //.offset(x: 0, y: offsetY)
                         .offset(x: 0, y: 10.0)
@@ -150,6 +151,7 @@ struct BudgetView: View {
                         
                     }
                    .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
+                    //.background(themeColor)
                     .sheet(isPresented: self.$showAddTransaction, content: {
                         let addingCategory = getAddingCategory()
                         AddTransactionView(currentMonthBudget: self.$currentMonthBudget, category: addingCategory)
@@ -222,6 +224,7 @@ struct BudgetView: View {
                // .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
                // .background(GradientColors.TabBarBackground) //(CustomColors.TopBackgroundGradient3)
                 .onAppear {
+                    self.currentMonthBudget = budgetVM.budgetList.last!
                     self.presentingTransactions = currentMonthBudget.expensesList
                     updateData()
                     //coloredNavAppearance.backgroundColor = colorScheme == .dark ? UIColor(CustomColors.White_Background) : UIColor.clear

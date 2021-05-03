@@ -115,6 +115,19 @@ struct SavingsView: View {
                         
                     }
                     .frame(width: geo.size.width)
+                } else {
+                    VStack {
+                        Text("🤷")
+                            .modifier(CircleModifier(color: GradientColors.TabBarBackground, strokeLineWidth: 2))
+                            .font(Fonts.light40)
+                            .frame(width: 90, height: 90, alignment: .center)
+                        Text("There is no transactions for this month.")
+                            .foregroundColor(.gray)
+                            .font(Fonts.light15)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(width: geo.size.width * 0.90, height: geo.size.height / 3.5, alignment: .center)
                 }
                 
             }

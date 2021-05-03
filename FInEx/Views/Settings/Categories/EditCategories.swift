@@ -174,16 +174,19 @@ struct EditCategories: View {
                 .background(CustomColors.White_Background)
                 .ignoresSafeArea(.all, edges: .bottom)
                 .onAppear {
+                    self.hideTabBar = true
                     self.userSettingsVM.getAllTransactiontypes(context: viewContext)
                     self.selectedSubCategories = userSettingsVM.subCategories[self.selectedCategory]
-                    self.hideTabBar = true
+                    
                 }
                 .onChange(of: self.selectedCategory, perform: { value in
+                    self.hideTabBar = true
                     withAnimation(.easeIn(duration: 0.5)) {
                     self.selectedSubCategories = userSettingsVM.subCategories[self.selectedCategory]
                     }
                 })
                 .onChange(of: self.showHideButton, perform: { value in
+                    self.hideTabBar = true
                     self.selectedSubCategories = userSettingsVM.subCategories[self.selectedCategory]
                 })
             }

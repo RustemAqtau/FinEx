@@ -109,7 +109,7 @@ struct AppearanceView: View {
                                                 .modifier(CircleModifier(color: Theme.colors[theme]!, strokeLineWidth: 2))
                                                 .frame(width: geo.size.width / 11, height: geo.size.width / 11, alignment: .center)
                                                 .onTapGesture {
-                                                    print(theme)
+                                                    self.hideTabBar = true
                                                     self.userSettingsVM.settings.editColorTheme(value: theme, context: viewContext)
                                                     self.themeColorChanged.toggle()
                                                 }
@@ -125,25 +125,24 @@ struct AppearanceView: View {
                         }
                         
                     }
-                    
                     .frame(width: geo.size.width, height: geo.size.height, alignment: .topLeading)
                     .navigationBarTitle (Text(""), displayMode: .inline)
                     .onAppear{
+                        self.hideTabBar = true
                         if let symbol = userSettingsVM.settings.currencySymbol {
                             self.selectedCurrencySymbol = symbol
                             setCurrencyName()
                         }
                         
                         self.showDecimals = self.userSettingsVM.settings.showDecimals
-                        
-                        self.hideTabBar = true
-                        
                     }
                     .onChange(of: self.selectedCurrencySymbol, perform: { value in
+                        self.hideTabBar = true
                         userSettingsVM.settings.editCurrencySymbol(value: value, context: viewContext)
                         setCurrencyName()
                     })
                     .onChange(of: self.showDecimals, perform: { value in
+                        self.hideTabBar = true
                         self.userSettingsVM.settings.editShowDecimals(value: value, context: viewContext)
                     })
                 }

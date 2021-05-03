@@ -37,7 +37,7 @@ extension TransactionType {
     
     static func getType(by info: TransactionTypeInfo, context: NSManagedObjectContext) -> TransactionType? {
         var type: TransactionType? = TransactionType()
-        let predicate = NSPredicate(format: "(category = %@ AND subCategory = %@) AND name = %@", argumentArray: [info.category, info.subCategory as Any, info.name])
+        let predicate = NSPredicate(format: "(category = %@ AND subCategory = %@) AND name = %@", argumentArray: [info.category, info.subCategory, info.name])
         let request = TransactionType.fetchRequest(predicate: predicate)
         do {
             let fetchedResult = try context.fetch(request)

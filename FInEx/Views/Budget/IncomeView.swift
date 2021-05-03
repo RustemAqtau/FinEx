@@ -28,7 +28,6 @@ struct IncomeView: View {
    
     var body: some View {
         let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
-       // if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack(spacing: 15) {
                 if !self.recurringTransactions.isEmpty {

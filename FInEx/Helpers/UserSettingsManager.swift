@@ -72,6 +72,7 @@ class UserSettingsManager: ObservableObject {
         RecurringTransaction.update(from: info, context: context)
         getRecurringTransactions(context: context)
     }
+    
     func deleteRecurringTransaction(transaction: RecurringTransaction, context: NSManagedObjectContext) {
         transaction.delete(context: context)
         getRecurringTransactions(context: context)
@@ -120,6 +121,7 @@ class UserSettingsManager: ObservableObject {
     
     func getRecurringTransactions(context: NSManagedObjectContext) {
         recurringTransactions = fetchRecurringTransactions(context: context)
+        getRecurringTransactionsByCategory(context: context)
     }
     
     private func fetchRecurringTransactions(context: NSManagedObjectContext) -> [RecurringTransaction] {
@@ -226,7 +228,6 @@ class UserSettingsManager: ObservableObject {
             }
         }
     }
-    
     
     private func fetchTransactionTypes(context: NSManagedObjectContext, predicate: NSPredicate) -> [TransactionType] {
         var transactionTypes: [TransactionType] = []

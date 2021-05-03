@@ -27,7 +27,7 @@ struct SetRecurringTransactionView: View {
     @State var noteLenghtLimitOut: Bool = false
     @State var selectedPeriodicity: String = Periodicity.Month.localizedString()
     @State var periodicityList: [String] = []
-    let dateRange: ClosedRange<Date>  = getDateRange(for: Date())
+    @State var dateRange: ClosedRange<Date>  = getDateRange(for: Date())
     @State var showCalendar: Bool = false
     @State var dayWeekOfMonth: String = ""
     @State var savingFailed: Bool = false
@@ -193,6 +193,8 @@ struct SetRecurringTransactionView: View {
             }
             
             .onAppear {
+                self.selectedDate = getFirstDayOfmonth(date: Date())
+                self.dateRange = getDateRange(for: self.selectedDate)
                 var periodicityArray: [String] = []
                 for elem in Periodicity.allCases {
                     periodicityArray.append(elem.rawValue)
@@ -298,6 +300,8 @@ struct SetRecurringTransactionView: View {
         }
         return true
     }
+    
+    
 }
 
 struct SetRecurringTransactionView_Previews: PreviewProvider {

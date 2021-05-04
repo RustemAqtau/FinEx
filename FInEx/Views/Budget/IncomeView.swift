@@ -20,7 +20,7 @@ struct IncomeView: View {
     @Binding var recurringTransactionsIncome: [RecurringTransaction]
     
     @State var dates: [String] = []
-    @State var incomeTotalAmountByDate: [String : Decimal] = [:]
+   // @State var incomeTotalAmountByDate: [String : Decimal] = [:]
     @Binding var addedRecurringTransaction: Bool
     @State var editTransaction: Bool = false
     @State var editingTransaction: Transaction = Transaction()
@@ -49,12 +49,12 @@ struct IncomeView: View {
                                     Text(formatter.string(from: NSDecimalNumber(decimal: incomeTotalAmountByType[type] ?? 0))! )
                                 }
                                 .foregroundColor(CustomColors.TextDarkGray)
-                                .frame(width: geo.size.width / 1.2 )
-                                .font(Font.system(size: 18, weight: .light, design: .rounded))
+                                .frame(width: geo.size.width / 1.2, height: 35)
+                                .font(Font.system(size: 18, weight: .light, design: .default))
                                 .scaledToFit()
-                                .padding()
+                                .padding(.horizontal)
                                Divider()
-                                ForEach(self.incomeByType[type]!, id: \.date) { income in
+                                ForEach(self.incomeByType[type]!, id: \.self) { income in
                                     
                                     HStack {
                                         Group {
@@ -62,13 +62,20 @@ struct IncomeView: View {
                                                 Image(systemName: incomeType.presentingImageName)
                                                     .foregroundColor(.white)
                                                     .modifier(CircleModifierSimpleColor(color: Color(incomeType.presentingColorName), strokeLineWidth: 3.0))
-                                                    .frame(width: geo.size.width * 0.10, height: geo.size.width * 0.10, alignment: .center)
+                                                    .frame(width: 36, height: 36, alignment: .center)
                                                     .font(Font.system(size: 20, weight: .regular, design: .default))
                                                     .animation(.linear(duration: 0.5))
                                                     
                                                 VStack(alignment: .leading) {
-                                                    Text(incomeType.presentingName)
-                                                        .shadow(radius: -10 )
+                                                    HStack {
+                                                        Text(incomeType.presentingName)
+                                                            .shadow(radius: -10 )
+                                                            //.font(Font.system(size: 18, weight: .light, design: .default))
+                                                        Text(income.notePresentation.isEmpty ? "" : "(\(income.notePresentation))")
+                                                            .font(Font.system(size: 15, weight: .ultraLight, design: .default))
+                                                        
+                                                    }
+                                                    //.foregroundColor(CustomColors.TextDarkGray)
                                                      Text(setDate(date: income.date!))
                                                         .font(Font.system(size: 15, weight: .light, design: .default))
                                                         .foregroundColor(.gray)
@@ -79,6 +86,7 @@ struct IncomeView: View {
                                        Spacer()
                                         Text(formatter.string(from: income.amountDecimal)!)
                                             .animation(.linear(duration: 0.5))
+                                            //.foregroundColor(CustomColors.TextDarkGray)
                                     }
                                     
                                     .frame(width: geo.size.width / 1.15 )
@@ -123,11 +131,4 @@ struct IncomeView: View {
     }
 }
 
-//struct IncomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GeometryReader { geo in
-//            IncomeView(geo: geo, incomeByDate: .constant([:]), addedRecurringTransaction: .constant(false) )
-//        }
-//        
-//    }
-//}
+

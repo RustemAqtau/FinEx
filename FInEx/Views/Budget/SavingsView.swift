@@ -127,6 +127,9 @@ struct SavingsView: View {
             .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
             
         }
+        .onAppear {
+            print(self.currentMonthSavingsByType)
+        }
         .sheet(isPresented: self.$showWithdrawSheet, content: {
             withAnimation(.easeInOut(duration: 2)) {
                 WithdrawSavingView(currentMonthBudget: self.$currentMonthBudget, savingsType: self.$editingType)

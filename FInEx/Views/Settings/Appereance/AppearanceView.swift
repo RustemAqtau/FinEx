@@ -137,17 +137,17 @@ struct AppearanceView: View {
                         self.showDecimals = self.userSettingsVM.settings.showDecimals
                     }
                     .onChange(of: self.selectedCurrencySymbol, perform: { value in
-                        self.hideTabBar = true
                         userSettingsVM.settings.editCurrencySymbol(value: value, context: viewContext)
                         setCurrencyName()
                     })
                     .onChange(of: self.showDecimals, perform: { value in
-                        self.hideTabBar = true
                         self.userSettingsVM.settings.editShowDecimals(value: value, context: viewContext)
                     })
                 }
-                .background(CustomColors.White_Background)
                 .ignoresSafeArea(.all, edges: .bottom)
+                .onTapGesture {
+                    self.hideTabBar = true
+                }
             }
             
         }

@@ -49,7 +49,7 @@ struct ExpensesView: View {
                                 }
                                 .foregroundColor(CustomColors.TextDarkGray)
                                 .frame(width: geo.size.width / 1.2, height: 35 )
-                                .font(Font.system(size: 20, weight: .light, design: .rounded))
+                                .font(Font.system(size: 18, weight: .light, design: .default))
                                 .scaledToFit()
                                 .padding(.horizontal)
                                 Divider()
@@ -69,12 +69,12 @@ struct ExpensesView: View {
                                                     HStack {
                                                         Text(expenseType.presentingName)
                                                             .shadow(radius: -10 )
-                                                            .font(Font.system(size: 18, weight: .light, design: .default))
+                                                            //.font(Font.system(size: 18, weight: .light, design: .default))
                                                         Text(expense.notePresentation.isEmpty ? "" : "(\(expense.notePresentation))")
                                                             .font(Font.system(size: 15, weight: .ultraLight, design: .default))
                                                         
                                                     }
-                                                    .foregroundColor(CustomColors.TextDarkGray)
+                                                    //.foregroundColor(CustomColors.TextDarkGray)
                                                     Text(setDate(date: expense.date!))
                                                         .font(Font.system(size: 15, weight: .light, design: .default))
                                                         .foregroundColor(.gray)
@@ -85,6 +85,7 @@ struct ExpensesView: View {
                                         }
                                         Spacer()
                                         Text(formatter.string(from: expense.amount ?? 0)!)
+                                            //.foregroundColor(CustomColors.TextDarkGray)
                                             //.animation(.linear(duration: 0.3))
                                     }
                                     //.animation(.interactiveSpring(response: 0.15, dampingFraction: 0.86, blendDuration: 0.25))

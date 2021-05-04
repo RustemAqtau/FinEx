@@ -188,7 +188,7 @@ struct AddTransactionView: View {
             }
             self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
             self.dateRange = getDateRange(for: self.currentMonthBudget.startDate ?? Date())
-            self.selectedDate = self.dateRange.lowerBound
+            //self.selectedDate = self.dateRange.lowerBound
         }
         .onTapGesture {
             hideKeyboard()

@@ -10,7 +10,7 @@ import AuthenticationServices
 import KeychainAccess
 
 struct RegisterWithAppleID: View {
-    @Environment(\.userSettingsVM) var userSettingsVM
+    @EnvironmentObject var userSettingsVM: UserSettingsManager
     @Environment(\.managedObjectContext) private var viewContext
     @State private var showSuccessView: Bool = false
     @Binding var  hideTabBar: Bool

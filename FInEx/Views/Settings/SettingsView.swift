@@ -31,7 +31,8 @@ struct SettingsView: View {
                     VStack(spacing: 0) {
                         HStack(spacing: 20) {
                             NavigationLink(
-                                destination: RegisterWithAppleID(hideTabBar: self.$hideTabBar)) {
+                                destination: RegisterWithAppleID(hideTabBar: self.$hideTabBar)
+                                    .environmentObject(userSettingsVM)) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .fill(Color.white)

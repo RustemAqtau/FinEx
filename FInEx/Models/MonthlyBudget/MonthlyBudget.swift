@@ -285,17 +285,21 @@ extension MonthlyBudget {
         if let context = self.managedObjectContext {
             
             if self.isInitialMonth {
-                print("inInitial = \(isInitialMonth), month = \(self.month)")
                 var allSavings: [Transaction] = []
-                if let previousSavings = getInitialMonthSavingsList(for: Categories.Saving, context: context) {
-                    allSavings.append(contentsOf: previousSavings)
+                if let previousBudgets = getAllPreviousBudgets(context: context) {
+                    for budget in previousBudgets {
+                        allSavings.append(contentsOf: budget.savingsList)
+                    }
                 }
+
                 if let initalMonthSavings = getTransactions(for: Categories.Saving, context: context) {
                     allSavings.append(contentsOf: initalMonthSavings)
                 }
+                
                 return allSavings
             } else {
                 if let savings = getTransactions(for: Categories.Saving, context: context) {
+                    
                     return savings
                 }
             }
@@ -307,6 +311,7 @@ extension MonthlyBudget {
     var currentMonthSavings: [Transaction] {
         if let context = self.managedObjectContext {
             if let savings = getCurrentTransactions(for: Categories.Saving, context: context) {
+                
                 return savings
             }
         }
@@ -382,7 +387,6 @@ extension MonthlyBudget {
             monthlyBudget.month = Int32(startMonth)
             monthlyBudget.year = Int32(year)
             if startMonth == newMonth {
-                print("startMonth: \(startMonth)")
                 monthlyBudget.isInitialMonth = true
             } else {
                 monthlyBudget.isInitialMonth = false

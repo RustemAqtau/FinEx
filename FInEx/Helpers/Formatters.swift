@@ -34,6 +34,15 @@ func setDecimalFormatter(currencySymbol: String, fractionDigitsNumber: Int) -> N
     return formatter
 }
 
+func getHourFrom(date: Date) -> Int? {
+    
+    let calendar = Calendar.current
+    let components = calendar.dateComponents([.hour], from: date)
+    let hour = components.hour
+    return hour
+}
+
+
 func getMonthFrom(date: Date) -> Int? {
     
     let calendar = Calendar.current
@@ -66,7 +75,8 @@ func getDateRange(for date: Date) -> ClosedRange<Date> {
         let month = components.month!
         let startComponents = DateComponents(year: year, month: month, day: 1)
         let endOfMonth = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: date)!
-        
+        print("Date range startComponents: \(calendar.date(from:startComponents)!)")
+        print("Date range endOfMonth: \(endOfMonth)")
         return calendar.date(from:startComponents)!
             ...
             endOfMonth

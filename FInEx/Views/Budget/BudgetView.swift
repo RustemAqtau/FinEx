@@ -25,13 +25,16 @@ struct BudgetView: View {
     
     @State var expensesBySubCategory: [String: [Transaction]] = [:]
     @State var expensesTotalAmountBySubCategory: [String : Decimal] = [:]
+    @State var recurringTransactionsExpense: [RecurringTransaction] = []
     
     @State var incomeByType: [String: [Transaction]] = [:]
     @State var incomeTotalAmountByType: [String: Decimal] = [:]
+    @State var recurringTransactionsIncome: [RecurringTransaction] = []
     
     @State var savingsTypesBySubCategory: [String : [TransactionType]] = [:]
     @State var savingsTotalAmountByType: [TransactionType : Decimal] = [:]
     @State var currentMonthSavingsByType: [TransactionType : [Transaction]] = [:]
+    @State var recurringTransactionsSaving: [RecurringTransaction] = []
     
     @State var addedRecurringTransaction: Bool = false
     
@@ -196,6 +199,7 @@ struct BudgetView: View {
                                    currentMonthBudget: self.$currentMonthBudget,
                                    incomeByType: self.$incomeByType,
                                    incomeTotalAmountByType: self.$incomeTotalAmountByType,
+                                   recurringTransactionsIncome: self.$recurringTransactionsIncome,
                                    addedRecurringTransaction: self.$addedRecurringTransaction)
                             .environmentObject(self.budgetVM)
                     } else if self.savingsSelected {
@@ -204,6 +208,7 @@ struct BudgetView: View {
                                     savingsTypesBySubCategory: self.$savingsTypesBySubCategory,
                                     savingsTotalAmountByType: self.$savingsTotalAmountByType,
                                     currentMonthSavingsByType: self.$currentMonthSavingsByType,
+                                    recurringTransactionsSaving: self.$recurringTransactionsSaving,
                                     addedRecurringTransaction: self.$addedRecurringTransaction)
                             .environmentObject(self.budgetVM)
                     } else {
@@ -211,6 +216,7 @@ struct BudgetView: View {
                                      currentMonthBudget: self.$currentMonthBudget,
                                      expensesBySubCategory: self.$expensesBySubCategory,
                                      expensesTotalAmountBySubCategory: self.$expensesTotalAmountBySubCategory,
+                                     recurringTransactionsExpense: self.$recurringTransactionsExpense,
                                      addedRecurringTransaction: self.$addedRecurringTransaction,
                                      editTransaction: self.$editTransaction,
                                      editingTransaction: self.$editingTransaction)
@@ -271,6 +277,10 @@ struct BudgetView: View {
         self.savingsTypesBySubCategory = self.currentMonthBudget.savingsTypesBySubCategory
         self.savingsTotalAmountByType = self.currentMonthBudget.savingsTotalAmountByType
         self.currentMonthSavingsByType = self.currentMonthBudget.currentMonthSavingsByType
+        userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: self.currentMonthBudget, context: viewContext)
+        self.recurringTransactionsExpense = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
+        self.recurringTransactionsIncome = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
+        self.recurringTransactionsSaving = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
     }
     
     func startAnimate() {

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RecurringTransactionsView: View {
-    @Environment(\.userSettingsVM) var userSettingsVM
+    @EnvironmentObject var userSettingsVM: UserSettingsManager
     @Environment(\.managedObjectContext)  var viewContext
     @Binding var  hideTabBar: Bool
     @State var recurringTransactionsByCategory: [String : [RecurringTransaction]] = [:]

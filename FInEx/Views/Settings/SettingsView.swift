@@ -138,7 +138,7 @@ struct SettingsView: View {
                             
                             NavigationLink(
                                 destination: RecurringTransactionsView(hideTabBar: self.$hideTabBar)
-                                    .environment(\.userSettingsVM, self.userSettingsVM)
+                                    .environmentObject(userSettingsVM)
                             ) {
                             ZStack {
                                 RoundedRectangle(cornerRadius: 25.0)

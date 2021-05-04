@@ -17,11 +17,10 @@ struct IncomeView: View {
     
     @Binding var incomeByType: [String: [Transaction]]
     @Binding var incomeTotalAmountByType: [String: Decimal]
-    
+    @Binding var recurringTransactionsIncome: [RecurringTransaction]
     
     @State var dates: [String] = []
     @State var incomeTotalAmountByDate: [String : Decimal] = [:]
-    @State var recurringTransactions: [RecurringTransaction] = []
     @Binding var addedRecurringTransaction: Bool
     @State var editTransaction: Bool = false
     @State var editingTransaction: Transaction = Transaction()
@@ -30,8 +29,8 @@ struct IncomeView: View {
         let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
         ScrollView {
             VStack(spacing: 15) {
-                if !self.recurringTransactions.isEmpty {
-                    AddRecurringTransactionView(geo: geo, currentBudget: self.currentMonthBudget, recurringTransactions: self.recurringTransactions, addedRecurringTransaction: self.$addedRecurringTransaction)
+                if !self.recurringTransactionsIncome.isEmpty {
+                    AddRecurringTransactionView(geo: geo, currentBudget: self.currentMonthBudget, recurringTransactions: self.recurringTransactionsIncome, addedRecurringTransaction: self.$addedRecurringTransaction)
                         .environmentObject(budgetVM)
                 }
                 if !self.incomeByType.isEmpty {
@@ -63,8 +62,8 @@ struct IncomeView: View {
                                                 Image(systemName: incomeType.presentingImageName)
                                                     .foregroundColor(.white)
                                                     .modifier(CircleModifierSimpleColor(color: Color(incomeType.presentingColorName), strokeLineWidth: 3.0))
-                                                    .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
-                                                    .font(Font.system(size: 24, weight: .regular, design: .default))
+                                                    .frame(width: geo.size.width * 0.10, height: geo.size.width * 0.10, alignment: .center)
+                                                    .font(Font.system(size: 20, weight: .regular, design: .default))
                                                     .animation(.linear(duration: 0.5))
                                                     
                                                 VStack(alignment: .leading) {
@@ -100,17 +99,7 @@ struct IncomeView: View {
                     }
                     .background(Color.white)
                 } else {
-                    VStack {
-                        Text("🤷")
-                            .modifier(CircleModifier(color: GradientColors.TabBarBackground, strokeLineWidth: 2))
-                            .font(Fonts.light40)
-                            .frame(width: 90, height: 90, alignment: .center)
-                        Text("There is no transactions for this month.")
-                            .foregroundColor(.gray)
-                            .font(Fonts.light15)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.center)
-                    }
+                    NoDataPlaceholderView()
                     .frame(width: geo.size.width * 0.90, height: geo.size.height / 3.5, alignment: .center)
                 }
                 
@@ -124,22 +113,7 @@ struct IncomeView: View {
             .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
             
         }
-        .onAppear {
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
-        }
-        .onChange(of: currentMonthBudget.incomeList.count, perform: { value in
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
-        })
-        .onChange(of: self.incomeTotalAmountByType, perform: { value in
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
-        })
-        .onChange(of: self.addedRecurringTransaction, perform: { value in
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Income] ?? []
-        })
+
         .sheet(isPresented: self.$editTransaction, content: {
            withAnimation(.easeInOut(duration: 2)) {
                 EditTransactionView(transaction: self.$editingTransaction)

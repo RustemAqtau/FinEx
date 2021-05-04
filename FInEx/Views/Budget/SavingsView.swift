@@ -18,11 +18,11 @@ struct SavingsView: View {
     @Binding var savingsTypesBySubCategory: [String : [TransactionType]]
     @Binding var savingsTotalAmountByType: [TransactionType : Decimal]
     @Binding var currentMonthSavingsByType: [TransactionType : [Transaction]]
+    @Binding var recurringTransactionsSaving: [RecurringTransaction]
     
     @State var subCategories: [String] = []
     @State var typesInSubCategory: [String : [TransactionType]] = [:]
     
-    @State var recurringTransactions: [RecurringTransaction] = []
     @Binding var addedRecurringTransaction: Bool
     @State var editingType: TransactionType = TransactionType()
     @State private var showWithdrawSheet: Bool = false
@@ -31,8 +31,8 @@ struct SavingsView: View {
         let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
         ScrollView {
             VStack(spacing: 15) {
-                if !self.recurringTransactions.isEmpty {
-                    AddRecurringTransactionView(geo: geo, currentBudget: self.currentMonthBudget, recurringTransactions: self.recurringTransactions, addedRecurringTransaction: self.$addedRecurringTransaction)
+                if !self.recurringTransactionsSaving.isEmpty {
+                    AddRecurringTransactionView(geo: geo, currentBudget: self.currentMonthBudget, recurringTransactions: self.recurringTransactionsSaving, addedRecurringTransaction: self.$addedRecurringTransaction)
                         .environmentObject(budgetVM)
                 }
                 if !self.savingsTypesBySubCategory.isEmpty {
@@ -62,8 +62,8 @@ struct SavingsView: View {
                                             Image(systemName: type.presentingImageName)
                                                 .foregroundColor(.white)
                                                 .modifier(CircleModifierSimpleColor(color: Color(type.presentingColorName), strokeLineWidth: 3.0))
-                                                .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
-                                                .font(Font.system(size: 24, weight: .regular, design: .default))
+                                                .frame(width: geo.size.width * 0.10, height: geo.size.width * 0.10, alignment: .center)
+                                                .font(Font.system(size: 20, weight: .regular, design: .default))
                                                 .animation(.linear(duration: 0.5))
                                             
                                             VStack(alignment: .leading) {
@@ -116,47 +116,17 @@ struct SavingsView: View {
                     }
                     .frame(width: geo.size.width)
                 } else {
-                    VStack {
-                        Text("🤷")
-                            .modifier(CircleModifier(color: GradientColors.TabBarBackground, strokeLineWidth: 2))
-                            .font(Fonts.light40)
-                            .frame(width: 90, height: 90, alignment: .center)
-                        Text("There is no transactions for this month.")
-                            .foregroundColor(.gray)
-                            .font(Fonts.light15)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.center)
-                    }
+                    NoDataPlaceholderView()
                     .frame(width: geo.size.width * 0.90, height: geo.size.height / 3.5, alignment: .center)
                 }
                 
             }
-            
-            
-            
             VStack {
                 
             }
             .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
             
         }
-        .onAppear {
-            print("savings: \(currentMonthSavingsByType)")
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
-        }
-        .onChange(of: currentMonthBudget.savingsList.count, perform: { value in
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
-        })
-        .onChange(of: self.typesInSubCategory, perform: { value in
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
-        })
-        .onChange(of: self.addedRecurringTransaction, perform: { value in
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Saving] ?? []
-        })
         .sheet(isPresented: self.$showWithdrawSheet, content: {
             withAnimation(.easeInOut(duration: 2)) {
                 WithdrawSavingView(currentMonthBudget: self.$currentMonthBudget, savingsType: self.$editingType)

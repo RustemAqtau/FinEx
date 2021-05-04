@@ -16,7 +16,8 @@ struct ExpensesView: View {
     
     @Binding var expensesBySubCategory: [String : [Transaction]]
     @Binding var expensesTotalAmountBySubCategory: [String : Decimal]
-    @State var recurringTransactions: [RecurringTransaction] = []
+    @Binding var recurringTransactionsExpense: [RecurringTransaction]
+    
     @Binding var addedRecurringTransaction: Bool
     @Binding var editTransaction: Bool
     @Binding var editingTransaction: Transaction
@@ -27,8 +28,8 @@ struct ExpensesView: View {
           //if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack(spacing: 15) {
-                if !self.recurringTransactions.isEmpty {
-                    AddRecurringTransactionView(geo: geo, currentBudget: self.currentMonthBudget, recurringTransactions: self.recurringTransactions, addedRecurringTransaction: self.$addedRecurringTransaction)
+                if !self.recurringTransactionsExpense.isEmpty {
+                    AddRecurringTransactionView(geo: geo, currentBudget: self.currentMonthBudget, recurringTransactions: self.recurringTransactionsExpense, addedRecurringTransaction: self.$addedRecurringTransaction)
                         .environmentObject(budgetVM)
                 }
                 if !self.expensesBySubCategory.isEmpty {
@@ -47,25 +48,33 @@ struct ExpensesView: View {
                                     Text(formatter.string(from: NSDecimalNumber(decimal: expensesTotalAmountBySubCategory[subCategory] ?? 0))!)
                                 }
                                 .foregroundColor(CustomColors.TextDarkGray)
-                                .frame(width: geo.size.width / 1.2 )
-                                .font(Font.system(size: 18, weight: .light, design: .rounded))
+                                .frame(width: geo.size.width / 1.2, height: 35 )
+                                .font(Font.system(size: 20, weight: .light, design: .rounded))
                                 .scaledToFit()
-                                .padding()
+                                .padding(.horizontal)
                                 Divider()
                                     
                                 ForEach(expensesBySubCategory[subCategory]!, id: \.date) { expense in
                                     HStack {
                                         Group {
                                                 if let expenseType = expense.type {
-                                                Image(systemName: expenseType.presentingImageName)
+                                                //Image(systemName: expenseType.presentingImageName)
+                                                    Image("icons8-tooth-30")
                                                     .foregroundColor(.white)
                                                     .modifier(CircleModifierSimpleColor(color: Color(expenseType.presentingColorName), strokeLineWidth: 3.0))
-                                                    .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
-                                                    .font(Font.system(size: 24, weight: .regular, design: .default))
+                                                    .frame(width: 36, height: 36, alignment: .center)
+                                                    .font(Font.system(size: 20, weight: .regular, design: .default))
                                                     .animation(.linear(duration: 0.5))
                                                 VStack(alignment: .leading) {
-                                                    Text(expenseType.presentingName)
-                                                        .shadow(radius: -10 )
+                                                    HStack {
+                                                        Text(expenseType.presentingName)
+                                                            .shadow(radius: -10 )
+                                                            .font(Font.system(size: 18, weight: .light, design: .default))
+                                                        Text(expense.notePresentation.isEmpty ? "" : "(\(expense.notePresentation))")
+                                                            .font(Font.system(size: 15, weight: .ultraLight, design: .default))
+                                                        
+                                                    }
+                                                    .foregroundColor(CustomColors.TextDarkGray)
                                                     Text(setDate(date: expense.date!))
                                                         .font(Font.system(size: 15, weight: .light, design: .default))
                                                         .foregroundColor(.gray)
@@ -99,17 +108,7 @@ struct ExpensesView: View {
                     }
                     .background(Color.white)
                 } else {
-                    VStack {
-                        Text("🤷")
-                            .modifier(CircleModifier(color: GradientColors.TabBarBackground, strokeLineWidth: 2))
-                            .font(Fonts.light40)
-                            .frame(width: 90, height: 90, alignment: .center)
-                        Text("There is no transactions for this month.")
-                            .foregroundColor(.gray)
-                            .font(Fonts.light15)
-                            .lineLimit(2)
-                            .multilineTextAlignment(.center)
-                    }
+                    NoDataPlaceholderView()
                     .frame(width: geo.size.width * 0.90, height: geo.size.height / 3.5, alignment: .center)
                 }
                 
@@ -122,25 +121,7 @@ struct ExpensesView: View {
             }
             .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
         }
-        .onAppear {
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
-        }
-        .onChange(of: self.currentMonthBudget.expensesList.count, perform: { value in
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
 
-        })
-        .onChange(of: self.expensesBySubCategory.count, perform: { value in
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
-            
-        })
-        .onChange(of: self.addedRecurringTransaction, perform: { value in
-            userSettingsVM.getRecurringTransactionsByCategory(monthlyBudget: currentMonthBudget, context: viewContext)
-            self.recurringTransactions = userSettingsVM.recurringTransactionsByCategoryForBudget[Categories.Expense] ?? []
-            
-        })
         .sheet(isPresented: self.$editTransaction, content: {
             withAnimation(.easeInOut(duration: 2)) {
                 EditTransactionView(transaction: self.$editingTransaction)

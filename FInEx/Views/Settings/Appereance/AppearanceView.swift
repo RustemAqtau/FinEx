@@ -162,7 +162,7 @@ struct AppearanceView: View {
         case CurrencySymbols.ruble.rawValue: self.currencyName = "Ruble"
         case CurrencySymbols.tenge.rawValue: self.currencyName = "Tenge"
         case CurrencySymbols.yen.rawValue: self.currencyName = "Yen"
-        default: self.currencyName = "Dollar"
+        default: self.currencyName = "Currency"
         }
     }
 }

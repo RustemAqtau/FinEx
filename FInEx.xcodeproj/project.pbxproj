@@ -24,6 +24,7 @@
 		58400414263C7E8E001B7C20 /* KeyboardHeightHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58400413263C7E8E001B7C20 /* KeyboardHeightHelper.swift */; };
 		58400416263CAEA0001B7C20 /* WithdrawSavingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58400415263CAEA0001B7C20 /* WithdrawSavingView.swift */; };
 		58400419263DC646001B7C20 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58400418263DC646001B7C20 /* CloudKit.framework */; };
+		5840041B2640BE4C001B7C20 /* NoDataPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5840041A2640BE4C001B7C20 /* NoDataPlaceholderView.swift */; };
 		58487F7D261E7B6A00088341 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F7C261E7B6A00088341 /* SettingsView.swift */; };
 		58487F85261E7EDA00088341 /* BudgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F84261E7EDA00088341 /* BudgetView.swift */; };
 		58487F8A261E90AD00088341 /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58487F89261E90AD00088341 /* CustomTabBarView.swift */; };
@@ -110,6 +111,7 @@
 		58400415263CAEA0001B7C20 /* WithdrawSavingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawSavingView.swift; sourceTree = "<group>"; };
 		58400417263DC641001B7C20 /* FInExDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FInExDebug.entitlements; sourceTree = "<group>"; };
 		58400418263DC646001B7C20 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		5840041A2640BE4C001B7C20 /* NoDataPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataPlaceholderView.swift; sourceTree = "<group>"; };
 		58487F7C261E7B6A00088341 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		58487F84261E7EDA00088341 /* BudgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetView.swift; sourceTree = "<group>"; };
 		58487F89261E90AD00088341 /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				5873EDF82628FE6D008A4DE7 /* GridLayout.swift */,
 				5873EE12262AB518008A4DE7 /* SaveButtonView.swift */,
 				58F35D5626321ECA0008A00C /* RoundedRectangleModifier.swift */,
+				5840041A2640BE4C001B7C20 /* NoDataPlaceholderView.swift */,
 			);
 			path = SharedViews;
 			sourceTree = "<group>";
@@ -727,6 +730,7 @@
 				5873EE032629119D008A4DE7 /* Extensions+.swift in Sources */,
 				5840040F263A7706001B7C20 /* EditRecurringTransactionView.swift in Sources */,
 				5804ADB3262181CB00E2FF1E /* UserSettingsInfo.swift in Sources */,
+				5840041B2640BE4C001B7C20 /* NoDataPlaceholderView.swift in Sources */,
 				58E2BF66261D8E3A00477D44 /* Persistence.swift in Sources */,
 				5873EE38262CA911008A4DE7 /* RecurringTransactionsView.swift in Sources */,
 				58E2BF5F261D8E3900477D44 /* ContentView.swift in Sources */,

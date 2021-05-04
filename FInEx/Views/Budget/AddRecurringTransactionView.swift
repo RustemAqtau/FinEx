@@ -14,7 +14,7 @@ struct AddRecurringTransactionView: View {
     let geo: GeometryProxy
     
     let currentBudget: MonthlyBudget
-    @State var recurringTransactions: [RecurringTransaction] = []
+    @State var recurringTransactions: [RecurringTransaction] //= []
     @Binding var addedRecurringTransaction: Bool
     
     var body: some View {
@@ -80,16 +80,9 @@ struct AddRecurringTransactionView: View {
                     .frame(width: geo.size.width * 0.90)
                 }
             }
-            .background(CustomColors.White_Background)
+           // .background(CustomColors.White_Background)
         }
     }
 }
 
-struct AddRecurringTransactionView_Previews: PreviewProvider {
-    static var previews: some View {
-        GeometryReader { geo in
-            AddRecurringTransactionView(geo: geo, currentBudget: MonthlyBudget(), addedRecurringTransaction: .constant(false))
-        }
-        
-    }
-}
+

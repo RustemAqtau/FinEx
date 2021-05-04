@@ -100,17 +100,7 @@ struct AnalyticsView: View {
                                              colors: ChartColorTemplates.incomePastel())
                                         .frame(width: geo.size.width * 0.90, height: geo.size.height / 3.5, alignment: .center)
                                 } else {
-                                    VStack {
-                                        Text("🤷")
-                                            .modifier(CircleModifier(color: GradientColors.TabBarBackground, strokeLineWidth: 2))
-                                            .font(Fonts.light40)
-                                            .frame(width: 90, height: 90, alignment: .center)
-                                        Text("There is no transactions for this month.")
-                                            .foregroundColor(.gray)
-                                            .font(Fonts.light15)
-                                            .lineLimit(2)
-                                            .multilineTextAlignment(.center)
-                                    }
+                                    NoDataPlaceholderView()
                                     .frame(width: geo.size.width * 0.90, height: geo.size.height / 3.5, alignment: .center)
                                 }
                                 
@@ -122,17 +112,7 @@ struct AnalyticsView: View {
                                              colors: ChartColorTemplates.expensesPastel())
                                         .frame(width: geo.size.width * 0.90, height: geo.size.height / 3.5)
                                 } else {
-                                    VStack {
-                                        Text("🤷")
-                                            .modifier(CircleModifier(color: GradientColors.TabBarBackground, strokeLineWidth: 2))
-                                            .font(Fonts.light40)
-                                            .frame(width: 90, height: 90, alignment: .center)
-                                        Text("There is no transactions for this month.")
-                                            .foregroundColor(.gray)
-                                            .font(Fonts.light15)
-                                            .lineLimit(2)
-                                            .multilineTextAlignment(.center)
-                                    }
+                                    NoDataPlaceholderView()
                                     .frame(width: geo.size.width * 0.90, height: geo.size.height / 3.5, alignment: .center)
                                 }
                             case Categories.Saving:
@@ -141,17 +121,7 @@ struct AnalyticsView: View {
                                              currencySymbol: self.userSettingsVM.settings.currencySymbol, colors: ChartColorTemplates.savingPastel())
                                         .frame(width: geo.size.width * 0.90, height: geo.size.height / 3.5)
                                 } else {
-                                    VStack {
-                                        Text("🤷")
-                                            .modifier(CircleModifier(color: GradientColors.TabBarBackground, strokeLineWidth: 2))
-                                            .font(Fonts.light40)
-                                            .frame(width: 90, height: 90, alignment: .center)
-                                        Text("There is no transactions for this month.")
-                                            .foregroundColor(.gray)
-                                            .font(Fonts.light15)
-                                            .lineLimit(2)
-                                            .multilineTextAlignment(.center)
-                                    }
+                                    NoDataPlaceholderView()
                                     .frame(width: geo.size.width * 0.90, height: geo.size.height / 3.5, alignment: .center)
                                 }
                                 

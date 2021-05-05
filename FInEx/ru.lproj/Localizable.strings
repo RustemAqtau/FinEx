@@ -23,43 +23,40 @@
 "CHANGE" = "ИЗМЕНИТЬ";
 "NAME" = "НАЗВАНИЕ";
 "APPEARANCE" = "ПРЕДСТАВЛЕНИЕ";
-"TOOLS" = "ИНСТРУМЕНТЫ";
+"TOOLS" = "НАСТРОЙКИ";
 "CATEGORY" = "КАТЕГОРИЯ";
+"BALANCE" = "БАЛАНС";
+"Category" = "Категория";
+"ANALYTICS" = "АНАЛИТИКА";
+
+// LocalNotificationTexts
+"local_key_notification_DailyTitle" = "Ежедневные напоминания ⏰";
+"local_key_notification_DailyBody" = "Вы уже добавили ваши расходы за сегодня?";
+"local_key_notification_MonthlyTitle" = "Остались неоплаченные счета? 💸";
+"local_key_notification_MonthlyBody" = "Не забудьте их оплатитьб иначе это может стоить вам нервов и лишних трат.";
 
 // Picker Data
-"Every two weeks" = "Каждые две недели";
-"Every month" = "Каждый месяц";
-"Every third month" = "Каждый третий месяц";
-"Every year" = "Каждый год";
+"local_key_periodicity_TwoWeeks" = "Каждые две недели";
+"local_key_periodicity_EveryMonth" = "Каждый месяц";
+"local_key_periodicity_Quarter" = "Каждый третий месяц";
+"local_key_periodicity_EveryYear" = "Каждый год";
 
 // Placeholders
-"Note" = "Заметка";
-"Category" = "Категория";
-"Expenses by category" = "Расходы по категориям";
-"Income by category" = "Доходы по категориям";
-"Savings by category" = "Накопления по категориям";
-"Required" = "Обязательное";
+"local_key_placeholder_Note" = "Заметка";
+"local_key_placeholder_Category" = "Категория";
+"local_key_placeholder_ExpensesByCategory" = "Расходы по категориям";
+"local_key_placeholder_IncomeByCategory" = "Доходы по категориям";
+"local_key_placeholder_SavingsByCategory" = "Накопления по категориям";
+"local_key_placeholder_Required" = "Обязательное";
 
 // Warning messages
-"Please enter valid amount." = "Введите валидное количество.";
-"Please select a category." = "Выберите категорию.";
-"You have already added a recurring for this categoty, please change category." = "Вы уже добавили периодичность для данное категории, выберите другую категорию.";
-
-// Expenses Categories
-"Housing" = "Жилье";
-"Entertainment" = "Развлечения";
-"Food & Drinks" = "Еда и Напитки";
-"Bills" = "Счета";
-"Transportation" = "Транспорт";
-"Health" = "Здоровье";
-"Subscriptions" = "Подписки";
-"Insurance" = "Страхование";
-"Travel" = "Путешествие";
-"Shopping" = "Покупки";
-
-// Savings Categories
-"Long Term" = "Долгосрочные";
-"Short Term" = "Короткосрочные";
+"local_key_warningMessage_ValidationAmountFail" = "Введите валидное количество.";
+"local_key_warningMessage_ValidationCategoryNotSelectedFail" = "Выберите категорию.";
+"local_key_warningMessage_RequiredField" = "Заполните все обязательные поля.";
+"local_key_warningMessage_ExistingCategory" = "Вы уже добавили периодичность для данное категории, выберите другую категорию.";
+"local_key_warningMessage_CheckBalance" = "У вас недостаточно средств для данной транзакции. Проверьте ваш баланс.";
+"local_key_warningMessage_noDataPlaceholder" = "Вы еще не добавляли транзакции в этом месяце.";
+"local_key_warningMessage_AvailableRecurringTransction" = "У вас есть регулярные транзакции для добавления";
 
 // Income Types
 "Salary" = "Оклад";
@@ -67,7 +64,7 @@
 "Pension" = "Пенсия";
 "Dividends" = "Дивиденды";
 "Interest" = "Доля капитала";
-"Child benefit" = "Детское пособие";
+"ChildBenefit" = "Детское пособие";
 
 // Expenses Types
 "Rent" = "Аренда";
@@ -85,7 +82,7 @@
 "Bowling" = "Боулинг";
 "Nightclub" = "Ночной клуб";
 "Party" = "Вечеринка";
-"Resraurant" = "Ресторан";
+"Restaurant" = "Ресторан";
 "Groceries" = "Продукты";
 "Delivery" = "Доставка";
 "Clothing" = "Одежда";
@@ -96,38 +93,113 @@
 "Music" = "Музыка";
 "Gas" = "Бензин";
 "Parking" = "Паркинг";
-"Public Tr." = "Общ.транспорт";
+"PublicTr" = "Общ.транспорт";
 "Repair" = "Ремонт";
 "Dentist" = "Стоматолог";
-"Check-Up" = "Обследование";
+"CheckUp" = "Обследование";
 "Flight" = "Полет";
 "Hotel" = "Отель";
+
+// Expenses Categories
+"Housing" = "Жилье";
+"Entertainment" = "Развлечения";
+"FoodAndDrinks" = "Еда и Напитки";
+"Bills" = "Счета";
+"Transportation" = "Транспорт";
+"Health" = "Здоровье";
+"Subscriptions" = "Подписки";
+"Insurance" = "Страхование";
+"Travel" = "Путешествие";
+"Shopping" = "Покупки";
 
 // Savings Types
 "Cash" = "Наличные";
 "Investments" = "Инвестиции";
 "Education" = "Образование";
 
-// Buttons
-"Save" = "Сохранить";
+// Savings Categories
+"LongTerm" = "Долгосрочные";
+"ShortTerm" = "Короткосрочные";
+
+
+// LabelTitles
+"local_key_labelTitle_SaveButton" = "Сохранить";
+"local_key_labelTitle_WithdrawButton" = "Обналичить";
+"local_key_labelTitle_StartDate" = "День начала";
+"local_key_labelTitle_ResetButton" = "Сбросить пароль";
+"local_key_labelTitle_passcodeFieldTitle_new" = "Введите новый пароль";
+"local_key_labelTitle_passcodeFieldTitle_reset" = "Введите пароль";
+
 
 // Settings Labels
-"REGISTER" = "РЕГИСТРИРОВАТЬСЯ";
-"RECURRING" = "ПЕРИОДИЧНОСТЬ";
-"CATEGORIES" = "КАТЕГОРИИ";
-"PASSCODE" = "ПАРОЛЬ";
-"Start Day" = "День начала";
+"local_key_labelTitle_RegisterTab" = "РЕГИСТРАЦИЯ";
+"local_key_labelTitle_RecurringTab" = "ПЕРИОДИЧНОСТЬ";
+"local_key_labelTitle_CategoriesTab" = "КАТЕГОРИИ";
+"local_key_labelTitle_PasscodeTab" = "ПАРОЛЬ";
+"local_key_labelTitle_RemainderTab" = "НАПОМИНАНИЯ";
+"local_key_labelTitle_AppearanceTab" = "ПРЕДСТАВЛЕНИЕ";
 
 // Settings Descriptions
-"Enable Passcode" = "Включить пароль";
-"Protect your data with a passcode. This way only you can enter and access your information." = "Защитите свои данные паролем. Таким образом только вы будете иметь доступ к вашей информации.";
-"Sync & Secure" = "Синхронизация и Безопасность";
-"Sync budgets and transactions between your devices." = "Синхронизируйте ваши транзакции и бюджет между вашими устройствами.";
-"Backup your data in case you lose your phone." = "Сделайте резервную копию данных на случай потери телефона.";
-"Dont worry, we will never send you any emails." = "Не волнуйтесь, мы не будем отправлять вам электронные письма.";
-"Secure your data in the cloud and use multiple devices" = "Защитите свои данные в облаке и используйте несколько устройств";
-"Manage your regular transactions" = "Настройте ваши регулярные транзакции";
-"Create, edit or remove any of your categories" = "Создавайте, редактируйте или удаляйте любую из ваших категорий";
-"Protect your data with a passcode." = "Защитите свои данные паролем.";
-"Enter a new passcode" = "Введите новый пароль";
-"Recurring " = "Регулярные ";
+"local_key_passcodeTab_field1" = "Включить пароль";
+"local_key_passcodeTab_field2" = "Разрешить TouchID/FaceID";
+"local_key_passcodeTab_field3" = "Введите новый пароль";
+"local_key_passcodeTab_description1" = "Защитите свои данные паролем. Таким образом только вы будете иметь доступ к вашей информации.";
+"local_key_passcodeTab_mainDescription" = "Защитите свои данные паролем.";
+
+"local_key_registerTab_title" = "Синхронизация и Безопасность";
+"local_key_registerTab_description1" = "Синхронизируйте ваши транзакции и бюджет между вашими устройствами.";
+"local_key_registerTab_description1_signed" = "Ваши данные синхронизированы между вашими устройствами.";
+"local_key_registerTab_description2" = "Сделайте резервную копию данных на случай потери телефона.";
+"local_key_registerTab_description2_signed" = "Резервная копия ваших данных сохранена в облаке, на случай смены или потери телефона.";
+"local_key_registerTab_description3" = "Не волнуйтесь, мы не будем отправлять вам электронные письма.";
+"local_key_registerTab_mainDescription" = "Защитите свои данные в облаке и используйте несколько устройств";
+
+"local_key_recurringTab_mainDescription" = "Настройте ваши регулярные транзакции";
+"local_key_recurringTab_field1" = "Регулярные ";
+
+"local_key_categoriesTab_mainDescription" = "Создавайте, редактируйте или удаляйте любую из ваших категорий";
+
+"local_key_appearanceTab_mainDescription" = "Настройте приложение по своему вкусу";
+"local_key_appearanceTab_field1_title" = "Символ валюты";
+"local_key_appearanceTab_field2_title" = "Валюта";
+"local_key_appearanceTab_field2" = "Показывать 2 знака после запятой";
+"local_key_appearanceTab_field3_title" = "Цветовые темы";
+
+"local_key_reminderTab_mainDescription" = "Установите и получайте уведомления в удобное время";
+"local_key_reminderTab_field1_title" = "Ежедневные напоминания";
+"local_key_reminderTab_description1" = "Мы можем уведомлять вас о ведении ваших ежедневных расходов в удобное для вас время.";
+"local_key_reminderTab_field1" = "Напомнить мне в:";
+"local_key_reminderTab_field2_title" = "Ежемесячные напоминания";
+"local_key_reminderTab_description2" = "Пропустить день оплаты счета может быть как обидноб так и затратно. Не допустим того, чтобы это повторилось.";
+"local_key_reminderTab_field2" = "Напомнить мне в:";
+"local_key_reminderTab_field1_pickerDescription" = "Час дня";
+"local_key_reminderTab_field2_pickerDescription" = "День месяца";
+"local_key_reminderTab_field2_pickerLabel" = "день";
+
+// Analytics Description
+"local_key_barChartTitle" = "Прогресс за ";
+"local_key_barChartDescription" = "Ежемесячные ";
+
+// Months short name
+"jan" = "Янв";
+"feb" = "Фев";
+"mar" = "Мар";
+"apr" = "Апр";
+"may" = "Май";
+"jun" = "Июн";
+"jul" = "Июл";
+"aug" = "Авг";
+"sep" = "Сен";
+"oct" = "Окт";
+"nov" = "Ноя";
+"dec" = "Дек";
+
+// Currencies
+"dollar" = "Доллар";
+"euro" = "Евро";
+"lira" = "Лира";
+"pound" = "Фунт";
+"ruble" = "Рубль";
+"tenge" = "Тенге";
+"yen" = "Иена";
+"currency" = "Валюта";

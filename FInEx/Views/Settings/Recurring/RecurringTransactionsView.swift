@@ -63,10 +63,10 @@ struct RecurringTransactionsView: View {
                                                             .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
                                                             .font(Font.system(size: 24, weight: .regular, design: .default))
                                                         VStack(alignment: .leading) {
-                                                            Text(type.presentingName)
+                                                            Text(LocalizedStringKey(type.presentingName))
                                                                 .shadow(radius: -10 )
                                                                 .foregroundColor(CustomColors.TextDarkGray)
-                                                            Text(transaction.periodicity!)
+                                                            Text(LocalizedStringKey(transaction.periodicity!))
                                                                 .font(Font.system(size: 15, weight: .light, design: .default))
                                                                 .foregroundColor(.gray)
                                                         }

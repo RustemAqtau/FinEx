@@ -50,7 +50,7 @@ struct AddCategorySubTypeView: View {
                         .navigationBarTitle (Text(""), displayMode: .inline)
                         VStack(alignment: .leading, spacing: 3) {
                             HStack {
-                                Text(LocalizedStringKey("SUB CATEGORY"))
+                                Text(LocalizedStringKey("SUBCATEGORY"))
                                     .font(Font.system(size: 12, weight: .light, design: .default))
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 25.0)
@@ -80,7 +80,7 @@ struct AddCategorySubTypeView: View {
                         VStack(alignment: .leading, spacing: 3) {
                             Text(LocalizedStringKey("NAME"))
                                 .font(Font.system(size: 12, weight: .light, design: .default))
-                            TextField(LocalizedStringKey(Placeholders.Required), text: self.$newtypeName, onEditingChanged: {isEditing in if isEditing {
+                            TextField(LocalizedStringKey(Placeholders.Required.localizedString()), text: self.$newtypeName, onEditingChanged: {isEditing in if isEditing {
                                 
                                 self.showIcons = false
                                 self.height = geo.size.height
@@ -205,12 +205,12 @@ struct AddCategorySubTypeView: View {
         
         guard !self.newtypeName.isEmpty else {
             self.validationFailed = true
-            self.warningMessage = WarningMessages.RequiredField
+            self.warningMessage = WarningMessages.RequiredField.localizedString()
             return false
         }
         guard self.appearanceImageName != Icons.Questionmark else {
             self.validationFailed = true
-            self.warningMessage = WarningMessages.RequiredField
+            self.warningMessage = WarningMessages.RequiredField.localizedString()
             return false
         }
         return true

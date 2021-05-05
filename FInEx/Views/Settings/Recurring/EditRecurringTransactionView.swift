@@ -42,7 +42,7 @@ struct EditRecurringTransactionView: View {
                 VStack(alignment: .center, spacing: 20) {
                     
                     VStack {
-                        Text(self.warningMessage)
+                        Text(LocalizedStringKey(self.warningMessage))
                             .font(Fonts.light12)
                             .foregroundColor(Color.gray)
                             .multilineTextAlignment(.center)
@@ -94,7 +94,7 @@ struct EditRecurringTransactionView: View {
                                 .font(Font.system(size: 22, weight: .regular, design: .default))
                                 .frame(width: 45, height: 45, alignment: .center)
                                 
-                            Text(self.selectedTypeName)
+                            Text(LocalizedStringKey(self.selectedTypeName))
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                                 .foregroundColor(self.categoryValidationFailed ? Color.red : CustomColors.TextDarkGray)
                         }
@@ -128,7 +128,7 @@ struct EditRecurringTransactionView: View {
                                 .foregroundColor(CustomColors.TextDarkGray)
                                 .font(Font.system(size: 30, weight: .regular, design: .default))
                             
-                            Picker(self.selectedPeriodicity + self.dayWeekOfMonth,
+                            Picker(NSLocalizedString(self.selectedPeriodicity, comment: "") + self.dayWeekOfMonth,
                                    selection: self.$selectedPeriodicity) {
                                 ForEach(self.periodicityList, id: \.self) { periodicity in
                                     Text(periodicity)
@@ -191,9 +191,7 @@ struct EditRecurringTransactionView: View {
                             }
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .center)
-                        
                     }
-                    
                 }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
                 .ignoresSafeArea(.all, edges: .bottom)
@@ -219,26 +217,14 @@ struct EditRecurringTransactionView: View {
                 self.note = transaction.note!
             }
             .onChange(of: self.selectedPeriodicity, perform: { value in
-                let format = DateFormatter()
-                format.locale = .current
-                var dateString: String = ""
-                switch self.selectedPeriodicity {
-                case Periodicity.Month.localizedString(), Periodicity.Quarter.localizedString():
-                    format.dateFormat = "dd"
-                    dateString = "day " + format.string(from: self.selectedDate)
-                case Periodicity.TwoWeeks.localizedString():
-                    format.dateFormat = "EEEE"
-                    dateString = format.string(from: self.selectedDate)
-                default:
-                    format.dateFormat = "MMM-dd"
-                    dateString = format.string(from: self.selectedDate)
-                }
-                
-                self.dayWeekOfMonth = ", " + dateString
+                updatePeriodicityText()
                 
             })
+            .onChange(of: self.selectedDate, perform: { value in
+                updatePeriodicityText()
+            })
             .sheet(isPresented: self.$showCategorySelector, content: {
-                CategotySelector(categoty: self.transaction.category!,
+                CategotySelector(category: self.transaction.category!,
                                  selectedType: self.$selectedType,
                                  selectedtypeImageName: self.$selectedtypeImageName,
                                  selectedTypeCircleColor: self.$selectedTypeCircleColor,
@@ -272,6 +258,26 @@ struct EditRecurringTransactionView: View {
         .ignoresSafeArea(.all, edges: .bottom)
     }
     
+    private func updatePeriodicityText() {
+        let format = DateFormatter()
+        format.locale = .current
+        
+        switch self.selectedPeriodicity {
+        case Periodicity.Month.rawValue, Periodicity.Quarter.rawValue:
+            format.dateFormat = "d"
+            let dateString = NSLocalizedString(SettingsContentDescription.reminderTab_field2_pickerLabel.localizedString(), comment: "") + " " + format.string(from: self.selectedDate)
+            self.dayWeekOfMonth = ", " + dateString
+        case Periodicity.TwoWeeks.rawValue:
+            format.dateFormat = "EEEE"
+            let dateString = format.string(from: self.selectedDate)
+            self.dayWeekOfMonth = ", " + dateString
+        default:
+            format.dateFormat = "d"
+            let dateString = NSLocalizedString(SettingsContentDescription.reminderTab_field2_pickerLabel.localizedString(), comment: "") + " " + format.string(from: self.selectedDate)
+            self.dayWeekOfMonth = ", " + dateString
+        }
+    }
+    
     func saveTransaction() {
             let locale = Locale.current
             self.amount = NSDecimalNumber(string: self.amountString, locale: locale)
@@ -292,19 +298,19 @@ struct EditRecurringTransactionView: View {
               !Double(truncating: NSDecimalNumber(string: self.amountString)).isNaN
         else {
             self.validationFailed = true
-            self.warningMessage = WarningMessages.ValidationAmountFail
+            self.warningMessage = WarningMessages.ValidationAmountFail.localizedString()
             return false
             
         }
-        guard self.selectedTypeName != Placeholders.NewCategorySelector else {
+        guard self.selectedTypeName != Placeholders.NewCategorySelector.localizedString() else {
             self.validationFailed = true
-            self.warningMessage = WarningMessages.ValidationCategoryNotSelectedFail
+            self.warningMessage = WarningMessages.ValidationCategoryNotSelectedFail.localizedString()
             return false
         }
         userSettingsVM.getRecurringTransactions(context: viewContext)
         guard !(self.transaction.type != self.selectedType) && userSettingsVM.recurringTransactions.contains(where: { transaction in transaction.type == self.selectedType }) else {
             self.validationFailed = true
-            self.warningMessage = WarningMessages.ExistingCategory
+            self.warningMessage = WarningMessages.ExistingCategory.localizedString()
             return false
         }
         return true

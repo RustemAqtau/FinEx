@@ -19,7 +19,7 @@ struct EditTransactionView: View {
     @State private var amountIsEditing: Bool = false
     @State var selectedtypeImageName: String = "questionmark"
     @State var selectedTypeCircleColor: String = "TopGradient"
-    @State var selectedTypeName: String = "Category"
+    @State var selectedTypeName: String = NSLocalizedString("Category", comment: "")
     @State var selectedType: TransactionType = TransactionType()
     @State var showCategorySelector: Bool = false
     @State var selectedDate: Date = Date()
@@ -37,7 +37,7 @@ struct EditTransactionView: View {
         NavigationView {
             GeometryReader { geo in
                 VStack(alignment: .center, spacing: 30) {
-                    Text(warningMessage)
+                    Text(LocalizedStringKey(warningMessage))
                         .font(Fonts.light12)
                         .foregroundColor(.gray)
                         .opacity(self.validationFailed ? 1 : 0)
@@ -75,14 +75,14 @@ struct EditTransactionView: View {
                                     .stroke(lineWidth: 5)
                                     .stroke(self.accentColor)
                                     .frame(width: 43, height: 43, alignment: .center)
-                                    .opacity(self.selectedTypeName == Placeholders.NewCategorySelector ? 1 : 0)
+                                    .opacity(self.selectedTypeName == Placeholders.NewCategorySelector.localizedString() ? 1 : 0)
                                 Image(systemName: self.selectedtypeImageName)
                                     .foregroundColor(.white)
                                     .modifier(CircleModifierSimpleColor(color: Color(self.selectedTypeCircleColor), strokeLineWidth: 3.0))
                                     .font(Font.system(size: 22, weight: .regular, design: .default))
                                     .frame(width: 43, height: 43, alignment: .center)
                             }
-                            Text(self.selectedTypeName)
+                            Text(LocalizedStringKey(self.selectedTypeName))
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                                 .foregroundColor(CustomColors.TextDarkGray)
                         }
@@ -114,10 +114,9 @@ struct EditTransactionView: View {
                             Image(systemName: "pencil")
                                 .foregroundColor(self.accentColor)
                                 .font(Font.system(size: 30, weight: .regular, design: .default))
-                            TextField(LocalizedStringKey("Note"), text: self.$note,
+                            TextField(LocalizedStringKey(Placeholders.Note.localizedString()), text: self.$note,
                                       onEditingChanged: {isEditing in if isEditing {
                                         if !self.note.isEmpty {
-                                            //self.note = ""
                                         }
                                         self.noteLenghtLimitOut = false
                                         
@@ -138,7 +137,6 @@ struct EditTransactionView: View {
                         HStack(spacing: 20) {
                             Button(action: {
                                 self.budgetVM.deleteTransaction(transaction: transaction, context: viewContext)
-                                
                                 presentationMode.wrappedValue.dismiss()
                             }) {
                                 Image(systemName: Icons.Trash)
@@ -206,7 +204,7 @@ struct EditTransactionView: View {
             self.amountIsEditing = false
         }
         .sheet(isPresented: self.$showCategorySelector, content: {
-            CategotySelector(categoty: self.transaction.category!,
+            CategotySelector(category: self.transaction.category!,
                              selectedType: self.$selectedType,
                              selectedtypeImageName: self.$selectedtypeImageName,
                              selectedTypeCircleColor: self.$selectedTypeCircleColor,
@@ -240,14 +238,14 @@ struct EditTransactionView: View {
               !Double(truncating: NSDecimalNumber(string: self.amountString)).isNaN
         else {
             self.validationFailed = true
-            self.warningMessage = WarningMessages.ValidationAmountFail
+            self.warningMessage = WarningMessages.ValidationAmountFail.localizedString()
             return false
             
         }
         
-        guard self.selectedTypeName != Placeholders.NewCategorySelector else {
+        guard self.selectedTypeName != Placeholders.NewCategorySelector.localizedString() else {
             self.validationFailed = true
-            self.warningMessage = WarningMessages.ValidationCategoryNotSelectedFail
+            self.warningMessage = WarningMessages.ValidationCategoryNotSelectedFail.localizedString()
             return false
         }
         return true

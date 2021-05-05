@@ -45,7 +45,7 @@ struct SavingsView: View {
                             VStack(alignment: .leading, spacing: 10) {
                                 HStack {
                                     Group {
-                                        Text(subCategory)
+                                        Text(LocalizedStringKey(subCategory))
                                     }
                                     Spacer()
                                 }
@@ -67,7 +67,7 @@ struct SavingsView: View {
                                                 .animation(.linear(duration: 0.5))
                                             
                                             VStack(alignment: .leading) {
-                                                Text(type.presentingName)
+                                                Text(LocalizedStringKey(type.presentingName))
                                                     .shadow(radius: -10 )
                                                 
                                             }

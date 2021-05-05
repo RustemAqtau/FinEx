@@ -25,7 +25,7 @@ struct PasscodeView: View {
                             .shadow(radius: 5)
                             .frame(width: geo.size.width, height: geo.size.height / 3.5, alignment: .leading)
                         VStack {
-                            Text(LocalizedStringKey("Protect your data with a passcode. This way only you can enter and access your information."))
+                            Text(LocalizedStringKey(SettingsContentDescription.passcodeTab_description1.localizedString()))
                                 .multilineTextAlignment(.leading)
                                 .font(Fonts.light15)
                                 .lineLimit(2)
@@ -34,7 +34,7 @@ struct PasscodeView: View {
                                 .frame(width: geo.size.width * 0.90)
                             HStack(alignment: .center) {
                                 Toggle(isOn: self.$enablePasscode, label: {
-                                    Text(LocalizedStringKey("Enable Passcode"))
+                                    Text(LocalizedStringKey(SettingsContentDescription.passcodeTab_field1.localizedString()))
                                         .foregroundColor(CustomColors.TextDarkGray)
                                         .font(Fonts.light15)
                                 })
@@ -42,7 +42,7 @@ struct PasscodeView: View {
                             .frame(width: geo.size.width * 0.90, alignment: .leading)
                             HStack(alignment: .center) {
                                 Toggle(isOn: self.$enableBiometrix, label: {
-                                    Text(LocalizedStringKey("Enable TouchID/FaceID"))
+                                    Text(LocalizedStringKey(SettingsContentDescription.passcodeTab_field2.localizedString()))
                                         .foregroundColor(CustomColors.TextDarkGray)
                                         .font(Fonts.light15)
                                 })
@@ -72,12 +72,12 @@ struct PasscodeView: View {
                         self.hideTabBar = true
                         userSettingsVM.settings.editIsSetBiometrix(value: self.enableBiometrix, context: viewContext)
                     })
-//                    .fullScreenCover(isPresented: self.$showSheet, content: {
-//                        PasscodeField(isNewPasscode: true, askBiometrix: false)
-//                    })
-                    .sheet(isPresented: self.$showSheet, content: {
+                    .fullScreenCover(isPresented: self.$showSheet, content: {
                         PasscodeField(isNewPasscode: true, askBiometrix: false)
                     })
+//                    .sheet(isPresented: self.$showSheet, content: {
+//                        PasscodeField(isNewPasscode: true, askBiometrix: false)
+//                    })
                 }
                 
             }

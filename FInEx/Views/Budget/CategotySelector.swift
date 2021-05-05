@@ -16,7 +16,7 @@ struct CategotySelector: View {
     
    
     
-    var categoty: String
+    var category: String
     @Binding var selectedType: TransactionType
     @Binding var selectedtypeImageName: String
     @Binding var selectedTypeCircleColor: String
@@ -25,7 +25,7 @@ struct CategotySelector: View {
     var body: some View {
         
         VStack(spacing: 25) {
-            Text(categoty.capitalized)
+            Text(LocalizedStringKey(category.capitalized))
                 .font(Font.system(size: 26, weight: .light, design: .default))
             GeometryReader { geo in
                 ScrollView {
@@ -39,7 +39,7 @@ struct CategotySelector: View {
                             .frame(width: geo.size.width * 0.80, alignment: .leading)
                             Divider()
                             
-                            Grid(userSettingsVM.transactionTypesByCategoty[categoty]![subCategory]!, viewForItem: { transactionType in
+                            Grid(userSettingsVM.transactionTypesByCategoty[category]![subCategory]!, viewForItem: { transactionType in
                                 VStack {
                                     Image(systemName: transactionType.presentingImageName)
                                         .modifier(CircleModifierSimpleColor(color: Color(transactionType.presentingColorName), strokeLineWidth: 3.0))
@@ -81,9 +81,9 @@ struct CategotySelector: View {
         .ignoresSafeArea(.all, edges: [.bottom, .top])
         .foregroundColor(.white)
         .onAppear {
-            self.subCategories = userSettingsVM.subCategories[self.categoty]!.sorted()
+            self.subCategories = userSettingsVM.subCategories[self.category]!.sorted()
             userSettingsVM.getTransactiontypes(context: viewContext)
-            self.types = userSettingsVM.transactionTypesByCategoty[categoty]!
+            self.types = userSettingsVM.transactionTypesByCategoty[category]!
             
         }
     }
@@ -104,7 +104,7 @@ struct CategotySelector: View {
 struct CategotySelector_Previews: PreviewProvider {
     
     static var previews: some View {
-        CategotySelector(categoty: Categories.Expense,
+        CategotySelector(category: Categories.Expense,
                          selectedType: .constant(TransactionType()),
                          selectedtypeImageName: .constant(""),
                          selectedTypeCircleColor: .constant(""),

@@ -23,7 +23,7 @@ public struct PasscodeField: View {
     @State var textColor = Color.black
    
     public var body: some View {
-        let label = self.isNewPasscode ?  "Enter New Passcode" : "Enter Passcode"
+        let label = self.isNewPasscode ?  LableTitles.passcodeFieldTitle_new.localizedString() : LableTitles.passcodeFieldTitle_reset.localizedString()
         VStack(spacing: 20) {
             Text(label).font(.title)
                 .foregroundColor(CustomColors.TextDarkGray)
@@ -39,7 +39,7 @@ public struct PasscodeField: View {
                     RoundedRectangle(cornerRadius: 45)
                         .fill(Color.black)
                         .shadow(radius: 3)
-                    Text(LocalizedStringKey("Reset Passcode"))
+                    Text(LocalizedStringKey(LableTitles.resetButton.localizedString()))
                         .foregroundColor(Color.white)
                         .font(Font.system(size: 26, weight: .regular, design: .default))
                 }
@@ -120,13 +120,13 @@ public struct PasscodeField: View {
         if pin.count == maxDigits {
             isDisabled = true
             if self.isNewPasscode {
-                let keychain = Keychain(service: "zh.ayazbayeva.FInEx")
+                let keychain = Keychain(service: KeychainAccessKeys.ServiceName)
                     .synchronizable(true)
                     .accessibility(.afterFirstUnlock)
                 keychain[KeychainAccessKeys.Passcode] = pin
                 presentationMode.wrappedValue.dismiss()
             } else {
-                let keychain = Keychain(service: "zh.ayazbayeva.FInEx")
+                let keychain = Keychain(service: KeychainAccessKeys.ServiceName)
                 let savedPasscode = keychain[KeychainAccessKeys.Passcode]
                 if pin == savedPasscode {
                     presentationMode.wrappedValue.dismiss()

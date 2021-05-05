@@ -129,16 +129,9 @@ struct AnalyticsView: View {
                                 PieChart(entries: self.entriesForExpenses, pieSliceDescription: self.$pieSliceDescription)
                                     .frame(width: geo.size.width * 0.90, height: geo.size.height / 3.5)
                             }
-                            Text(self.selectedBarDescription.uppercased())
-                                .animation(.spring(response: 1, dampingFraction: 1, blendDuration: 1))
-                                .font(Fonts.light12)
-                                .foregroundColor(CustomColors.IncomeGradient1)
-                                .frame(width: geo.size.width * 0.90, alignment: .leading)
-                                .onAppear {
-                                    self.selectedBarDescription = ""
-                                }
+                            
                             Divider()
-                            Text( "\(self.selectedCategory) progress for " + "\(Int(self.currentMonthBudget.year))")
+                            Text(NSLocalizedString(AnalyticsContentDescription.barChartTitle.localizedString(), comment: "") + "\(Int(self.currentMonthBudget.year))")
                                 .foregroundColor(CustomColors.TextDarkGray)
                             switch self.selectedCategory {
                             case Categories.Income:
@@ -225,16 +218,16 @@ struct AnalyticsView: View {
         self.entriesForIncome = incomeTotalAmountByCategory.map({ income in
             PieChartDataEntry(
                 value: Double(truncating: NSDecimalNumber(decimal: income.value)),
-                label: income.key)
+                label: NSLocalizedString(income.key, comment: ""))
         }).sorted(by: {$0.value > $1.value })
         
-        let savingsByType = currentMonthBudget.savingsTotalAmountByType
-        self.entriesForSaving = savingsByType.map({ saving in
-            PieChartDataEntry(
-                value: Double(truncating: NSDecimalNumber(decimal: saving.value)),
-                label: saving.key.presentingName,
-                icon: UIImage(systemName: saving.key.presentingImageName))
-        })
+//        let savingsByType = currentMonthBudget.savingsTotalAmountByType
+//        self.entriesForSaving = savingsByType.map({ saving in
+//            PieChartDataEntry(
+//                value: Double(truncating: NSDecimalNumber(decimal: saving.value)),
+//                label: NSLocalizedString(saving.key.presentingName, comment: "") ,
+//                icon: UIImage(systemName: saving.key.presentingImageName))
+//        })
     }
     
     private func getEntriesPieChartExpenses() {
@@ -255,7 +248,7 @@ struct AnalyticsView: View {
         self.entriesForExpenses = expensesTotalAmountBySubCategory.map({ expense in
             PieChartDataEntry(
                 value: Double(truncating: NSDecimalNumber(decimal: expense.value)),
-                label: expense.key,
+                label: NSLocalizedString(expense.key, comment: ""),
                 icon: UIImage(systemName: Icons.Bicycle))
             
         }).sorted(by: {$0.value > $1.value })
@@ -266,7 +259,7 @@ struct AnalyticsView: View {
         self.entriesForSaving = savingsByType.map({ saving in
             PieChartDataEntry(
                 value: Double(truncating: NSDecimalNumber(decimal: saving.value)),
-                label: saving.key.presentingName,
+                label: NSLocalizedString(saving.key.presentingName, comment: ""),
                 icon: UIImage(systemName: saving.key.presentingImageName))
         }).sorted(by: {$0.value > $1.value })
     }

@@ -26,7 +26,7 @@ struct RegisterWithAppleID: View {
                                 .font(Font.system(size: 180, weight: .regular, design: .default))
                                 .foregroundColor(CustomColors.CloudBlue)
                                 
-                            Text(LocalizedStringKey("Sync & Secure"))
+                            Text(LocalizedStringKey(SettingsContentDescription.registerTab_title.localizedString()))
                                 .font(Font.system(size: 25, weight: .bold, design: .default))
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(CustomColors.TextDarkGray)
@@ -39,7 +39,7 @@ struct RegisterWithAppleID: View {
                                 .foregroundColor(self.isSigned ? CustomColors.CloudBlue : .red)
                                 .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
-                            Text(self.isSigned ? LocalizedStringKey("Your budget and transactions are synchronized between your devices.") : LocalizedStringKey("Sync budget and transactions between your devices."))
+                            Text(self.isSigned ? LocalizedStringKey(SettingsContentDescription.registerTab_description1_signed.localizedString()) : LocalizedStringKey(SettingsContentDescription.registerTab_description1.localizedString()))
                                 .lineLimit(3)
                                 .multilineTextAlignment(.leading)
                                 .foregroundColor(CustomColors.TextDarkGray)
@@ -49,7 +49,7 @@ struct RegisterWithAppleID: View {
                                 .foregroundColor(self.isSigned ? CustomColors.CloudBlue : .red)
                                 .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
-                            Text(self.isSigned ? LocalizedStringKey("Your data safely backed up on the cloud incase you lose/change your phone.") : LocalizedStringKey("Backup your data in case you lose/change your phone."))
+                            Text(self.isSigned ? LocalizedStringKey(SettingsContentDescription.registerTab_description2_signed.localizedString()) : LocalizedStringKey(SettingsContentDescription.reminderTab_description2.localizedString()))
                                 .lineLimit(3)
                                 .multilineTextAlignment(.leading)
                                 .foregroundColor(CustomColors.TextDarkGray)
@@ -59,7 +59,7 @@ struct RegisterWithAppleID: View {
                                 .foregroundColor(self.isSigned ? CustomColors.CloudBlue : .red)
                                 .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
-                            Text(LocalizedStringKey("Dont worry, we will never send you any emails."))
+                            Text(LocalizedStringKey(SettingsContentDescription.registerTab_description3.localizedString()))
                                 .lineLimit(3)
                                 .multilineTextAlignment(.leading)
                                 .foregroundColor(CustomColors.TextDarkGray)
@@ -77,7 +77,7 @@ struct RegisterWithAppleID: View {
                         case .success(let authResults):
                             switch authResults.credential {
                             case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                                let keychain = Keychain(service: "zh.ayazbayeva.FInEx")
+                                let keychain = Keychain(service: KeychainAccessKeys.ServiceName)
                                     .synchronizable(true)
                                     .accessibility(.afterFirstUnlock)
                                 keychain[KeychainAccessKeys.AppleIDCredential] = appleIDCredential.user

@@ -39,22 +39,22 @@ struct SettingsView: View {
                                     .shadow(radius: 6)
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .stroke(Color.white)
-                                VStack(spacing: 20) {
+                                VStack(spacing: 15) {
                                     Image(systemName: "arrow.clockwise.icloud.fill")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
                                         .foregroundColor(CustomColors.ExpensesColor)
                                         .frame(height: 50)
                                         
                                     VStack(alignment: .center, spacing: 8) {
-                                        Text(LocalizedStringKey("REGISTER"))
+                                        Text(LocalizedStringKey(LableTitles.registerTab.localizedString()))
                                             .font(Font.system(size: 13, weight: .regular, design: .rounded))
-                                        Text(LocalizedStringKey("Secure your data in the cloud and use multiple devices"))
+                                        Text(LocalizedStringKey(SettingsContentDescription.registerTab_mainDescription.localizedString()))
                                             .font(Font.system(size: 13, weight: .light, design: .rounded))
                                     }
                                     .multilineTextAlignment(.center)
                                     .foregroundColor(CustomColors.TextDarkGray)
-                                    .lineLimit(3)
-                                    .frame(maxWidth: .infinity, alignment: .top)
+                                    .lineLimit(4)
+                                    .frame(maxWidth: .greatestFiniteMagnitude, alignment: .top)
                                     .padding(.horizontal)
                                     .frame(height: 90, alignment: .top)
                                     
@@ -72,22 +72,22 @@ struct SettingsView: View {
                                          .shadow(radius: 6)
                                      RoundedRectangle(cornerRadius: 25.0)
                                          .stroke(Color.white)
-                                     VStack(spacing: 20) {
+                                     VStack(spacing: 15) {
                                          Image(systemName: "lock.shield")
                                              .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor)
                                             .frame(height: 50)
                                             
                                          VStack(alignment: .center, spacing: 8) {
-                                             Text(LocalizedStringKey("PASSCODE"))
+                                             Text(LocalizedStringKey(LableTitles.passcodeTab.localizedString()))
                                                 .font(Font.system(size: 13, weight: .regular, design: .rounded))
-                                             Text(LocalizedStringKey("Protect your data with a passcode."))
+                                            Text(LocalizedStringKey(SettingsContentDescription.passcodeTab_mainDescription.localizedString()))
                                                 .font(Font.system(size: 13, weight: .light, design: .rounded))
                                          }
                                          .multilineTextAlignment(.center)
                                          .foregroundColor(CustomColors.TextDarkGray)
-                                         .lineLimit(3)
-                                         .frame(maxWidth: .infinity, alignment: .top)
+                                         .lineLimit(4)
+                                         .frame(maxWidth: .greatestFiniteMagnitude, alignment: .top)
                                          .padding(.horizontal)
                                          .frame(height: 90, alignment: .top)
                                          
@@ -111,23 +111,23 @@ struct SettingsView: View {
                                         .shadow(radius: 6)
                                     RoundedRectangle(cornerRadius: 25.0)
                                         .stroke(Color.white)
-                                    VStack(spacing: 20) {
+                                    VStack(spacing: 15) {
                                         Image(systemName: "tag.circle")
                                             .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor)
                                             .frame(height: 50)
                                         VStack(alignment: .center, spacing: 8) {
-                                            Text(LocalizedStringKey("CATEGORIES"))
+                                            Text(LocalizedStringKey(LableTitles.categoriesTab.localizedString()))
                                                 .font(Font.system(size: 13, weight: .regular, design: .rounded))
-                                            Text(LocalizedStringKey("Create, edit or remove any of your categories"))
+                                            Text(LocalizedStringKey(SettingsContentDescription.categoriesTab_mainDescription.localizedString()))
                                                 .font(Font.system(size: 13, weight: .light, design: .rounded))
                                                 
                                         }
                                         .multilineTextAlignment(.center)
                                         .font(Font.system(size: 13, weight: .light, design: .rounded))
                                         .foregroundColor(CustomColors.TextDarkGray)
-                                        .lineLimit(3)
-                                        .frame(maxWidth: .infinity, alignment: .center)
+                                        .lineLimit(4)
+                                        .frame(maxWidth: .greatestFiniteMagnitude, alignment: .center)
                                         .padding(.horizontal)
                                         .frame(height: 90, alignment: .top)
                                         
@@ -147,23 +147,23 @@ struct SettingsView: View {
                                     .shadow(radius: 6)
                                 RoundedRectangle(cornerRadius: 25.0)
                                     .stroke(Color.white)
-                                VStack(spacing: 20) {
+                                VStack(spacing: 15) {
                                     Image(systemName: "arrow.triangle.2.circlepath")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
                                         .foregroundColor(CustomColors.ExpensesColor)
                                         .frame(height: 50)
                                     VStack(alignment: .center, spacing: 8) {
-                                        Text(LocalizedStringKey("RECURRING"))
+                                        Text(LocalizedStringKey(LableTitles.recurringTab.localizedString()))
                                             .font(Font.system(size: 13, weight: .regular, design: .rounded))
-                                        Text(LocalizedStringKey("Manage your regular transactions"))
+                                        Text(LocalizedStringKey(SettingsContentDescription.recurringTab_mainDescription.localizedString()))
                                             .font(Font.system(size: 13, weight: .light, design: .rounded))
                                             
                                     }
                                     .multilineTextAlignment(.center)
                                     .font(Font.system(size: 13, weight: .light, design: .rounded))
                                     .foregroundColor(CustomColors.TextDarkGray)
-                                    .lineLimit(3)
-                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .lineLimit(4)
+                                    .frame(maxWidth: .greatestFiniteMagnitude, alignment: .center)
                                     .padding(.horizontal)
                                     .frame(height: 90, alignment: .top)
                                     
@@ -187,23 +187,23 @@ struct SettingsView: View {
                                         .shadow(radius: 6)
                                     RoundedRectangle(cornerRadius: 25.0)
                                         .stroke(Color.white)
-                                    VStack(spacing: 20) {
+                                    VStack(spacing: 15) {
                                         Image(systemName: "lock.shield")
                                             .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor)
                                             .frame(height: 50)
                                         VStack(alignment: .center, spacing: 8) {
-                                            Text(LocalizedStringKey("APPEARANCE"))
+                                            Text(LocalizedStringKey(LableTitles.appearanceTab.localizedString()))
                                                 .font(Font.system(size: 13, weight: .regular, design: .rounded))
-                                            Text(LocalizedStringKey("Customize the app to suit you"))
+                                            Text(LocalizedStringKey(SettingsContentDescription.appearanceTab_mainDescription.localizedString()))
                                                 .font(Font.system(size: 13, weight: .light, design: .rounded))
                                                 
                                         }
                                         .multilineTextAlignment(.center)
                                         .font(Font.system(size: 13, weight: .light, design: .rounded))
                                         .foregroundColor(CustomColors.TextDarkGray)
-                                        .lineLimit(3)
-                                        .frame(maxWidth: .infinity, alignment: .center)
+                                        .lineLimit(4)
+                                        .frame(maxWidth: .greatestFiniteMagnitude, alignment: .center)
                                         .padding(.horizontal)
                                         .frame(height: 90, alignment: .top)
                                         
@@ -223,23 +223,23 @@ struct SettingsView: View {
                                         .shadow(radius: 6)
                                     RoundedRectangle(cornerRadius: 25.0)
                                         .stroke(Color.white)
-                                    VStack(spacing: 20) {
+                                    VStack(spacing: 15) {
                                         Image(systemName: "lock.shield")
                                             .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor)
                                             .frame(height: 50)
                                         VStack(alignment: .center, spacing: 8) {
-                                            Text(LocalizedStringKey("REMAINDER"))
+                                            Text(LocalizedStringKey(LableTitles.remainderTab.localizedString()))
                                                 .font(Font.system(size: 13, weight: .regular, design: .rounded))
-                                            Text(LocalizedStringKey("Set up reminders and get notified when it suits you"))
+                                            Text(LocalizedStringKey(SettingsContentDescription.reminderTab_mainDescription.localizedString()))
                                                 .font(Font.system(size: 13, weight: .light, design: .rounded))
                                                 
                                         }
                                         .multilineTextAlignment(.center)
                                         .font(Font.system(size: 13, weight: .light, design: .rounded))
                                         .foregroundColor(CustomColors.TextDarkGray)
-                                        .lineLimit(3)
-                                        .frame(maxWidth: .infinity, alignment: .center)
+                                        .lineLimit(4)
+                                        .frame(maxWidth: .greatestFiniteMagnitude, alignment: .center)
                                         .padding(.horizontal)
                                         .frame(height: 90, alignment: .top)
                                    }

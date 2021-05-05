@@ -16,7 +16,7 @@ struct SaveButtonView: View {
             RoundedRectangle(cornerRadius: 45)
                 .fill(withdraw ? GradientColors.WithdrawButton : GradientColors.SaveButton)
                 .shadow(radius: 3)
-            Text(withdraw ? LocalizedStringKey("Withraw") : LocalizedStringKey("Save"))
+            Text(withdraw ? LocalizedStringKey(LableTitles.withdrawButton.localizedString()) : LocalizedStringKey(LableTitles.saveButton.localizedString()))
                 .foregroundColor(CustomColors.TextDarkGray)
                 .font(Font.system(size: 26, weight: .regular, design: .default))
         }

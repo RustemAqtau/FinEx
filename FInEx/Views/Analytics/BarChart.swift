@@ -15,7 +15,7 @@ struct BarChart: UIViewRepresentable {
     @Binding var selectedBarDescription: String
     var currencySymbol: String?
     let barChart = BarChartView()
-    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    let months = [NSLocalizedString(MonthsShortName.jan.rawValue, comment: ""), NSLocalizedString(MonthsShortName.feb.rawValue, comment: ""), NSLocalizedString(MonthsShortName.mar.rawValue, comment: ""), NSLocalizedString(MonthsShortName.apr.rawValue, comment: ""), NSLocalizedString(MonthsShortName.may.rawValue, comment: ""), NSLocalizedString(MonthsShortName.jun.rawValue, comment: ""), NSLocalizedString(MonthsShortName.jul.rawValue, comment: ""), NSLocalizedString(MonthsShortName.aug.rawValue, comment: ""), NSLocalizedString(MonthsShortName.sep.rawValue, comment: ""), NSLocalizedString(MonthsShortName.oct.rawValue, comment: ""), NSLocalizedString(MonthsShortName.nov.rawValue, comment: ""), NSLocalizedString(MonthsShortName.dec.rawValue, comment: "")]
     func makeUIView(context: Context) -> BarChartView {
         barChart.delegate = context.coordinator
         barChart.chartAnimator.animate(xAxisDuration: 0, yAxisDuration: 1, easingOptionX: .easeInOutCirc, easingOptionY: .easeInOutCirc)
@@ -24,7 +24,7 @@ struct BarChart: UIViewRepresentable {
     
     func updateUIView(_ uiView: BarChartView, context: Context) {
         let dataSet = BarChartDataSet(entries: entries)
-        dataSet.label = "Monthly \(self.selectedCategory)"
+        dataSet.label = NSLocalizedString(AnalyticsContentDescription.barChartDescription.localizedString(), comment: "")  + NSLocalizedString(self.selectedCategory, comment: "").lowercased()
         uiView.noDataText = "No Data"
         uiView.data = BarChartData(dataSet: dataSet)
         uiView.rightAxis.enabled = false

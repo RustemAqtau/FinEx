@@ -64,7 +64,7 @@ struct BudgetView: View {
                     
                     VStack(spacing: 0) {
                         HStack {
-                            Text("BALANCE")
+                            Text(LocalizedStringKey("BALANCE"))
                             Text(formatter.string(from: NSDecimalNumber(decimal: currentMonthBudget.currentBalance))!)
                         }
                        .frame(width: geo.size.width * 0.90, height: 20, alignment: .center)
@@ -79,7 +79,8 @@ struct BudgetView: View {
                                     .multilineTextAlignment(.center)
                                     .font(Font.system(size: self.incomeSelected ? 20 : 16, weight: .light, design: .default))
                                 Text(LocalizedStringKey("INCOME"))
-                                    .font(.footnote)
+                                    //.font(.footnote)
+                                    .font(Fonts.light12)
                                     .opacity(0.8)
                             }
                             .modifier(RoundedRectangleModifier(color: GradientColors.Income, strokeLineWidth: self.incomeSelected ? 4.5 : 3.0))
@@ -101,7 +102,8 @@ struct BudgetView: View {
                                     .font(Font.system(size: (self.savingsSelected || self.incomeSelected) ? 16 : 20, weight: .light, design: .default))
                                     .multilineTextAlignment(.center)
                                 Text(LocalizedStringKey("EXPENSES"))
-                                    .font(.footnote)
+                                   // .font(.footnote)
+                                    .font(Fonts.light12)
                                     .opacity(0.8)
                             }
                             .modifier(RoundedRectangleModifier(color: GradientColors.Expense, strokeLineWidth: (self.savingsSelected || self.incomeSelected) ? 3.0 : 4.5))
@@ -125,7 +127,8 @@ struct BudgetView: View {
                                     .font(Font.system(size: self.savingsSelected ? 20 : 16, weight: .light, design: .default))
                                     .multilineTextAlignment(.center)
                                 Text(LocalizedStringKey("SAVINGS"))
-                                    .font(.footnote)
+                                    //.font(.footnote)
+                                    .font(Fonts.light12)
                                     .opacity(0.8)
                             }
                             .modifier(RoundedRectangleModifier(color: GradientColors.Saving, strokeLineWidth: self.savingsSelected ? 4.5 : 3.0))
@@ -157,12 +160,10 @@ struct BudgetView: View {
                     //.background(themeColor)
                     .sheet(isPresented: self.$showAddTransaction, content: {
                         let addingCategory = getAddingCategory()
-                        AddTransactionView(currentMonthBudget: self.$currentMonthBudget, category: addingCategory)
+                        AddTransactionView(currentMonthBudget: self.$currentMonthBudget, category:addingCategory)
                             .environmentObject(self.budgetVM)
                             .environment(\.userSettingsVM, self.userSettingsVM)
                     })
-                   // .border(Color.black)
-                    //.background(GradientColors.TopBackground)
                     .foregroundColor(.white)
                     
                     HStack(spacing: 20) {

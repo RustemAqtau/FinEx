@@ -31,10 +31,10 @@ struct RemaindersView: View {
                                 .fill(Color.white)
                                 .shadow(radius: 5)
                             VStack(alignment: .leading, spacing: 10) {
-                                Text("Daily remainders".uppercased())
+                                Text(NSLocalizedString(SettingsContentDescription.reminderTab_field1_title.localizedString(), comment: "").uppercased())
                                     .font(Fonts.light12)
                                     .multilineTextAlignment(.leading)
-                                Text("We can remind you to add todays expenses at a time that suits you, so you will not forget about it.")
+                                Text(NSLocalizedString(SettingsContentDescription.reminderTab_description1.localizedString(), comment: ""))
                                     .font(Fonts.light15)
                                     .multilineTextAlignment(.leading)
                                     .lineLimit(3)
@@ -42,7 +42,7 @@ struct RemaindersView: View {
                                 HStack {
                                     Toggle(isOn: self.$enableDailyRemainder, label: {
                                         HStack {
-                                            Text("Remaind me at: ")
+                                            Text(NSLocalizedString(SettingsContentDescription.reminderTab_field1.localizedString(), comment: ""))
                                             
                                             ZStack {
                                                 RoundedRectangle(cornerRadius: 25)
@@ -66,17 +66,17 @@ struct RemaindersView: View {
                             .foregroundColor(CustomColors.TextDarkGray)
                             .background(Color.white)
                         }
-                        .frame(height: geo.size.height / 4.5)
+                        .frame(height: geo.size.height / 4)
                         
                         ZStack {
                             Rectangle()
                                 .fill(Color.white)
                                 .shadow(radius: 5)
                             VStack(alignment: .leading, spacing: 10) {
-                                Text("Monthly remainders".uppercased())
+                                Text(NSLocalizedString(SettingsContentDescription.reminderTab_field2_title.localizedString(), comment: "").uppercased())
                                     .font(Fonts.light12)
                                     .multilineTextAlignment(.leading)
-                                Text("Missing the due date of your bills can be both frustrating and costly, let's never let it happen again.")
+                                Text(NSLocalizedString(SettingsContentDescription.reminderTab_description2.localizedString(), comment: ""))
                                     .font(Fonts.light15)
                                     .multilineTextAlignment(.leading)
                                     .lineLimit(3)
@@ -84,12 +84,12 @@ struct RemaindersView: View {
                                 HStack {
                                     Toggle(isOn: self.$enableMonthlyRemainder, label: {
                                         HStack {
-                                            Text("Remaind me at: ")
+                                            Text(NSLocalizedString(SettingsContentDescription.reminderTab_field2.localizedString(), comment: ""))
                                             
                                             ZStack {
                                                 RoundedRectangle(cornerRadius: 25)
                                                     .stroke(Color.gray)
-                                                Text("day " + "\(monthlyRemainderDay.rawValue)")
+                                                Text(NSLocalizedString(SettingsContentDescription.reminderTab_field2_pickerLabel.localizedString(), comment: "") + " " + "\(monthlyRemainderDay.rawValue)")
                                             }
                                             .frame(width: 90, height: 25, alignment: .center)
                                             .onTapGesture {
@@ -100,22 +100,20 @@ struct RemaindersView: View {
                                         .font(Fonts.light15)
                                         
                                     })
-                                    
                                 }
-                                
                             }
                             .frame(width: geo.size.width * 0.90, alignment: .leading)
                             .foregroundColor(CustomColors.TextDarkGray)
                             .background(Color.white)
                         }
-                        .frame(height: geo.size.height / 4.5)
+                        .frame(height: geo.size.height / 4)
                     }
                     .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
                 }
                 .overlay(
                     VStack {
                         HStack {
-                            Text(self.isDailyRemainder ? "Hour of the day".uppercased() : "Day of the month".uppercased())
+                            Text(self.isDailyRemainder ? NSLocalizedString(SettingsContentDescription.reminderTab_field1_pickerDescription.localizedString(), comment: "").uppercased() : NSLocalizedString(SettingsContentDescription.reminderTab_field2_pickerDescription.localizedString(), comment: "").uppercased())
                                 .font(Fonts.light12)
                                 .frame(width: geo.size.width * 0.50, alignment: .leading)
                             
@@ -154,10 +152,7 @@ struct RemaindersView: View {
                             .pickerStyle(WheelPickerStyle())
                             .textCase(.uppercase)
                             .accentColor(CustomColors.TextDarkGray)
-                            
                         }
-                        
-                        
                     }
                     .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
                     .position(x: geo.size.width / 2, y: geo.size.height * 0.80)
@@ -276,8 +271,8 @@ struct RemaindersView: View {
     
     private func scheduleMonthlyRemainder() {
         let content = UNMutableNotificationContent()
-        content.title = LocalNotificationTexts.monthlyTitle.localizedString()
-        content.body = LocalNotificationTexts.monthlyBody.localizedString()
+        content.title = NSLocalizedString(LocalNotificationTexts.monthlyTitle.localizedString(), comment: "")
+        content.body = NSLocalizedString(LocalNotificationTexts.monthlyBody.localizedString(), comment: "")
         
         var dateComponents = DateComponents()
         dateComponents.calendar = Calendar.current

@@ -112,6 +112,7 @@
 		58400417263DC641001B7C20 /* FInExDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FInExDebug.entitlements; sourceTree = "<group>"; };
 		58400418263DC646001B7C20 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		5840041A2640BE4C001B7C20 /* NoDataPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataPlaceholderView.swift; sourceTree = "<group>"; };
+		5840041C26431D22001B7C20 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		58487F7C261E7B6A00088341 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		58487F84261E7EDA00088341 /* BudgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetView.swift; sourceTree = "<group>"; };
 		58487F89261E90AD00088341 /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
@@ -569,6 +570,7 @@
 				en,
 				Base,
 				ru,
+				de,
 			);
 			mainGroup = 58E2BF50261D8E3900477D44;
 			packageReferences = (
@@ -811,6 +813,7 @@
 			children = (
 				584AC0622633A84D0055FCC8 /* en */,
 				584AC0672633A8550055FCC8 /* ru */,
+				5840041C26431D22001B7C20 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

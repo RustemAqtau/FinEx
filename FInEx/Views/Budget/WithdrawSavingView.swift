@@ -20,7 +20,7 @@ struct WithdrawSavingView: View {
     @State private var amountIsEditing: Bool = false
     @State var selectedtypeImageName: String = "questionmark"
     @State var selectedTypeCircleColor: String = "TopGradient"
-    @State var selectedTypeName: String = "Category"
+    @State var selectedTypeName: String = NSLocalizedString("Category", comment: "")
     @State var selectedType: TransactionType = TransactionType()
     @State var showCategorySelector: Bool = false
     @State var selectedDate: Date = Date()
@@ -38,7 +38,7 @@ struct WithdrawSavingView: View {
             GeometryReader { geo in
                 VStack(alignment: .center, spacing: 30) {
                     VStack(spacing: 5) {
-                        Text(warningMessage)
+                        Text(LocalizedStringKey(warningMessage))
                             .font(Fonts.light12)
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.center)
@@ -80,14 +80,14 @@ struct WithdrawSavingView: View {
                                     .stroke(lineWidth: 5)
                                     .stroke(self.accentColor)
                                     .frame(width: 43, height: 43, alignment: .center)
-                                    .opacity(self.selectedTypeName == Placeholders.NewCategorySelector ? 1 : 0)
+                                    .opacity(self.selectedTypeName == Placeholders.NewCategorySelector.localizedString() ? 1 : 0)
                                 Image(systemName: self.selectedtypeImageName)
                                     .foregroundColor(.white)
                                     .modifier(CircleModifierSimpleColor(color: Color(self.selectedTypeCircleColor), strokeLineWidth: 3.0))
                                     .font(Font.system(size: 22, weight: .regular, design: .default))
                                     .frame(width: 43, height: 43, alignment: .center)
                             }
-                            Text(self.selectedTypeName)
+                            Text(LocalizedStringKey(self.selectedTypeName))
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                                 .foregroundColor(CustomColors.TextDarkGray)
                         }
@@ -110,7 +110,6 @@ struct WithdrawSavingView: View {
                             TextField(LocalizedStringKey("Note"), text: self.$note,
                                       onEditingChanged: {isEditing in if isEditing {
                                         if !self.note.isEmpty {
-                                            //self.note = ""
                                         }
                                         self.noteLenghtLimitOut = false
                                         
@@ -191,21 +190,16 @@ struct WithdrawSavingView: View {
         else {
             self.validationFailed = true
             self.balanceCheckFailed = true
-            self.warningMessage = WarningMessages.ValidationAmountFail
+            self.warningMessage = WarningMessages.ValidationAmountFail.localizedString()
             return false
         }
         
         guard checkBalanceSucceed() else {
             self.validationFailed = true
-            self.warningMessage = WarningMessages.CheckBalance
+            self.warningMessage = WarningMessages.CheckBalance.localizedString()
             return false
         }
         
-//        guard self.selectedTypeName != Placeholders.NewCategorySelector else {
-//            self.validationFailed = true
-//            self.warningMessage = WarningMessages.ValidationCategoryNotSelectedFail
-//            return false
-//        }
         return true
     }
     

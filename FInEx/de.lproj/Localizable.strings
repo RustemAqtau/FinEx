@@ -1,0 +1,207 @@
+/*
+  Localizable.strings
+  FInEx
+
+  Created by Zhansaya Ayazbayeva on 2021-04-23.
+  
+*/
+
+"INCOME" = "EINNAHMEN";
+"EXPENSES" = "AUSGABEN";
+"SAVINGS" = "ERSPARNISSE";
+"SAVING" = "ERSPARNIS";
+"Income" = "Einnahmen";
+"Expenses" = "Ausgaben";
+"Expense" = "Ausgaben";
+"EXPENSE" = "AUSGABEN";
+"Savings" = "Ersparnisse";
+"Saving" = "Ersparnisse";
+"BUDGET" = "BUDGET";
+"Budget" = "Budget";
+"CHARTS" = "CHARTS";
+"SUBCATEGORY" = "SUB KATEGORIE";
+"CHANGE" = "Ändern";
+"NAME" = "NAME";
+"APPEARANCE" = "AUSSEHEN";
+"TOOLS" = "TOOLS";
+"CATEGORY" = "KATEGORIE";
+"BALANCE" = "BALANCE";
+"Category" = "Ka­te­go­rie";
+"ANALYTICS" = "ANALYTIK";
+
+// LocalNotificationTexts
+"local_key_notification_DailyTitle" = "Tägliche Erinnerungen ⏰";
+"local_key_notification_DailyBody" = "Haben Sie Ihre Ausgaben für heute hinzugefügt?";
+"local_key_notification_MonthlyTitle" = "Noch Rechnungen zu bezahlen? 💸";
+"local_key_notification_MonthlyBody" = "Vergiss sie einfach nicht, sonst kostet es sich einen Teil deines wohlverdienten Geldes.";
+
+
+// Picker Data
+"local_key_periodicity_TwoWeeks" = "Jede zwei Wochen";
+"local_key_periodicity_EveryMonth" = "Jeden Monat";
+"local_key_periodicity_Quarter" = "Jeden dritten Monat";
+"local_key_periodicity_EveryYear" = "Jedes Jahr";
+
+// Placeholders
+"local_key_placeholder_Note" = "Notiz";
+"local_key_placeholder_Category" = "Kategorie";
+"local_key_placeholder_ExpensesByCategory" = "Ausgaben nach Kategorien";
+"local_key_placeholder_IncomeByCategory" = "Einkommen nach Kategorien";
+"local_key_placeholder_SavingsByCategory" = "Einsparungen nach Kategorien";
+"local_key_placeholder_Required" = "Erforderlich";
+
+// Warning messages
+"local_key_warningMessage_ValidationAmountFail" = "Bitte geben Sie einen gültigen Betrag ein.";
+"local_key_warningMessage_ValidationCategoryNotSelectedFail" = "Bitte wählen sie eine Kategorie.";
+"local_key_warningMessage_RequiredField" = "Bitte füllen Sie alle erforderlichen Felder aus.";
+"local_key_warningMessage_ExistingCategory" = "Sie haben bereits eine wiederkehrende Kategorie hinzugefügt. Bitte ändern Sie die Kategorie.";
+"local_key_warningMessage_CheckBalance" = "Sie haben nicht genug Geld für diese Transaktion. Bitte überprüfen Sie Ihr Guthaben.";
+"local_key_warningMessage_noDataPlaceholder" = "Für diesen Monat gibt es keine Transaktionen.";
+"local_key_warningMessage_AvailableRecurringTransction" = "Sie haben wiederkehrende Transaktionen hinzuzufügen";
+
+// Income Types
+"Salary" = "Lohn";
+"Bonus" = "Bonus";
+"Pension" = "Pension";
+"Dividends" = "Dividenden";
+"Interest" = "Zinsen";
+"ChildBenefit" = "Kindergeld";
+
+// Expenses Types
+"Rent" = "Miete";
+"Loan" = "Dar­le­hen";
+"Maintenance" = "Instandhaltung";
+"Furniture" = "Möbel";
+"Internet" = "Internet";
+"Electricity" ="Strom";
+"Heating" = "Heizung";
+"Water" = "Wasser";
+"Mobile" = "Handy";
+"Cinema" = "Cinema";
+"Concert" = "Konzert";
+"Hobby" = "Hobby";
+"Bowling" = "Bowling";
+"Nightclub" = "Nachtclub";
+"Party" = "Party";
+"Restaurant" = "Restaurant";
+"Groceries" = "Lebensmittel";
+"Delivery" = "Lieferung";
+"Clothing" = "Kleidung";
+"Device" = "Device";
+"Accessories" = "Accessories";
+"Car" = " Auto";
+"TV" = "Fernseher";
+"Music" = "Musik";
+"Gas" = "Gas";
+"Parking" = "Parkplatz";
+"PublicTr" = "Öff. Verkehr";
+"Repair" = "Reparatur";
+"Dentist" = "Zahnarzt";
+"CheckUp" = "Check-Up";
+"Flight" = "Flug";
+"Hotel" = "Hotel";
+
+// Expenses Categories
+"Housing" = "Unterkunft";
+"Entertainment" = "Unterhaltung";
+"FoodAndDrinks" = "Essen & Trinken";
+"Bills" = "Rechnungen";
+"Transportation" = "Transport";
+"Health" = "Gesundheit";
+"Subscriptions" = "Abonnements";
+"Insurance" = "Versicherung";
+"Travel" = "Reise";
+"Shopping" = "Shopping";
+
+// Savings Types
+"Cash" = "Cash";
+"Investments" = "Investitionen";
+"Education" = "Ausbildung";
+
+// Savings Categories
+"LongTerm" = "Langfristig";
+"ShortTerm" = "Kurzfristig";
+
+// LabelTitles
+"local_key_labelTitle_SaveButton" = "Speichern";
+"local_key_labelTitle_WithdrawButton" = "Abheben";
+"local_key_labelTitle_StartDate" = "Tag";
+"local_key_labelTitle_ResetButton" = "Passcode zurücksetzen";
+"local_key_labelTitle_passcodeFieldTitle_new" = "Neuen Passcode eingeben";
+"local_key_labelTitle_passcodeFieldTitle_reset" = "Passcode eingeben";
+
+// Settings Labels
+"local_key_labelTitle_RegisterTab" = "REGISTRIEREN";
+"local_key_labelTitle_RecurringTab" = "WIEDERKEHREND";
+"local_key_labelTitle_CategoriesTab" = "KATEGORIEN";
+"local_key_labelTitle_PasscodeTab" = "PASSCODE";
+"local_key_labelTitle_RemainderTab" = "ERINNERUNGEN";
+"local_key_labelTitle_AppearanceTab" = "AUSSEHEN";
+
+
+// Settings Descriptions
+"local_key_passcodeTab_field1" = "Passcode aktivieren";
+"local_key_passcodeTab_field2" = "TouchID/FaceID aktivieren";
+"local_key_passcodeTab_field3" = "Neuen Passcode eingeben";
+"local_key_passcodeTab_description1" = "Schützen Sie Ihre Daten mit einem Passcode. Nur so können Sie öffnen und Ihre Datein abrufen.";
+"local_key_passcodeTab_mainDescription" = "Schützen Sie Ihre Daten mit einem Passcode.";
+
+"local_key_registerTab_title" = "Sync & Sichern";
+"local_key_registerTab_description1" = "Synchronisieren Sie Ihre Budget und Transactionen zwischen deine Geräten.";
+"local_key_registerTab_description1_signed" = "Ihre Budget und Transactionen sind synchronisiert zwischen deine Geräten.";
+"local_key_registerTab_description2" = "Erstellen Sie ein Backup Ihre Daten, falls Sie Ihre Telefon verlieren solltetst.";
+"local_key_registerTab_description2_signed" = "Ein Backup Ihre Daten ist sicherlish auf der Cloud erstellt, falls Sie Ihre Telefon verlieren solltetst.";
+"local_key_registerTab_description3" = "Keine Sorge, wir werden Sie niemals E-Mails schicken.";
+"local_key_registerTab_mainDescription" = "Sicheren Sie Ihre Daten in der Cloud und nutze mehrere Geräte.";
+
+"local_key_recurringTab_mainDescription" = "Verwalten Sie Ihre regulären Transaktionen.";
+"local_key_recurringTab_field1" = "Wiederkehrend ";
+
+"local_key_categoriesTab_mainDescription" = "Erstellen, bearbeiten oder entfernen Sie Ihre Kategorien.";
+
+"local_key_appearanceTab_mainDescription" = "Passen Sie die App an Ihre Bedürfnisse an.";
+"local_key_appearanceTab_field1_title" = "Währungszeichen";
+"local_key_appearanceTab_field2_title" = "Währung";
+"local_key_appearanceTab_field2" = "Doppelte Dezimalstellen anzeigen";
+"local_key_appearanceTab_field3_title" = "Farbmotive";
+
+"local_key_reminderTab_mainDescription" = "Richten Sie Erinnerungen ein und lassen Sie sich zu einem gewünschten Zeitpunkt benachrichtigen.";
+"local_key_reminderTab_field1_title" = "Tägliche Erinnerungen";
+"local_key_reminderTab_description1" = "Wir können Sie gern erinnern, Ihre Ausgaben des tages hinzuzufügen, so Sie werden sie nicht vergessen.";
+"local_key_reminderTab_field1" = "Erinnern um:";
+"local_key_reminderTab_field2_title" = "Monatliche Erinnerungen";
+"local_key_reminderTab_description2" = "Wenn Sie eine Rechnung nicht fristgerecht zahlst, kann dies sowohl frustrierend als auch kostspielig werden. Versuchen wir, dies ein für allemal zu vermeiden.";
+"local_key_reminderTab_field2" = "Jeden Monat:";
+"local_key_reminderTab_field1_pickerDescription" = "Stunde am Tag";
+"local_key_reminderTab_field2_pickerDescription" = "Tag im Monat";
+"local_key_reminderTab_field2_pickerLabel" = "Tag";
+
+// Analytics Description
+"local_key_barChartTitle" = "Fortschritt für ";
+"local_key_barChartDescription" = "Monatlich ";
+
+// Months short name
+"jan" = "Jan";
+"feb" = "Feb";
+"mar" = "Mär";
+"apr" = "Apr";
+"may" = "Mai";
+"jun" = "Jun";
+"jul" = "Jul";
+"aug" = "Aug";
+"sep" = "Sep";
+"oct" = "Okt";
+"nov" = "Nov";
+"dec" = "Dez";
+
+// Currencies
+"dollar" = "Dollar";
+"euro" = "Euro";
+"lira" = "Lira";
+"pound" = "Pound";
+"ruble" = "Ruble";
+"tenge" = "Tenge";
+"yen" = "Yen";
+"currency" = "Währung";
+
+

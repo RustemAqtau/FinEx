@@ -20,7 +20,7 @@ struct AddRecurringTransactionView: View {
     var body: some View {
         let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
         VStack {
-            Text("Your recurring transactions are available to add")
+            Text(LocalizedStringKey(WarningMessages.AvailableRecurringTransction.localizedString()))
                 .font(Fonts.light15)
                 .foregroundColor(CustomColors.TextDarkGray)
                 .multilineTextAlignment(.center)

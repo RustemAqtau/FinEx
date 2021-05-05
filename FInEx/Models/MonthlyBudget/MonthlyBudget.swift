@@ -260,6 +260,7 @@ extension MonthlyBudget {
         return result
     }
     
+    
     var totalSavings: NSDecimalNumber {
         var amount:Decimal = 0.0
         if !savingsList.isEmpty {

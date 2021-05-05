@@ -43,7 +43,7 @@ struct IncomeView: View {
                             VStack(alignment: .leading, spacing: 5) {
                                 HStack {
                                     Group {
-                                        Text(type)
+                                        Text(LocalizedStringKey(type))
                                     }
                                     Spacer()
                                     Text(formatter.string(from: NSDecimalNumber(decimal: incomeTotalAmountByType[type] ?? 0))! )
@@ -68,7 +68,7 @@ struct IncomeView: View {
                                                     
                                                 VStack(alignment: .leading) {
                                                     HStack {
-                                                        Text(incomeType.presentingName)
+                                                        Text(LocalizedStringKey(incomeType.presentingName))
                                                             .shadow(radius: -10 )
                                                             //.font(Font.system(size: 18, weight: .light, design: .default))
                                                         Text(income.notePresentation.isEmpty ? "" : "(\(income.notePresentation))")

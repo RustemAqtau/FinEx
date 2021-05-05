@@ -30,7 +30,7 @@ struct AppearanceView: View {
                             HStack {
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack {
-                                        Text("Currency Symbol".uppercased())
+                                        Text(NSLocalizedString(SettingsContentDescription.appearanceTab_field1_title.localizedString(), comment: "").uppercased())
                                             .font(Fonts.light12)
                                             .foregroundColor(CustomColors.TextDarkGray)
                                         ZStack {
@@ -55,7 +55,7 @@ struct AppearanceView: View {
                                             .foregroundColor(.white)
                                             .font(Font.system(size: 20, weight: .regular, design: .default))
                                             .frame(width: geo.size.width / 12, height: geo.size.width / 11, alignment: .center)
-                                        Text(self.currencyName)
+                                        Text(LocalizedStringKey(self.currencyName))
                                             .foregroundColor(CustomColors.TextDarkGray)
                                             .font(Fonts.light20)
                                         
@@ -75,12 +75,12 @@ struct AppearanceView: View {
                                 .frame(width: geo.size.width, height: 80, alignment: .leading)
                             HStack {
                                 VStack(alignment: .leading, spacing: 8) {
-                                    Text("Currency".uppercased())
+                                    Text(NSLocalizedString(SettingsContentDescription.appearanceTab_field2_title.localizedString(), comment: "").uppercased())
                                         .font(Fonts.light12)
                                         .foregroundColor(CustomColors.TextDarkGray)
                                     Toggle(isOn: self.$showDecimals, label: {
                                         HStack {
-                                            Text("Show double decimals")
+                                            Text(NSLocalizedString(SettingsContentDescription.appearanceTab_field2.localizedString(), comment: ""))
                                                 .foregroundColor(CustomColors.TextDarkGray)
                                                 .font(Fonts.light20)
                                         }
@@ -99,7 +99,7 @@ struct AppearanceView: View {
                             HStack {
                                 VStack(alignment: .leading, spacing: 8) {
                                     HStack {
-                                        Text("Color theme".uppercased())
+                                        Text(NSLocalizedString(SettingsContentDescription.appearanceTab_field3_title.localizedString(), comment: "").uppercased())
                                             .font(Fonts.light12)
                                     }
                                     .foregroundColor(CustomColors.TextDarkGray)
@@ -155,14 +155,14 @@ struct AppearanceView: View {
     }
     private func setCurrencyName() {
         switch self.selectedCurrencySymbol {
-        case CurrencySymbols.dollar.rawValue: self.currencyName = "Dollar"
-        case CurrencySymbols.euro.rawValue: self.currencyName = "Euro"
-        case CurrencySymbols.lira.rawValue: self.currencyName = "Lira"
-        case CurrencySymbols.pound.rawValue: self.currencyName = "Pound"
-        case CurrencySymbols.ruble.rawValue: self.currencyName = "Ruble"
-        case CurrencySymbols.tenge.rawValue: self.currencyName = "Tenge"
-        case CurrencySymbols.yen.rawValue: self.currencyName = "Yen"
-        default: self.currencyName = "Currency"
+        case CurrencySymbols.dollar.rawValue: self.currencyName = Currencies.dollar.rawValue
+        case CurrencySymbols.euro.rawValue: self.currencyName = Currencies.euro.rawValue
+        case CurrencySymbols.lira.rawValue: self.currencyName = Currencies.lira.rawValue
+        case CurrencySymbols.pound.rawValue: self.currencyName = Currencies.pound.rawValue
+        case CurrencySymbols.ruble.rawValue: self.currencyName = Currencies.ruble.rawValue
+        case CurrencySymbols.tenge.rawValue: self.currencyName = Currencies.tenge.rawValue
+        case CurrencySymbols.yen.rawValue: self.currencyName = Currencies.yen.rawValue
+        default: self.currencyName = Currencies.currency.rawValue
         }
     }
 }

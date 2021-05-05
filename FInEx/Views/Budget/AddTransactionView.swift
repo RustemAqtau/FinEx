@@ -42,7 +42,7 @@ struct AddTransactionView: View {
             GeometryReader { geo in
                 VStack(alignment: .center, spacing: 30) {
                     VStack(spacing: 5) {
-                        Text(warningMessage)
+                        Text(LocalizedStringKey(warningMessage))
                             .font(Fonts.light12)
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.center)
@@ -87,14 +87,14 @@ struct AddTransactionView: View {
                                     .stroke(lineWidth: 5)
                                     .stroke(self.accentColor)
                                     .frame(width: 43, height: 43, alignment: .center)
-                                    .opacity(self.selectedTypeName == Placeholders.NewCategorySelector ? 1 : 0)
+                                    .opacity(self.selectedTypeName == Placeholders.NewCategorySelector.localizedString() ? 1 : 0)
                                 Image(systemName: self.selectedtypeImageName)
                                     .foregroundColor(.white)
                                     .modifier(CircleModifierSimpleColor(color: Color(self.selectedTypeCircleColor), strokeLineWidth: 3.0))
                                     .font(Font.system(size: 22, weight: .regular, design: .default))
                                     .frame(width: 43, height: 43, alignment: .center)
                             }
-                            Text(self.selectedTypeName)
+                            Text(LocalizedStringKey(self.selectedTypeName))
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                                 .foregroundColor(CustomColors.TextDarkGray)
                         }
@@ -125,7 +125,7 @@ struct AddTransactionView: View {
                             Image(systemName: "pencil")
                                 .foregroundColor(self.accentColor)
                                 .font(Font.system(size: 30, weight: .regular, design: .default))
-                            TextField(LocalizedStringKey("Note"), text: self.$note,
+                            TextField(LocalizedStringKey(Placeholders.Note.localizedString()), text: self.$note,
                                       onEditingChanged: {isEditing in if isEditing {
                                         
                                         replaceSaveButton(down: false)
@@ -188,7 +188,12 @@ struct AddTransactionView: View {
             }
             self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
             self.dateRange = getDateRange(for: self.currentMonthBudget.startDate ?? Date())
-            //self.selectedDate = self.dateRange.lowerBound
+            if let initialMonthbudget = self.budgetVM.budgetList.filter({ $0.isInitialMonth == true}).first {
+                if self.currentMonthBudget.startDate! < initialMonthbudget.startDate! {
+                    self.selectedDate = self.dateRange.lowerBound
+                }
+            }
+            
         }
         .onTapGesture {
             hideKeyboard()
@@ -196,7 +201,7 @@ struct AddTransactionView: View {
             replaceSaveButton(down: true)
         }
         .sheet(isPresented: self.$showCategorySelector, content: {
-            CategotySelector(categoty: self.category,
+            CategotySelector(category: self.category,
                              selectedType: self.$selectedType,
                              selectedtypeImageName: self.$selectedtypeImageName,
                              selectedTypeCircleColor: self.$selectedTypeCircleColor,
@@ -236,19 +241,19 @@ struct AddTransactionView: View {
         else {
             self.validationFailed = true
             self.balanceCheckFailed = true
-            self.warningMessage = WarningMessages.ValidationAmountFail
+            self.warningMessage = WarningMessages.ValidationAmountFail.localizedString()
             return false
         }
         if category == Categories.Saving {
             guard checkBalanceSucceed() else {
                 self.validationFailed = true
-                self.warningMessage = WarningMessages.CheckBalance
+                self.warningMessage = WarningMessages.CheckBalance.localizedString()
                 return false
             }
         }
-        guard self.selectedTypeName != Placeholders.NewCategorySelector else {
+        guard self.selectedTypeName != Placeholders.NewCategorySelector.localizedString() else {
             self.validationFailed = true
-            self.warningMessage = WarningMessages.ValidationCategoryNotSelectedFail
+            self.warningMessage = WarningMessages.ValidationCategoryNotSelectedFail.localizedString()
             return false
         }
         return true
@@ -273,8 +278,4 @@ struct AddTransactionView: View {
     }
 }
 
-//struct AddExpense_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AddTransactionView(currentMonthBudget: MonthlyBudget(), category: Categories.Expense)
-//    }
-//}
+

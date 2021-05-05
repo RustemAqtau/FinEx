@@ -10,6 +10,7 @@ import SwiftUI
 enum KeychainAccessKeys {
     static let AppleIDCredential = "userIdentifierAppleIDCredential"
     static let Passcode = "passcode"
+    static let ServiceName = "zh.ayazbayeva.FInEx"
 }
 
 enum Coordinator {
@@ -34,6 +35,18 @@ enum ActiveSheet: Identifiable {
     var id: Int {
         hashValue
     }
+}
+
+// MARK: - Currencies
+enum Currencies: String {
+    case dollar
+    case euro
+    case lira
+    case pound
+    case ruble
+    case tenge
+    case yen
+    case currency
 }
 
 // MARK: - ColorTheme
@@ -103,10 +116,10 @@ enum DailyRemainderTime: String, CaseIterable {
 }
 
 enum LocalNotificationTexts: String, CaseIterable {
-    case dailyTitle = "Daily remainder ⏰"
-    case dailyBody = "Have you added your expenses for today?"
-    case monthlyTitle = "Any bills left to pay? 💸"
-    case monthlyBody = "Just don't forget them, or it might cost you some of your well earned money."
+    case dailyTitle = "local_key_notification_DailyTitle"
+    case dailyBody = "local_key_notification_DailyBody"
+    case monthlyTitle = "local_key_notification_MonthlyTitle"
+    case monthlyBody = "local_key_notification_MonthlyBody"
     
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
@@ -118,6 +131,27 @@ enum LocalNotificationIDs {
     static let monthlyNotification = "monthlyNotification"
 }
 
+// MARK: - LabelTitles
+enum LableTitles: String {
+    case startDate = "local_key_labelTitle_StartDate"
+    case passcodeFieldTitle_new = "local_key_labelTitle_passcodeFieldTitle_new"
+    case passcodeFieldTitle_reset = "local_key_labelTitle_passcodeFieldTitle_reset"
+    
+    case saveButton = "local_key_labelTitle_SaveButton"
+    case resetButton = "local_key_labelTitle_ResetButton"
+    case withdrawButton = "local_key_labelTitle_WithdrawButton"
+    
+    case registerTab = "local_key_labelTitle_RegisterTab"
+    case recurringTab = "local_key_labelTitle_RecurringTab"
+    case categoriesTab = "local_key_labelTitle_CategoriesTab"
+    case passcodeTab = "local_key_labelTitle_PasscodeTab"
+    case remainderTab = "local_key_labelTitle_RemainderTab"
+    case appearanceTab = "local_key_labelTitle_AppearanceTab"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
 
 // MARK: - Currency Symbols
 enum CurrencySymbols: String, CaseIterable {
@@ -133,10 +167,10 @@ enum CurrencySymbols: String, CaseIterable {
 // MARK: - Periodicity
 enum Periodicity: String, CaseIterable {
    
-    case TwoWeeks = "Every two weeks"
-    case Month = "Every month"
-    case Quarter = "Every third month"
-    case Year = "Every year"
+    case TwoWeeks = "local_key_periodicity_TwoWeeks"
+    case Month = "local_key_periodicity_EveryMonth"
+    case Quarter = "local_key_periodicity_Quarter"
+    case Year = "local_key_periodicity_EveryYear"
     
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
@@ -146,27 +180,103 @@ enum Periodicity: String, CaseIterable {
 
 // MARK: - Placeholders
 
-enum Placeholders {
-    static let Amount = "$"
-    static let Note = "Note"
-    static let NewCategorySelector = "Category"
-    static let PieSliceDescriptionExpense = "Expenses by category"
-    static let PieSliceDescriptionIncome = "Income by category"
-    static let PieSliceDescriptionSaving = "Savings by category"
-    static let Required = "Required"
+enum Placeholders: String {
+    case Amount = "$"
+    case Note = "local_key_placeholder_Note"
+    case NewCategorySelector = "local_key_placeholder_Category"
+    case PieSliceDescriptionExpense = "local_key_placeholder_ExpensesByCategory"
+    case PieSliceDescriptionIncome = "local_key_placeholder_IncomeByCategory"
+    case PieSliceDescriptionSaving = "local_key_placeholder_SavingsByCategory"
+    case Required = "local_key_placeholder_Required"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
 }
 
 
-
-
-
 // MARK: - Warning Messages
-enum WarningMessages {
-    static let ValidationAmountFail = "Please enter valid amount."
-    static let ValidationCategoryNotSelectedFail = "Please select a category."
-    static let RequiredField = "Please fill all the required fields."
-    static let ExistingCategory = "You have already added a recurring for this categoty, please change category."
-    static let CheckBalance = "You don't have enough money for this transaction. Please check your balance."
+enum WarningMessages: String {
+    case ValidationAmountFail = "local_key_warningMessage_ValidationAmountFail"
+    case ValidationCategoryNotSelectedFail = "local_key_warningMessage_ValidationCategoryNotSelectedFail"
+    case RequiredField = "local_key_warningMessage_RequiredField"
+    case ExistingCategory = "local_key_warningMessage_ExistingCategory"
+    case CheckBalance = "local_key_warningMessage_CheckBalance"
+    case noDataPlaceholder = "local_key_warningMessage_noDataPlaceholder"
+    case AvailableRecurringTransction = "local_key_warningMessage_AvailableRecurringTransction"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+// MARK: - SettingsContentDescription
+enum SettingsContentDescription: String {
+    case passcodeTab_field1 = "local_key_passcodeTab_field1"
+    case passcodeTab_field2 = "local_key_passcodeTab_field2"
+    case passcodeTab_field3 = "local_key_passcodeTab_field3"
+    case passcodeTab_description1 = "local_key_passcodeTab_description1"
+    case passcodeTab_mainDescription = "local_key_passcodeTab_mainDescription"
+    
+    case registerTab_title = "local_key_registerTab_title"
+    case registerTab_description1 = "local_key_registerTab_description1"
+    case registerTab_description1_signed = "local_key_registerTab_description1_signed"
+    case registerTab_description2 = "local_key_registerTab_description2"
+    case registerTab_description2_signed = "local_key_registerTab_description2_signed"
+    case registerTab_description3 = "local_key_registerTab_description3"
+    case registerTab_mainDescription = "local_key_registerTab_mainDescription"
+    
+    case recurringTab_mainDescription = "local_key_recurringTab_mainDescription"
+    case recurringTab_field1 = "local_key_recurringTab_field1"
+    
+    case categoriesTab_mainDescription = "local_key_categoriesTab_mainDescription"
+    
+    case appearanceTab_mainDescription = "local_key_appearanceTab_mainDescription"
+    case appearanceTab_field1_title = "local_key_appearanceTab_field1_title"
+    case appearanceTab_field2_title = "local_key_appearanceTab_field2_title"
+    case appearanceTab_field2 = "local_key_appearanceTab_field2"
+    case appearanceTab_field3_title = "local_key_appearanceTab_field3_title"
+    
+    case reminderTab_mainDescription = "local_key_reminderTab_mainDescription"
+    case reminderTab_field1_title = "local_key_reminderTab_field1_title"
+    case reminderTab_field1 = "local_key_reminderTab_field1"
+    case reminderTab_description1 = "local_key_reminderTab_description1"
+    case reminderTab_field2_title = "local_key_reminderTab_field2_title"
+    case reminderTab_description2 = "local_key_reminderTab_description2"
+    case reminderTab_field2 = "local_key_reminderTab_field2"
+    case reminderTab_field1_pickerDescription = "local_key_reminderTab_field1_pickerDescription"
+    case reminderTab_field2_pickerDescription = "local_key_reminderTab_field2_pickerDescription"
+    case reminderTab_field2_pickerLabel = "local_key_reminderTab_field2_pickerLabel"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+// MARK: - Months short name
+enum MonthsShortName: String {
+    case jan
+    case feb
+    case mar
+    case apr
+    case may
+    case jun
+    case jul
+    case aug
+    case sep
+    case oct
+    case nov
+    case dec
+}
+
+// MARK: - AnalyticsContentDescription
+enum AnalyticsContentDescription: String {
+    case barChartTitle = "local_key_barChartTitle"
+    case barChartDescription = "local_key_barChartDescription"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
 }
 
 // MARK: - Colors
@@ -252,21 +362,21 @@ enum Categories: CaseIterable {
     
 }
 enum Categories2: String,  CaseIterable {
-    case Income = "Income"
-    case Expense = "Expense"
-    case Saving = "Saving"
+    case Income
+    case Expense
+    case Saving
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
     }
 }
 
 enum IncomeTypeNames: String {
-    case Salary = "Salary"
-    case Bonus = "Bonus"
-    case Pension = "Pension"
-    case Dividends = "Dividends"
-    case Interest = "Interest"
-    case ChildBenefit = "Child benefit"
+    case Salary
+    case Bonus
+    case Pension
+    case Dividends
+    case Interest
+    case ChildBenefit
     
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
@@ -274,38 +384,38 @@ enum IncomeTypeNames: String {
 }
 
 enum ExpenseTypeNames: String {
-    case Rent = "Rent"
-    case Loan = "Loan"
-    case Maintenance = "Maintenance"
-    case Furniture = "Furniture"
-    case Internet = "Internet"
-    case Electricity = "Electricity"
-    case Heating = "Heating"
-    case Water = "Water"
-    case Mobile = "Mobile"
-    case Cinema = "Cinema"
-    case Concert = "Concert"
-    case Hobby = "Hobby"
-    case Bowling = "Bowling"
-    case Nightclub = "Nightclub"
-    case Party = "Party"
-    case Resraurant = "Resraurant"
-    case Groceries = "Groceries"
-    case Delivery = "Delivery"
-    case Clothing = "Clothing"
-    case Device = "Device"
-    case Accessories = "Accessories"
-    case Car = "Car"
-    case TV = "TV"
-    case Music = "Music"
-    case Gas = "Gas"
-    case Parking = "Parking"
-    case PublicTr = "Public Tr."
-    case Repair = "Repair"
-    case Dentist = "Dentist"
-    case CheckUp = "Check-Up"
-    case Flight = "Flight"
-    case Hotel = "Hotel"
+    case Rent
+    case Loan
+    case Maintenance
+    case Furniture
+    case Internet
+    case Electricity
+    case Heating
+    case Water
+    case Mobile
+    case Cinema
+    case Concert
+    case Hobby
+    case Bowling
+    case Nightclub
+    case Party
+    case Restaurant
+    case Groceries
+    case Delivery
+    case Clothing
+    case Device
+    case Accessories
+    case Car
+    case TV
+    case Music
+    case Gas
+    case Parking
+    case PublicTr
+    case Repair
+    case Dentist
+    case CheckUp
+    case Flight
+    case Hotel 
     
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
@@ -314,16 +424,16 @@ enum ExpenseTypeNames: String {
 
 
 enum ExpenseSubCategories: String, CaseIterable {
-    case Housing = "Housing"
-    case Entertainment = "Entertainment"
-    case FoodAndDrinks = "Food & Drinks"
-    case Bills = "Bills"
-    case Transportation = "Transportation"
-    case Health = "Health"
-    case Subscriptions = "Subscriptions"
-    case Insurance = "Insurance"
-    case Travel = "Travel"
-    case Shopping = "Shopping"
+    case Housing
+    case Entertainment
+    case FoodAndDrinks
+    case Bills
+    case Transportation
+    case Health
+    case Subscriptions
+    case Insurance
+    case Travel
+    case Shopping
     
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
@@ -331,10 +441,10 @@ enum ExpenseSubCategories: String, CaseIterable {
 }
 
 enum SavingTypeNames: String {
-    case Cash = "Cash"
-    case Investments = "Investments"
-    case Shopping = "Shopping"
-    case Education = "Education"
+    case Cash
+    case Investments
+    case Shopping
+    case Education
     
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
@@ -342,13 +452,15 @@ enum SavingTypeNames: String {
 }
 
 enum SvaingSubCategories: String, CaseIterable {
-    case LongTerm = "Long Term"
-    case ShortTerm = "Short Term"
+    case LongTerm
+    case ShortTerm
     
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
     }
 }
+
+
 
 enum CategoryIcons {
     typealias RawValue = [String]

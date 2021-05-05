@@ -42,7 +42,7 @@ struct ExpensesView: View {
                             VStack(alignment: .leading, spacing: 5) {
                                 HStack(alignment: .bottom) {
                                     Group {
-                                        Text(subCategory)
+                                        Text(LocalizedStringKey(subCategory))
                                     }
                                     Spacer()
                                     Text(formatter.string(from: NSDecimalNumber(decimal: expensesTotalAmountBySubCategory[subCategory] ?? 0))!)
@@ -67,7 +67,7 @@ struct ExpensesView: View {
                                                     .animation(.linear(duration: 0.5))
                                                 VStack(alignment: .leading) {
                                                     HStack {
-                                                        Text(expenseType.presentingName)
+                                                        Text(LocalizedStringKey(expenseType.presentingName))
                                                             .shadow(radius: -10 )
                                                             //.font(Font.system(size: 18, weight: .light, design: .default))
                                                         Text(expense.notePresentation.isEmpty ? "" : "(\(expense.notePresentation))")

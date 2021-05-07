@@ -173,7 +173,7 @@ struct AnalyticsView: View {
                     self.budgetVM.getBudgetList(context: viewContext)
                     
                     getEntriesBarChart(for: self.selectedCategory)
-                    //getEntriesBarChartIncome()
+                    
                 }
                 .onChange(of: self.getPreviousMonthBudget, perform: { value in
                     getEntriesPieChartIncome()
@@ -200,7 +200,6 @@ struct AnalyticsView: View {
                 })
             }
         }
-        
     }
     
     
@@ -220,15 +219,7 @@ struct AnalyticsView: View {
                 value: Double(truncating: NSDecimalNumber(decimal: income.value)),
                 label: NSLocalizedString(income.key, comment: ""))
         }).sorted(by: {$0.value > $1.value })
-        
-//        let savingsByType = currentMonthBudget.savingsTotalAmountByType
-//        self.entriesForSaving = savingsByType.map({ saving in
-//            PieChartDataEntry(
-//                value: Double(truncating: NSDecimalNumber(decimal: saving.value)),
-//                label: NSLocalizedString(saving.key.presentingName, comment: "") ,
-//                icon: UIImage(systemName: saving.key.presentingImageName))
-//        })
-    }
+   }
     
     private func getEntriesPieChartExpenses() {
         let expBySubCat = currentMonthBudget.expensesBySubCategory
@@ -348,27 +339,5 @@ struct AnalyticsView: View {
 }
 
 
-/*
- 
- Button(action: {
-     let shareManager = CSVShareManager()
-     let csvData = shareManager.createMonthBudgetCSV(for: currentMonthBudget)
-     let path = try? FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
-     sendingDataURL = path!.appendingPathComponent("YearBudget.csv")
-     try?csvData.write(to: sendingDataURL)
-     shareManager.shareCSV(url: sendingDataURL)
- }) {
-     Image(systemName: Icons.Doc_Arrow_Down)
-         .modifier(CircleModifier(color: GradientColors.Expense, strokeLineWidth: 3.0))
-         .frame(width: 40, height: 40, alignment: .center)
-         .font(Fonts.light25)
- }
- .onAppear {
-     startAnimate()
- }
- */
-//struct AnalyticsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AnalyticsView(currentMonthBudget: .constant(MonthlyBudget()))
-//    }
-//}
+
+

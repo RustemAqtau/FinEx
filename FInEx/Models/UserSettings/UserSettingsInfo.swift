@@ -12,9 +12,11 @@ struct UserSettingsInfo {
     var isSignedWithAppleId: Bool
     var isSetPassCode: Bool
     
+    
     init(settingsId: Int, isSignedWithAppleId: Bool, isSetPassCode: Bool) {
         self.settingsId = settingsId
         self.isSignedWithAppleId = isSignedWithAppleId
         self.isSetPassCode = isSetPassCode
+        
     }
 }

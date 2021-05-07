@@ -20,7 +20,6 @@ struct IncomeView: View {
     @Binding var recurringTransactionsIncome: [RecurringTransaction]
     
     @State var dates: [String] = []
-   // @State var incomeTotalAmountByDate: [String : Decimal] = [:]
     @Binding var addedRecurringTransaction: Bool
     @State var editTransaction: Bool = false
     @State var editingTransaction: Transaction = Transaction()
@@ -59,11 +58,11 @@ struct IncomeView: View {
                                     HStack {
                                         Group {
                                             if let incomeType = income.type {
-                                                Image(systemName: incomeType.presentingImageName)
+                                                Image(incomeType.presentingImageName)
                                                     .foregroundColor(.white)
                                                     .modifier(CircleModifierSimpleColor(color: Color(incomeType.presentingColorName), strokeLineWidth: 3.0))
-                                                    .frame(width: 36, height: 36, alignment: .center)
-                                                    .font(Font.system(size: 20, weight: .regular, design: .default))
+                                                    .frame(width: 41, height: 41, alignment: .center)
+                                                    .font(Font.system(size: 15, weight: .regular, design: .default))
                                                     .animation(.linear(duration: 0.5))
                                                     
                                                 VStack(alignment: .leading) {
@@ -103,7 +102,6 @@ struct IncomeView: View {
                             .padding(.horizontal)
                             .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
                         }
-                        
                     }
                     .background(Color.white)
                 } else {
@@ -119,15 +117,14 @@ struct IncomeView: View {
                 
             }
             .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
-            
         }
-
         .sheet(isPresented: self.$editTransaction, content: {
            withAnimation(.easeInOut(duration: 2)) {
                 EditTransactionView(transaction: self.$editingTransaction)
+                    .environmentObject(self.budgetVM)
             }
         })
-       // }
+      
     }
 }
 

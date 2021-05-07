@@ -116,7 +116,7 @@ extension MonthlyBudget {
             }
             result[subCat!] = arr
         }
-
+        
         return result
     }
     

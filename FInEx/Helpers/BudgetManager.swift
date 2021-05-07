@@ -11,9 +11,16 @@ import Combine
 class BudgetManager: ObservableObject {
     @Published var budgetList: [MonthlyBudget] = []
     @Published var transactionList: [Transaction] = []
+    @Published var transactionEdited: Bool = false
     
     func addRecurringTransaction(info: RecurringTransaction, monthlyBudget: MonthlyBudget, context: NSManagedObjectContext) {
         Transaction.update(from: info, monthlyBudget: monthlyBudget, context: context)
+    }
+    
+    func editTransaction(transaction: Transaction, info: TransactionInfo, context: NSManagedObjectContext) {
+        transaction.edit(info: info, context: context)
+        getTransactions(context: context)
+        transactionEdited.toggle()
     }
     
     func deleteTransaction(transaction: Transaction, context: NSManagedObjectContext) {

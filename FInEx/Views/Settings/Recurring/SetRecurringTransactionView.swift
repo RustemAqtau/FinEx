@@ -17,8 +17,8 @@ struct SetRecurringTransactionView: View {
     @State var amount: NSDecimalNumber = 0
     @State private var amountString: String = ""
     @State private var amountIsEditing: Bool = false
-    @State var selectedtypeImageName: String = "questionmark"
-    @State var selectedTypeCircleColor: String = "TopGradient"
+    @State var selectedtypeImageName: String = CategoryIconNamesCustom.questionMark.rawValue
+    @State var selectedTypeCircleColor: String = "TextLightGray"
     @State var selectedTypeName: String = NSLocalizedString("Category", comment: "")
     @State var selectedType: TransactionType = TransactionType()
     @State var showCategorySelector: Bool = false
@@ -95,7 +95,7 @@ struct SetRecurringTransactionView: View {
                     VStack(spacing: 10) {
                         
                         HStack(spacing: 15) {
-                            Image(systemName: self.selectedtypeImageName)
+                            Image( self.selectedtypeImageName)
                                 .foregroundColor(.white)
                                 .modifier(CircleModifierSimpleColor(color: Color(self.selectedTypeCircleColor), strokeLineWidth: 3.0))
                                 .font(Font.system(size: 22, weight: .regular, design: .default))

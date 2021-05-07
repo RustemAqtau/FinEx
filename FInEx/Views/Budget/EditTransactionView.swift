@@ -76,7 +76,7 @@ struct EditTransactionView: View {
                                     .stroke(self.accentColor)
                                     .frame(width: 43, height: 43, alignment: .center)
                                     .opacity(self.selectedTypeName == Placeholders.NewCategorySelector.localizedString() ? 1 : 0)
-                                Image(systemName: self.selectedtypeImageName)
+                                Image(self.selectedtypeImageName)
                                     .foregroundColor(.white)
                                     .modifier(CircleModifierSimpleColor(color: Color(self.selectedTypeCircleColor), strokeLineWidth: 3.0))
                                     .font(Font.system(size: 22, weight: .regular, design: .default))
@@ -191,6 +191,7 @@ struct EditTransactionView: View {
             let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
             var amount = formatter.string(from: NSDecimalNumber(decimal: transaction.amount! as Decimal))!
             amount.removeFirst()
+            amount.removeAll(where: {$0 == ","})
             self.amountString = amount 
             self.selectedType = transaction.type!
             self.selectedTypeName = transaction.type!.presentingName
@@ -229,7 +230,9 @@ struct EditTransactionView: View {
             typeInfo: self.selectedType,
             note: self.note
         )
-        self.transaction.edit(info: newTransactionInfo, context: viewContext)
+        budgetVM.editTransaction(transaction: self.transaction, info: newTransactionInfo, context: viewContext)
+        //self.transaction.edit(info: newTransactionInfo, context: viewContext)
+        //budgetVM.getTransactions(context: viewContext)
         presentationMode.wrappedValue.dismiss()
     }
     

@@ -58,7 +58,7 @@ struct CSVShareManager {
             case "Income":
                 var line = Array<String>(repeating: "", count: columnCount)
                 line[0] = NSLocalizedString(desc, comment: "")
-                line[1] = "Total"
+                line[1] = NSLocalizedString("Total", comment: "")
                 line[2] = md.totalIncome.description
                 lines.append(line)
                 for key in md.incomeByType.keys {

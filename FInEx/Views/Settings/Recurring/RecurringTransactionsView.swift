@@ -51,13 +51,16 @@ struct RecurringTransactionsView: View {
                                     .font(Font.system(size: 18, weight: .light, design: .default))
                                     .frame(width: geo.size.width / 1.15 )
                                     .scaledToFit()
+                                    .onDisappear {
+                                        self.hideTabBar = false
+                                    }
                                     Divider()
                                     ForEach(userSettingsVM.recurringTransactionsByCategory[category] ?? [], id: \.self) { transaction in
                                         VStack {
                                             HStack {
                                                 Group {
                                                     if let type = transaction.type {
-                                                        Image(systemName: type.presentingImageName)
+                                                        Image(type.presentingImageName)
                                                             .foregroundColor(.white)
                                                             .modifier(CircleModifierSimpleColor(color: Color(type.presentingColorName), strokeLineWidth: 3.0))
                                                             .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)

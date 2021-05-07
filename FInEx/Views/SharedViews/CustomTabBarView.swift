@@ -48,20 +48,20 @@ struct CustomTabBarView: View {
                     }, label: {
                         Image(systemName: "circle.grid.cross")
                     })
+                    .foregroundColor(self.isAnalyticsView ? CustomColors.ExpensesColor2 : .gray)
                     Button(action: {
                         self.toolsButtonTapped.toggle()
                     }, label: {
                         Image(systemName: "wrench")
                     })
+                    .foregroundColor(self.isSettingsView ? CustomColors.ExpensesColor2 : .gray)
                 }
-                .foregroundColor(.gray)
+                
                 .position(x: proxi.size.width / 2, y: proxi.size.height / 2.2)
             }
             .font(Font.system(size: 30, weight: .medium, design: .default))
             .position(x: proxi.size.width / 2, y: proxi.size.height)
-            .onAppear {
-                print("geo.height: \(proxi.size.height)")
-            }
+            
         }
         
     }

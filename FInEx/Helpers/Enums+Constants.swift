@@ -55,6 +55,7 @@ enum ColorTheme: String, CaseIterable {
     case orange = "orange"
     case blue = "blue"
     case pink = "pink"
+    case redOrange = "redOrange"
 }
 
 // MARK: - Remainders
@@ -315,6 +316,8 @@ enum CustomColors {
     static let Theme_pink = Color("Theme_pink")
     
     static let White_Background = Color("WhiteBackground")
+    static let Expenses_Main = Color("ExpensesMainColor")
+    static let TextLightGray = Color("TextLightGray")
  }
 
 enum GradientColors {
@@ -342,8 +345,9 @@ struct Theme {
     static let colors: [String : LinearGradient] = [
         ColorTheme.purple.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_purple, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading),
         ColorTheme.pink.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_pink, Color("Theme_orange-1"), Color.white, Color("Theme_orange-1"), CustomColors.Theme_pink]), startPoint: .topLeading, endPoint: .bottomTrailing),
-        ColorTheme.blue.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_blue, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading),
-        ColorTheme.orange.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_orange, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading)
+        ColorTheme.blue.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_blue, CustomColors.SavingsGradient2]), startPoint: .topLeading, endPoint: .bottomTrailing),
+        ColorTheme.orange.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_orange, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading),
+        ColorTheme.redOrange.rawValue: LinearGradient(gradient: Gradient(colors: [CustomColors.ExpensesColor2, CustomColors.Expenses_Main]), startPoint: .topLeading, endPoint: .bottomTrailing)
     ]
     
     static let tabbarColor: [String : LinearGradient] = [
@@ -377,7 +381,7 @@ enum IncomeTypeNames: String {
     case Dividends
     case Interest
     case ChildBenefit
-    
+    case Gift
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
     }
@@ -415,7 +419,12 @@ enum ExpenseTypeNames: String {
     case Dentist
     case CheckUp
     case Flight
-    case Hotel 
+    case Hotel
+    case InsuranceHealth
+    case InsuranceHouse
+    case Bar
+    case Coffee
+    
     
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
@@ -464,10 +473,57 @@ enum SvaingSubCategories: String, CaseIterable {
 
 enum CategoryIcons {
     typealias RawValue = [String]
+    static let first =  [CategoryIconNamesCustom.charity.rawValue,
+                         CategoryIconNamesCustom.trust.rawValue,
+                         CategoryIconNamesCustom.goal.rawValue,
+                         CategoryIconNamesCustom.wishList.rawValue,
+                         CategoryIconNamesCustom.accuracy.rawValue,
+                         CategoryIconNamesCustom.manWithMoney.rawValue,
+                         CategoryIconNamesCustom.exchange.rawValue,
+                         CategoryIconNamesCustom.commodity.rawValue,
+                         CategoryIconNamesCustom.addressBook.rawValue,
+                         CategoryIconNamesCustom.idea.rawValue,
+                         CategoryIconNamesCustom.growingMoney.rawValue,
+                         CategoryIconNamesCustom.notification.rawValue]
     
-    static let first = ["person.3", "person.crop.square.fill.and.at.rectangle", "eyebrow", "mouth", "lungs", "face.dashed.fill", "person.fill.viewfinder", "figure.walk", "figure.wave", "figure.stand.line.dotted.figure.stand", "hands.sparkles.fill"]
-    static let second = ["drop", "flame", "bolt", "hare", "tortoise", "ladybug", "leaf", "heart.text.square", "heart", "bandage.fill", "cross.case.fill", "bed.double", "pills"]
-    static let third = ["waveform.path.ecg", "staroflife", "cross", "bag.fill", "cart", "creditcard.fill", "giftcard.fill", "dollarsign.circle.fill", "bitcoinsign.circle.fill"]
+    static let second = [CategoryIconNamesCustom.bitcoin.rawValue,
+                         CategoryIconNamesCustom.goldBars.rawValue,
+                         CategoryIconNamesCustom.moneyTransferSwift.rawValue,
+                         CategoryIconNamesCustom.euroMoney.rawValue,
+                         CategoryIconNamesCustom.cashEnvelope.rawValue,
+                         CategoryIconNamesCustom.bag.rawValue,
+                         CategoryIconNamesCustom.cardHolder.rawValue,
+                         CategoryIconNamesCustom.delivery.rawValue,
+                         CategoryIconNamesCustom.hammer.rawValue,
+                         CategoryIconNamesCustom.cosmetics.rawValue,
+                         CategoryIconNamesCustom.womenShoe.rawValue,
+                         CategoryIconNamesCustom.hairDryer.rawValue]
+    static let third =  [CategoryIconNamesCustom.cat.rawValue,
+                         CategoryIconNamesCustom.dog.rawValue,
+                         CategoryIconNamesCustom.catFootprint.rawValue,
+                         CategoryIconNamesCustom.gift.rawValue,
+                         CategoryIconNamesCustom.santa.rawValue,
+                         CategoryIconNamesCustom.retroTV.rawValue,
+                         CategoryIconNamesCustom.pigIdea.rawValue,
+                         CategoryIconNamesCustom.officeChair.rawValue,
+                         CategoryIconNamesCustom.asianFood.rawValue,
+                         CategoryIconNamesCustom.birthdayCake.rawValue,
+                         CategoryIconNamesCustom.coffeeToGo.rawValue,
+                         CategoryIconNamesCustom.croissant.rawValue]
+    
+    static let forth = [CategoryIconNamesCustom.aerobic.rawValue,
+                        CategoryIconNamesCustom.gym.rawValue,
+                        CategoryIconNamesCustom.scooter.rawValue,
+                        CategoryIconNamesCustom.skiing.rawValue,
+                        CategoryIconNamesCustom.beach.rawValue,
+                        CategoryIconNamesCustom.holiday.rawValue,
+                        CategoryIconNamesCustom.traveler.rawValue,
+                        CategoryIconNamesCustom.ferrisWheel.rawValue,
+                        CategoryIconNamesCustom.homeOffice.rawValue,
+                        CategoryIconNamesCustom.ferrisWheel.rawValue,
+                        CategoryIconNamesCustom.shoppingCart.rawValue,
+                        CategoryIconNamesCustom.shoppingBag.rawValue]
+    
 }
 
 // MARK: - Fonts
@@ -496,7 +552,9 @@ enum Fonts {
     static var light12: Font {
         Font.system(size: 12, weight: .light, design: .default)
     }
-    
+    static var light10: Font {
+        Font.system(size: 10, weight: .light, design: .default)
+    }
     static var regular20: Font {
         Font.system(size: 20, weight: .regular, design: .default)
     }
@@ -512,6 +570,129 @@ enum Fonts {
 }
 
 // MARK: - Icons
+enum CategoryIconNamesCustom: String {
+    case aerobic
+    case asianFood
+    case bag
+    case beach
+    case birthdayCake
+    case bitcoin
+    case books
+    case cardHolder
+    case cashEnvelope
+    case cat
+    case catFootprint
+    case coffeeToGo
+    case cosmetics
+    case croissant
+    case delivery
+    case dog
+    case euroMoney
+    case ferrisWheel
+    case garderWheelbarrow
+    case gift
+    case giftCard
+    case goldBars
+    case gym
+    case hairDryer
+    case hammer
+    case holiday
+    case homeOffice
+    case lawnMower
+    case machineLearning
+    case makeupBrush
+    case mirror
+    case moneyTransferSwift
+    case officeChair
+    case pigIdea
+    case retroTV
+    case santa
+    case scoller
+    case scooter
+    case shoppingBag
+    case shoppingBasket
+    case shoppingCart
+    case skiing
+    case taxi
+    case telescope
+    case traveler
+    case university
+    case visaCard
+    case womenShoe
+    case accuracy
+    case addressBook
+    case charity
+    case commodity
+    case exchange
+    case goal
+    case growingMoney
+    case idea
+    case manWithMoney
+    case notification
+    case rent
+    case trust
+    case wishList
+    case questionMark
+}
+
+
+enum CategoryIconNamesDefault: String {
+    case expense_Dentist
+    case expense_Accessories
+    case expense_Bar
+    case expense_Car
+    case expense_CarRepair
+    case expense_CheckUp
+    case expense_CinemaTicket
+    case expense_ClothingDress
+    case expense_ClothingSocks
+    case expense_ClothingTShirt
+    case expense_Coffee
+    case expense_Concert
+    case expense_Electricity
+    case expense_Flight
+    case expense_FoodDelivery
+    case expense_Furniture
+    case expense_Gas
+    case expense_Groceries
+    case expense_Heating
+    case expense_HealthInsurance
+    case expense_Hobby
+    case expense_Hotel
+    case expense_HouseInsurance
+    case expense_HousingMaintenance
+    case expense_Loan
+    case expense_Music
+    case expense_Nightclub
+    case expense_Parking
+    case expense_Party
+    case expense_Phone
+    case expense_Pills
+    case expense_PublicTr
+    case expense_Rent
+    case expense_Restaurant
+    case expense_ShoppingGadget
+    case expense_ShoppingGadget2
+    case expense_TV
+    case expense_Water
+    case expense_Wifi
+    
+    case income_Bonus
+    case income_ChildBenefit
+    case income_Dividends
+    case income_Interest
+    case income_Salary
+    case giftCard
+    case income_Pension
+    
+    case savings_Cash
+    case savings_Cash2
+    case savings_CashPig
+    case savings_Education
+    case savings_Investments
+    case savings_Shopping
+}
+
 enum Icons {
     static let ChevronLeft = "chevron.left"
     static let CevronRight = "chevron.right"

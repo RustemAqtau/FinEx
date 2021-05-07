@@ -109,6 +109,7 @@ struct RemaindersView: View {
                         .frame(height: geo.size.height / 4)
                     }
                     .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
+                    
                 }
                 .overlay(
                     VStack {
@@ -162,9 +163,10 @@ struct RemaindersView: View {
             .navigationBarTitle (Text(""), displayMode: .inline)
             .background(CustomColors.White_Background)
             .ignoresSafeArea(.all, edges: .bottom)
+        
         }
         .onAppear {
-            self.hideTabBar = true
+            
             self.enableDailyRemainder = userSettingsVM.settings.enableDailyRemainder
             if let hour = self.userSettingsVM.settings.dailyRemainderHour  {
                 for elem in  DailyRemainderTime.allCases {
@@ -179,6 +181,7 @@ struct RemaindersView: View {
                     self.monthlyRemainderDay = elem
                 }
             }
+            self.hideTabBar = true
         }
         .onChange(of: self.enableDailyRemainder, perform: { value in
             self.hideTabBar = true
@@ -224,7 +227,9 @@ struct RemaindersView: View {
             self.hideTabBar = true
             self.userSettingsVM.settings.editMonthlyRemainderDay(value: self.monthlyRemainderDay.rawValue, context: viewContext)
         })
-        
+        .onDisappear {
+            self.hideTabBar = false
+        }
     }
     
     private func scheduleDailyRemainder() {

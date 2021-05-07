@@ -24,6 +24,14 @@ func setDate(date: Date) -> String {
     return dateString
 }
 
+func setDateForCSV(date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.locale = .current
+    formatter.dateStyle = .short
+    let dateString = formatter.string(from: date)
+    return dateString
+}
+
 func setDecimalFormatter(currencySymbol: String, fractionDigitsNumber: Int) -> NumberFormatter {
 
     let formatter = NumberFormatter()

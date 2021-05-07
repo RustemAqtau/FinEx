@@ -28,6 +28,10 @@
 "BALANCE" = "БАЛАНС";
 "Category" = "Категория";
 "ANALYTICS" = "АНАЛИТИКА";
+"Amount" = "Сумма";
+"Date" = "Дата";
+"Note" = "Заметка";
+"Total" = "Всего";
 
 // LocalNotificationTexts
 "local_key_notification_DailyTitle" = "Ежедневные напоминания ⏰";
@@ -146,7 +150,7 @@
 "local_key_passcodeTab_description1" = "Защитите свои данные паролем. Таким образом только вы будете иметь доступ к вашей информации.";
 "local_key_passcodeTab_mainDescription" = "Защитите свои данные паролем.";
 
-"local_key_registerTab_title" = "Синхронизация и Безопасность";
+"local_key_registerTab_title" = "Синхронизация";
 "local_key_registerTab_description1" = "Синхронизируйте ваши транзакции и бюджет между вашими устройствами.";
 "local_key_registerTab_description1_signed" = "Ваши данные синхронизированы между вашими устройствами.";
 "local_key_registerTab_description2" = "Сделайте резервную копию данных на случай потери телефона.";

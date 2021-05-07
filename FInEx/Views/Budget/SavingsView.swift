@@ -59,10 +59,10 @@ struct SavingsView: View {
                                 ForEach(savingsTypesBySubCategory[subCategory]!, id: \.self) { type in
                                     HStack {
                                         Group {
-                                            Image(systemName: type.presentingImageName)
+                                            Image(type.presentingImageName)
                                                 .foregroundColor(.white)
                                                 .modifier(CircleModifierSimpleColor(color: Color(type.presentingColorName), strokeLineWidth: 3.0))
-                                                .frame(width: geo.size.width * 0.10, height: geo.size.width * 0.10, alignment: .center)
+                                                .frame(width: 41, height: 41, alignment: .center)
                                                 .font(Font.system(size: 20, weight: .regular, design: .default))
                                                 .animation(.linear(duration: 0.5))
                                             

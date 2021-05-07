@@ -28,6 +28,10 @@
 "BALANCE" = "BALANCE";
 "Category" = "Ka­te­go­rie";
 "ANALYTICS" = "ANALYTIK";
+"Amount" = "Betrag";
+"Date" = "Datum";
+"Note" = "Notiz";
+"Total" = "Gesamt";
 
 // LocalNotificationTexts
 "local_key_notification_DailyTitle" = "Tägliche Erinnerungen ⏰";

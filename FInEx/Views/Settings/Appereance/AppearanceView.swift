@@ -82,7 +82,9 @@ struct AppearanceView: View {
                                         HStack {
                                             Text(NSLocalizedString(SettingsContentDescription.appearanceTab_field2.localizedString(), comment: ""))
                                                 .foregroundColor(CustomColors.TextDarkGray)
-                                                .font(Fonts.light20)
+                                                .multilineTextAlignment(.leading)
+                                                .font(Font.system(size: 18, weight: .light, design: .default))
+                                                .lineLimit(2)
                                         }
                                     })
                                 }
@@ -105,14 +107,23 @@ struct AppearanceView: View {
                                     .foregroundColor(CustomColors.TextDarkGray)
                                     HStack {
                                         ForEach(Theme.colors.keys.sorted(), id: \.self) { theme in
-                                            Text("")
-                                                .modifier(CircleModifier(color: Theme.colors[theme]!, strokeLineWidth: 2))
-                                                .frame(width: geo.size.width / 11, height: geo.size.width / 11, alignment: .center)
-                                                .onTapGesture {
-                                                    self.hideTabBar = true
-                                                    self.userSettingsVM.settings.editColorTheme(value: theme, context: viewContext)
-                                                    self.themeColorChanged.toggle()
-                                                }
+                                            ZStack {
+                                                Circle()
+                                                    .stroke(CustomColors.TextDarkGray)
+                                                    .frame(width: geo.size.width / 10.5, height: geo.size.width / 10.5, alignment: .center)
+                                                    .opacity(theme == userSettingsVM.settings.colorTheme ? 1 : 0)
+                                                Text("")
+                                                    .modifier(CircleModifier(color: Theme.colors[theme]!, strokeLineWidth: 2))
+                                                    .frame(width: geo.size.width / 11, height: geo.size.width / 11, alignment: .center)
+                                                    .onTapGesture {
+                                                        
+                                                        self.userSettingsVM.settings.editColorTheme(value: theme, context: viewContext)
+                                                        self.themeColorChanged.toggle()
+                                                    }
+                                            }
+                                            .onDisappear {
+                                                self.hideTabBar = false
+                                            }
                                         }
                                         
                                     }
@@ -137,19 +148,21 @@ struct AppearanceView: View {
                         self.showDecimals = self.userSettingsVM.settings.showDecimals
                     }
                     .onChange(of: self.selectedCurrencySymbol, perform: { value in
+                        self.hideTabBar = true
                         userSettingsVM.settings.editCurrencySymbol(value: value, context: viewContext)
                         setCurrencyName()
                     })
                     .onChange(of: self.showDecimals, perform: { value in
+                        self.hideTabBar = true
                         self.userSettingsVM.settings.editShowDecimals(value: value, context: viewContext)
+                    })
+                    .onChange(of: self.userSettingsVM.settings.colorTheme, perform: { value in
+                        self.hideTabBar = true
                     })
                 }
                 .ignoresSafeArea(.all, edges: .bottom)
-                .onTapGesture {
-                    self.hideTabBar = true
-                }
+
             }
-            
         }
         
     }

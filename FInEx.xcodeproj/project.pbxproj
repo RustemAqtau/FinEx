@@ -291,7 +291,6 @@
 			isa = PBXGroup;
 			children = (
 				58487F8E261EC0F800088341 /* AnalyticsView.swift */,
-				5873EE7C262FB1A0008A4DE7 /* CSVShareManager.swift */,
 				58F35D462630D6480008A00C /* PieChart.swift */,
 				5897C41F26389710005E14BA /* BarChart.swift */,
 			);
@@ -301,6 +300,7 @@
 		5873EDD22627A7C3008A4DE7 /* Budget */ = {
 			isa = PBXGroup;
 			children = (
+				5873EE7C262FB1A0008A4DE7 /* CSVShareManager.swift */,
 				58487F84261E7EDA00088341 /* BudgetView.swift */,
 				5873EDD72627A850008A4DE7 /* ExpensesView.swift */,
 				5873EDE12627C1B8008A4DE7 /* IncomeView.swift */,

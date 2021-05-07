@@ -54,16 +54,17 @@ struct ExpensesView: View {
                                 .padding(.horizontal)
                                 Divider()
                                     
-                                ForEach(expensesBySubCategory[subCategory]!, id: \.date) { expense in
+                                ForEach(expensesBySubCategory[subCategory]!, id: \.self) { expense in
                                     HStack {
                                         Group {
                                                 if let expenseType = expense.type {
-                                                //Image(systemName: expenseType.presentingImageName)
-                                                    Image("icons8-tooth-30")
+                                                Image( expenseType.presentingImageName)
+                                                    //Image("expense_Restaurant")
                                                     .foregroundColor(.white)
-                                                    .modifier(CircleModifierSimpleColor(color: Color(expenseType.presentingColorName), strokeLineWidth: 3.0))
-                                                    .frame(width: 36, height: 36, alignment: .center)
-                                                    .font(Font.system(size: 20, weight: .regular, design: .default))
+                                                        .font(Font.system(size: 15, weight: .regular, design: .default))
+                                                    .modifier(CircleModifierSimpleColor(color: Color(expenseType.presentingColorName),
+                                                                                        strokeLineWidth: 3.0))
+                                                    .frame(width: 41, height: 41, alignment: .center)
                                                     .animation(.linear(duration: 0.5))
                                                 VStack(alignment: .leading) {
                                                     HStack {
@@ -71,7 +72,8 @@ struct ExpensesView: View {
                                                             .shadow(radius: -10 )
                                                             //.font(Font.system(size: 18, weight: .light, design: .default))
                                                         Text(expense.notePresentation.isEmpty ? "" : "(\(expense.notePresentation))")
-                                                            .font(Font.system(size: 15, weight: .ultraLight, design: .default))
+                                                            .font(Font.system(size: 13, weight: .ultraLight, design: .default))
+                                                            
                                                         
                                                     }
                                                     //.foregroundColor(CustomColors.TextDarkGray)
@@ -84,7 +86,7 @@ struct ExpensesView: View {
                                             }
                                         }
                                         Spacer()
-                                        Text(formatter.string(from: expense.amount ?? 0)!)
+                                        Text(formatter.string(from: expense.amountDecimal)!)
                                             //.foregroundColor(CustomColors.TextDarkGray)
                                             //.animation(.linear(duration: 0.3))
                                     }
@@ -122,25 +124,14 @@ struct ExpensesView: View {
             }
             .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
         }
-
         .sheet(isPresented: self.$editTransaction, content: {
             withAnimation(.easeInOut(duration: 2)) {
                 EditTransactionView(transaction: self.$editingTransaction)
                     .environmentObject(self.budgetVM)
             }
         })
-        
     }
-   
-    
 }
 
-//struct ExpensesView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GeometryReader { geo in
-//            ExpensesView(geo: geo, expensesBySubCategory: .constant([:]), addedRecurringTransaction: .constant(false) )
-//        }
-//        
-//    }
-//}
+
 

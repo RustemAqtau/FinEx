@@ -15,8 +15,8 @@ struct AddCategorySubTypeView: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var category: String
     @State private var newtypeName: String = NSLocalizedString("", comment: "")
-    @State private var appearanceImageName: String = Icons.Questionmark
-    @State private var appearanceCircleColor: String = "TopGradient"
+    @State private var appearanceImageName: String = CategoryIconNamesCustom.questionMark.rawValue
+    @State private var appearanceCircleColor: String = "TextLightGray"
     @State private var showIcons: Bool = true
     @State private var selectedSubCategory: String = NSLocalizedString("", comment: "")
     @State private var warningMessage: String = ""
@@ -90,6 +90,7 @@ struct AddCategorySubTypeView: View {
                                 
                             })
                             .accentColor(.gray)
+                            .disableAutocorrection(true)
                             .introspectTextField { textField in
                                // textField.becomeFirstResponder()
                                 if self.showIcons {
@@ -105,7 +106,7 @@ struct AddCategorySubTypeView: View {
                             Text(LocalizedStringKey("APPEARANCE"))
                                 .font(Fonts.light12)
                             HStack {
-                                Image(systemName: self.appearanceImageName)
+                                Image(self.appearanceImageName)
                                     .foregroundColor(.white)
                                     .modifier(CircleModifierSimpleColor(color: Color(self.appearanceCircleColor), strokeLineWidth: 3.0))
                                     .font(Font.system(size: 24, weight: .regular, design: .default))

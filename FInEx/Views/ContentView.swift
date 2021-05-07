@@ -141,6 +141,7 @@ struct ContentView: View {
                 userSettingsVM.settings.currencySymbol = formatter.currencySymbol
             }
             setThemeColor()
+            self.hideTabBar = false
         }
         .onChange(of: self.mainButtonTapped, perform: { value in
             if self.isAnalyticsView {
@@ -206,6 +207,7 @@ struct ContentView: View {
             
             setThemeColor()
         })
+
         .overlay(
             CustomTabBarView(//geo: geo,
                              plusButtonColor: self.$plusButtonColor,
@@ -253,6 +255,8 @@ struct ContentView: View {
                 self.themeColor = Theme.colors[ColorTheme.blue.rawValue]!
             case ColorTheme.orange.rawValue:
                 self.themeColor = Theme.colors[ColorTheme.orange.rawValue]!
+            case ColorTheme.redOrange.rawValue:
+                self.themeColor = Theme.colors[ColorTheme.redOrange.rawValue]!
             default:
                 self.themeColor = Theme.colors[ColorTheme.purple.rawValue]!
             }
@@ -263,7 +267,7 @@ struct ContentView: View {
     func setNavBarAppearance() {
         coloredNavAppearance.configureWithOpaqueBackground()
         coloredNavAppearance.backgroundColor = colorScheme == .dark ? UIColor(CustomColors.White_Background) : UIColor.clear //UIColor(CustomColors.TopBackgroundGradient3)
-        coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.gray, .strokeColor: UIColor.clear, .underlineColor: colorScheme == .dark ? UIColor(CustomColors.White_Background) : UIColor.clear]
+        coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor(CustomColors.TextDarkGray), .strokeColor: UIColor.clear, .underlineColor: colorScheme == .dark ? UIColor(CustomColors.White_Background) : UIColor.clear]
         coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.gray]
         coloredNavAppearance.shadowColor = colorScheme == .dark ? UIColor(CustomColors.White_Background) : UIColor.clear
         coloredBarButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(CustomColors.TextDarkGray)]

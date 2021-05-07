@@ -88,7 +88,7 @@ struct EditRecurringTransactionView: View {
                     VStack(spacing: 10) {
                         
                         HStack(spacing: 15) {
-                            Image(systemName: self.selectedtypeImageName)
+                            Image( self.selectedtypeImageName)
                                 .foregroundColor(.white)
                                 .modifier(CircleModifierSimpleColor(color: Color(self.selectedTypeCircleColor), strokeLineWidth: 3.0))
                                 .font(Font.system(size: 22, weight: .regular, design: .default))

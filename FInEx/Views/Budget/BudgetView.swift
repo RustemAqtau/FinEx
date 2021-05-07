@@ -49,6 +49,8 @@ struct BudgetView: View {
     @Binding var showAddTransaction: Bool
     @Binding var askPasscode: Bool
     
+    @State var sendingDataURL: URL = URL(fileURLWithPath: "")
+    
     var body: some View {
         NavigationView {
             let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
@@ -58,21 +60,39 @@ struct BudgetView: View {
                 .frame(width: geo.size.width, height: geo.size.height / 3, alignment: .center)
                 .background(themeColor)
                 .ignoresSafeArea(.all, edges: .top)
-                //.navigationBarTitle (Text(LocalizedStringKey("ANALYTICS")), displayMode: .inline)
                 
                 VStack {
                     
                     VStack(spacing: 0) {
-                        HStack {
-                            Text(LocalizedStringKey("BALANCE"))
-                            Text(formatter.string(from: NSDecimalNumber(decimal: currentMonthBudget.currentBalance))!)
+                        HStack(spacing: 15) {
+                            HStack(spacing: 5) {
+                                Text(LocalizedStringKey("BALANCE"))
+                                Text(formatter.string(from: NSDecimalNumber(decimal: currentMonthBudget.currentBalance))!)
+                            }
+                            
+                            Button(action: {
+                                let shareManager = CSVShareManager()
+                                let csvData = shareManager.createMonthBudgetCSV(for: currentMonthBudget)
+                                let path = try? FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
+                                sendingDataURL = path!.appendingPathComponent("FInEx-\(currentMonthBudget.monthYearStringPresentation).csv")
+                                try?csvData.write(to: sendingDataURL)
+                                shareManager.shareCSV(url: sendingDataURL)
+                            }) {
+                                VStack(spacing: 0){
+                                    Image(systemName: Icons.Doc_Arrow_Down)
+                                    Text("CSV")
+                                        .font(Fonts.light10)
+                                }
+                            }
+                            .onAppear {
+                                startAnimate()
+                            }
                         }
                        .frame(width: geo.size.width * 0.90, height: 20, alignment: .center)
                         //.offset(y: 50)
                         .foregroundColor(CustomColors.TextDarkGray)
                         .opacity(0.8)
                         .font(Fonts.light15)
-                        //.background(GradientColors.TopBackground)
                         HStack(spacing: -10) {
                             VStack {
                                 Text(formatter.string(from: currentMonthBudget.totalIncome)!)
@@ -102,8 +122,7 @@ struct BudgetView: View {
                                     .font(Font.system(size: (self.savingsSelected || self.incomeSelected) ? 16 : 20, weight: .light, design: .default))
                                     .multilineTextAlignment(.center)
                                 Text(LocalizedStringKey("EXPENSES"))
-                                   // .font(.footnote)
-                                    .font(Fonts.light12)
+                                   .font(Fonts.light12)
                                     .opacity(0.8)
                             }
                             .modifier(RoundedRectangleModifier(color: GradientColors.Expense, strokeLineWidth: (self.savingsSelected || self.incomeSelected) ? 3.0 : 4.5))
@@ -127,7 +146,6 @@ struct BudgetView: View {
                                     .font(Font.system(size: self.savingsSelected ? 20 : 16, weight: .light, design: .default))
                                     .multilineTextAlignment(.center)
                                 Text(LocalizedStringKey("SAVINGS"))
-                                    //.font(.footnote)
                                     .font(Fonts.light12)
                                     .opacity(0.8)
                             }
@@ -146,18 +164,13 @@ struct BudgetView: View {
                             }
                         }
                         .frame(width: geo.size.width, height: 90, alignment: .center)
-                        
-                       // .border(Color.black)
-                        //.offset(x: 0, y: offsetY)
-                        .offset(x: 0, y: 10.0)
-//                        .onAppear {
-//                            startAnimate()
-//
-//                        }
-                        
+                        .offset(x: 0, y: offsetY)
+                        .onAppear {
+                            startAnimate()
+
+                        }
                     }
                    .frame(width: geo.size.width, height: geo.size.height / 6, alignment: .center)
-                    //.background(themeColor)
                     .sheet(isPresented: self.$showAddTransaction, content: {
                         let addingCategory = getAddingCategory()
                         AddTransactionView(currentMonthBudget: self.$currentMonthBudget, category:addingCategory)
@@ -225,16 +238,10 @@ struct BudgetView: View {
                     }
                 }
                 
-              //  .ignoresSafeArea(.all, edges: .top)
                 .navigationBarTitle (Text(LocalizedStringKey("BUDGET")), displayMode: .inline)
-                //.background(GradientColors.TopBackground)
-               // .transition(.asymmetric(insertion: AnyTransition.opacity.combined(with: .slide), removal: .scale))
-               // .background(GradientColors.TabBarBackground) //(CustomColors.TopBackgroundGradient3)
                 .onAppear {
                     self.currentMonthBudget = budgetVM.budgetList.last!
-                    self.presentingTransactions = currentMonthBudget.expensesList
                     updateData()
-                    //coloredNavAppearance.backgroundColor = colorScheme == .dark ? UIColor(CustomColors.White_Background) : UIColor.clear
                     UINavigationBar.appearance().standardAppearance = coloredNavAppearance
                     UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
                     
@@ -242,12 +249,13 @@ struct BudgetView: View {
                 .onChange(of: self.budgetVM.transactionList.count, perform: { value in
                     updateData()
                 })
+                .onChange(of: self.budgetVM.transactionEdited, perform: { value in
+                    updateData()
+                })
                 .onChange(of: self.addedRecurringTransaction, perform: { value in
                     updateData()
                 })
-                .onChange(of: self.editTransaction, perform: { value in
-                    updateData()
-                })
+
                 .onChange(of: self.getPreviousMonthBudget, perform: { value in
                     updateData()
                 })

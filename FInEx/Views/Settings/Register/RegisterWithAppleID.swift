@@ -32,7 +32,9 @@ struct RegisterWithAppleID: View {
                                 .foregroundColor(CustomColors.TextDarkGray)
                         }
                         .frame(width: geo.size.width * 0.90, height: geo.size.height * 0.30, alignment: .top)
-                        
+                        .onDisappear {
+                            self.hideTabBar = false
+                        }
                     VStack(alignment: .leading) {
                         HStack {
                             Image(systemName: "arrow.triangle.2.circlepath")

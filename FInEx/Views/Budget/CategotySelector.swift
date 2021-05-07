@@ -41,7 +41,7 @@ struct CategotySelector: View {
                             
                             Grid(userSettingsVM.transactionTypesByCategoty[category]![subCategory]!, viewForItem: { transactionType in
                                 VStack {
-                                    Image(systemName: transactionType.presentingImageName)
+                                    Image(transactionType.presentingImageName)
                                         .modifier(CircleModifierSimpleColor(color: Color(transactionType.presentingColorName), strokeLineWidth: 3.0))
                                         .font(Font.system(size: 24, weight: .regular, design: .default))
                                     Text(LocalizedStringKey(transactionType.presentingName))
@@ -49,7 +49,7 @@ struct CategotySelector: View {
                                         .multilineTextAlignment(.center)
                                         .lineLimit(1)
                                 }
-                                .frame(width: 85, height: 85, alignment: .center)
+                                .frame(width: 75, height: 75, alignment: .center)
                                 .onTapGesture {
                                     self.selectedType = transactionType
                                     self.selectedtypeImageName = transactionType.presentingImageName

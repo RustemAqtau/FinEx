@@ -42,7 +42,7 @@ struct SettingsView: View {
                                 VStack(spacing: 15) {
                                     Image(systemName: "arrow.clockwise.icloud.fill")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
-                                        .foregroundColor(CustomColors.ExpensesColor)
+                                        .foregroundColor(CustomColors.ExpensesColor2)
                                         .frame(height: 50)
                                         
                                     VStack(alignment: .center, spacing: 8) {
@@ -75,7 +75,7 @@ struct SettingsView: View {
                                      VStack(spacing: 15) {
                                          Image(systemName: "lock.shield")
                                              .font(Font.system(size: 40, weight: .light, design: .default))
-                                            .foregroundColor(CustomColors.ExpensesColor)
+                                            .foregroundColor(CustomColors.ExpensesColor2)
                                             .frame(height: 50)
                                             
                                          VStack(alignment: .center, spacing: 8) {
@@ -114,7 +114,7 @@ struct SettingsView: View {
                                     VStack(spacing: 15) {
                                         Image(systemName: "tag.circle")
                                             .font(Font.system(size: 40, weight: .light, design: .default))
-                                            .foregroundColor(CustomColors.ExpensesColor)
+                                            .foregroundColor(CustomColors.ExpensesColor2)
                                             .frame(height: 50)
                                         VStack(alignment: .center, spacing: 8) {
                                             Text(LocalizedStringKey(LableTitles.categoriesTab.localizedString()))
@@ -150,7 +150,7 @@ struct SettingsView: View {
                                 VStack(spacing: 15) {
                                     Image(systemName: "arrow.triangle.2.circlepath")
                                         .font(Font.system(size: 40, weight: .light, design: .default))
-                                        .foregroundColor(CustomColors.ExpensesColor)
+                                        .foregroundColor(CustomColors.ExpensesColor2)
                                         .frame(height: 50)
                                     VStack(alignment: .center, spacing: 8) {
                                         Text(LocalizedStringKey(LableTitles.recurringTab.localizedString()))
@@ -190,7 +190,7 @@ struct SettingsView: View {
                                     VStack(spacing: 15) {
                                         Image(systemName: "lock.shield")
                                             .font(Font.system(size: 40, weight: .light, design: .default))
-                                            .foregroundColor(CustomColors.ExpensesColor)
+                                            .foregroundColor(CustomColors.ExpensesColor2)
                                             .frame(height: 50)
                                         VStack(alignment: .center, spacing: 8) {
                                             Text(LocalizedStringKey(LableTitles.appearanceTab.localizedString()))
@@ -226,7 +226,7 @@ struct SettingsView: View {
                                     VStack(spacing: 15) {
                                         Image(systemName: "lock.shield")
                                             .font(Font.system(size: 40, weight: .light, design: .default))
-                                            .foregroundColor(CustomColors.ExpensesColor)
+                                            .foregroundColor(CustomColors.ExpensesColor2)
                                             .frame(height: 50)
                                         VStack(alignment: .center, spacing: 8) {
                                             Text(LocalizedStringKey(LableTitles.remainderTab.localizedString()))
@@ -257,8 +257,11 @@ struct SettingsView: View {
                     .onAppear {
                         setNavBarAppearance()
                         startAnimate()
-                        self.hideTabBar = false
+                        //self.hideTabBar = false
                     }
+                    .onChange(of: self.hideTabBar, perform: { value in
+                        self.hideTabBar = value
+                    })
                     VStack {
                     }
                     .frame(width: geo.size.width, height: 100, alignment: .center)
@@ -280,7 +283,7 @@ struct SettingsView: View {
     func setNavBarAppearance() {
         coloredNavAppearance.configureWithOpaqueBackground()
         coloredNavAppearance.backgroundColor = UIColor(.clear) //UIColor(CustomColors.TopBackgroundGradient3)
-        coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor.gray, .strokeColor: UIColor.clear, .underlineColor: UIColor.clear]
+        coloredNavAppearance.titleTextAttributes = [.foregroundColor: UIColor(CustomColors.TextDarkGray), .strokeColor: UIColor.clear, .underlineColor: UIColor.clear]
         coloredNavAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.gray]
         coloredNavAppearance.shadowColor = .clear
         

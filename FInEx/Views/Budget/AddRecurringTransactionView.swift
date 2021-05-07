@@ -35,7 +35,7 @@ struct AddRecurringTransactionView: View {
                         HStack {
                             HStack {
                                 Group {
-                                    Image(systemName: transaction.type!.presentingImageName)
+                                    Image(transaction.type!.presentingImageName)
                                         .foregroundColor(.white)
                                         .modifier(CircleModifierSimpleColor(color: Color(transaction.type!.presentingColorName), strokeLineWidth: 3.0))
                                         .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)

@@ -28,6 +28,10 @@
 "BALANCE" = "BALANCE";
 "Category" = "Category";
 "ANALYTICS" = "ANALYTICS";
+"Amount" = "Amount";
+"Date" = "Date";
+"Note" = "Note";
+"Total" = "Total";
 
 // LocalNotificationTexts
 "local_key_notification_DailyTitle" = "Daily remainder ⏰";

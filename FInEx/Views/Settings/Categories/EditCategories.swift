@@ -25,9 +25,17 @@ struct EditCategories: View {
                 Group {
                     VStack {
                     }
-                    .frame(width: geo.size.width, height: 20, alignment: .center)
+                    .frame(width: geo.size.width, height: 0, alignment: .center)
                     .ignoresSafeArea(.all, edges: .top)
                     .navigationBarTitle (Text(""), displayMode: .inline)
+                    .navigationBarItems(trailing: Button(action: {
+                        self.addingCategory = self.selectedCategory
+                        self.isAddingCategory = true
+                        
+                    }) {
+                        Image(systemName: "plus.circle")
+                            .font(Font.system(size: 20, weight: .regular, design: .default))
+                    })
                     VStack {
                         VStack {
                             Picker(selection: self.$selectedCategory, label: Text("")) {
@@ -41,28 +49,7 @@ struct EditCategories: View {
                         }
                         .frame(width: geo.size.width)
                         .foregroundColor(CustomColors.TextDarkGray)
-                        
-                        HStack {
 
-                            Button(action: {
-                                self.addingCategory = self.selectedCategory
-                                self.isAddingCategory = true
-                            }) {
-                                Image(systemName: "plus")
-                                //Text(LocalizedStringKey("ADD NEW"))
-                                    .foregroundColor(CustomColors.TextDarkGray)
-                                    .font(Font.system(size: 20, weight: .regular, design: .default))
-                                    .frame(width: geo.size.width * 0.90, height: 30, alignment: .center)
-                                
-                            }.sheet(isPresented: $isAddingCategory, content: {
-                                withAnimation(.easeInOut(duration: 2)) {
-                                    AddCategorySubTypeView(category: self.$addingCategory)
-                                        .environmentObject(userSettingsVM)
-                                }
-                            })
-                        }
-                        .frame(width: geo.size.width * 0.90, alignment: .trailing)
-                        
                         ScrollView {
                                 VStack {
                                     if self.selectedSubCategories != nil {
@@ -79,7 +66,7 @@ struct EditCategories: View {
                                                                 .frame(width: geo.size.width / 12, height: geo.size.width / 11, alignment: .center)
                                                         }
                                                         Group {
-                                                            Image(systemName: types[index].presentingImageName)
+                                                            Image(types[index].presentingImageName)
                                                                 .foregroundColor(.white)
                                                                 .modifier(CircleModifierSimpleColor(color: Color(types[index].presentingColorName), strokeLineWidth: 3.0))
                                                                 .frame(width: geo.size.width / 12, height: geo.size.width / 10, alignment: .center)
@@ -130,10 +117,10 @@ struct EditCategories: View {
                                                                    
                                                             }
                                                             Group {
-                                                                Image(systemName: type.presentingImageName)
+                                                                Image( type.presentingImageName)
                                                                     .foregroundColor(.white)
                                                                     .modifier(CircleModifierSimpleColor(color: Color(type.presentingColorName), strokeLineWidth: 3.0))
-                                                                    .frame(width: geo.size.width * 0.10, height: geo.size.width * 0.10, alignment: .center)
+                                                                    .frame(width: 41, height: 41, alignment: .center)
                                                                     .padding()
                                                                 Text(LocalizedStringKey(type.presentingName))
                                                                     .multilineTextAlignment(.leading)
@@ -163,6 +150,9 @@ struct EditCategories: View {
                                                 insertion: AnyTransition.opacity.combined(with: .slide),
                                                 removal: .move(edge: .leading))
                                             )
+                                .onDisappear {
+                                    self.hideTabBar = false
+                                }
                             VStack {
                             }
                             .frame(width: geo.size.width, height: geo.size.height / 3, alignment: .center)
@@ -188,6 +178,12 @@ struct EditCategories: View {
                 .onChange(of: self.showHideButton, perform: { value in
                     self.hideTabBar = true
                     self.selectedSubCategories = userSettingsVM.subCategories[self.selectedCategory]
+                })
+                .sheet(isPresented: $isAddingCategory, content: {
+                    withAnimation(.easeInOut(duration: 2)) {
+                        AddCategorySubTypeView(category: self.$addingCategory)
+                            .environmentObject(userSettingsVM)
+                    }
                 })
             }
         }

@@ -32,14 +32,16 @@ open class ChartColorTemplates: NSObject
     @objc open class func expensesPastel () -> [NSUIColor]
     {
         return [
+            NSUIColor(red: 1.000, green: 0.301, blue: 0.357, alpha: 1.0),
             NSUIColor(red: 1.000, green: 0.528, blue: 0.536, alpha: 1.0),
             NSUIColor(red: 1.000, green: 0.626, blue: 0.628, alpha: 1.0),
             NSUIColor(red: 1.000, green: 0.757, blue: 0.751, alpha: 1.0),
             NSUIColor(red: 1.000, green: 0.904, blue: 0.802, alpha: 1.0),
             NSUIColor(red: 1.000, green: 0.715, blue: 0.500, alpha: 1.0),
             NSUIColor(red: 1.000, green: 0.800, blue: 0.430, alpha: 1.0),
-            NSUIColor(red: 1.000, green: 1.000, blue: 0.474, alpha: 1.0),
-            NSUIColor(red: 1.000, green: 1.000, blue: 0.624, alpha: 1.0)
+            NSUIColor(red: 1.000, green: 0.466, blue: 0.823, alpha: 1.0),
+            NSUIColor(red: 1.000, green: 0.340, blue: 0.855, alpha: 1.0),
+            NSUIColor(red: 0.925, green: 0.280, blue: 0.868, alpha: 1.0)
             
         ]
     }
@@ -47,6 +49,7 @@ open class ChartColorTemplates: NSObject
     @objc open class func incomePastel () -> [NSUIColor]
     {
         return [
+            
             NSUIColor(red: 0.000, green: 0.445, blue: 0.443, alpha: 1.0),
             NSUIColor(red: 0.000, green: 0.558, blue: 0.569, alpha: 1.0),
             NSUIColor(red: 0.000, green: 0.678, blue: 0.688, alpha: 1.0),
@@ -62,7 +65,7 @@ open class ChartColorTemplates: NSObject
     @objc open class func savingPastel () -> [NSUIColor]
     {
         return [
-            NSUIColor(red: 0.220, green: 0.690, blue: 0.549, alpha: 1.0),
+            NSUIColor(red: 0.176, green: 0.632, blue: 0.508, alpha: 1.0),
             NSUIColor(red: 0.315, green: 0.753, blue: 0.655, alpha: 1.0),
             NSUIColor(red: 0.410, green: 0.852, blue: 0.688, alpha: 1.0),
             NSUIColor(red: 0.481, green: 0.963, blue: 0.829, alpha: 1.0),
@@ -84,14 +87,14 @@ open class ChartColorTemplates: NSObject
     @objc open class func expenseBarPastel () -> [NSUIColor]
     {
         return [
-            NSUIColor(red: 1.000, green: 0.528, blue: 0.536, alpha: 1.0)
+            NSUIColor(red: 1.000, green: 0.301, blue: 0.357, alpha: 1.0)
         ]
     }
     
     @objc open class func savingBarPastel () -> [NSUIColor]
     {
         return [
-            NSUIColor(red: 0.220, green: 0.690, blue: 0.549, alpha: 1.0)
+            NSUIColor(red: 0.176, green: 0.632, blue: 0.508, alpha: 1.0)
         ]
     }
     

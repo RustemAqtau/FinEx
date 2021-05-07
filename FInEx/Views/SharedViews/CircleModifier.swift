@@ -59,8 +59,13 @@ struct CircleModifierSimpleColor: ViewModifier {
                     .fill(Color.white)
                     .opacity(0.02)
                 Circle()
-                    .stroke(lineWidth: strokeLineWidth).foregroundColor(.white)
-                    //.shadow(radius: 5)
+                    .stroke(lineWidth: strokeLineWidth)
+                    .foregroundColor(.white)
+                    //.opacity(0.2)
+                Circle()
+                    .stroke(lineWidth: strokeLineWidth)
+                    .foregroundColor(color)
+                    .opacity(0.3)
             }
             content
         }

@@ -81,7 +81,7 @@ struct WithdrawSavingView: View {
                                     .stroke(self.accentColor)
                                     .frame(width: 43, height: 43, alignment: .center)
                                     .opacity(self.selectedTypeName == Placeholders.NewCategorySelector.localizedString() ? 1 : 0)
-                                Image(systemName: self.selectedtypeImageName)
+                                Image(self.selectedtypeImageName)
                                     .foregroundColor(.white)
                                     .modifier(CircleModifierSimpleColor(color: Color(self.selectedTypeCircleColor), strokeLineWidth: 3.0))
                                     .font(Font.system(size: 22, weight: .regular, design: .default))

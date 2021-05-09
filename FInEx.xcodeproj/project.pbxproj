@@ -53,6 +53,8 @@
 		5873EE78262F9BEA008A4DE7 /* AddRecurringTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE77262F9BEA008A4DE7 /* AddRecurringTransactionView.swift */; };
 		5873EE7D262FB1A0008A4DE7 /* CSVShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5873EE7C262FB1A0008A4DE7 /* CSVShareManager.swift */; };
 		5897C42026389710005E14BA /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5897C41F26389710005E14BA /* BarChart.swift */; };
+		58BEC7C126472C530021B901 /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BEC7C026472C530021B901 /* SyncManager.swift */; };
+		58BEC7C326479C2A0021B901 /* SettingsCustomBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BEC7C226479C2A0021B901 /* SettingsCustomBackButton.swift */; };
 		58E2BF5D261D8E3900477D44 /* FInExApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2BF5C261D8E3900477D44 /* FInExApp.swift */; };
 		58E2BF5F261D8E3900477D44 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58E2BF5E261D8E3900477D44 /* ContentView.swift */; };
 		58E2BF61261D8E3A00477D44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58E2BF60261D8E3A00477D44 /* Assets.xcassets */; };
@@ -142,6 +144,8 @@
 		5873EE77262F9BEA008A4DE7 /* AddRecurringTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecurringTransactionView.swift; sourceTree = "<group>"; };
 		5873EE7C262FB1A0008A4DE7 /* CSVShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVShareManager.swift; sourceTree = "<group>"; };
 		5897C41F26389710005E14BA /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
+		58BEC7C026472C530021B901 /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
+		58BEC7C226479C2A0021B901 /* SettingsCustomBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCustomBackButton.swift; sourceTree = "<group>"; };
 		58E2BF59261D8E3900477D44 /* FInEx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FInEx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58E2BF5C261D8E3900477D44 /* FInExApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FInExApp.swift; sourceTree = "<group>"; };
 		58E2BF5E261D8E3900477D44 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -217,6 +221,7 @@
 				5873EE022629119D008A4DE7 /* Extensions+.swift */,
 				5873EE5A262F4DE6008A4DE7 /* Formatters.swift */,
 				58400413263C7E8E001B7C20 /* KeyboardHeightHelper.swift */,
+				58BEC7C026472C530021B901 /* SyncManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -325,6 +330,7 @@
 				5873EE12262AB518008A4DE7 /* SaveButtonView.swift */,
 				58F35D5626321ECA0008A00C /* RoundedRectangleModifier.swift */,
 				5840041A2640BE4C001B7C20 /* NoDataPlaceholderView.swift */,
+				58BEC7C226479C2A0021B901 /* SettingsCustomBackButton.swift */,
 			);
 			path = SharedViews;
 			sourceTree = "<group>";
@@ -723,6 +729,7 @@
 			files = (
 				5873EDEC26280182008A4DE7 /* AddTransactionView.swift in Sources */,
 				58487F8F261EC0F800088341 /* AnalyticsView.swift in Sources */,
+				58BEC7C326479C2A0021B901 /* SettingsCustomBackButton.swift in Sources */,
 				5873EDF42628FE4F008A4DE7 /* Grid.swift in Sources */,
 				5804AD9B2620B29C00E2FF1E /* RegisterWithAppleID.swift in Sources */,
 				5804ADBC2622885D00E2FF1E /* UserSettingsManager.swift in Sources */,
@@ -748,6 +755,7 @@
 				5804ADEE2624DA6C00E2FF1E /* MonthlyBudgetInfo.swift in Sources */,
 				5873EDFE26290CAC008A4DE7 /* CategotySelector.swift in Sources */,
 				58400412263B3B64001B7C20 /* RemaindersView.swift in Sources */,
+				58BEC7C126472C530021B901 /* SyncManager.swift in Sources */,
 				58F35D5726321ECA0008A00C /* RoundedRectangleModifier.swift in Sources */,
 				5897C42026389710005E14BA /* BarChart.swift in Sources */,
 				5804ADDF2624CB4400E2FF1E /* Transaction.swift in Sources */,

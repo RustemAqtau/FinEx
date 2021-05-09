@@ -259,9 +259,9 @@ struct SettingsView: View {
                         startAnimate()
                         //self.hideTabBar = false
                     }
-                    .onChange(of: self.hideTabBar, perform: { value in
-                        self.hideTabBar = value
-                    })
+//                    .onChange(of: self.hideTabBar, perform: { value in
+//                        self.hideTabBar = value
+//                    })
                     VStack {
                     }
                     .frame(width: geo.size.width, height: 100, alignment: .center)
@@ -271,6 +271,7 @@ struct SettingsView: View {
             
         }
         .accentColor(CustomColors.TextDarkGray)
+        .navigationBarBackButtonHidden(true)
         //.navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
     

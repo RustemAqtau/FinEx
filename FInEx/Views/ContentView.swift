@@ -99,50 +99,37 @@ struct ContentView: View {
             PasscodeField(isNewPasscode: false, askBiometrix: self.askBiometrix)
         })
         .transition(.identity)
-        // .ignoresSafeArea(.all, edges: .top)
         .onAppear {
+
+            let currentDate = Date()
             if self.userSettingsVM.checkUserSettingsIsEmpty(context: viewContext) {
                 self.userSettingsVM.setUserSettings(context: viewContext)
+                self.userSettingsVM.getUserSettings(context: viewContext)
             }
-            self.userSettingsVM.getUserSettings(context: viewContext)
-            if self.userSettingsVM.checkTransactionTypesIsEmpty(context: viewContext) {
+            let userIsAutorised = checkForExistingUser()
+            if userIsAutorised == false {
+                if self.userSettingsVM.checkTransactionTypesIsEmpty(context: viewContext) {
+                    self.userSettingsVM.loadDefaultTransactionTypes(context: viewContext)
+                    self.userSettingsVM.getAllTransactiontypes(context: viewContext)
+                }
                 
-                self.userSettingsVM.loadDefaultTransactionTypes(context: viewContext)
-            }
-            self.userSettingsVM.getAllTransactiontypes(context: viewContext)
-            
-            let currentDate = Date()
-            let currentMonth = getMonthFrom(date: currentDate)
-            self.budgetVM.getBudgetList(context: viewContext)
-            if self.budgetVM.checkMonthlyBudgetIsEmpty(context: viewContext) {
-                self.budgetVM.setFirstMonthlyBudget(context: viewContext, currentDate: currentDate)
                 self.budgetVM.getBudgetList(context: viewContext)
-            }
-            if let lastMonthBudget = self.budgetVM.budgetList.last {
-                if lastMonthBudget.month < currentMonth! {
-                    self.budgetVM.setCurrentMonthlyBudget(context: viewContext, previousMonthBudget: lastMonthBudget, currentDate: currentDate)
+                if self.budgetVM.checkMonthlyBudgetIsEmpty(context: viewContext) {
+                    self.budgetVM.setFirstMonthlyBudget(context: viewContext, currentDate: currentDate)
                     self.budgetVM.getBudgetList(context: viewContext)
                 }
+                updateData()
             }
-            
-            if userSettingsVM.settings.isSetPassCode {
-                self.askPasscode = true
-                if userSettingsVM.settings.isSetBiometrix {
-                    self.askBiometrix = true
+       }
+        .onReceive(SyncManager.shared.cloudEventPublisher, perform: { notification in
+            handleCloudEvent(notification)
+            if !self.userSettingsVM.checkUserSettingsIsEmpty(context: viewContext) {
+                if !self.userSettingsVM.settings.isSignedWithAppleId {
+                    self.userSettingsVM.settings.editIsSignedWithAppleId(value: true, context: viewContext)
                 }
             }
-            
-            self.currentMonthBudget = budgetVM.budgetList.last!
-            if userSettingsVM.settings.currencySymbol == nil {
-                let formatter = NumberFormatter()
-                formatter.locale = .current
-                formatter.numberStyle = .currency
-                formatter.maximumFractionDigits = 0
-                userSettingsVM.settings.currencySymbol = formatter.currencySymbol
-            }
-            setThemeColor()
-            self.hideTabBar = false
-        }
+           
+        })
         .onChange(of: self.mainButtonTapped, perform: { value in
             if self.isAnalyticsView {
                 self.isAnalyticsView = false
@@ -204,10 +191,8 @@ struct ContentView: View {
             }
         })
         .onChange(of: self.themeColorChanged, perform: { value in
-            
             setThemeColor()
         })
-
         .overlay(
             CustomTabBarView(//geo: geo,
                              plusButtonColor: self.$plusButtonColor,
@@ -222,6 +207,80 @@ struct ContentView: View {
         )
         
     }
+    
+    private func updateData() {
+        self.userSettingsVM.getUserSettings(context: viewContext)
+        self.userSettingsVM.getAllTransactiontypes(context: viewContext)
+        let currentDate = Date()
+        let currentMonth = getMonthFrom(date: currentDate)
+        self.budgetVM.getBudgetList(context: viewContext)
+        if let lastMonthBudget = self.budgetVM.budgetList.last {
+            if lastMonthBudget.month < currentMonth! {
+                self.budgetVM.setCurrentMonthlyBudget(context: viewContext, previousMonthBudget: lastMonthBudget, currentDate: currentDate)
+                self.budgetVM.getBudgetList(context: viewContext)
+            }
+            self.currentMonthBudget = lastMonthBudget //budgetVM.budgetList.last!
+        }
+        
+        if userSettingsVM.settings.isSetPassCode {
+            self.askPasscode = true
+            if userSettingsVM.settings.isSetBiometrix {
+                self.askBiometrix = true
+            }
+        }
+        
+        if userSettingsVM.settings.currencySymbol == nil {
+            let formatter = NumberFormatter()
+            formatter.locale = .current
+            formatter.numberStyle = .currency
+            formatter.maximumFractionDigits = 0
+            userSettingsVM.settings.currencySymbol = formatter.currencySymbol
+        }
+        setThemeColor()
+        self.hideTabBar = false
+    }
+    
+    private func checkForExistingUser() -> Bool {
+        let keychain = Keychain(service: KeychainAccessKeys.ServiceName)
+        let appleIDCredential = keychain[KeychainAccessKeys.AppleIDCredential]
+        return appleIDCredential != nil
+    }
+    
+    private func handleCloudEvent(_ notification: Notification) {
+        if let cloudEvent = notification.userInfo?[NSPersistentCloudKitContainer.eventNotificationUserInfoKey]
+            as? NSPersistentCloudKitContainer.Event {
+            // NSPersistentCloudKitContainer sends a notification when an event starts, and another when it
+            // ends. If it has an endDate, it means the event finished.
+            if cloudEvent.endDate == nil {
+                print("Starting an event...") // You could check the type, but I'm trying to keep this brief.
+            } else {
+                switch cloudEvent.type {
+                case .setup:
+                    print("Setup finished!")
+                case .import:
+                    print("An import finished!")
+                case .export:
+                    print("An export finished!")
+                @unknown default:
+                    assertionFailure("NSPersistentCloudKitContainer added a new event type.")
+                }
+                
+                if cloudEvent.succeeded {
+                    print("And it succeeded!")
+                    updateData()
+                    
+                } else {
+                    print("But it failed!")
+                }
+                
+                if let error = cloudEvent.error {
+                    print("Error: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    
     
     private func getAddingCategory() -> String {
         var addingCategory: String = ""

@@ -27,12 +27,15 @@ extension TransactionType {
     
     func toggleIsHidden(context: NSManagedObjectContext) {
         self.isHidden.toggle()
-        do {
-            try context.save()
-            print("Context saved")
-        } catch {
-            print("Could not save context")
+        if context.hasChanges {
+            do {
+                try context.save()
+                print("Context saved")
+            } catch {
+                print("Could not save context")
+            }
         }
+        
     }
     
     static func getType(by info: TransactionTypeInfo, context: NSManagedObjectContext) -> TransactionType? {
@@ -57,12 +60,15 @@ extension TransactionType {
         transactionType.imageName = info.imageName
         transactionType.colorName = info.colorName
         transactionType.isHidden = false
-        do {
-            try context.save()
-            print("Context saved")
-        } catch {
-            print("Could not save context")
+        if context.hasChanges {
+            do {
+                try context.save()
+                print("Context saved")
+            } catch {
+                print("Could not save context")
+            }
         }
+   //     context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     static func fetchRequest(predicate: NSPredicate) -> NSFetchRequest<TransactionType> {

@@ -10,6 +10,7 @@ import SwiftUI
 struct EditCategories: View {
     @EnvironmentObject var userSettingsVM: UserSettingsManager
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) var presentationMode
     @State var isAddingCategory: Bool = false
     @State var isExpense: Bool = true
     @State var addingCategory: String = ""
@@ -20,7 +21,7 @@ struct EditCategories: View {
     let categories = [0, 1, 2]
     @Binding var  hideTabBar: Bool
     var body: some View {
-        NavigationView {
+        
             GeometryReader { geo in
                 Group {
                     VStack {
@@ -150,9 +151,7 @@ struct EditCategories: View {
                                                 insertion: AnyTransition.opacity.combined(with: .slide),
                                                 removal: .move(edge: .leading))
                                             )
-                                .onDisappear {
-                                    self.hideTabBar = false
-                                }
+                                
                             VStack {
                             }
                             .frame(width: geo.size.width, height: geo.size.height / 3, alignment: .center)
@@ -163,6 +162,16 @@ struct EditCategories: View {
                 }
                 .background(CustomColors.White_Background)
                 .ignoresSafeArea(.all, edges: .bottom)
+                .navigationBarBackButtonHidden(true)
+                .navigationBarItems(leading:
+                                        Button(action: {
+                                            presentationMode.wrappedValue.dismiss()
+                                            self.hideTabBar = false
+                                            
+                                        }) {
+                                            Image(systemName: "chevron.backward")
+                                        }
+                )
                 .onAppear {
                     self.hideTabBar = true
                     self.userSettingsVM.getAllTransactiontypes(context: viewContext)
@@ -186,8 +195,7 @@ struct EditCategories: View {
                     }
                 })
             }
-        }
-        .accentColor(CustomColors.TextDarkGray)
+        
     }
 }
 

@@ -184,6 +184,7 @@ class UserSettingsManager: ObservableObject {
     func getAllTransactiontypes(context: NSManagedObjectContext) {
         let predicate = NSPredicate(format: "name != nil")
         allTransactionTypes = fetchTransactionTypes(context: context, predicate: predicate)
+        removeDuplicates(allTransactionTypes, context: context)
         for key in allTransactionTypesByCategoty.keys {
             for subKey in allTransactionTypesByCategoty[key]!.keys {
                 allTransactionTypesByCategoty[key]?[subKey]?.removeAll()
@@ -198,6 +199,31 @@ class UserSettingsManager: ObservableObject {
                     if type.category == key {
                         if type.subCategory != nil && type.subCategory == subKey {
                             allTransactionTypesByCategoty[key]?[subKey]?.append(type)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func removeDuplicates(_ list: [TransactionType], context: NSManagedObjectContext) {
+        let subCats = list.map({ $0.subCategory })
+        for subCat in subCats {
+            let typesBySubCat = list.filter({ $0.subCategory == subCat })
+            let typeNames = typesBySubCat.map({ $0.name })
+            var firsts: [TransactionType] = []
+            for name in typeNames {
+                firsts.append(typesBySubCat.first(where: { $0.name == name })!)
+            }
+            for type in typesBySubCat {
+                if !firsts.contains(type) {
+                    context.delete(type)
+                    if context.hasChanges {
+                        do {
+                            try context.save()
+                            print("Context saved")
+                        } catch {
+                            print("Could not save context")
                         }
                     }
                 }

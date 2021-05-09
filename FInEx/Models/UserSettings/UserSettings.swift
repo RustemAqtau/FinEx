@@ -22,7 +22,7 @@ extension UserSettings {
                      print("Could not save context")
             }
         }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+     //   context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     func editShowDecimals(value: Bool, context: NSManagedObjectContext) {
@@ -36,7 +36,7 @@ extension UserSettings {
                      print("Could not save context")
             }
         }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+     //   context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     func editMonthlyRemainderDay(value: Int, context: NSManagedObjectContext) {
@@ -50,7 +50,7 @@ extension UserSettings {
                      print("Could not save context")
             }
         }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+      //  context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     func editEnableMonthlyRemainder(value: Bool, context: NSManagedObjectContext) {
@@ -64,7 +64,7 @@ extension UserSettings {
                      print("Could not save context")
             }
         }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+      //  context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     func editDailyRemainderHour(value: String, context: NSManagedObjectContext) {
@@ -78,7 +78,7 @@ extension UserSettings {
                      print("Could not save context")
             }
         }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+      //  context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     func editEnableDailyRemainder(value: Bool, context: NSManagedObjectContext) {
@@ -92,7 +92,7 @@ extension UserSettings {
                      print("Could not save context")
             }
         }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        //context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     func editCurrencySymbol(value: String, context: NSManagedObjectContext) {
@@ -106,7 +106,7 @@ extension UserSettings {
                 print("Could not save context")
             }
         }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        //context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     func editIsSetBiometrix(value: Bool, context: NSManagedObjectContext) {
@@ -120,7 +120,7 @@ extension UserSettings {
                 print("Could not save context")
             }
         }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+       // context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     func editIsSetPassCode(value: Bool, context: NSManagedObjectContext) {
@@ -134,7 +134,7 @@ extension UserSettings {
                 print("Could not save context")
             }
         }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+       // context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     func editIsSignedWithAppleId(value: Bool, context: NSManagedObjectContext) {
@@ -149,7 +149,7 @@ extension UserSettings {
             }
             
         }
-        context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+      //  context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     static func update(from info: UserSettingsInfo, context: NSManagedObjectContext) {
@@ -158,12 +158,13 @@ extension UserSettings {
         setting.settingsId = Int16(info.settingsId)
         setting.isSignedWithAppleId = info.isSignedWithAppleId
         setting.isSetPassCode = info.isSetPassCode
-        
-        do {
-            try context.save()
-            print("Context saved")
-        } catch {
-            print("Could not save context")
+        if context.hasChanges {
+            do {
+                try context.save()
+                print("Context saved")
+            } catch {
+                print("Could not save context")
+            }
         }
     }
     

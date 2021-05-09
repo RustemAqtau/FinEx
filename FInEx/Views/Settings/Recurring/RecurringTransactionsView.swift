@@ -10,6 +10,7 @@ import SwiftUI
 struct RecurringTransactionsView: View {
     @EnvironmentObject var userSettingsVM: UserSettingsManager
     @Environment(\.managedObjectContext)  var viewContext
+    @Environment(\.presentationMode) var presentationMode
     @Binding var  hideTabBar: Bool
     @State var recurringTransactionsByCategory: [String : [RecurringTransaction]] = [:]
     @State var isAddingTransaction: Bool = false
@@ -22,7 +23,7 @@ struct RecurringTransactionsView: View {
     
     var body: some View {
         let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
-        NavigationView {
+       
             GeometryReader { geo in
                 ScrollView {
                     
@@ -51,9 +52,7 @@ struct RecurringTransactionsView: View {
                                     .font(Font.system(size: 18, weight: .light, design: .default))
                                     .frame(width: geo.size.width / 1.15 )
                                     .scaledToFit()
-                                    .onDisappear {
-                                        self.hideTabBar = false
-                                    }
+                                    
                                     Divider()
                                     ForEach(userSettingsVM.recurringTransactionsByCategory[category] ?? [], id: \.self) { transaction in
                                         VStack {
@@ -94,6 +93,16 @@ struct RecurringTransactionsView: View {
                         }
                     }
                     .navigationBarTitle (Text(""), displayMode: .inline)
+                    .navigationBarBackButtonHidden(true)
+                    .navigationBarItems(leading:
+                                            Button(action: {
+                                                presentationMode.wrappedValue.dismiss()
+                                                self.hideTabBar = false
+                                                
+                                            }) {
+                                                Image(systemName: "chevron.backward")
+                                            }
+                    )
                     VStack {
                     }
                     .frame(height: 100)
@@ -107,10 +116,7 @@ struct RecurringTransactionsView: View {
                     self.recurringTransactionsByCategory = userSettingsVM.recurringTransactionsByCategory
                     
                 }
-                
-                
-
-            }
+                }
 
             .sheet(item: $activeSheet) { item in
                         switch item {
@@ -126,7 +132,7 @@ struct RecurringTransactionsView: View {
                             }
                         }
                     }
-        }
+        
         .onChange(of: self.isAddingTransaction, perform: { value in
             self.hideTabBar = true
             userSettingsVM.getRecurringTransactionsByCategory(context: viewContext)

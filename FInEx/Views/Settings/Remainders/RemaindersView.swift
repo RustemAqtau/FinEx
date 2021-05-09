@@ -10,6 +10,7 @@ import SwiftUI
 struct RemaindersView: View {
     @Environment(\.userSettingsVM) var userSettingsVM
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) var presentationMode
     @Binding var  hideTabBar: Bool
     
     @State var dailyRemainderTime: DailyRemainderTime = .nineteen
@@ -22,149 +23,159 @@ struct RemaindersView: View {
     @State var isDailyRemainder: Bool = false
     
     var body: some View {
-        NavigationView {
-            GeometryReader { geo in
-                ScrollView {
-                    VStack(spacing: 30) {
-                        ZStack {
-                            Rectangle()
-                                .fill(Color.white)
-                                .shadow(radius: 5)
-                            VStack(alignment: .leading, spacing: 10) {
-                                Text(NSLocalizedString(SettingsContentDescription.reminderTab_field1_title.localizedString(), comment: "").uppercased())
-                                    .font(Fonts.light12)
-                                    .multilineTextAlignment(.leading)
-                                Text(NSLocalizedString(SettingsContentDescription.reminderTab_description1.localizedString(), comment: ""))
-                                    .font(Fonts.light15)
-                                    .multilineTextAlignment(.leading)
-                                    .lineLimit(3)
-                                Divider()
-                                HStack {
-                                    Toggle(isOn: self.$enableDailyRemainder, label: {
-                                        HStack {
-                                            Text(NSLocalizedString(SettingsContentDescription.reminderTab_field1.localizedString(), comment: ""))
-                                            
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius: 25)
-                                                    .stroke(Color.gray)
-                                                Text(dailyRemainderTime.rawValue)
-                                            }
-                                            .frame(width: 90, height: 25, alignment: .center)
-                                            .onTapGesture {
-                                                self.isDailyRemainder = true
-                                                self.showPicker.toggle()
-                                            }
-                                        }
-                                        .font(Fonts.light15)
+        
+        GeometryReader { geo in
+            ScrollView {
+                VStack(spacing: 30) {
+                    ZStack {
+                        Rectangle()
+                            .fill(Color.white)
+                            .shadow(radius: 5)
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text(NSLocalizedString(SettingsContentDescription.reminderTab_field1_title.localizedString(), comment: "").uppercased())
+                                .font(Fonts.light12)
+                                .multilineTextAlignment(.leading)
+                            Text(NSLocalizedString(SettingsContentDescription.reminderTab_description1.localizedString(), comment: ""))
+                                .font(Fonts.light15)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(3)
+                            Divider()
+                            HStack {
+                                Toggle(isOn: self.$enableDailyRemainder, label: {
+                                    HStack {
+                                        Text(NSLocalizedString(SettingsContentDescription.reminderTab_field1.localizedString(), comment: ""))
                                         
-                                    })
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 25)
+                                                .stroke(Color.gray)
+                                            Text(dailyRemainderTime.rawValue)
+                                        }
+                                        .frame(width: 90, height: 25, alignment: .center)
+                                        .onTapGesture {
+                                            self.isDailyRemainder = true
+                                            self.showPicker.toggle()
+                                        }
+                                    }
+                                    .font(Fonts.light15)
                                     
-                                }
+                                })
                                 
                             }
-                            .frame(width: geo.size.width * 0.90, alignment: .leading)
-                            .foregroundColor(CustomColors.TextDarkGray)
-                            .background(Color.white)
-                        }
-                        .frame(height: geo.size.height / 4)
-                        
-                        ZStack {
-                            Rectangle()
-                                .fill(Color.white)
-                                .shadow(radius: 5)
-                            VStack(alignment: .leading, spacing: 10) {
-                                Text(NSLocalizedString(SettingsContentDescription.reminderTab_field2_title.localizedString(), comment: "").uppercased())
-                                    .font(Fonts.light12)
-                                    .multilineTextAlignment(.leading)
-                                Text(NSLocalizedString(SettingsContentDescription.reminderTab_description2.localizedString(), comment: ""))
-                                    .font(Fonts.light15)
-                                    .multilineTextAlignment(.leading)
-                                    .lineLimit(3)
-                                Divider()
-                                HStack {
-                                    Toggle(isOn: self.$enableMonthlyRemainder, label: {
-                                        HStack {
-                                            Text(NSLocalizedString(SettingsContentDescription.reminderTab_field2.localizedString(), comment: ""))
-                                            
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius: 25)
-                                                    .stroke(Color.gray)
-                                                Text(NSLocalizedString(SettingsContentDescription.reminderTab_field2_pickerLabel.localizedString(), comment: "") + " " + "\(monthlyRemainderDay.rawValue)")
-                                            }
-                                            .frame(width: 90, height: 25, alignment: .center)
-                                            .onTapGesture {
-                                                self.isDailyRemainder = false
-                                                self.showPicker.toggle()
-                                            }
-                                        }
-                                        .font(Fonts.light15)
-                                        
-                                    })
-                                }
-                            }
-                            .frame(width: geo.size.width * 0.90, alignment: .leading)
-                            .foregroundColor(CustomColors.TextDarkGray)
-                            .background(Color.white)
-                        }
-                        .frame(height: geo.size.height / 4)
-                    }
-                    .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
-                    
-                }
-                .overlay(
-                    VStack {
-                        HStack {
-                            Text(self.isDailyRemainder ? NSLocalizedString(SettingsContentDescription.reminderTab_field1_pickerDescription.localizedString(), comment: "").uppercased() : NSLocalizedString(SettingsContentDescription.reminderTab_field2_pickerDescription.localizedString(), comment: "").uppercased())
-                                .font(Fonts.light12)
-                                .frame(width: geo.size.width * 0.50, alignment: .leading)
                             
-                            Button(action: {
-                                self.showPicker = false
-                            }) {
-                                Image(systemName: Icons.Checkmark)
-                            }
-                            .font(Fonts.light20)
-                            .frame(width: geo.size.width * 0.30, alignment: .trailing)
                         }
-                        .scaledToFit()
-                        .frame(width: geo.size.width)
+                        .frame(width: geo.size.width * 0.90, alignment: .leading)
                         .foregroundColor(CustomColors.TextDarkGray)
-                        if self.isDailyRemainder {
-                            Picker(dailyRemainderTime.rawValue,
-                                   selection: $dailyRemainderTime){
-                                ForEach(DailyRemainderTime.allCases, id: \.self) { time in
-                                    Text("\(time.rawValue)").tag(time)
-                                        .font(Fonts.light25)
-                                        .foregroundColor(CustomColors.TextDarkGray)
-                                }
-                            }
-                            .pickerStyle(WheelPickerStyle())
-                            .textCase(.uppercase)
-                            .accentColor(CustomColors.TextDarkGray)
-                        } else {
-                            Picker("\(monthlyRemainderDay.rawValue)",
-                                   selection: $monthlyRemainderDay){
-                                ForEach(MonthlyRemainderDay.allCases, id: \.self) { day in
-                                    Text("\(day.rawValue)").tag(day)
-                                        .font(Fonts.light25)
-                                        .foregroundColor(CustomColors.TextDarkGray)
-                                }
-                            }
-                            .pickerStyle(WheelPickerStyle())
-                            .textCase(.uppercase)
-                            .accentColor(CustomColors.TextDarkGray)
-                        }
+                        .background(Color.white)
                     }
-                    .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
-                    .position(x: geo.size.width / 2, y: geo.size.height * 0.80)
-                    .opacity(self.showPicker ? 1 : 0)
-                )
+                    .frame(height: geo.size.height / 4)
+                    
+                    ZStack {
+                        Rectangle()
+                            .fill(Color.white)
+                            .shadow(radius: 5)
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text(NSLocalizedString(SettingsContentDescription.reminderTab_field2_title.localizedString(), comment: "").uppercased())
+                                .font(Fonts.light12)
+                                .multilineTextAlignment(.leading)
+                            Text(NSLocalizedString(SettingsContentDescription.reminderTab_description2.localizedString(), comment: ""))
+                                .font(Fonts.light15)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(3)
+                            Divider()
+                            HStack {
+                                Toggle(isOn: self.$enableMonthlyRemainder, label: {
+                                    HStack {
+                                        Text(NSLocalizedString(SettingsContentDescription.reminderTab_field2.localizedString(), comment: ""))
+                                        
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 25)
+                                                .stroke(Color.gray)
+                                            Text(NSLocalizedString(SettingsContentDescription.reminderTab_field2_pickerLabel.localizedString(), comment: "") + " " + "\(monthlyRemainderDay.rawValue)")
+                                        }
+                                        .frame(width: 90, height: 25, alignment: .center)
+                                        .onTapGesture {
+                                            self.isDailyRemainder = false
+                                            self.showPicker.toggle()
+                                        }
+                                    }
+                                    .font(Fonts.light15)
+                                    
+                                })
+                            }
+                        }
+                        .frame(width: geo.size.width * 0.90, alignment: .leading)
+                        .foregroundColor(CustomColors.TextDarkGray)
+                        .background(Color.white)
+                    }
+                    .frame(height: geo.size.height / 4)
+                }
+                .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
+                
             }
-            .navigationBarTitle (Text(""), displayMode: .inline)
-            .background(CustomColors.White_Background)
-            .ignoresSafeArea(.all, edges: .bottom)
-        
+            .overlay(
+                VStack {
+                    HStack {
+                        Text(self.isDailyRemainder ? NSLocalizedString(SettingsContentDescription.reminderTab_field1_pickerDescription.localizedString(), comment: "").uppercased() : NSLocalizedString(SettingsContentDescription.reminderTab_field2_pickerDescription.localizedString(), comment: "").uppercased())
+                            .font(Fonts.light12)
+                            .frame(width: geo.size.width * 0.50, alignment: .leading)
+                        
+                        Button(action: {
+                            self.showPicker = false
+                        }) {
+                            Image(systemName: Icons.Checkmark)
+                        }
+                        .font(Fonts.light20)
+                        .frame(width: geo.size.width * 0.30, alignment: .trailing)
+                    }
+                    .scaledToFit()
+                    .frame(width: geo.size.width)
+                    .foregroundColor(CustomColors.TextDarkGray)
+                    if self.isDailyRemainder {
+                        Picker(dailyRemainderTime.rawValue,
+                               selection: $dailyRemainderTime){
+                            ForEach(DailyRemainderTime.allCases, id: \.self) { time in
+                                Text("\(time.rawValue)").tag(time)
+                                    .font(Fonts.light25)
+                                    .foregroundColor(CustomColors.TextDarkGray)
+                            }
+                        }
+                        .pickerStyle(WheelPickerStyle())
+                        .textCase(.uppercase)
+                        .accentColor(CustomColors.TextDarkGray)
+                    } else {
+                        Picker("\(monthlyRemainderDay.rawValue)",
+                               selection: $monthlyRemainderDay){
+                            ForEach(MonthlyRemainderDay.allCases, id: \.self) { day in
+                                Text("\(day.rawValue)").tag(day)
+                                    .font(Fonts.light25)
+                                    .foregroundColor(CustomColors.TextDarkGray)
+                            }
+                        }
+                        .pickerStyle(WheelPickerStyle())
+                        .textCase(.uppercase)
+                        .accentColor(CustomColors.TextDarkGray)
+                    }
+                }
+                .frame(width: geo.size.width, height: geo.size.height / 4, alignment: .center)
+                .position(x: geo.size.width / 2, y: geo.size.height * 0.80)
+                .opacity(self.showPicker ? 1 : 0)
+            )
         }
+        .navigationBarTitle (Text(""), displayMode: .inline)
+        .background(CustomColors.White_Background)
+        .ignoresSafeArea(.all, edges: .bottom)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading:
+                                Button(action: {
+                                    presentationMode.wrappedValue.dismiss()
+                                    self.hideTabBar = false
+                                    
+                                }) {
+                                    Image(systemName: "chevron.backward")
+                                }
+        )
+        
+        
         .onAppear {
             
             self.enableDailyRemainder = userSettingsVM.settings.enableDailyRemainder
@@ -227,9 +238,7 @@ struct RemaindersView: View {
             self.hideTabBar = true
             self.userSettingsVM.settings.editMonthlyRemainderDay(value: self.monthlyRemainderDay.rawValue, context: viewContext)
         })
-        .onDisappear {
-            self.hideTabBar = false
-        }
+        
     }
     
     private func scheduleDailyRemainder() {

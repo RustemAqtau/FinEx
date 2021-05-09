@@ -29,6 +29,7 @@ struct PersistenceController {
 
     init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "FInEx")
+        
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
@@ -48,5 +49,12 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(SyncManager.shared.storeRemoteChange(_:)), name: NSPersistentCloudKitContainer.eventChangedNotification , object: nil)
+        
+        
     }
 }

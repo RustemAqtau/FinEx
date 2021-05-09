@@ -365,12 +365,15 @@ extension MonthlyBudget {
         for transaction in previousMonthBudget.savingsList {
             Transaction.update(from: transaction, monthlyBudget: monthlyBudget, context: context)
         }
-        do {
-            try context.save()
-            print("Context saved")
-        } catch {
-            print("Could not save context")
+        if context.hasChanges {
+            do {
+                try context.save()
+                print("Context saved")
+            } catch {
+                print("Could not save context")
+            }
         }
+    //    context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
     static func update(for date: Date, context: NSManagedObjectContext) {
@@ -392,12 +395,15 @@ extension MonthlyBudget {
             } else {
                 monthlyBudget.isInitialMonth = false
             }
-            do {
-                try context.save()
-                print("Context saved")
-            } catch {
-                print("Could not save context")
+            if context.hasChanges {
+                do {
+                    try context.save()
+                    print("Context saved")
+                } catch {
+                    print("Could not save context")
+                }
             }
+       //     context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             startMonth -= 1
         }
         

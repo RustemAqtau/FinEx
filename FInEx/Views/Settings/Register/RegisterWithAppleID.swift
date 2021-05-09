@@ -12,29 +12,27 @@ import KeychainAccess
 struct RegisterWithAppleID: View {
     @EnvironmentObject var userSettingsVM: UserSettingsManager
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) var presentationMode
     @State private var showSuccessView: Bool = false
     @Binding var  hideTabBar: Bool
     @State var isSigned: Bool = false
-   
+    
     var body: some View {
-        NavigationView {
-            GeometryReader { geo in
-                VStack(spacing: 5) {
-                    Group {
-                        VStack {
-                            Image(systemName: self.isSigned ? Icons.iCloudCheckmark_Fill : Icons.iCloudLink_Fill)
-                                .font(Font.system(size: 180, weight: .regular, design: .default))
-                                .foregroundColor(CustomColors.CloudBlue)
-                                
-                            Text(LocalizedStringKey(SettingsContentDescription.registerTab_title.localizedString()))
-                                .font(Font.system(size: 25, weight: .bold, design: .default))
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(CustomColors.TextDarkGray)
-                        }
-                        .frame(width: geo.size.width * 0.90, height: geo.size.height * 0.30, alignment: .top)
-                        .onDisappear {
-                            self.hideTabBar = false
-                        }
+        GeometryReader { geo in
+            VStack(spacing: 5) {
+                Group {
+                    VStack {
+                        Image(systemName: self.isSigned ? Icons.iCloudCheckmark_Fill : Icons.iCloudLink_Fill)
+                            .font(Font.system(size: 180, weight: .regular, design: .default))
+                            .foregroundColor(CustomColors.CloudBlue)
+                        
+                        Text(LocalizedStringKey(SettingsContentDescription.registerTab_title.localizedString()))
+                            .font(Font.system(size: 25, weight: .bold, design: .default))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(CustomColors.TextDarkGray)
+                    }
+                    .frame(width: geo.size.width * 0.90, height: geo.size.height * 0.30, alignment: .top)
+                    
                     VStack(alignment: .leading) {
                         HStack {
                             Image(systemName: "arrow.triangle.2.circlepath")
@@ -90,9 +88,9 @@ struct RegisterWithAppleID: View {
                             default:
                                 break
                             }
-                                
+                            
                         case .failure(let error):
-                                print("Authorisation failed: \(error.localizedDescription)")
+                            print("Authorisation failed: \(error.localizedDescription)")
                         }
                     }
                     .signInWithAppleButtonStyle(.black)
@@ -102,17 +100,27 @@ struct RegisterWithAppleID: View {
                 }
             }
             
-                .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
-                .onAppear {
-                    self.hideTabBar = true
-                    self.isSigned = self.userSettingsVM.settings.isSignedWithAppleId
-                    print(self.userSettingsVM.settings.isSignedWithAppleId)
-                }
+            .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
+            .onAppear {
+                self.hideTabBar = true
+                self.isSigned = self.userSettingsVM.settings.isSignedWithAppleId
+                print(self.userSettingsVM.settings.isSignedWithAppleId)
             }
-            .background(CustomColors.White_Background)
-            .navigationBarTitle (Text(""), displayMode: .inline)
-            .ignoresSafeArea(.all, edges: .bottom)
         }
+        .background(CustomColors.White_Background)
+        .navigationBarTitle (Text(""), displayMode: .inline)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading:
+                                Button(action: {
+                                    presentationMode.wrappedValue.dismiss()
+                                    self.hideTabBar = false
+                                    
+                                }) {
+                                    Image(systemName: "chevron.backward")
+                                }
+        )
+        .ignoresSafeArea(.all, edges: .bottom)
+        
         
     }
 }

@@ -255,8 +255,3 @@ struct EditTransactionView: View {
     }
 }
 
-//struct EditTransactionview_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EditTransactionView(transaction: .constant(Transaction()), isDeletingTransaction: .constant(false))
-//    }
-//}

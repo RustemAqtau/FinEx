@@ -21,10 +21,11 @@ struct ExpensesView: View {
     @Binding var addedRecurringTransaction: Bool
     @Binding var editTransaction: Bool
     @Binding var editingTransaction: Transaction
-   
+    @Binding var currencySymbol: String
+    @Binding var showDecimals: Bool 
    
     var body: some View {
-        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
+        let formatter = setDecimalFormatter(currencySymbol: self.currencySymbol, fractionDigitsNumber: self.showDecimals ? 2 : 0)
           //if let currentBudget = budgetVM.budgetList.last {
         ScrollView {
             VStack(spacing: 15) {

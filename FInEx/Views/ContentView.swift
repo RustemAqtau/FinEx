@@ -19,6 +19,7 @@ struct ContentView: View {
     
     @State var themeColor: LinearGradient = Theme.colors[ColorTheme.blue.rawValue]!
     @State var themeColorChanged: Bool = false
+    @State var currencySymbolChanged: Bool = false
     @State var mainButtonTapped: Bool = false
     @State var analyticsButtonTapped: Bool = false
     @State var toolsButtonTapped: Bool = false
@@ -43,7 +44,7 @@ struct ContentView: View {
     let coloredBarButtonAppearance = UIBarButtonItemAppearance ()
     
     @State var askPasscode: Bool = false
-    @State var askBiometrix: Bool = false
+    @State var askBiometrics: Bool = false
     
     @State var hideTabBar: Bool = false
     init() {
@@ -58,7 +59,8 @@ struct ContentView: View {
                     if isSettingsView {
                         SettingsView(hideTabBar: self.$hideTabBar,
                                      themeColorChanged: self.$themeColorChanged,
-                                     themeColor: self.$themeColor)
+                                     themeColor: self.$themeColor,
+                                     currencySymbolChanged: self.$currencySymbolChanged)
                             .environment(\.userSettingsVM, userSettingsVM)
                         
                     } else if isAnalyticsView {
@@ -96,7 +98,7 @@ struct ContentView: View {
             
         }
         .fullScreenCover(isPresented: self.$askPasscode, content: {
-            PasscodeField(isNewPasscode: false, askBiometrix: self.askBiometrix)
+            PasscodeField(isNewPasscode: false, askBiometrix: self.askBiometrics)
         })
         .transition(.identity)
         .onAppear {
@@ -106,6 +108,7 @@ struct ContentView: View {
                 self.userSettingsVM.setUserSettings(context: viewContext)
                 self.userSettingsVM.getUserSettings(context: viewContext)
             }
+            
             let userIsAutorised = checkForExistingUser()
             if userIsAutorised == false {
                 if self.userSettingsVM.checkTransactionTypesIsEmpty(context: viewContext) {
@@ -115,20 +118,25 @@ struct ContentView: View {
                 
                 self.budgetVM.getBudgetList(context: viewContext)
                 if self.budgetVM.checkMonthlyBudgetIsEmpty(context: viewContext) {
-                    self.budgetVM.setFirstMonthlyBudget(context: viewContext, currentDate: currentDate)
+                    let currencySymbol = userSettingsVM.settings.currencySymbol ?? ""
+                    self.budgetVM.setFirstMonthlyBudget(context: viewContext, currentDate: currentDate, currencySymbol: currencySymbol)
                     self.budgetVM.getBudgetList(context: viewContext)
                 }
                 updateData()
             }
        }
         .onReceive(SyncManager.shared.cloudEventPublisher, perform: { notification in
-            handleCloudEvent(notification)
-//            if !self.userSettingsVM.checkUserSettingsIsEmpty(context: viewContext) {
-//                if !self.userSettingsVM.settings.isSignedWithAppleId {
-//                    self.userSettingsVM.settings.editIsSignedWithAppleId(value: true, context: viewContext)
-//                }
-//            }
-           
+            SyncManager.shared.handleCloudEvent(notification, success: { success in
+                if success {
+                    
+                    if self.budgetVM.budgetList.isEmpty {
+
+                        updateData()
+
+                    }
+                }
+            })
+
         })
         .onChange(of: self.mainButtonTapped, perform: { value in
             if self.isAnalyticsView {
@@ -193,6 +201,10 @@ struct ContentView: View {
         .onChange(of: self.themeColorChanged, perform: { value in
             setThemeColor()
         })
+        .onChange(of: self.currencySymbolChanged, perform: { value in
+            let newCurrency = self.userSettingsVM.settings.currencySymbol ?? ""
+            budgetVM.updateCurrency(newCurrency: newCurrency, context: viewContext)
+        })
         .overlay(
             CustomTabBarView(
                              plusButtonColor: self.$plusButtonColor,
@@ -216,7 +228,8 @@ struct ContentView: View {
         self.budgetVM.getBudgetList(context: viewContext)
         if let lastMonthBudget = self.budgetVM.budgetList.last {
             if lastMonthBudget.month < currentMonth! {
-                self.budgetVM.setCurrentMonthlyBudget(context: viewContext, previousMonthBudget: lastMonthBudget, currentDate: currentDate)
+                let currencySymbol = userSettingsVM.settings.currencySymbol ?? ""
+                self.budgetVM.setCurrentMonthlyBudget(context: viewContext, previousMonthBudget: lastMonthBudget, currentDate: currentDate, currencySymbol: currencySymbol)
                 self.budgetVM.getBudgetList(context: viewContext)
             }
             self.currentMonthBudget = lastMonthBudget
@@ -225,17 +238,20 @@ struct ContentView: View {
         if userSettingsVM.settings.isSetPassCode {
             self.askPasscode = true
             if userSettingsVM.settings.isSetBiometrix {
-                self.askBiometrix = true
+                self.askBiometrics = true
             }
         }
         
-        if userSettingsVM.settings.currencySymbol == nil {
-            let formatter = NumberFormatter()
-            formatter.locale = .current
-            formatter.numberStyle = .currency
-            formatter.maximumFractionDigits = 0
-            userSettingsVM.settings.currencySymbol = formatter.currencySymbol
-        }
+        
+        //if userSettingsVM.settings.currencySymbol == nil {
+//        if !userSettingsVM.checkCurrencyIsSet(context: viewContext) {
+//            let formatter = NumberFormatter()
+//            formatter.locale = .current
+//            formatter.numberStyle = .currency
+//            formatter.maximumFractionDigits = 0
+//            userSettingsVM.editCurrencySymbol(currencySymbol: formatter.currencySymbol, context: viewContext)
+//            //userSettingsVM.settings.currencySymbol = formatter.currencySymbol
+//        }
         setThemeColor()
         self.hideTabBar = false
     }
@@ -245,44 +261,6 @@ struct ContentView: View {
         let appleIDCredential = keychain[KeychainAccessKeys.AppleIDCredential]
         return appleIDCredential != nil
     }
-    
-    private func handleCloudEvent(_ notification: Notification) {
-        if let cloudEvent = notification.userInfo?[NSPersistentCloudKitContainer.eventNotificationUserInfoKey]
-            as? NSPersistentCloudKitContainer.Event {
-            // NSPersistentCloudKitContainer sends a notification when an event starts, and another when it
-            // ends. If it has an endDate, it means the event finished.
-            if cloudEvent.endDate == nil {
-                print("Starting an event...") // You could check the type, but I'm trying to keep this brief.
-            } else {
-                switch cloudEvent.type {
-                case .setup:
-                    print("Setup finished!")
-                case .import:
-                    print("An import finished!")
-                case .export:
-                    print("An export finished!")
-                @unknown default:
-                    assertionFailure("NSPersistentCloudKitContainer added a new event type.")
-                }
-                
-                if cloudEvent.succeeded {
-                    print("And it succeeded!")
-                    if self.budgetVM.budgetList.isEmpty {
-                        updateData()
-                    }
-                    
-                    
-                } else {
-                    print("But it failed!")
-                }
-                
-                if let error = cloudEvent.error {
-                    print("Error: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
-    
     
     
     private func getAddingCategory() -> String {

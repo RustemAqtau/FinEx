@@ -16,7 +16,7 @@ struct SettingsView: View {
     @Binding var  hideTabBar: Bool
     @Binding var themeColorChanged: Bool
     @Binding var themeColor: LinearGradient
-
+    @Binding var currencySymbolChanged: Bool
     var body: some View {
         NavigationView {
             GeometryReader { geo in
@@ -178,7 +178,7 @@ struct SettingsView: View {
                         HStack(spacing: 20) {
                             NavigationLink(
                                 destination: AppearanceView(hideTabBar: self.$hideTabBar,
-                                                            themeColorChanged: self.$themeColorChanged)
+                                                            themeColorChanged: self.$themeColorChanged, currencySymbolChanged: self.$currencySymbolChanged)
                                     .environment(\.userSettingsVM, self.userSettingsVM)
                             ) {
                                 ZStack {
@@ -250,18 +250,15 @@ struct SettingsView: View {
                             
                         }
                         .padding(.horizontal)
-                        //.offset(y: offsetY)
-                        .offset(y: 10.0)
+                        .offset(y: offsetY)
+                        //.offset(y: 10.0)
                     }
                     .frame(width: geo.size.width , alignment: .center)
                     .onAppear {
                         setNavBarAppearance()
                         startAnimate()
-                        //self.hideTabBar = false
                     }
-//                    .onChange(of: self.hideTabBar, perform: { value in
-//                        self.hideTabBar = value
-//                    })
+
                     VStack {
                     }
                     .frame(width: geo.size.width, height: 100, alignment: .center)
@@ -277,7 +274,7 @@ struct SettingsView: View {
     
     func startAnimate() {
         withAnimation(.easeInOut(duration: 0.5)) {
-            self.offsetY = 10.0
+            self.offsetY = 20.0
         }
     }
     

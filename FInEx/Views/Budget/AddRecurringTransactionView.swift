@@ -35,26 +35,29 @@ struct AddRecurringTransactionView: View {
                         HStack {
                             HStack {
                                 Group {
-                                    Image(transaction.type!.presentingImageName)
-                                        .foregroundColor(.white)
-                                        .modifier(CircleModifierSimpleColor(color: Color(transaction.type!.presentingColorName), strokeLineWidth: 3.0))
-                                        .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
-                                        .font(Font.system(size: 24, weight: .regular, design: .default))
-                                    VStack(alignment: .leading) {
-                                        HStack {
-                                            Text(LocalizedStringKey(transaction.type!.presentingName))
-                                            Text("•")
-                                            Text(formatter.string(from: transaction.amount ?? 0)!)
+                                    if let type = transaction.type {
+                                        Image(type.presentingImageName)
+                                            .foregroundColor(.white)
+                                            .modifier(CircleModifierSimpleColor(color: Color(type.presentingColorName), strokeLineWidth: 3.0))
+                                            .frame(width: geo.size.width / 9, height: geo.size.width / 9, alignment: .center)
+                                            .font(Font.system(size: 24, weight: .regular, design: .default))
+                                        VStack(alignment: .leading) {
+                                            HStack {
+                                                Text(LocalizedStringKey(type.presentingName))
+                                                Text("•")
+                                                Text(formatter.string(from: transaction.amount ?? 0)!)
+                                            }
+                                            .font(Fonts.light15)
+                                            .foregroundColor(CustomColors.TextDarkGray)
+                                            HStack(spacing: 5) {
+                                                Image(systemName: "arrow.triangle.2.circlepath")
+                                                Text(LocalizedStringKey(transaction.periodicity!))
+                                            }
+                                            .font(Fonts.light12)
+                                            .foregroundColor(.gray)
                                         }
-                                        .font(Fonts.light15)
-                                        .foregroundColor(CustomColors.TextDarkGray)
-                                        HStack(spacing: 5) {
-                                            Image(systemName: "arrow.triangle.2.circlepath")
-                                            Text(LocalizedStringKey(transaction.periodicity!))
-                                        }
-                                        .font(Fonts.light12)
-                                        .foregroundColor(.gray)
                                     }
+                                    
                                 }
                                 Spacer()
                                 

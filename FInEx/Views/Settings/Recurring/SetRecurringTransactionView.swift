@@ -191,7 +191,6 @@ struct SetRecurringTransactionView: View {
                 .ignoresSafeArea(.all, edges: .bottom)
                 
             }
-            
             .onAppear {
                 self.selectedDate = getFirstDayOfmonth(date: Date())
                 self.dateRange = getDateRange(for: self.selectedDate)
@@ -217,7 +216,6 @@ struct SetRecurringTransactionView: View {
                                  selectedTypeName: self.$selectedTypeName)
             })
             .navigationBarItems(leading: Button(action: {
-                
                 presentationMode.wrappedValue.dismiss()
             }) {
                 Image(systemName: "xmark")
@@ -234,9 +232,7 @@ struct SetRecurringTransactionView: View {
                 self.amountValidationFailed = false
                 self.categoryValidationFailed = false
             })
-//            .onChange(of: self.showCategorySelector, perform: { value in
-//                hideKeyboard()
-//            })
+
         }
         .onTapGesture {
             hideKeyboard()

@@ -16,6 +16,7 @@ struct AppearanceView: View {
     @State var showDecimals: Bool = false
     @Binding var  hideTabBar: Bool
     @Binding var themeColorChanged: Bool
+    @Binding var currencySymbolChanged: Bool
     
     var body: some View {
         GeometryReader { geo in
@@ -163,17 +164,16 @@ struct AppearanceView: View {
                     self.showDecimals = self.userSettingsVM.settings.showDecimals
                 }
                 .onChange(of: self.selectedCurrencySymbol, perform: { value in
-                    self.hideTabBar = true
+                    
                     userSettingsVM.settings.editCurrencySymbol(value: value, context: viewContext)
                     setCurrencyName()
+                    currencySymbolChanged.toggle()
                 })
                 .onChange(of: self.showDecimals, perform: { value in
-                    self.hideTabBar = true
+                   
                     self.userSettingsVM.settings.editShowDecimals(value: value, context: viewContext)
                 })
-                .onChange(of: self.userSettingsVM.settings.colorTheme, perform: { value in
-                    self.hideTabBar = true
-                })
+               
             }
             .ignoresSafeArea(.all, edges: .bottom)
             

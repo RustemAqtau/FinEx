@@ -13,6 +13,20 @@ class BudgetManager: ObservableObject {
     @Published var transactionList: [Transaction] = []
     @Published var transactionEdited: Bool = false
     
+    func updateCurrency(newCurrency: String, context: NSManagedObjectContext) {
+        for budget in budgetList {
+            budget.currency = newCurrency
+            if context.hasChanges {
+                
+                do {
+                    try context.save()
+                    print("Context saved")
+                } catch {
+                    print("Could not save context")
+                }
+            }
+        }
+    }
     func addRecurringTransaction(info: RecurringTransaction, monthlyBudget: MonthlyBudget, context: NSManagedObjectContext) {
         Transaction.update(from: info, monthlyBudget: monthlyBudget, context: context)
     }
@@ -33,12 +47,12 @@ class BudgetManager: ObservableObject {
         getTransactions(context: context)
     }
     
-    func setCurrentMonthlyBudget(context: NSManagedObjectContext, previousMonthBudget: MonthlyBudget, currentDate: Date) {
-        MonthlyBudget.update(for: currentDate, previousMonthBudget: previousMonthBudget, context: context)
+    func setCurrentMonthlyBudget(context: NSManagedObjectContext, previousMonthBudget: MonthlyBudget, currentDate: Date, currencySymbol: String) {
+        MonthlyBudget.update(for: currentDate, previousMonthBudget: previousMonthBudget, currencySymbol: currencySymbol, context: context)
     }
     
-    func setFirstMonthlyBudget(context: NSManagedObjectContext, currentDate: Date) {
-        MonthlyBudget.update(for: currentDate, context: context)
+    func setFirstMonthlyBudget(context: NSManagedObjectContext, currentDate: Date, currencySymbol: String) {
+        MonthlyBudget.update(for: currentDate, currencySymbol: currencySymbol, context: context)
     }
     
     func checkMonthlyBudgetIsEmpty(context: NSManagedObjectContext) -> Bool {

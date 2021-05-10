@@ -169,7 +169,6 @@ struct EditCategories: View {
                                     trailing: Button(action: {
                                         self.addingCategory = self.selectedCategory
                                         self.isAddingCategory = true
-                                        
                                     }) {
                                         Image(systemName: "plus.circle")
                                             .font(Fonts.regular20)

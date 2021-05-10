@@ -66,6 +66,13 @@ class UserSettingsManager: ObservableObject {
     @Published var recurringTransactionsByCategory: [String: [RecurringTransaction]] = [:]
     @Published var recurringTransactionsByCategoryForBudget: [String: [RecurringTransaction]] = [:]
      let cetegoriesArray = [Categories.Income, Categories.Expense, Categories.Saving]
+    
+    func checkCurrencyIsSet(context: NSManagedObjectContext) -> Bool {
+        return settings.currencySymbol != nil
+    }
+    func editCurrencySymbol(currencySymbol: String, context: NSManagedObjectContext) {
+        settings.editCurrencySymbol(value: currencySymbol, context: context)
+    }
     // MARK: - RecurringTransactions
     
     func addNewRecurringTransaction(info: RecurringTransactionInfo, context: NSManagedObjectContext) {
@@ -158,7 +165,10 @@ class UserSettingsManager: ObservableObject {
     }
     
     func setUserSettings(context: NSManagedObjectContext) {
-        let newUserSettingdInfo = UserSettingsInfo(settingsId: 1, isSignedWithAppleId: false, isSetPassCode: false)
+        let formatter = NumberFormatter()
+        formatter.locale = .current
+        formatter.numberStyle = .currency
+        let newUserSettingdInfo = UserSettingsInfo(settingsId: 1, isSignedWithAppleId: false, isSetPassCode: false, currencySymbol: formatter.currencySymbol)
         UserSettings.update(from: newUserSettingdInfo, context: context)
     }
     
@@ -169,6 +179,21 @@ class UserSettingsManager: ObservableObject {
     
     
     // MARK: - TransactionTypes
+    
+    func removeAllTransactionTypes(context: NSManagedObjectContext) {
+        for type in allTransactionTypes {
+            context.delete(type)
+            if context.hasChanges {
+                do {
+                    try context.save()
+                    print("Context saved")
+                } catch {
+                    print("Could not save context")
+                }
+            }
+        }
+        
+    }
     
     func addNewTransactiontype(info: TransactionTypeInfo, context: NSManagedObjectContext) {
         TransactionType.update(from: info, context: context)

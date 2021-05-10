@@ -158,6 +158,7 @@ extension UserSettings {
         setting.settingsId = Int16(info.settingsId)
         setting.isSignedWithAppleId = info.isSignedWithAppleId
         setting.isSetPassCode = info.isSetPassCode
+        setting.currencySymbol = info.currencySymbol
         if context.hasChanges {
             do {
                 try context.save()

@@ -26,9 +26,11 @@ struct SavingsView: View {
     @Binding var addedRecurringTransaction: Bool
     @State var editingType: TransactionType = TransactionType()
     @State private var showWithdrawSheet: Bool = false
+    @Binding var currencySymbol: String
+    @Binding var showDecimals: Bool 
     
     var body: some View {
-        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
+        let formatter = setDecimalFormatter(currencySymbol: self.currencySymbol, fractionDigitsNumber: self.showDecimals ? 2 : 0)
         ScrollView {
             VStack(spacing: 15) {
                 if !self.recurringTransactionsSaving.isEmpty {
@@ -140,11 +142,4 @@ struct SavingsView: View {
     
 }
 
-//struct SavingsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GeometryReader { geo in
-//            SavingsView(geo: geo, savingsByType: .constant([:]), addedRecurringTransaction: .constant(false))
-//        }
-//        
-//    }
-//}
+

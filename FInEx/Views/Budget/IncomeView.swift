@@ -23,9 +23,11 @@ struct IncomeView: View {
     @Binding var addedRecurringTransaction: Bool
     @State var editTransaction: Bool = false
     @State var editingTransaction: Transaction = Transaction()
+    @Binding var currencySymbol: String
+    @Binding var showDecimals: Bool 
    
     var body: some View {
-        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
+        let formatter = setDecimalFormatter(currencySymbol:self.currencySymbol, fractionDigitsNumber: self.showDecimals ? 2 : 0)
         ScrollView {
             VStack(spacing: 15) {
                 if !self.recurringTransactionsIncome.isEmpty {

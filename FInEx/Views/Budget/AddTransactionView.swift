@@ -20,8 +20,8 @@ struct AddTransactionView: View {
     @State var amount: NSDecimalNumber = 0
     @State private var amountString: String = ""
     @State private var amountIsEditing: Bool = false
-    @State var selectedtypeImageName: String = "questionmark"
-    @State var selectedTypeCircleColor: String = "TopGradient"
+    @State var selectedtypeImageName: String = CategoryIconNamesCustom.questionMark.rawValue
+    @State var selectedTypeCircleColor: String = "TextLightGray"
     @State var selectedTypeName: String = NSLocalizedString("Category", comment: "")
     @State var selectedType: TransactionType = TransactionType()
     @State var showCategorySelector: Bool = false

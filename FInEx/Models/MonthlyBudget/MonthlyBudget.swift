@@ -35,6 +35,9 @@ extension MonthlyBudget {
         return balance
     }
     
+    
+   
+    
     // MARK: - Income
     var incomeByDate: [String: [Transaction]] {
         var dic: [String: [Transaction]] = [:]
@@ -350,7 +353,7 @@ extension MonthlyBudget {
     }
     
     // MARK: - static func
-    static func update(for date: Date, previousMonthBudget: MonthlyBudget, context: NSManagedObjectContext) {
+    static func update(for date: Date, previousMonthBudget: MonthlyBudget, currencySymbol: String, context: NSManagedObjectContext) {
         let calendar = Calendar.current
         let month = getMonthFrom(date: date) ?? 0
         let year = getYearFrom(date: date) ?? 0
@@ -361,6 +364,7 @@ extension MonthlyBudget {
         monthlyBudget.startDate = startDate
         monthlyBudget.month = Int32(month)
         monthlyBudget.year = Int32(year)
+        monthlyBudget.currency = currencySymbol
         monthlyBudget.previousMonthBalance = NSDecimalNumber(decimal: previousMonthBudget.currentBalance)
         for transaction in previousMonthBudget.savingsList {
             Transaction.update(from: transaction, monthlyBudget: monthlyBudget, context: context)
@@ -373,10 +377,9 @@ extension MonthlyBudget {
                 print("Could not save context")
             }
         }
-    //    context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
-    static func update(for date: Date, context: NSManagedObjectContext) {
+    static func update(for date: Date, currencySymbol: String, context: NSManagedObjectContext) {
         let calendar = Calendar.current
         let newMonth = getMonthFrom(date: date) ?? 0
         let year = getYearFrom(date: date) ?? 0
@@ -390,6 +393,7 @@ extension MonthlyBudget {
             monthlyBudget.startDate = startDate
             monthlyBudget.month = Int32(startMonth)
             monthlyBudget.year = Int32(year)
+            monthlyBudget.currency = currencySymbol
             if startMonth == newMonth {
                 monthlyBudget.isInitialMonth = true
             } else {
@@ -403,7 +407,6 @@ extension MonthlyBudget {
                     print("Could not save context")
                 }
             }
-       //     context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
             startMonth -= 1
         }
         

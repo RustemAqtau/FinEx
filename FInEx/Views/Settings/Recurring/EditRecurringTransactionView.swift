@@ -210,10 +210,13 @@ struct EditRecurringTransactionView: View {
                 var amount = formatter.string(from: NSDecimalNumber(decimal: self.transaction.amount! as Decimal))!
                 amount.removeFirst()
                 self.amountString = amount
-                self.selectedType = transaction.type!
-                self.selectedTypeName = transaction.type!.presentingName
-                self.selectedtypeImageName = transaction.type!.presentingImageName
-                self.selectedTypeCircleColor = transaction.type!.presentingColorName
+                if let type = transaction.type {
+                    self.selectedType = type
+                    self.selectedTypeName = type.presentingName
+                    self.selectedtypeImageName = type.presentingImageName
+                    self.selectedTypeCircleColor = type.presentingColorName
+                }
+                
                 self.note = transaction.note!
             }
             .onChange(of: self.selectedPeriodicity, perform: { value in

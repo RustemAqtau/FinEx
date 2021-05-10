@@ -57,7 +57,7 @@ struct CustomTabBarView: View {
                     .foregroundColor(self.isSettingsView ? CustomColors.ExpensesColor2 : .gray)
                 }
                 
-                .position(x: proxi.size.width / 2, y: proxi.size.height / 2.2)
+                .position(x: proxi.size.width / 2, y: proxi.size.height / 2.15)
             }
             .font(Font.system(size: 30, weight: .medium, design: .default))
             .position(x: proxi.size.width / 2, y: proxi.size.height)

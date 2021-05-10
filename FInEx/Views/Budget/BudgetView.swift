@@ -13,7 +13,6 @@ struct BudgetView: View {
     @Environment(\.userSettingsVM) var userSettingsVM
     @Environment(\.managedObjectContext) private var viewContext
     @Binding var currentMonthBudget: MonthlyBudget
-    @State var presentingTransactions: [Transaction] = []
     let geo: GeometryProxy
     @State var offsetY: CGFloat = 0.0
     @State var incomeSelected = false
@@ -40,6 +39,8 @@ struct BudgetView: View {
     
     @State var editTransaction: Bool = false
     @State var editingTransaction: Transaction = Transaction()
+    @State var currencySymbol: String = ""
+    @State var showDecimals: Bool = false
     
     @Binding var getPreviousMonthBudget: Bool
     @Binding var getNextMonthBudget: Bool
@@ -53,7 +54,7 @@ struct BudgetView: View {
     
     var body: some View {
         NavigationView {
-            let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
+            let formatter = setDecimalFormatter(currencySymbol: self.currencySymbol, fractionDigitsNumber: self.showDecimals ? 2 : 0)
             GeometryReader { geo in
                 VStack {
                 }
@@ -200,7 +201,9 @@ struct BudgetView: View {
                                    incomeByType: self.$incomeByType,
                                    incomeTotalAmountByType: self.$incomeTotalAmountByType,
                                    recurringTransactionsIncome: self.$recurringTransactionsIncome,
-                                   addedRecurringTransaction: self.$addedRecurringTransaction)
+                                   addedRecurringTransaction: self.$addedRecurringTransaction,
+                                   currencySymbol: self.$currencySymbol,
+                                   showDecimals: self.$showDecimals )
                             .environmentObject(self.budgetVM)
                     } else if self.savingsSelected {
                         SavingsView(geo: geo,
@@ -209,7 +212,9 @@ struct BudgetView: View {
                                     savingsTotalAmountByType: self.$savingsTotalAmountByType,
                                     currentMonthSavingsByType: self.$currentMonthSavingsByType,
                                     recurringTransactionsSaving: self.$recurringTransactionsSaving,
-                                    addedRecurringTransaction: self.$addedRecurringTransaction)
+                                    addedRecurringTransaction: self.$addedRecurringTransaction,
+                                    currencySymbol: self.$currencySymbol,
+                                    showDecimals: self.$showDecimals)
                             .environmentObject(self.budgetVM)
                     } else {
                         ExpensesView(geo: geo,
@@ -219,13 +224,36 @@ struct BudgetView: View {
                                      recurringTransactionsExpense: self.$recurringTransactionsExpense,
                                      addedRecurringTransaction: self.$addedRecurringTransaction,
                                      editTransaction: self.$editTransaction,
-                                     editingTransaction: self.$editingTransaction)
+                                     editingTransaction: self.$editingTransaction,
+                                     currencySymbol: self.$currencySymbol,
+                                     showDecimals: self.$showDecimals)
                             .environmentObject(self.budgetVM)
                     }
                 }
                 
                 .navigationBarTitle (Text(LocalizedStringKey("BUDGET")), displayMode: .inline)
-                .navigationBarItems(trailing:
+                .navigationBarItems(
+                    
+//                    leading: Button(action: {
+//                    for budget in self.budgetVM.budgetList {
+//                        viewContext.delete(budget)
+//                        if viewContext.hasChanges {
+//                            do {
+//                                try viewContext.save()
+//                                print("Transaction deleted")
+//                            } catch {
+//                                print("Could not save context")
+//                            }
+//                        }
+//                    }
+//                }) {
+//                    VStack(spacing: 0){
+//
+//                        Text("Remove All")
+//                            .font(Fonts.light10)
+//                    }
+//                },
+                    trailing:
                                         Button(action: {
                                             let shareManager = CSVShareManager()
                                             let csvData = shareManager.createMonthBudgetCSV(for: currentMonthBudget)
@@ -244,6 +272,8 @@ struct BudgetView: View {
                 .onAppear {
                     self.currentMonthBudget = budgetVM.budgetList.last!
                     updateData()
+                    self.currencySymbol = userSettingsVM.settings.currencySymbol ?? ""
+                    self.showDecimals = userSettingsVM.settings.showDecimals
                     UINavigationBar.appearance().standardAppearance = coloredNavAppearance
                     UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance
                     

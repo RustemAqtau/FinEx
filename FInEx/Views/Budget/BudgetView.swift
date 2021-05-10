@@ -70,20 +70,6 @@ struct BudgetView: View {
                                 Text(formatter.string(from: NSDecimalNumber(decimal: currentMonthBudget.currentBalance))!)
                             }
                             
-                            Button(action: {
-                                let shareManager = CSVShareManager()
-                                let csvData = shareManager.createMonthBudgetCSV(for: currentMonthBudget)
-                                let path = try? FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
-                                sendingDataURL = path!.appendingPathComponent("FInEx-\(currentMonthBudget.monthYearStringPresentation).csv")
-                                try?csvData.write(to: sendingDataURL)
-                                shareManager.shareCSV(url: sendingDataURL)
-                            }) {
-                                VStack(spacing: 0){
-                                    Image(systemName: Icons.Doc_Arrow_Down)
-                                    Text("CSV")
-                                        .font(Fonts.light10)
-                                }
-                            }
                             .onAppear {
                                 startAnimate()
                             }
@@ -239,6 +225,22 @@ struct BudgetView: View {
                 }
                 
                 .navigationBarTitle (Text(LocalizedStringKey("BUDGET")), displayMode: .inline)
+                .navigationBarItems(trailing:
+                                        Button(action: {
+                                            let shareManager = CSVShareManager()
+                                            let csvData = shareManager.createMonthBudgetCSV(for: currentMonthBudget)
+                                            let path = try? FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
+                                            sendingDataURL = path!.appendingPathComponent("FInEx-\(currentMonthBudget.monthYearStringPresentation).csv")
+                                            try?csvData.write(to: sendingDataURL)
+                                            shareManager.shareCSV(url: sendingDataURL)
+                                        }) {
+                                            VStack(spacing: 0){
+                                                Image(systemName: Icons.Doc_Arrow_Down)
+                                                Text("CSV")
+                                                    .font(Fonts.light10)
+                                            }
+                                        }
+                )
                 .onAppear {
                     self.currentMonthBudget = budgetVM.budgetList.last!
                     updateData()
@@ -271,12 +273,10 @@ struct BudgetView: View {
             }
             .background(CustomColors.White_Background)
             
-//            .onChange(of: self.askPasscode, perform: { value in
-//                updateData()
-//            })
+
             
         }
-        
+        .accentColor(CustomColors.TextDarkGray)
     }
     func updateData() {
         self.expensesBySubCategory = self.currentMonthBudget.expensesBySubCategory
@@ -326,20 +326,4 @@ struct BudgetView: View {
     
 }
 
-//struct BudgetView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            GeometryReader {
-//                geo in
-//                BudgetView(currentMonthBudget: .constant(MonthlyBudget()) , geo: geo, plusButtonColor: .constant(GradientColors.Expense), plusButtonIsServing: .constant(""))
-//            }
-//            
-//            GeometryReader {
-//                geo in
-//                BudgetView(currentMonthBudget: .constant(MonthlyBudget()), geo: geo, plusButtonColor: .constant(GradientColors.Expense), plusButtonIsServing: .constant(""))
-//            }
-//            .preferredColorScheme(.dark)
-//        }
-//        
-//    }
-//}
+

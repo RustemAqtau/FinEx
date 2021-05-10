@@ -184,7 +184,7 @@ class UserSettingsManager: ObservableObject {
     func getAllTransactiontypes(context: NSManagedObjectContext) {
         let predicate = NSPredicate(format: "name != nil")
         allTransactionTypes = fetchTransactionTypes(context: context, predicate: predicate)
-        removeDuplicates(allTransactionTypes, context: context)
+        //removeDuplicates(allTransactionTypes, context: context)
         for key in allTransactionTypesByCategoty.keys {
             for subKey in allTransactionTypesByCategoty[key]!.keys {
                 allTransactionTypesByCategoty[key]?[subKey]?.removeAll()
@@ -323,14 +323,18 @@ class UserSettingsManager: ObservableObject {
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Subscriptions.rawValue, name: ExpenseTypeNames.TV.rawValue, imageName: CategoryIconNamesDefault.expense_TV.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Subscriptions.rawValue, name: ExpenseTypeNames.Music.rawValue, imageName: CategoryIconNamesDefault.expense_Music.rawValue, colorName: "ExpensesColor2", isHidden: false),
             
-            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: ExpenseTypeNames.Loan.rawValue, imageName: "car.circle.fill", colorName: "ExpensesColor2", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: ExpenseTypeNames.Taxi.rawValue, imageName: CategoryIconNamesDefault.expense_Taxi.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: ExpenseTypeNames.Gas.rawValue, imageName: CategoryIconNamesDefault.expense_Gas.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: ExpenseTypeNames.Parking.rawValue, imageName: CategoryIconNamesDefault.expense_Parking.rawValue, colorName: "ExpensesColor2", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: ExpenseTypeNames.Loan.rawValue, imageName: CategoryIconNamesDefault.expense_CarLoan.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: ExpenseTypeNames.PublicTr.rawValue, imageName: CategoryIconNamesDefault.expense_PublicTr.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Transportation.rawValue, name: ExpenseTypeNames.Repair.rawValue, imageName: CategoryIconNamesDefault.expense_CarRepair.rawValue, colorName: "ExpensesColor2", isHidden: false),
             
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Health.rawValue, name: ExpenseTypeNames.Dentist.rawValue, imageName: CategoryIconNamesDefault.expense_Dentist.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Health.rawValue, name: ExpenseTypeNames.CheckUp.rawValue, imageName: CategoryIconNamesDefault.expense_CheckUp.rawValue, colorName: "ExpensesColor2", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Health.rawValue, name: ExpenseTypeNames.Drugs.rawValue, imageName: CategoryIconNamesDefault.expense_Pills.rawValue, colorName: "ExpensesColor2", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Health.rawValue, name: ExpenseTypeNames.Gym.rawValue, imageName: CategoryIconNamesDefault.expense_Gym.rawValue, colorName: "ExpensesColor2", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Health.rawValue, name: ExpenseTypeNames.Cosmetics.rawValue, imageName: CategoryIconNamesDefault.expense_Cosmetics.rawValue, colorName: "ExpensesColor2", isHidden: false),
             
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Travel.rawValue, name: ExpenseTypeNames.Flight.rawValue, imageName: CategoryIconNamesDefault.expense_Flight.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Travel.rawValue, name: ExpenseTypeNames.Hotel.rawValue, imageName: CategoryIconNamesDefault.expense_Hotel.rawValue, colorName: "ExpensesColor2", isHidden: false),

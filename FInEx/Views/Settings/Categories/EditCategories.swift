@@ -14,7 +14,7 @@ struct EditCategories: View {
     @State var isAddingCategory: Bool = false
     @State var isExpense: Bool = true
     @State var addingCategory: String = ""
-    @State var selectedCategory: String = Categories.Income
+    @State var selectedCategory: String = Categories.Expense
     @State var selectedSubCategories: [String]?
     @State var hideButtonName: String = "minus.circle.fill"
     @State var showHideButton: Bool = false
@@ -29,14 +29,7 @@ struct EditCategories: View {
                     .frame(width: geo.size.width, height: 0, alignment: .center)
                     .ignoresSafeArea(.all, edges: .top)
                     .navigationBarTitle (Text(""), displayMode: .inline)
-                    .navigationBarItems(trailing: Button(action: {
-                        self.addingCategory = self.selectedCategory
-                        self.isAddingCategory = true
-                        
-                    }) {
-                        Image(systemName: "plus.circle")
-                            .font(Font.system(size: 20, weight: .regular, design: .default))
-                    })
+                    
                     VStack {
                         VStack {
                             Picker(selection: self.$selectedCategory, label: Text("")) {
@@ -170,8 +163,20 @@ struct EditCategories: View {
                                             
                                         }) {
                                             Image(systemName: "chevron.backward")
-                                        }
+                                                .font(Fonts.regular20)
+                                               
+                                        },
+                                    trailing: Button(action: {
+                                        self.addingCategory = self.selectedCategory
+                                        self.isAddingCategory = true
+                                        
+                                    }) {
+                                        Image(systemName: "plus.circle")
+                                            .font(Fonts.regular20)
+                                           
+                                    }
                 )
+
                 .onAppear {
                     self.hideTabBar = true
                     self.userSettingsVM.getAllTransactiontypes(context: viewContext)

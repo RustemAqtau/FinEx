@@ -19,6 +19,12 @@ struct RegisterWithAppleID: View {
     
     var body: some View {
         GeometryReader { geo in
+            VStack {
+            }
+            .frame(width: geo.size.width, height: geo.size.height / 8, alignment: .center)
+            .background(Color.white)
+            .ignoresSafeArea(.all, edges: .top)
+            .zIndex(100)
             VStack(spacing: 5) {
                 Group {
                     VStack {
@@ -117,6 +123,7 @@ struct RegisterWithAppleID: View {
                                     
                                 }) {
                                     Image(systemName: "chevron.backward")
+                                        .font(Fonts.regular20)
                                 }
         )
         .ignoresSafeArea(.all, edges: .bottom)

@@ -109,7 +109,7 @@ extension UserSettings {
         //context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     }
     
-    func editIsSetBiometrix(value: Bool, context: NSManagedObjectContext) {
+    func editIsSetBiometrics(value: Bool, context: NSManagedObjectContext) {
         self.isSetBiometrix = value
         if context.hasChanges {
             

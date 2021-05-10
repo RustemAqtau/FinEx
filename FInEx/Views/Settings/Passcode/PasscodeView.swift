@@ -19,6 +19,12 @@ struct PasscodeView: View {
     var body: some View {
         
         GeometryReader { geo in
+            VStack {
+            }
+            .frame(width: geo.size.width, height: geo.size.height / 8, alignment: .center)
+            .background(Color.white)
+            .ignoresSafeArea(.all, edges: .top)
+            .zIndex(100)
             ScrollView {
                 ZStack {
                     Rectangle()
@@ -29,7 +35,7 @@ struct PasscodeView: View {
                         Text(LocalizedStringKey(SettingsContentDescription.passcodeTab_description1.localizedString()))
                             .multilineTextAlignment(.leading)
                             .font(Fonts.light15)
-                            .lineLimit(2)
+                            .lineLimit(3)
                         
                         Divider()
                             .frame(width: geo.size.width * 0.90)
@@ -57,22 +63,22 @@ struct PasscodeView: View {
                 }
                 
                 .navigationBarTitle (Text(""), displayMode: .inline)
-                .frame(width: geo.size.width, alignment: .top)
+                .frame(width: geo.size.width, height: 80, alignment: .top)
                 .onAppear {
-                    self.hideTabBar = true
+                    
                     self.enablePasscode = userSettingsVM.settings.isSetPassCode
                     self.enableBiometrics = userSettingsVM.settings.isSetBiometrix
                 }
                 .onChange(of: self.enablePasscode, perform: { value in
-                    self.hideTabBar = true
-                    if self.enablePasscode {
+                    
+                    if self.enablePasscode && userSettingsVM.settings.isSetPassCode == false {
                         showSheet = true
                     }
                     userSettingsVM.settings.editIsSetPassCode(value: self.enablePasscode, context: viewContext)
                 })
                 .onChange(of: self.enableBiometrics, perform: { value in
-                    self.hideTabBar = true
-                    userSettingsVM.settings.editIsSetBiometrix(value: self.enableBiometrics, context: viewContext)
+                    
+                    userSettingsVM.settings.editIsSetBiometrics(value: self.enableBiometrics, context: viewContext)
                 })
                 .fullScreenCover(isPresented: self.$showSheet, content: {
                     PasscodeField(isNewPasscode: true, askBiometrix: false)
@@ -91,6 +97,7 @@ struct PasscodeView: View {
                                     
                                 }) {
                                     Image(systemName: "chevron.backward")
+                                        .font(Fonts.regular20)
                                 }
         )
         

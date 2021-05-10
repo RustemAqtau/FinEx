@@ -104,6 +104,14 @@
 "CheckUp" = "Check-Up";
 "Flight" = "Flug";
 "Hotel" = "Hotel";
+"Coffee" = "Coffee";
+"Gym" = "Gym";
+"Drugs" = "Medikamente";
+"Cosmetics" = "Kosmetika";
+"Taxi" = "Taxi";
+"InsuranceHealth" = "Krankenversicherung";
+"InsuranceHouse" = "Hausratsversicherung";
+"Gift" = "Geschenk";
 
 // Expenses Categories
 "Housing" = "Unterkunft";
@@ -111,7 +119,7 @@
 "FoodAndDrinks" = "Essen & Trinken";
 "Bills" = "Rechnungen";
 "Transportation" = "Transport";
-"Health" = "Gesundheit";
+"Health" = "Gesundheit und Schönheit";
 "Subscriptions" = "Abonnements";
 "Insurance" = "Versicherung";
 "Travel" = "Reise";

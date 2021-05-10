@@ -314,10 +314,14 @@ enum CustomColors {
     static let Theme_orange = Color("Theme_orange")
     static let Theme_blue = Color("Theme_blue")
     static let Theme_pink = Color("Theme_pink")
+    static let Theme_main_pink = Color("Theme_main_pink")
+    static let Theme_main_orange = Color("Theme_main_orange")
     
     static let White_Background = Color("WhiteBackground")
     static let Expenses_Main = Color("ExpensesMainColor")
     static let TextLightGray = Color("TextLightGray")
+    
+    
  }
 
 enum GradientColors {
@@ -347,7 +351,7 @@ struct Theme {
         ColorTheme.pink.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_pink, Color("Theme_orange-1"), Color.white, Color("Theme_orange-1"), CustomColors.Theme_pink]), startPoint: .topLeading, endPoint: .bottomTrailing),
         ColorTheme.blue.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_blue, CustomColors.SavingsGradient2]), startPoint: .topLeading, endPoint: .bottomTrailing),
         ColorTheme.orange.rawValue : LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_orange, Color.white]), startPoint: .topLeading, endPoint: .bottomLeading),
-        ColorTheme.redOrange.rawValue: LinearGradient(gradient: Gradient(colors: [CustomColors.ExpensesColor2, CustomColors.Expenses_Main]), startPoint: .topLeading, endPoint: .bottomTrailing)
+        ColorTheme.redOrange.rawValue: LinearGradient(gradient: Gradient(colors: [CustomColors.Theme_main_orange, CustomColors.Theme_main_pink]), startPoint: .topLeading, endPoint: .bottomTrailing)
     ]
     
     static let tabbarColor: [String : LinearGradient] = [
@@ -424,7 +428,10 @@ enum ExpenseTypeNames: String {
     case InsuranceHouse
     case Bar
     case Coffee
-    
+    case Gym
+    case Drugs
+    case Cosmetics
+    case Taxi
     
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
@@ -691,7 +698,13 @@ enum CategoryIconNamesDefault: String {
     case savings_Education
     case savings_Investments
     case savings_Shopping
+    case expense_Drugs
+    case expense_Gym
+    case expense_Taxi
+    case expense_CarLoan
+    case expense_Cosmetics
 }
+
 
 enum Icons {
     static let ChevronLeft = "chevron.left"

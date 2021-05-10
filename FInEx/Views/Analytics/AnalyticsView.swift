@@ -27,7 +27,7 @@ struct AnalyticsView: View {
     
     @State var pieSliceDescription: String = NSLocalizedString("Expenses by Category", comment: "").uppercased()
     @State var selectedBarDescription: String = ""
-    @State var selectedCategory: String = Categories.Income
+    @State var selectedCategory: String = Categories.Expense
     
     
     @Binding var getPreviousMonthBudget: Bool

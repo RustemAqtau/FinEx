@@ -17,7 +17,7 @@ struct ContentView: View {
     @ObservedObject var budgetVM = BudgetManager()
     @State var offsetY: CGFloat = 0.0
     
-    @State var themeColor: LinearGradient = Theme.colors[ColorTheme.purple.rawValue]!
+    @State var themeColor: LinearGradient = Theme.colors[ColorTheme.blue.rawValue]!
     @State var themeColorChanged: Bool = false
     @State var mainButtonTapped: Bool = false
     @State var analyticsButtonTapped: Bool = false
@@ -123,11 +123,11 @@ struct ContentView: View {
        }
         .onReceive(SyncManager.shared.cloudEventPublisher, perform: { notification in
             handleCloudEvent(notification)
-            if !self.userSettingsVM.checkUserSettingsIsEmpty(context: viewContext) {
-                if !self.userSettingsVM.settings.isSignedWithAppleId {
-                    self.userSettingsVM.settings.editIsSignedWithAppleId(value: true, context: viewContext)
-                }
-            }
+//            if !self.userSettingsVM.checkUserSettingsIsEmpty(context: viewContext) {
+//                if !self.userSettingsVM.settings.isSignedWithAppleId {
+//                    self.userSettingsVM.settings.editIsSignedWithAppleId(value: true, context: viewContext)
+//                }
+//            }
            
         })
         .onChange(of: self.mainButtonTapped, perform: { value in
@@ -161,19 +161,19 @@ struct ContentView: View {
         .onChange(of: self.getPreviousMonthBudget, perform: { value in
             if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
                currentBudgetIndex != self.budgetVM.budgetList.startIndex  {
-                //   withAnimation(.easeIn(duration: 1)) {
+                
                 let previousBudgetIndex = self.budgetVM.budgetList.index(before: currentBudgetIndex)
                 self.currentMonthBudget = self.budgetVM.budgetList[previousBudgetIndex]
-                //   }
+                
             }
         })
         .onChange(of: self.getNextMonthBudget, perform: { value in
             if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
                currentBudgetIndex != self.budgetVM.budgetList.endIndex - 1  {
-                //    withAnimation(.easeIn(duration: 1)) {
+               
                 let nextBudgetIndex = self.budgetVM.budgetList.index(after: currentBudgetIndex)
                 self.currentMonthBudget = self.budgetVM.budgetList[nextBudgetIndex]
-                //    }
+                
             }
         })
         .onChange(of: self.currentMonthBudget, perform: { value in
@@ -194,7 +194,7 @@ struct ContentView: View {
             setThemeColor()
         })
         .overlay(
-            CustomTabBarView(//geo: geo,
+            CustomTabBarView(
                              plusButtonColor: self.$plusButtonColor,
                              isBudgetView: self.$isBudgetView,
                              mainButtonTapped: self.$mainButtonTapped,
@@ -219,7 +219,7 @@ struct ContentView: View {
                 self.budgetVM.setCurrentMonthlyBudget(context: viewContext, previousMonthBudget: lastMonthBudget, currentDate: currentDate)
                 self.budgetVM.getBudgetList(context: viewContext)
             }
-            self.currentMonthBudget = lastMonthBudget //budgetVM.budgetList.last!
+            self.currentMonthBudget = lastMonthBudget
         }
         
         if userSettingsVM.settings.isSetPassCode {
@@ -267,7 +267,10 @@ struct ContentView: View {
                 
                 if cloudEvent.succeeded {
                     print("And it succeeded!")
-                    updateData()
+                    if self.budgetVM.budgetList.isEmpty {
+                        updateData()
+                    }
+                    
                     
                 } else {
                     print("But it failed!")
@@ -317,7 +320,7 @@ struct ContentView: View {
             case ColorTheme.redOrange.rawValue:
                 self.themeColor = Theme.colors[ColorTheme.redOrange.rawValue]!
             default:
-                self.themeColor = Theme.colors[ColorTheme.purple.rawValue]!
+                self.themeColor = Theme.colors[ColorTheme.blue.rawValue]!
             }
         }
         

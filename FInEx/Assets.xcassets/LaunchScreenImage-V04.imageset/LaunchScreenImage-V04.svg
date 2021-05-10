@@ -1,0 +1,53 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="1125" height="2436" viewBox="0 0 1125 2436">
+  <defs>
+    <style>
+      .cls-1, .cls-5 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #48c0c1;
+      }
+
+      .cls-3 {
+        fill: #80c38f;
+      }
+
+      .cls-4 {
+        fill: #ff6e9f;
+      }
+
+      .cls-5 {
+        opacity: 0.3;
+      }
+
+      .cls-6 {
+        font-size: 38.1px;
+        fill: #387c82;
+        font-family: HoeflerText-Regular, Hoefler Text;
+      }
+
+      .cls-7 {
+        letter-spacing: -0.04em;
+      }
+    </style>
+  </defs>
+  <g>
+    <rect class="cls-1" width="1125" height="2436"/>
+    <g>
+      <g>
+        <rect class="cls-1" x="380" y="813.5" width="365" height="365"/>
+        <g>
+          <g>
+            <circle class="cls-2" cx="562.5" cy="996" r="128.5"/>
+            <path class="cls-3" d="M562.5,996l1.67,128.49H562.5c-70.49,0-128.5-58-128.5-128.5v-.12Z"/>
+            <path class="cls-4" d="M562.86,995.37l-144.72,1v-1c0-78.38,64.47-143.07,143.33-143.82Z"/>
+          </g>
+          <circle class="cls-5" cx="562.5" cy="996" r="84.83"/>
+          <circle class="cls-1" cx="562.5" cy="996" r="71.11"/>
+        </g>
+      </g>
+      <text class="cls-6" transform="translate(517.11 1009.99) scale(0.88 1)">F<tspan class="cls-7" x="22.86" y="0">I</tspan><tspan x="38.14" y="0">nEx</tspan></text>
+    </g>
+  </g>
+</svg>

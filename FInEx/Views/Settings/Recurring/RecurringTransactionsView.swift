@@ -25,6 +25,13 @@ struct RecurringTransactionsView: View {
         let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
        
             GeometryReader { geo in
+                VStack {
+                }
+                .frame(width: geo.size.width, height: geo.size.height / 8, alignment: .center)
+                .background(Color.white)
+                .ignoresSafeArea(.all, edges: .top)
+                .zIndex(100)
+                
                 ScrollView {
                     
                     VStack(spacing: 20) {
@@ -36,7 +43,7 @@ struct RecurringTransactionsView: View {
                                     .frame(width: geo.size.width, alignment: .leading)
                                 VStack {
                                     HStack {
-                                        Text(NSLocalizedString("Recurring ", comment: "") + NSLocalizedString(category, comment: ""))
+                                        Text(NSLocalizedString(SettingsContentDescription.recurringTab_field1.rawValue, comment: "") + NSLocalizedString(category, comment: ""))
                                             .font(Fonts.light20)
                                         
                                         Spacer()
@@ -101,6 +108,7 @@ struct RecurringTransactionsView: View {
                                                 
                                             }) {
                                                 Image(systemName: "chevron.backward")
+                                                    .font(Fonts.regular20)
                                             }
                     )
                     VStack {

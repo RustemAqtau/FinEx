@@ -19,15 +19,20 @@ struct AppearanceView: View {
     
     var body: some View {
         GeometryReader { geo in
-            
+            VStack {
+            }
+            .frame(width: geo.size.width, height: geo.size.height / 8, alignment: .center)
+            .background(Color.white)
+            .ignoresSafeArea(.all, edges: .top)
+            .zIndex(100)
             ScrollView {
-                VStack(alignment: .leading, spacing: 30) {
+                VStack(alignment: .leading, spacing: 25) {
                     
                     ZStack {
                         Rectangle()
                             .fill(Color.white)
                             .shadow(radius: 5)
-                            .frame(width: geo.size.width, height: 80, alignment: .leading)
+                            .frame(width: geo.size.width, height: 110, alignment: .leading)
                         HStack {
                             VStack(alignment: .leading, spacing: 8) {
                                 HStack {
@@ -66,14 +71,14 @@ struct AppearanceView: View {
                             
                         }
                         .padding(.horizontal)
-                        .frame(width: geo.size.width, height: 50, alignment: .leading)
+                        .frame(width: geo.size.width, height: 110, alignment: .leading)
                     }
                     
                     ZStack {
                         Rectangle()
                             .fill(Color.white)
                             .shadow(radius: 5)
-                            .frame(width: geo.size.width, height: 80, alignment: .leading)
+                            .frame(width: geo.size.width, height: 110, alignment: .leading)
                         HStack {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text(NSLocalizedString(SettingsContentDescription.appearanceTab_field2_title.localizedString(), comment: "").uppercased())
@@ -91,14 +96,14 @@ struct AppearanceView: View {
                             }
                         }
                         .padding(.horizontal)
-                        .frame(width: geo.size.width, height: 50, alignment: .leading)
+                        .frame(width: geo.size.width, height: 110, alignment: .leading)
                     }
                     
                     ZStack {
                         Rectangle()
                             .fill(Color.white)
                             .shadow(radius: 5)
-                            .frame(width: geo.size.width, height: 80, alignment: .leading)
+                            .frame(width: geo.size.width, height: 110, alignment: .leading)
                         HStack {
                             VStack(alignment: .leading, spacing: 8) {
                                 HStack {
@@ -131,11 +136,11 @@ struct AppearanceView: View {
                             
                         }
                         .padding(.horizontal)
-                        .frame(width: geo.size.width, height: 50, alignment: .leading)
+                        .frame(width: geo.size.width, height: 110, alignment: .leading)
                     }
                     
                 }
-                .frame(width: geo.size.width, height: geo.size.height, alignment: .topLeading)
+                .frame(width: geo.size.width, height: geo.size.height * 0.70, alignment: .topLeading)
                 .navigationBarTitle (Text(""), displayMode: .inline)
                 .navigationBarBackButtonHidden(true)
                 .navigationBarItems(leading:
@@ -145,6 +150,7 @@ struct AppearanceView: View {
                                             
                                         }) {
                                             Image(systemName: "chevron.backward")
+                                                .font(Fonts.regular20)
                                         }
                 )
                 .onAppear{

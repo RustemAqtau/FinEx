@@ -103,14 +103,23 @@
 "CheckUp" = "Обследование";
 "Flight" = "Полет";
 "Hotel" = "Отель";
+"Coffee" = "Кофе";
+"Gym" = "Фитнес";
+"Drugs" = "Лекарства";
+"Cosmetics" = "Косметика";
+"Taxi" = "Такси";
+"InsuranceHealth" = "Мед.страхование";
+"InsuranceHouse" = "Страхов.недвижимости";
+"Gift" = "Подарок";
+
 
 // Expenses Categories
 "Housing" = "Жилье";
 "Entertainment" = "Развлечения";
-"FoodAndDrinks" = "Еда и Напитки";
+"FoodAndDrinks" = "Еда и напитки";
 "Bills" = "Счета";
 "Transportation" = "Транспорт";
-"Health" = "Здоровье";
+"Health" = "Здоровье и красота";
 "Subscriptions" = "Подписки";
 "Insurance" = "Страхование";
 "Travel" = "Путешествие";

@@ -1,0 +1,50 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="1125" height="2436" viewBox="0 0 1125 2436">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-6 {
+        fill: #fff;
+      }
+
+      .cls-1 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3 {
+        fill: #48c0c1;
+      }
+
+      .cls-4 {
+        fill: #80c38f;
+      }
+
+      .cls-5 {
+        fill: #ff6e9f;
+      }
+
+      .cls-6 {
+        opacity: 0.3;
+      }
+
+      .cls-7 {
+        font-size: 72.93px;
+        fill: #387c82;
+        font-family: Georgia;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" x="0.5" y="0.5" width="1125" height="2435"/>
+  <g>
+    <rect class="cls-2" x="442.5" y="1021.37" width="240" height="240"/>
+    <g>
+      <g>
+        <circle class="cls-3" cx="562.5" cy="1141.37" r="84.49"/>
+        <path class="cls-4" d="M562.5,1141.37l1.1,84.49h-1.1c-46.35,0-84.49-38.14-84.49-84.49v-.08Z"/>
+        <path class="cls-5" d="M562.73,1141l-95.15.69V1141c0-51.53,42.39-94.07,94.24-94.56Z"/>
+      </g>
+      <circle class="cls-6" cx="562.5" cy="1141.37" r="55.78"/>
+      <circle class="cls-2" cx="562.5" cy="1141.37" r="46.76"/>
+    </g>
+  </g>
+  <text class="cls-7" transform="translate(457.27 1323.88) scale(1.05 1)">FInEx</text>
+</svg>

@@ -186,7 +186,7 @@ struct AddTransactionView: View {
                 self.accentColor = CustomColors.SavingsGradient1
             default: self.accentColor = CustomColors.ExpensesColor2
             }
-            self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
+            self.amountPlaceholder = currentMonthBudget.currency ?? "" //userSettingsVM.settings.currencySymbol!
             self.dateRange = getDateRange(for: self.currentMonthBudget.startDate ?? Date())
             if let initialMonthbudget = self.budgetVM.budgetList.filter({ $0.isInitialMonth == true}).first {
                 if self.currentMonthBudget.startDate! < initialMonthbudget.startDate! {

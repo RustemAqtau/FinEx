@@ -32,6 +32,7 @@ struct WithdrawSavingView: View {
     @State private var balanceCheckFailed: Bool = false
     @State private var warningMessage: String = ""
     @State private var amountPlaceholder: String = ""
+    @Binding var currencySymbol: String
     
     var body: some View {
         NavigationView {
@@ -158,7 +159,7 @@ struct WithdrawSavingView: View {
                 self.selectedTypeName = self.savingsType.presentingName
                 self.selectedtypeImageName = self.savingsType.presentingImageName
                 self.selectedTypeCircleColor = self.savingsType.presentingColorName
-                self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
+                self.amountPlaceholder = currencySymbol //userSettingsVM.settings.currencySymbol!
             }
         }
     }

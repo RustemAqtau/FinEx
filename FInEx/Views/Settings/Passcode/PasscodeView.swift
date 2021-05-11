@@ -65,7 +65,7 @@ struct PasscodeView: View {
                 .navigationBarTitle (Text(""), displayMode: .inline)
                 .frame(width: geo.size.width, height: 80, alignment: .top)
                 .onAppear {
-                    
+                    self.hideTabBar = true
                     self.enablePasscode = userSettingsVM.settings.isSetPassCode
                     self.enableBiometrics = userSettingsVM.settings.isSetBiometrix
                 }

@@ -112,6 +112,8 @@
 "InsuranceHealth" = "Krankenversicherung";
 "InsuranceHouse" = "Hausratsversicherung";
 "Gift" = "Geschenk";
+"Books" = "Bücher";
+"Course" = "Kurs";
 
 // Expenses Categories
 "Housing" = "Unterkunft";

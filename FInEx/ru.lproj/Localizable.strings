@@ -111,7 +111,8 @@
 "InsuranceHealth" = "Мед.страхование";
 "InsuranceHouse" = "Страхов.недвижимости";
 "Gift" = "Подарок";
-
+"Books" = "Книги";
+"Course" = "Курс";
 
 // Expenses Categories
 "Housing" = "Жилье";

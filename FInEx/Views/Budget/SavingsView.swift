@@ -134,7 +134,7 @@ struct SavingsView: View {
         }
         .sheet(isPresented: self.$showWithdrawSheet, content: {
             withAnimation(.easeInOut(duration: 2)) {
-                WithdrawSavingView(currentMonthBudget: self.$currentMonthBudget, savingsType: self.$editingType)
+                WithdrawSavingView(currentMonthBudget: self.$currentMonthBudget, savingsType: self.$editingType, currencySymbol: self.$currencySymbol)
                     .environmentObject(self.budgetVM)
             }
         })

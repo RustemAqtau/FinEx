@@ -277,7 +277,7 @@ extension MonthlyBudget {
     var totalCurrentMonthSavings: NSDecimalNumber {
         var amount:Decimal = 0.0
         if !currentMonthSavings.isEmpty {
-            for saving in savingsList {
+            for saving in currentMonthSavings {
                 amount += (saving.amount as Decimal?)!
             }
         }
@@ -335,7 +335,8 @@ extension MonthlyBudget {
     }
     
     private func getCurrentTransactions(for category: String, context: NSManagedObjectContext) -> [Transaction]? {
-        let predicate = NSPredicate(format: "monthlyBudget = %@ AND category = %@ AND date > %@", argumentArray: [self, category, self.startDate])
+        //let predicate = NSPredicate(format: "monthlyBudget = %@ AND category = %@ AND date > %@", argumentArray: [self, category, self.startDate])
+        let predicate = NSPredicate(format: "monthlyBudget = %@ AND category = %@ AND month = %@ AND year = %@", argumentArray: [self, category, self.month, self.year])
         let request = Transaction.fetchRequest(predicate: predicate)
         do {
             let fetchedSavings = try? context.fetch(request)

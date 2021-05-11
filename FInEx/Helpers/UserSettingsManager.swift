@@ -26,7 +26,8 @@ class UserSettingsManager: ObservableObject {
             ExpenseSubCategories.Insurance.rawValue : [],
             ExpenseSubCategories.Subscriptions.rawValue : [],
             ExpenseSubCategories.Transportation.rawValue : [],
-            ExpenseSubCategories.Travel.rawValue : []],
+            ExpenseSubCategories.Travel.rawValue : [],
+            ExpenseSubCategories.Education.rawValue: []],
         Categories.Saving : [SvaingSubCategories.LongTerm.rawValue : [],
                              SvaingSubCategories.ShortTerm.rawValue : []]]
     
@@ -42,7 +43,8 @@ class UserSettingsManager: ObservableObject {
             ExpenseSubCategories.Insurance.rawValue : [],
             ExpenseSubCategories.Subscriptions.rawValue : [],
             ExpenseSubCategories.Transportation.rawValue : [],
-            ExpenseSubCategories.Travel.rawValue : []],
+            ExpenseSubCategories.Travel.rawValue : [],
+            ExpenseSubCategories.Education.rawValue: []],
         Categories.Saving : [SvaingSubCategories.LongTerm.rawValue : [],
                              SvaingSubCategories.ShortTerm.rawValue : []]]
     
@@ -61,6 +63,17 @@ class UserSettingsManager: ObservableObject {
         }
         return arr
     }
+    
+//    var typesBySubCategory: [String: [TransactionType]] {
+//        var arr: [String: [TransactionType]] = [:]
+//        for category in  categories {
+//            for subCategory in subCategories[category]! {
+//                arr[subCategory] = []
+//            }
+//        }
+//
+//    }
+    
     
     @Published var recurringTransactions: [RecurringTransaction] = []
     @Published var recurringTransactionsByCategory: [String: [RecurringTransaction]] = [:]
@@ -205,6 +218,7 @@ class UserSettingsManager: ObservableObject {
         }
         
     }
+    
     
     func getAllTransactiontypes(context: NSManagedObjectContext) {
         let predicate = NSPredicate(format: "name != nil")
@@ -363,6 +377,10 @@ class UserSettingsManager: ObservableObject {
             
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Travel.rawValue, name: ExpenseTypeNames.Flight.rawValue, imageName: CategoryIconNamesDefault.expense_Flight.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Travel.rawValue, name: ExpenseTypeNames.Hotel.rawValue, imageName: CategoryIconNamesDefault.expense_Hotel.rawValue, colorName: "ExpensesColor2", isHidden: false),
+            
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Education.rawValue, name: ExpenseTypeNames.Books.rawValue, imageName: CategoryIconNamesDefault.expense_Books.rawValue, colorName: "ExpensesColor2", isHidden: false),
+            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Education.rawValue, name: ExpenseTypeNames.Course.rawValue, imageName: CategoryIconNamesDefault.expense_Course.rawValue, colorName: "ExpensesColor2", isHidden: false),
+            
             
             
             TransactionTypeInfo(category: Categories.Saving, subCategory: SvaingSubCategories.LongTerm.rawValue, name: SavingTypeNames.Cash.rawValue, imageName: CategoryIconNamesDefault.savings_Cash2.rawValue, colorName: "SavingsColor", isHidden: false),

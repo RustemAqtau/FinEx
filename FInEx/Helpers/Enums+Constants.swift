@@ -432,6 +432,9 @@ enum ExpenseTypeNames: String {
     case Drugs
     case Cosmetics
     case Taxi
+    case Books
+    case Course
+    
     
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
@@ -450,6 +453,7 @@ enum ExpenseSubCategories: String, CaseIterable {
     case Insurance
     case Travel
     case Shopping
+    case Education
     
     func localizedString() -> String {
         return NSLocalizedString(self.rawValue, comment: "")
@@ -703,6 +707,8 @@ enum CategoryIconNamesDefault: String {
     case expense_Taxi
     case expense_CarLoan
     case expense_Cosmetics
+    case expense_Books
+    case expense_Course
 }
 
 

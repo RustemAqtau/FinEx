@@ -223,6 +223,15 @@ struct ContentView: View {
     private func updateData() {
         self.userSettingsVM.getUserSettings(context: viewContext)
         self.userSettingsVM.getAllTransactiontypes(context: viewContext)
+        if self.userSettingsVM.allTransactionTypes.count != self.userSettingsVM.defaultTransactionTypes.count {
+            let newTypes = self.userSettingsVM.defaultTransactionTypes.filter({ !self.userSettingsVM.allTransactionTypes.map({ $0.name }).contains($0.name) })
+            for newType in newTypes {
+                self.userSettingsVM.addNewTransactiontype(info: newType, context: viewContext)
+                print("new type added")
+            }
+            
+        }
+        
         let currentDate = Date()
         let currentMonth = getMonthFrom(date: currentDate)
         self.budgetVM.getBudgetList(context: viewContext)

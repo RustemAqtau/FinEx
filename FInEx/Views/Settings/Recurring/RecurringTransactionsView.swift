@@ -22,7 +22,7 @@ struct RecurringTransactionsView: View {
     @State var activeSheet: ActiveSheet?
     
     var body: some View {
-        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
+        let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol ?? "", fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
        
             GeometryReader { geo in
                 VStack {

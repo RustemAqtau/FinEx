@@ -37,7 +37,7 @@
 "local_key_notification_DailyTitle" = "Daily remainder ⏰";
 "local_key_notification_DailyBody" = "Have you added your expenses for today?";
 "local_key_notification_MonthlyTitle" = "Any bills left to pay? 💸";
-"local_key_notification_MonthlyBody" = "Just don't forget them, or it might cost you some of your well earned money.";
+"local_key_notification_MonthlyBody" = "Just don't forget them, or it might cost you some of your well-earned money.";
 
 
 // Picker Data
@@ -57,11 +57,11 @@
 // Warning messages
 "local_key_warningMessage_ValidationAmountFail" = "Please enter valid amount.";
 "local_key_warningMessage_ValidationCategoryNotSelectedFail" = "Please select a category.";
-"local_key_warningMessage_RequiredField" = "Please fill all the required fields.";
-"local_key_warningMessage_ExistingCategory" = "You have already added a recurring for this category, please change category.";
+"local_key_warningMessage_RequiredField" = "Please fill in all the required fields.";
+"local_key_warningMessage_ExistingCategory" = "You have already added a recurring for this category. Please select another category.";
 "local_key_warningMessage_CheckBalance" = "You don't have enough money for this transaction. Please check your balance.";
-"local_key_warningMessage_noDataPlaceholder" = "There is no transactions for this month.";
-"local_key_warningMessage_AvailableRecurringTransction" = "You have recurring transactions to add";
+"local_key_warningMessage_noDataPlaceholder" = "There are no transactions for this month.";
+"local_key_warningMessage_AvailableRecurringTransction" = "You have recurring transactions to add.";
 
 // Income Types
 "Salary" = "Salary";
@@ -112,6 +112,8 @@
 "InsuranceHealth" = "Health Insurance";
 "InsuranceHouse" = "Home Insurance";
 "Gift" = "Gift";
+"Books" = "Books";
+"Course" = "Course";
 
 // Expenses Categories
 "Housing" = "Housing";
@@ -155,15 +157,15 @@
 "local_key_passcodeTab_field1" = "Enable Passcode";
 "local_key_passcodeTab_field2" = "Enable TouchID/FaceID";
 "local_key_passcodeTab_field3" = "Enter a new passcode";
-"local_key_passcodeTab_description1" = "Protect your data with a passcode. This way only you can enter and access your information.";
+"local_key_passcodeTab_description1" = "Protect your data with a passcode. This way only you can access your information.";
 "local_key_passcodeTab_mainDescription" = "Protect your data with a passcode.";
 
 "local_key_registerTab_title" = "Sync & Secure";
 "local_key_registerTab_description1" = "Sync budgets and transactions between your devices.";
 "local_key_registerTab_description1_signed" = "Your budget and transactions are synchronized between your devices.";
 "local_key_registerTab_description2" = "Backup your data in case you change or lose your phone.";
-"local_key_registerTab_description2_signed" = "Your data safely backed up on the cloud incase you lose/change your phone.";
-"local_key_registerTab_description3" = "Don't worry, we will never send you any emails.";
+"local_key_registerTab_description2_signed" = "Your data safely backed up on the cloud in case you lose/change your phone.";
+"local_key_registerTab_description3" = "Don't worry, we will never send you any e-mails.";
 "local_key_registerTab_mainDescription" = "Secure your data in the cloud and use multiple devices";
 
 "local_key_recurringTab_mainDescription" = "Manage your regular transactions";
@@ -179,7 +181,7 @@
 
 "local_key_reminderTab_mainDescription" = "Set up reminders and get notified when it suits you";
 "local_key_reminderTab_field1_title" = "Daily reminders";
-"local_key_reminderTab_description1" = "We can remind you to add todays expenses at a time that suits you, so you will not forget about it.";
+"local_key_reminderTab_description1" = "We can remind you to add today's expenses at a time that suits you, so you will not forget about it.";
 "local_key_reminderTab_field1" = "Remind me at:";
 "local_key_reminderTab_field2_title" = "Monthly reminders";
 "local_key_reminderTab_description2" = "Missing the due date of your bills can be both frustrating and costly, let's never let it happen again.";

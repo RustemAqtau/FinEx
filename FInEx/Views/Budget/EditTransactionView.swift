@@ -32,6 +32,8 @@ struct EditTransactionView: View {
     @State var validationFailed: Bool = false
     @State var warningMessage: String = ""
     @State var amountPlaceholder: String = ""
+    @Binding var currencySymbol: String
+    //@Binding var showDecimals: Bool
    
     var body: some View {
         NavigationView {
@@ -198,7 +200,7 @@ struct EditTransactionView: View {
             self.selectedtypeImageName = transaction.type!.presentingImageName
             self.selectedTypeCircleColor = transaction.type!.presentingColorName
             self.note = transaction.note!
-            self.amountPlaceholder = userSettingsVM.settings.currencySymbol!
+            self.amountPlaceholder = currencySymbol //userSettingsVM.settings.currencySymbol!
         }
         .onTapGesture {
             hideKeyboard()

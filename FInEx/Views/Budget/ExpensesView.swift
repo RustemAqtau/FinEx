@@ -127,7 +127,7 @@ struct ExpensesView: View {
         }
         .sheet(isPresented: self.$editTransaction, content: {
             withAnimation(.easeInOut(duration: 2)) {
-                EditTransactionView(transaction: self.$editingTransaction)
+                EditTransactionView(transaction: self.$editingTransaction, currencySymbol: self.$currencySymbol)
                     .environmentObject(self.budgetVM)
             }
         })

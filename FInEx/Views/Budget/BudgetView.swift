@@ -58,7 +58,7 @@ struct BudgetView: View {
             GeometryReader { geo in
                 VStack {
                 }
-                .frame(width: geo.size.width, height: geo.size.height / 3, alignment: .center)
+                .frame(width: geo.size.width, height: geo.size.height / 3.1, alignment: .center)
                 .background(themeColor)
                 .ignoresSafeArea(.all, edges: .top)
                 
@@ -70,13 +70,8 @@ struct BudgetView: View {
                                 Text(LocalizedStringKey("BALANCE"))
                                 Text(formatter.string(from: NSDecimalNumber(decimal: currentMonthBudget.currentBalance))!)
                             }
-                            
-                            .onAppear {
-                                startAnimate()
-                            }
                         }
                        .frame(width: geo.size.width * 0.90, height: 20, alignment: .center)
-                        //.offset(y: 50)
                         .foregroundColor(CustomColors.TextDarkGray)
                         .opacity(0.8)
                         .font(Fonts.light15)
@@ -86,12 +81,11 @@ struct BudgetView: View {
                                     .multilineTextAlignment(.center)
                                     .font(Font.system(size: self.incomeSelected ? 20 : 16, weight: .light, design: .default))
                                 Text(LocalizedStringKey("INCOME"))
-                                    //.font(.footnote)
                                     .font(Fonts.light12)
                                     .opacity(0.8)
                             }
                             .modifier(RoundedRectangleModifier(color: GradientColors.Income, strokeLineWidth: self.incomeSelected ? 4.5 : 3.0))
-                            .frame(width: self.incomeSelected ? geo.size.width / 2.5 :  geo.size.width / 4.2, height: 70, alignment: .center)
+                            .frame(width: self.incomeSelected ? geo.size.width / 2.5 :  geo.size.width / 4.2, height: self.incomeSelected ? 70 : 55, alignment: .center)
                             .padding()
                             .onTapGesture {
                                 withAnimation(.easeInOut(duration: 0.5)) {
@@ -113,7 +107,7 @@ struct BudgetView: View {
                                     .opacity(0.8)
                             }
                             .modifier(RoundedRectangleModifier(color: GradientColors.Expense, strokeLineWidth: (self.savingsSelected || self.incomeSelected) ? 3.0 : 4.5))
-                            .frame(width: (self.savingsSelected || self.incomeSelected) ? geo.size.width / 4.2 :  geo.size.width / 2.5, height: 70, alignment: .center)
+                            .frame(width: (self.savingsSelected || self.incomeSelected) ? geo.size.width / 4.2 :  geo.size.width / 2.5, height: (self.savingsSelected || self.incomeSelected) ? 55 : 70, alignment: .center)
                             .padding()
                             .onTapGesture {
                                 withAnimation(.easeInOut(duration: 0.5)) {
@@ -137,7 +131,7 @@ struct BudgetView: View {
                                     .opacity(0.8)
                             }
                             .modifier(RoundedRectangleModifier(color: GradientColors.Saving, strokeLineWidth: self.savingsSelected ? 4.5 : 3.0))
-                            .frame(width: self.savingsSelected ? geo.size.width / 2.5 :  geo.size.width / 4.2, height: 70, alignment: .center)
+                            .frame(width: self.savingsSelected ? geo.size.width / 2.5 :  geo.size.width / 4.2, height: self.savingsSelected ? 70 : 55, alignment: .center)
                             .padding()
                             .onTapGesture {
                                 withAnimation(.easeInOut(duration: 0.5)) {
@@ -168,9 +162,8 @@ struct BudgetView: View {
                     
                     HStack(spacing: 20) {
                         Button(action: {
-                            //withAnimation(.linear(duration: 1)) {
-                                self.getPreviousMonthBudget.toggle()
-                           // }
+                            self.getPreviousMonthBudget.toggle()
+                           
                         }) {
                             Image(systemName: Icons.ChevronCompactLeft)
                         }
@@ -179,9 +172,8 @@ struct BudgetView: View {
                         Text("\(currentMonthBudget.monthYearStringPresentation)")
                         Spacer()
                         Button(action: {
-                            //withAnimation(.linear(duration: 1)) {
-                                self.getNextMonthBudget.toggle()
-                           // }
+                            self.getNextMonthBudget.toggle()
+                           
                         }) {
                             Image(systemName: Icons.ChevronCompactRight)
                         }
@@ -189,10 +181,11 @@ struct BudgetView: View {
                         
                     }
                     .padding(.horizontal)
-                    .font(Font.system(size: 20, weight: .light, design: .default))
+                    .font(Fonts.light20)
                     .foregroundColor(.black)
                     .modifier(RoundedRectangleModifierSimpleColor(color: Color.white, strokeLineWidth: 3))
-                    .frame(width: geo.size.width * 0.90, height: 50)
+                    .frame(width: geo.size.width * 0.90, height: geo.size.height * 0.07)
+                    //.frame(width: geo.size.width * 0.90, height: 50)
                     
                     
                     if self.incomeSelected {
@@ -233,41 +226,23 @@ struct BudgetView: View {
                 
                 .navigationBarTitle (Text(LocalizedStringKey("BUDGET")), displayMode: .inline)
                 .navigationBarItems(
-                    
-//                    leading: Button(action: {
-//                    for budget in self.budgetVM.budgetList {
-//                        viewContext.delete(budget)
-//                        if viewContext.hasChanges {
-//                            do {
-//                                try viewContext.save()
-//                                print("Transaction deleted")
-//                            } catch {
-//                                print("Could not save context")
-//                            }
-//                        }
-//                    }
-//                }) {
-//                    VStack(spacing: 0){
-//
-//                        Text("Remove All")
-//                            .font(Fonts.light10)
-//                    }
-//                },
+
                     trailing:
-                                        Button(action: {
-                                            let shareManager = CSVShareManager()
-                                            let csvData = shareManager.createMonthBudgetCSV(for: currentMonthBudget)
-                                            let path = try? FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
-                                            sendingDataURL = path!.appendingPathComponent("FInEx-\(currentMonthBudget.monthYearStringPresentation).csv")
-                                            try?csvData.write(to: sendingDataURL)
-                                            shareManager.shareCSV(url: sendingDataURL)
-                                        }) {
-                                            VStack(spacing: 0){
-                                                Image(systemName: Icons.Doc_Arrow_Down)
-                                                Text("CSV")
-                                                    .font(Fonts.light10)
-                                            }
-                                        }
+                        Button(action: {
+                            let shareManager = CSVShareManager()
+                            let csvData = shareManager.createMonthBudgetCSV(for: currentMonthBudget)
+                            let path = try? FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: false)
+                            sendingDataURL = path!.appendingPathComponent("FInEx-\(currentMonthBudget.monthYearStringPresentation).csv")
+                            try?csvData.write(to: sendingDataURL)
+                            shareManager.shareCSV(url: sendingDataURL)
+                        }) {
+                            VStack(spacing: 0){
+                                Image(systemName: Icons.Doc_Arrow_Down)
+                                    .font(Fonts.light20)
+                                Text("CSV")
+                                    .font(Fonts.light10)
+                            }
+                        }
                 )
                 .onAppear {
                     self.currentMonthBudget = budgetVM.budgetList.last!
@@ -302,9 +277,6 @@ struct BudgetView: View {
                 })
             }
             .background(CustomColors.White_Background)
-            
-
-            
         }
         .accentColor(CustomColors.TextDarkGray)
     }

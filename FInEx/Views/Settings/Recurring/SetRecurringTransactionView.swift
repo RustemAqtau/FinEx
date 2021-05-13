@@ -54,17 +54,15 @@ struct SetRecurringTransactionView: View {
                         ZStack {
                             RoundedRectangle(cornerRadius: 35.0)
                                 .fill(Color.white)
-                               // .opacity(self.amountIsEditing ? 1 : 0)
                             RoundedRectangle(cornerRadius: 35.0)
                                 .stroke(Color.gray)
-                                //.opacity(self.amountIsEditing ? 1 : 0)
                             TextField(self.amountPlaceholder, text: self.$amountString, onEditingChanged: { isEditing in
                                 if isEditing {
                                     self.amountIsEditing = true
                                 } else {
                                     hideKeyboard()
                                     self.amountIsEditing = false
-                                   // hideKeyboard()
+                                    
                                 }
                             })
                             .lineLimit(1)
@@ -100,14 +98,13 @@ struct SetRecurringTransactionView: View {
                                 .modifier(CircleModifierSimpleColor(color: Color(self.selectedTypeCircleColor), strokeLineWidth: 3.0))
                                 .font(Font.system(size: 22, weight: .regular, design: .default))
                                 .frame(width: 45, height: 45, alignment: .center)
-                                
+                            
                             Text(LocalizedStringKey(self.selectedTypeName))
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                                 .foregroundColor(self.categoryValidationFailed ? Color.red : CustomColors.TextDarkGray)
                         }
                         .frame(width: geo.size.width * 0.90, alignment: .leading)
                         .onTapGesture {
-                            //hideKeyboard()
                             self.showCategorySelector = true
                         }
                         
@@ -119,17 +116,17 @@ struct SetRecurringTransactionView: View {
                                     self.showCalendar = true
                                 }
                             DatePicker(LocalizedStringKey(LableTitles.startDate.localizedString()), selection: self.$selectedDate,
-                                            in: dateRange,
-                                            displayedComponents: .date)
+                                       in: dateRange,
+                                       displayedComponents: .date)
                                 .labelsHidden()
                                 .background(Color.clear)
                                 .foregroundColor(CustomColors.TextDarkGray)
                                 .accentColor(CustomColors.TextDarkGray)
                                 .shadow(radius: 10.0 )
-                                
+                            
                         }
                         .frame(width: geo.size.width * 0.90, alignment: .leading)
-                        //.padding()
+                        
                         
                         HStack(spacing: 15) {
                             Image(systemName: "clock.arrow.2.circlepath")
@@ -160,7 +157,7 @@ struct SetRecurringTransactionView: View {
                                         self.noteLenghtLimitOut = false
                                         
                                       } else {
-                                        //hideKeyboard()
+                                        
                                         if self.note.count > 10 {
                                             self.noteLenghtLimitOut = true
                                             // TODO: Warning label
@@ -175,15 +172,15 @@ struct SetRecurringTransactionView: View {
                         }
                         .frame(width: geo.size.width * 0.90, alignment: .leading)
                         Button(action: {
-                          //  hideKeyboard()
+                            
                             if validationSucceed() {
                                 saveTransaction()
                             }
-                           
+                            
                         }) {
                             SaveButtonView(geo: geo, withTrash: false, withdraw: false)
                         }
-                        //.offset(y: -self.keyboardHeightHelper.keyboardHeight)
+                        
                     }
                     
                 }
@@ -204,7 +201,7 @@ struct SetRecurringTransactionView: View {
             .onChange(of: self.selectedPeriodicity, perform: { value in
                 updatePeriodicityText()
                 
-             })
+            })
             .onChange(of: self.selectedDate, perform: { value in
                 updatePeriodicityText()
             })
@@ -232,7 +229,7 @@ struct SetRecurringTransactionView: View {
                 self.amountValidationFailed = false
                 self.categoryValidationFailed = false
             })
-
+            
         }
         .onTapGesture {
             hideKeyboard()
@@ -263,20 +260,20 @@ struct SetRecurringTransactionView: View {
     }
     
     private func saveTransaction() {
-            let locale = Locale.current
-            self.amount = NSDecimalNumber(string: self.amountString, locale: locale)
-      
-            let newRecurringTransactionInfo = RecurringTransactionInfo(
-                startDate: self.selectedDate,
-                nextAddingDate: self.selectedDate,
-                amount: self.amount,
-                note: self.note,
-                periodicity: self.selectedPeriodicity,
-                type: self.selectedType,
-                category: self.category)
-            
-            userSettingsVM.addNewRecurringTransaction(info: newRecurringTransactionInfo, context: viewContext)
-            presentationMode.wrappedValue.dismiss()
+        let locale = Locale.current
+        self.amount = NSDecimalNumber(string: self.amountString, locale: locale)
+        
+        let newRecurringTransactionInfo = RecurringTransactionInfo(
+            startDate: self.selectedDate,
+            nextAddingDate: self.selectedDate,
+            amount: self.amount,
+            note: self.note,
+            periodicity: self.selectedPeriodicity,
+            type: self.selectedType,
+            category: self.category)
+        
+        userSettingsVM.addNewRecurringTransaction(info: newRecurringTransactionInfo, context: viewContext)
+        presentationMode.wrappedValue.dismiss()
         
     }
     private func validationSucceed() -> Bool {

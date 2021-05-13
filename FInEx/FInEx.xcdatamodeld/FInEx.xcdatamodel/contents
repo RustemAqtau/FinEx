@@ -59,7 +59,7 @@
     <elements>
         <element name="MonthlyBudget" positionX="-70.0703125" positionY="375.8984375" width="128" height="149"/>
         <element name="RecurringTransaction" positionX="-115.17578125" positionY="109.953125" width="128" height="193"/>
-        <element name="Transaction" positionX="-326.2109375" positionY="335.40234375" width="128" height="178"/>
+        <element name="Transaction" positionX="-326.2109375" positionY="335.40234375" width="128" height="164"/>
         <element name="TransactionType" positionX="-611.30859375" positionY="79.1640625" width="128" height="163"/>
         <element name="UserSettings" positionX="-63" positionY="-9" width="128" height="194"/>
     </elements>

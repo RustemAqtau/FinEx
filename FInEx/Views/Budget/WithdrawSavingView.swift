@@ -70,7 +70,7 @@ struct WithdrawSavingView: View {
                             }
                             .font(Font.system(size: 30, weight: .light, design: .default))
                             .keyboardType(.decimalPad)
-                         }
+                        }
                         .frame(width: geo.size.width * 0.60, height: 60, alignment: .center)
                     }
                     Divider()
@@ -101,7 +101,7 @@ struct WithdrawSavingView: View {
                                 .font(Font.system(size: 30, weight: .regular, design: .default))
                             Text(setDate(date: self.selectedDate))
                                 .opacity(0.6)
-                         }
+                        }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
                         .opacity(0.8)
                         HStack(spacing: 25) {
@@ -117,15 +117,15 @@ struct WithdrawSavingView: View {
                                       } else {
                                         hideKeyboard()
                                         if self.note.count > 10 {
-                                          self.noteLenghtLimitOut = true
+                                            self.noteLenghtLimitOut = true
                                             // TODO: Warning label
                                         }
                                       }
-                            
+                                      
                                       } , onCommit:  {
                                         
                                       })
-                            .foregroundColor(self.noteLenghtLimitOut ? .red : CustomColors.TextDarkGray)
+                                .foregroundColor(self.noteLenghtLimitOut ? .red : CustomColors.TextDarkGray)
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)

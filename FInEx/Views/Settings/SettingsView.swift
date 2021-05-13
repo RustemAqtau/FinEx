@@ -63,7 +63,6 @@ struct SettingsView: View {
                             .padding(.vertical)
                             .frame(height: 210, alignment: .top)
                             }
-                            //.opacity(userSettingsVM.settings.isSignedWithAppleId ? 0 : 1)
                             NavigationLink(
                                 destination: PasscodeView(hideTabBar: self.$hideTabBar)) {
                                 ZStack {
@@ -188,7 +187,7 @@ struct SettingsView: View {
                                     RoundedRectangle(cornerRadius: 25.0)
                                         .stroke(Color.white)
                                     VStack(spacing: 15) {
-                                        Image(systemName: "lock.shield")
+                                        Image(systemName: "viewfinder.circle")
                                             .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor2)
                                             .frame(height: 50)
@@ -224,7 +223,7 @@ struct SettingsView: View {
                                     RoundedRectangle(cornerRadius: 25.0)
                                         .stroke(Color.white)
                                     VStack(spacing: 15) {
-                                        Image(systemName: "lock.shield")
+                                        Image(systemName: "bell.circle")
                                             .font(Font.system(size: 40, weight: .light, design: .default))
                                             .foregroundColor(CustomColors.ExpensesColor2)
                                             .frame(height: 50)

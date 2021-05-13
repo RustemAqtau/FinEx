@@ -30,15 +30,12 @@ struct PasscodeView: View {
                     Rectangle()
                         .fill(Color.white)
                         .shadow(radius: 5)
-                        .frame(width: geo.size.width, height: geo.size.height / 3.5, alignment: .leading)
-                    VStack {
+                    VStack(alignment: .leading, spacing: 10) {
                         Text(LocalizedStringKey(SettingsContentDescription.passcodeTab_description1.localizedString()))
                             .multilineTextAlignment(.leading)
-                            .font(Fonts.light15)
                             .lineLimit(3)
-                        
+                            .font(Fonts.light15)
                         Divider()
-                            .frame(width: geo.size.width * 0.90)
                         HStack(alignment: .center) {
                             Toggle(isOn: self.$enablePasscode, label: {
                                 Text(LocalizedStringKey(SettingsContentDescription.passcodeTab_field1.localizedString()))
@@ -46,7 +43,7 @@ struct PasscodeView: View {
                                     .font(Fonts.light15)
                             })
                         }
-                        .frame(width: geo.size.width * 0.90, alignment: .leading)
+                      
                         HStack(alignment: .center) {
                             Toggle(isOn: self.$enableBiometrics, label: {
                                 Text(LocalizedStringKey(SettingsContentDescription.passcodeTab_field2.localizedString()))
@@ -54,16 +51,15 @@ struct PasscodeView: View {
                                     .font(Fonts.light15)
                             })
                         }
-                        .frame(width: geo.size.width * 0.90, alignment: .leading)
                     }
                     .font(Font.system(size: 18, weight: .light, design: .default))
                     .foregroundColor(CustomColors.TextDarkGray)
                     .padding()
+                    .frame(width: geo.size.width * 0.90, alignment: .leading)
                     
                 }
-                
+                .frame(height: geo.size.height / 4)
                 .navigationBarTitle (Text(""), displayMode: .inline)
-                .frame(width: geo.size.width, height: 80, alignment: .top)
                 .onAppear {
                     self.hideTabBar = true
                     self.enablePasscode = userSettingsVM.settings.isSetPassCode
@@ -94,7 +90,7 @@ struct PasscodeView: View {
                                 Button(action: {
                                     presentationMode.wrappedValue.dismiss()
                                     self.hideTabBar = false
-                                    
+
                                 }) {
                                     Image(systemName: "chevron.backward")
                                         .font(Fonts.regular20)

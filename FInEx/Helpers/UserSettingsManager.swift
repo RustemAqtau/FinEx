@@ -59,20 +59,11 @@ class UserSettingsManager: ObservableObject {
             arr[Categories.Expense]!.append(elem.rawValue)
         }
         for elem in SvaingSubCategories.allCases {
-            arr[Categories.Saving]?.append(elem.rawValue)
+            arr[Categories.Saving]!.append(elem.rawValue)
         }
         return arr
     }
     
-//    var typesBySubCategory: [String: [TransactionType]] {
-//        var arr: [String: [TransactionType]] = [:]
-//        for category in  categories {
-//            for subCategory in subCategories[category]! {
-//                arr[subCategory] = []
-//            }
-//        }
-//
-//    }
     
     
     @Published var recurringTransactions: [RecurringTransaction] = []
@@ -187,7 +178,10 @@ class UserSettingsManager: ObservableObject {
     
     func getUserSettings(context: NSManagedObjectContext) {
         let fetchedSettings = fetchUserSettins(context: context)
-        settings = fetchedSettings[0]
+        if !fetchedSettings.isEmpty {
+            settings = fetchedSettings[0]
+        }
+        
     }
     
     
@@ -223,7 +217,7 @@ class UserSettingsManager: ObservableObject {
     func getAllTransactiontypes(context: NSManagedObjectContext) {
         let predicate = NSPredicate(format: "name != nil")
         allTransactionTypes = fetchTransactionTypes(context: context, predicate: predicate)
-        //removeDuplicates(allTransactionTypes, context: context)
+       //removeDuplicates(allTransactionTypes, context: context)
         for key in allTransactionTypesByCategoty.keys {
             for subKey in allTransactionTypesByCategoty[key]!.keys {
                 allTransactionTypesByCategoty[key]?[subKey]?.removeAll()
@@ -344,7 +338,6 @@ class UserSettingsManager: ObservableObject {
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: ExpenseTypeNames.Cinema.rawValue, imageName: CategoryIconNamesDefault.expense_CinemaTicket.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: ExpenseTypeNames.Concert.rawValue, imageName: CategoryIconNamesDefault.expense_Concert.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: ExpenseTypeNames.Hobby.rawValue, imageName: CategoryIconNamesDefault.expense_Hobby.rawValue, colorName: "ExpensesColor2", isHidden: false),
-//            TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: ExpenseTypeNames.Bowling.rawValue, imageName: "person.3", colorName: "ExpensesColor", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: ExpenseTypeNames.Nightclub.rawValue, imageName: CategoryIconNamesDefault.expense_Nightclub.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: ExpenseTypeNames.Party.rawValue, imageName: CategoryIconNamesDefault.expense_Party.rawValue, colorName: "ExpensesColor2", isHidden: false),
             TransactionTypeInfo(category: Categories.Expense, subCategory: ExpenseSubCategories.Entertainment.rawValue, name: ExpenseTypeNames.Bar.rawValue, imageName: CategoryIconNamesDefault.expense_Bar.rawValue, colorName: "ExpensesColor2", isHidden: false),

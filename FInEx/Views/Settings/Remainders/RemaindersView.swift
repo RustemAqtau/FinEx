@@ -65,9 +65,7 @@ struct RemaindersView: View {
                                     .font(Fonts.light15)
                                     
                                 })
-                                
                             }
-                            
                         }
                         .frame(width: geo.size.width * 0.90, alignment: .leading)
                         .foregroundColor(CustomColors.TextDarkGray)

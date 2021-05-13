@@ -76,7 +76,7 @@ extension MonthlyBudget {
     
     var incomeByType: [String : [Transaction]] {
         let types = incomeList.map({ income in
-            income.type?.name
+            income.type?.name ?? "-"
         })
         var result: [String : [Transaction] ] = [:]
         for type in types {
@@ -86,7 +86,7 @@ extension MonthlyBudget {
                     arr.append(transaction)
                 }
             }
-            result[type!] = arr
+            result[type] = arr
         }
         return result
     }
@@ -107,8 +107,10 @@ extension MonthlyBudget {
     
     
     var expensesBySubCategory: [String : [Transaction]] {
-        let subCats = expensesList.map({ transaction in transaction.type?.subCategory })
         
+        
+        let subCats = expensesList.map({ transaction in transaction.type?.subCategory ?? "-" })
+
         var result: [String : [Transaction]] = [:]
         for subCat in subCats {
             var arr: [Transaction] = []
@@ -117,7 +119,7 @@ extension MonthlyBudget {
                     arr.append(expense)
                 }
             }
-            result[subCat!] = arr
+            result[subCat] = arr
         }
         
         return result
@@ -329,8 +331,8 @@ extension MonthlyBudget {
         let predicate = NSPredicate(format: "monthlyBudget = %@ AND category = %@", argumentArray: [self, category])
         let request = Transaction.fetchRequest(predicate: predicate)
         do {
-            let fetchedSavings = try? context.fetch(request)
-            return fetchedSavings
+            let fetchedTransactions = try? context.fetch(request)
+            return fetchedTransactions
         }
     }
     
@@ -408,6 +410,7 @@ extension MonthlyBudget {
                     print("Could not save context")
                 }
             }
+            
             startMonth -= 1
         }
         

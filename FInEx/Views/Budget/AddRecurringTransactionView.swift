@@ -83,7 +83,7 @@ struct AddRecurringTransactionView: View {
                     .frame(width: geo.size.width * 0.90)
                 }
             }
-           // .background(CustomColors.White_Background)
+           
         }
     }
 }

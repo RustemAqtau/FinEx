@@ -74,7 +74,7 @@ struct AddTransactionView: View {
                             }
                             .font(Font.system(size: 30, weight: .light, design: .default))
                             .keyboardType(.decimalPad)
-                         }
+                        }
                         .frame(width: geo.size.width * 0.60, height: 60, alignment: .center)
                     }
                     
@@ -111,14 +111,14 @@ struct AddTransactionView: View {
                                     self.showCalendar = true
                                 }
                             DatePicker("Label", selection: self.$selectedDate,
-                                            in: dateRange,
-                                            displayedComponents: .date)
+                                       in: dateRange,
+                                       displayedComponents: .date)
                                 .labelsHidden()
                                 .background(Color.clear)
                                 .foregroundColor(CustomColors.TextDarkGray)
                                 .accentColor(CustomColors.TextDarkGray)
                                 .shadow(radius: 10.0 )
-                                
+                            
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
                         HStack(spacing: 25) {
@@ -129,23 +129,20 @@ struct AddTransactionView: View {
                                       onEditingChanged: {isEditing in if isEditing {
                                         
                                         replaceSaveButton(down: false)
-                                        if !self.note.isEmpty {
-                                            //self.note = ""
-                                        }
                                         self.noteLenghtLimitOut = false
                                         
                                       } else {
                                         hideKeyboard()
-                                        if self.note.count > 10 {
-                                          self.noteLenghtLimitOut = true
+                                        if self.note.count > 30 {
+                                            self.noteLenghtLimitOut = true
                                             // TODO: Warning label
                                         }
                                       }
-                            
+                                      
                                       } , onCommit:  {
                                         
                                       })
-                            .foregroundColor(self.noteLenghtLimitOut ? .red : CustomColors.TextDarkGray)
+                                .foregroundColor(self.noteLenghtLimitOut ? .red : CustomColors.TextDarkGray)
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
@@ -156,8 +153,7 @@ struct AddTransactionView: View {
                         }) {
                             SaveButtonView(geo: geo, withTrash: false, withdraw: false)
                         }
-                        //.offset(y: self.saveButtonOffsetY)
-                        //.offset(y: -self.keyboardHeightHelper.keyboardHeight)
+                        
                     }
                 }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .top)

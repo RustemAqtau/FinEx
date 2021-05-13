@@ -33,6 +33,12 @@
 "Note" = "Notiz";
 "Total" = "Gesamt";
 
+
+// Alerts
+"local_key_alertTitle_iCloudAccountStatus" = "Melden Sie sich bei iCloud an";
+"local_key_alertMessage_iCloudAccountStatus" = "Melden Sie sich in Ihrem iCloud-Konto an, um Datensätze zu schreiben. Auf dem Einstellungen, tippen Sie auf Anmelden bei Ihrem iPhone und geben Sie Ihre Apple ID ein. Schalten Sie das iCloud Drive ein.";
+
+
 // LocalNotificationTexts
 "local_key_notification_DailyTitle" = "Tägliche Erinnerungen ⏰";
 "local_key_notification_DailyBody" = "Haben Sie Ihre Ausgaben für heute hinzugefügt?";

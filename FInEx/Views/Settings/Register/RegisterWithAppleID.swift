@@ -55,7 +55,7 @@ struct RegisterWithAppleID: View {
                                 .foregroundColor(self.isSigned ? CustomColors.CloudBlue : .red)
                                 .modifier(CircleModifierSimpleColor(color: CustomColors.TopColorGradient2, strokeLineWidth: 3.0))
                                 .frame(width: 35, height: 35, alignment: .center)
-                            Text(self.isSigned ? LocalizedStringKey(SettingsContentDescription.registerTab_description2_signed.localizedString()) : LocalizedStringKey(SettingsContentDescription.reminderTab_description2.localizedString()))
+                            Text(self.isSigned ? LocalizedStringKey(SettingsContentDescription.registerTab_description2_signed.localizedString()) : LocalizedStringKey(SettingsContentDescription.registerTab_description2.localizedString()))
                                 .lineLimit(3)
                                 .multilineTextAlignment(.leading)
                                 .foregroundColor(CustomColors.TextDarkGray)
@@ -100,8 +100,8 @@ struct RegisterWithAppleID: View {
                         }
                     }
                     .signInWithAppleButtonStyle(.black)
-                    .cornerRadius(40.0)
-                    .frame(width: 300, height: 55, alignment: .top)
+                    .cornerRadius(80.0)
+                    .frame(width: geo.size.width * 0.80, height: 60, alignment: .top)
                     .opacity(self.isSigned ? 0 : 1)
                 }
             }

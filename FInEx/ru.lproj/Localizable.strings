@@ -33,6 +33,11 @@
 "Note" = "Заметка";
 "Total" = "Всего";
 
+
+// Alerts
+"local_key_alertTitle_iCloudAccountStatus" = "Войти в iCloud";
+"local_key_alertMessage_iCloudAccountStatus" = "Для синхронизации записей войдите в iCloud. В настройках iPhone выберите Вход на iPhone, и введите ваш Apple ID. Включите iCloud Drive.";
+
 // LocalNotificationTexts
 "local_key_notification_DailyTitle" = "Ежедневные напоминания ⏰";
 "local_key_notification_DailyBody" = "Вы уже добавили ваши расходы за сегодня?";

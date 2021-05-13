@@ -34,7 +34,7 @@ struct EditTransactionView: View {
     @State var amountPlaceholder: String = ""
     @Binding var currencySymbol: String
     //@Binding var showDecimals: Bool
-   
+    
     var body: some View {
         NavigationView {
             GeometryReader { geo in
@@ -66,7 +66,7 @@ struct EditTransactionView: View {
                         }
                         .font(Font.system(size: 30, weight: .light, design: .default))
                         .keyboardType(.decimalPad)
-                     }
+                    }
                     .frame(width: geo.size.width * 0.60, height: 60, alignment: .center)
                     
                     Divider()
@@ -101,15 +101,15 @@ struct EditTransactionView: View {
                                     self.showCalendar = true
                                 }
                             DatePicker("Label", selection: self.$selectedDate,
-                                            in: dateRange,
-                                            displayedComponents: .date)
+                                       in: dateRange,
+                                       displayedComponents: .date)
                                 .labelsHidden()
                                 .background(Color.clear)
                                 .foregroundColor(CustomColors.TextDarkGray)
                                 .accentColor(CustomColors.TextDarkGray)
                                 .shadow(radius: 10.0 )
-                                
-                                
+                            
+                            
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
                         HStack(spacing: 25) {
@@ -124,15 +124,15 @@ struct EditTransactionView: View {
                                         
                                       } else {
                                         if self.note.count > 10 {
-                                          self.noteLenghtLimitOut = true
+                                            self.noteLenghtLimitOut = true
                                             // TODO: Warning label
                                         }
                                       }
-                            
+                                      
                                       } , onCommit:  {
                                         
                                       })
-                            .foregroundColor(self.noteLenghtLimitOut ? .red : CustomColors.TextDarkGray)
+                                .foregroundColor(self.noteLenghtLimitOut ? .red : CustomColors.TextDarkGray)
                                 .font(Font.system(size: 16, weight: .light, design: .default))
                         }
                         .frame(width: geo.size.width * 0.80, alignment: .leading)
@@ -190,10 +190,12 @@ struct EditTransactionView: View {
             self.selectedDate = transaction.date!
             
             self.dateRange = getDateRange(for: transaction.date!)
-            let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
+            let formatter = setDecimalFormatter(currencySymbol: self.currencySymbol, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
             var amount = formatter.string(from: NSDecimalNumber(decimal: transaction.amount! as Decimal))!
-            amount.removeFirst()
+            
+            amount.removeAll(where: {$0 == Character(self.currencySymbol) })
             amount.removeAll(where: {$0 == ","})
+            amount.removeAll(where: {$0 == " "})
             self.amountString = amount 
             self.selectedType = transaction.type!
             self.selectedTypeName = transaction.type!.presentingName
@@ -233,8 +235,7 @@ struct EditTransactionView: View {
             note: self.note
         )
         budgetVM.editTransaction(transaction: self.transaction, info: newTransactionInfo, context: viewContext)
-        //self.transaction.edit(info: newTransactionInfo, context: viewContext)
-        //budgetVM.getTransactions(context: viewContext)
+        
         presentationMode.wrappedValue.dismiss()
     }
     

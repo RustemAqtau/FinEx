@@ -121,7 +121,6 @@ struct EditRecurringTransactionView: View {
                                 
                         }
                         .frame(width: geo.size.width * 0.90, alignment: .leading)
-                        //.padding()
                         
                         HStack(spacing: 15) {
                             Image(systemName: "clock.arrow.2.circlepath")
@@ -208,7 +207,10 @@ struct EditRecurringTransactionView: View {
                 
                 let formatter = setDecimalFormatter(currencySymbol: userSettingsVM.settings.currencySymbol!, fractionDigitsNumber: self.userSettingsVM.settings.showDecimals ? 2 : 0)
                 var amount = formatter.string(from: NSDecimalNumber(decimal: self.transaction.amount! as Decimal))!
-                amount.removeFirst()
+                
+                amount.removeAll(where: {$0 == Character(formatter.currencySymbol) })
+                amount.removeAll(where: {$0 == ","})
+                amount.removeAll(where: {$0 == " "})
                 self.amountString = amount
                 if let type = transaction.type {
                     self.selectedType = type

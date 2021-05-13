@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import UIKit
 
 struct PersistenceController {
     static let shared = PersistenceController()
@@ -26,12 +27,16 @@ struct PersistenceController {
     }()
 
     let container: NSPersistentCloudKitContainer
-
+    
     init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "FInEx")
         
         if inMemory {
-            container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+            let storeDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+            let url = storeDirectory.appendingPathComponent("FInEx.sqlite")
+            container.persistentStoreDescriptions.first!.url = url //URL(fileURLWithPath: "/dev/null")
+            //container.persistentStoreDescriptions.first!.shouldInferMappingModelAutomatically = true
+            
         }
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -53,7 +58,7 @@ struct PersistenceController {
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.viewContext.automaticallyMergesChangesFromParent = true
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(SyncManager.shared.storeRemoteChange(_:)), name: NSPersistentCloudKitContainer.eventChangedNotification , object: nil)
+        
         
         
     }

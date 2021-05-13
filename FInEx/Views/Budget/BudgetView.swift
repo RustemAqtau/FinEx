@@ -185,7 +185,6 @@ struct BudgetView: View {
                     .foregroundColor(.black)
                     .modifier(RoundedRectangleModifierSimpleColor(color: Color.white, strokeLineWidth: 3))
                     .frame(width: geo.size.width * 0.90, height: geo.size.height * 0.07)
-                    //.frame(width: geo.size.width * 0.90, height: 50)
                     
                     
                     if self.incomeSelected {
@@ -247,7 +246,11 @@ struct BudgetView: View {
                 .onAppear {
                     self.currentMonthBudget = budgetVM.budgetList.last!
                     updateData()
-                    self.currencySymbol = userSettingsVM.settings.currencySymbol ?? ""
+                    let formatter = NumberFormatter()
+                    formatter.locale = .current
+                    formatter.numberStyle = .currency
+                    
+                    self.currencySymbol = userSettingsVM.settings.currencySymbol ?? formatter.currencySymbol
                     self.showDecimals = userSettingsVM.settings.showDecimals
                     UINavigationBar.appearance().standardAppearance = coloredNavAppearance
                     UINavigationBar.appearance().scrollEdgeAppearance = coloredNavAppearance

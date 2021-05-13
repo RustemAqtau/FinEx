@@ -47,6 +47,8 @@ struct ContentView: View {
     @State var askBiometrics: Bool = false
     
     @State var hideTabBar: Bool = false
+    @State var showAlert: Bool = false
+    @State var tabBarDisabled: Bool = false
     init() {
         setNavBarAppearance()
     }
@@ -100,9 +102,8 @@ struct ContentView: View {
         .fullScreenCover(isPresented: self.$askPasscode, content: {
             PasscodeField(isNewPasscode: false, askBiometrix: self.askBiometrics)
         })
-        .transition(.identity)
+        //.transition(.identity)
         .onAppear {
-
             let currentDate = Date()
             if self.userSettingsVM.checkUserSettingsIsEmpty(context: viewContext) {
                 self.userSettingsVM.setUserSettings(context: viewContext)
@@ -110,7 +111,15 @@ struct ContentView: View {
             }
             
             let userIsAutorised = checkForExistingUser()
-            if userIsAutorised == false {
+            if userIsAutorised {
+                SyncManager.shared.checkAccountStatus(success: { success in
+                    if success == false {
+                        tabBarDisabled = true
+                        self.showAlert = true
+                    }
+                })
+                
+            } else {
                 if self.userSettingsVM.checkTransactionTypesIsEmpty(context: viewContext) {
                     self.userSettingsVM.loadDefaultTransactionTypes(context: viewContext)
                     self.userSettingsVM.getAllTransactiontypes(context: viewContext)
@@ -124,20 +133,28 @@ struct ContentView: View {
                 }
                 updateData()
             }
-       }
+        }
         .onReceive(SyncManager.shared.cloudEventPublisher, perform: { notification in
-            SyncManager.shared.handleCloudEvent(notification, success: { success in
-                if success {
-                    
-                    if self.budgetVM.budgetList.isEmpty {
-
-                        updateData()
-
+            
+            do {
+                try SyncManager.shared.handleCloudEvent(notification, success: { success in
+                    if success {
+                        DispatchQueue.main.async {
+                            if self.budgetVM.budgetList.isEmpty {
+                                updateData()
+                            }
+                        }
                     }
-                }
-            })
-
+                })
+            } catch {
+                print("iCloud disabled or connection lost!")
+            }
         })
+        .alert(isPresented: self.$showAlert) {
+            Alert(title: Text(NSLocalizedString("local_key_alertTitle_iCloudAccountStatus", comment: "")),
+                  message: Text(NSLocalizedString("local_key_alertMessage_iCloudAccountStatus", comment: ""))
+            )
+        }
         .onChange(of: self.mainButtonTapped, perform: { value in
             if self.isAnalyticsView {
                 self.isAnalyticsView = false
@@ -178,7 +195,7 @@ struct ContentView: View {
         .onChange(of: self.getNextMonthBudget, perform: { value in
             if let currentBudgetIndex = self.budgetVM.budgetList.firstIndex(of: self.currentMonthBudget),
                currentBudgetIndex != self.budgetVM.budgetList.endIndex - 1  {
-               
+                
                 let nextBudgetIndex = self.budgetVM.budgetList.index(after: currentBudgetIndex)
                 self.currentMonthBudget = self.budgetVM.budgetList[nextBudgetIndex]
                 
@@ -207,15 +224,16 @@ struct ContentView: View {
         })
         .overlay(
             CustomTabBarView(
-                             plusButtonColor: self.$plusButtonColor,
-                             isBudgetView: self.$isBudgetView,
-                             mainButtonTapped: self.$mainButtonTapped,
-                             isAnalyticsView: self.$isAnalyticsView,
-                             isSettingsView: self.$isSettingsView,
-                             toolsButtonTapped: self.$toolsButtonTapped,
-                             analyticsButtonTapped: self.$analyticsButtonTapped
+                plusButtonColor: self.$plusButtonColor,
+                isBudgetView: self.$isBudgetView,
+                mainButtonTapped: self.$mainButtonTapped,
+                isAnalyticsView: self.$isAnalyticsView,
+                isSettingsView: self.$isSettingsView,
+                toolsButtonTapped: self.$toolsButtonTapped,
+                analyticsButtonTapped: self.$analyticsButtonTapped
             )
             .opacity(self.hideTabBar ? 0 : 1)
+            .disabled(tabBarDisabled)
         )
         
     }
@@ -223,14 +241,6 @@ struct ContentView: View {
     private func updateData() {
         self.userSettingsVM.getUserSettings(context: viewContext)
         self.userSettingsVM.getAllTransactiontypes(context: viewContext)
-        if self.userSettingsVM.allTransactionTypes.count != self.userSettingsVM.defaultTransactionTypes.count {
-            let newTypes = self.userSettingsVM.defaultTransactionTypes.filter({ !self.userSettingsVM.allTransactionTypes.map({ $0.name }).contains($0.name) })
-            for newType in newTypes {
-                self.userSettingsVM.addNewTransactiontype(info: newType, context: viewContext)
-                print("new type added")
-            }
-            
-        }
         
         let currentDate = Date()
         let currentMonth = getMonthFrom(date: currentDate)
@@ -250,17 +260,6 @@ struct ContentView: View {
                 self.askBiometrics = true
             }
         }
-        
-        
-        //if userSettingsVM.settings.currencySymbol == nil {
-//        if !userSettingsVM.checkCurrencyIsSet(context: viewContext) {
-//            let formatter = NumberFormatter()
-//            formatter.locale = .current
-//            formatter.numberStyle = .currency
-//            formatter.maximumFractionDigits = 0
-//            userSettingsVM.editCurrencySymbol(currencySymbol: formatter.currencySymbol, context: viewContext)
-//            //userSettingsVM.settings.currencySymbol = formatter.currencySymbol
-//        }
         setThemeColor()
         self.hideTabBar = false
     }

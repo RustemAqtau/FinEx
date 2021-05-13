@@ -33,6 +33,11 @@
 "Note" = "Note";
 "Total" = "Total";
 
+
+// Alerts
+"local_key_alertTitle_iCloudAccountStatus" = "Sign in to iCloud";
+"local_key_alertMessage_iCloudAccountStatus" = "Sign in to your iCloud account to write records. On the Home screen, launch Settings, tap Sign in to your iPhone, and enter your Apple ID. Turn iCloud Drive on.";
+
 // LocalNotificationTexts
 "local_key_notification_DailyTitle" = "Daily remainder ⏰";
 "local_key_notification_DailyBody" = "Have you added your expenses for today?";
@@ -161,12 +166,12 @@
 "local_key_passcodeTab_mainDescription" = "Protect your data with a passcode.";
 
 "local_key_registerTab_title" = "Sync & Secure";
-"local_key_registerTab_description1" = "Sync budgets and transactions between your devices.";
+"local_key_registerTab_description1" = "Sync transactions between your devices.";
 "local_key_registerTab_description1_signed" = "Your budget and transactions are synchronized between your devices.";
 "local_key_registerTab_description2" = "Backup your data in case you change or lose your phone.";
-"local_key_registerTab_description2_signed" = "Your data safely backed up on the cloud in case you lose/change your phone.";
+"local_key_registerTab_description2_signed" = "Your data safely backed up on the iCloud in case you change or lose your phone.";
 "local_key_registerTab_description3" = "Don't worry, we will never send you any e-mails.";
-"local_key_registerTab_mainDescription" = "Secure your data in the cloud and use multiple devices";
+"local_key_registerTab_mainDescription" = "Secure your data in the iCloud and use multiple devices";
 
 "local_key_recurringTab_mainDescription" = "Manage your regular transactions";
 "local_key_recurringTab_field1" = "Recurring ";

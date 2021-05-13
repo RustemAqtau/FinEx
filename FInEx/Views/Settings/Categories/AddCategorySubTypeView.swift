@@ -144,8 +144,7 @@ struct AddCategorySubTypeView: View {
                         }) {
                             SaveButtonView(geo: geo, withTrash: false, withdraw: false)
                         }
-                       // .offset(y: self.saveButtonOffsetY)
-                        //.offset(y: -self.keyboardHeightHelper.keyboardHeight)
+                       
                     }
                     
                 }
@@ -219,13 +218,7 @@ struct AddCategorySubTypeView: View {
     
 }
 
-#if canImport(UIKit)
-extension View {
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}
-#endif
+
 
 struct AddCategoryView_Previews: PreviewProvider {
     static var previews: some View {
